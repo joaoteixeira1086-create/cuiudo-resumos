@@ -22,11 +22,11 @@ jobs:
         with:
           node-version: '22'
       - name: Montar biblioteca a partir das subpastas
-        run: node tools/build-site.cjs
+        run: node sistema/tools/build-site.cjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: _site
+          path: sistema/_site
       - name: Publicar
         id: deployment
         uses: actions/deploy-pages@v4

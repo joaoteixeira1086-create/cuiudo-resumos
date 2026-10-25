@@ -4,7 +4,7 @@ cd /d "%~dp0"
 set "CUIUDO_GIT=git"
 if exist "%LOCALAPPDATA%\hermes\git\cmd\git.exe" set "CUIUDO_GIT=%LOCALAPPDATA%\hermes\git\cmd\git.exe"
 echo Preparando as atualizacoes da biblioteca...
-node tools\check-publication.cjs
+node sistema\tools\check-publication.cjs
 if errorlevel 1 goto erro
 "%CUIUDO_GIT%" add -A
 if errorlevel 1 goto erro

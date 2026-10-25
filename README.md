@@ -34,4 +34,8 @@ O site publica os HTMLs das pastas de fase e os arquivos do aplicativo. Backups 
 
 ## Conferência local da publicação
 
-Com Node.js instalado, execute `node tools/build-site.cjs`. A pasta `_site` conterá o site estático pronto; esse mesmo comando é executado pelo GitHub automaticamente.
+Com Node.js instalado, execute `node sistema/tools/build-site.cjs`. A pasta `sistema/_site` conterá o site estático pronto; esse mesmo comando é executado pelo GitHub automaticamente.
+
+## Organização da pasta
+
+Abra `indice_resumos.html` para estudar e `PUBLICAR-ATUALIZACOES.cmd` para enviar atualizações. Os arquivos de suporte ficam em `sistema`. A pasta `Backup` guarda somente a cópia mais recente e não é publicada.

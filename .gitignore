@@ -2,15 +2,9 @@
 !/.gitignore
 !/.gitattributes
 !/.github/
-!/tools/
 !/Fase */
 !/indice_resumos.html
 !/cadernos.html
-!/cadernos-colaboracao.js
-!/manifest.webmanifest
-!/sw-template.js
-!/icon-192.png
-!/icon-512.png
 !/README.md
 !/PUBLICAR-ATUALIZACOES.cmd
 _site/
@@ -28,3 +22,7 @@ preview-*.json
 qa-*
 .DS_Store
 Thumbs.db
+
+!/sistema/
+Backup/
+sistema/Guias/
