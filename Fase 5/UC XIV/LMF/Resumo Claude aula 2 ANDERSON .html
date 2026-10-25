@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meningites — guia de aprofundamento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EDEAE0;
+  --paper-raised:#F6F4EC;
+  --ink:#1C2420;
+  --ink-soft:#4C574E;
+  --ink-faint:#818C82;
+  --rule:#C7C2AE;
+  --ms:#2F6B4C;
+  --ms-tint:#E3EDE5;
+  --oms:#2A5A85;
+  --oms-tint:#E2EAF0;
+  --usp:#966523;
+  --usp-tint:#F1E7D2;
+  --alert:#A13A26;
+  --alert-tint:#F5E3DC;
+  --clinical:#664380;
+  --clinical-tint:#ECE3F1;
+  --grey:#6B6B62;
+  --bact:#9C5A2E;
+  --fung:#4F7A55;
+  --vir:#356A8C;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;} *{animation:none!important; transition:none!important;}}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'Source Sans 3',sans-serif; font-size:16.5px; line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--ms); color:#fff;}
+a{color:var(--ms);}
+p{margin:0 0 14px 0; max-width:66ch;}
+h1,h2,h3,h4{font-family:'Fraunces',serif; color:var(--ink); line-height:1.18; margin:0;}
+img{max-width:100%; display:block;}
+.wrap{max-width:1180px; margin:0 auto; padding:0 40px;}
+@media (max-width:640px){.wrap{padding:0 20px;}}
+
+/* ---------- masthead ---------- */
+.masthead{background:var(--paper-raised); border-bottom:3px double var(--rule); padding:56px 0 40px;}
+.masthead .kicker{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--ink-faint); margin-bottom:18px; max-width:60ch;}
+.masthead h1{font-size:clamp(42px,7vw,72px); font-weight:600; letter-spacing:-0.01em;}
+.masthead .dek{font-family:'Fraunces',serif; font-style:italic; font-size:clamp(17px,2.4vw,22px); color:var(--ink-soft); margin-top:10px; max-width:52ch; font-weight:400;}
+.masthead .lede{margin-top:22px; max-width:68ch; font-size:17px; color:var(--ink-soft);}
+.legend{display:flex; flex-wrap:wrap; gap:22px; margin-top:32px; padding-top:24px; border-top:1px solid var(--rule);}
+.legend-item{display:flex; align-items:flex-start; gap:10px; max-width:260px;}
+.legend-swatch{width:13px; height:13px; border-radius:3px; margin-top:4px; flex-shrink:0;}
+.legend-text{font-size:13.5px; color:var(--ink-soft); line-height:1.5;}
+.legend-label{font-family:'IBM Plex Mono',monospace; font-weight:500; color:var(--ink); display:block; font-size:12.5px; letter-spacing:.02em; margin-bottom:2px;}
+
+/* ---------- nav ---------- */
+.nav{position:sticky; top:0; z-index:40; background:var(--paper); border-bottom:1px solid var(--rule); overflow-x:auto; white-space:nowrap; -ms-overflow-style:none; scrollbar-width:thin;}
+.nav-inner{display:inline-flex;}
+.nav a{display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:12.5px; padding:13px 15px; color:var(--ink-soft); text-decoration:none; border-right:1px solid var(--rule); transition:background .15s,color .15s;}
+.nav a:hover, .nav a:focus-visible{color:var(--ink); background:var(--paper-raised); outline:none;}
+.nav a .n{color:var(--ink-faint); margin-right:6px;}
+
+/* ---------- plates ---------- */
+section.plate{padding:60px 0; border-bottom:1px solid var(--rule); scroll-margin-top:48px;}
+section.plate:last-of-type{border-bottom:none;}
+.plate-head{display:flex; gap:22px; align-items:flex-start; margin-bottom:34px;}
+.plate-num{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--ink-faint); border:1px solid var(--rule); border-radius:3px; padding:5px 9px; flex-shrink:0; margin-top:6px;}
+.plate-head h2{font-size:clamp(28px,4vw,38px); font-weight:600;}
+.plate-dek{font-family:'Fraunces',serif; font-style:italic; color:var(--ink-soft); font-size:17px; margin-top:6px; font-weight:400;}
+
+.unit{display:grid; grid-template-columns:1fr 230px; gap:44px; margin-bottom:44px; align-items:start;}
+.unit:last-child{margin-bottom:0;}
+.unit-main h3{font-size:22px; font-weight:600; margin-bottom:14px;}
+.unit-main h4.sub{font-family:'Source Sans 3',sans-serif; font-weight:600; font-size:15.5px; color:var(--ink); margin:18px 0 8px; text-transform:none;}
+.unit-margin{position:sticky; top:64px; border-left:2px solid var(--rule); padding-left:18px;}
+.margin-note{font-size:13.5px; color:var(--ink-soft); margin-top:10px; line-height:1.55;}
+.margin-note.q{font-family:'Fraunces',serif; font-style:italic; color:var(--ink);}
+@media (max-width:900px){
+  .unit{grid-template-columns:1fr;}
+  .unit-margin{position:static; border-left:none; border-top:2px solid var(--rule); padding-left:0; padding-top:14px; margin-top:4px;}
+}
+
+.tag{display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:11.5px; padding:3px 8px; border-radius:3px; margin:0 6px 6px 0; letter-spacing:.01em;}
+.tag--ms{background:var(--ms-tint); color:var(--ms);}
+.tag--oms{background:var(--oms-tint); color:var(--oms);}
+.tag--usp{background:var(--usp-tint); color:var(--usp);}
+.tag--local{background:var(--paper); color:var(--grey); border:1px dashed var(--rule);}
+
+/* spec rows (substitui tabelas) */
+.spec-list{margin:18px 0;}
+.spec-row{display:flex; justify-content:space-between; gap:18px; border-bottom:1px dotted var(--rule); padding:9px 0;}
+.spec-label{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--ink); flex-shrink:0;}
+.spec-value{text-align:right; color:var(--ink-soft); font-size:14.5px; max-width:62%;}
+@media (max-width:560px){.spec-row{flex-direction:column; gap:4px;} .spec-value{text-align:left; max-width:100%;}}
+
+/* cards */
+.card-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(225px,1fr)); gap:18px; margin:22px 0;}
+.field-card{border:1px solid var(--rule); border-left:3px solid var(--ms); background:var(--paper-raised); border-radius:4px; padding:20px 22px; position:relative;}
+.field-card.oms{border-left-color:var(--oms);}
+.field-card.usp{border-left-color:var(--usp);}
+.field-card .corner-tab{position:absolute; top:-11px; left:18px; background:var(--ms); color:#fff; font-family:'IBM Plex Mono',monospace; font-size:10.5px; padding:2px 9px; border-radius:2px; letter-spacing:.02em;}
+.field-card.oms .corner-tab{background:var(--oms);}
+.field-card.usp .corner-tab{background:var(--usp);}
+.field-card h5{font-family:'Fraunces',serif; font-weight:600; font-size:16.5px; margin-bottom:8px; margin-top:4px;}
+.field-card p{font-size:14.5px; margin-bottom:8px; color:var(--ink-soft);}
+.field-card p:last-child{margin-bottom:0;}
+.field-card .fc-meta{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-faint); margin-top:10px;}
+
+/* divergence */
+.divergence{border:1.5px solid var(--alert); background:var(--alert-tint); border-radius:5px; padding:22px 24px; margin:26px 0;}
+.divergence h4{font-family:'Fraunces',serif; font-style:italic; color:var(--alert); font-weight:600; font-size:18.5px; margin-bottom:12px;}
+.divergence > p{color:var(--ink);}
+.compare-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; margin-top:14px;}
+.compare-card{background:var(--paper); border:1px solid var(--rule); border-radius:4px; padding:15px 17px;}
+.compare-card .src{font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--ink-faint); margin-bottom:8px; letter-spacing:.02em;}
+.compare-card p{font-size:14px; margin-bottom:0; color:var(--ink-soft);}
+.divergence .verdict{margin-top:16px; padding-top:14px; border-top:1px dashed var(--alert); font-style:italic; color:var(--ink);}
+
+/* callout - correlação clínica / atenção */
+.callout{border:1px solid var(--rule); border-left:3px solid var(--clinical); background:var(--clinical-tint); padding:18px 22px; border-radius:4px; margin:22px 0;}
+.callout h4{font-family:'Fraunces',serif; font-size:16px; font-style:italic; color:var(--clinical); margin-bottom:8px; font-weight:600;}
+.callout p:last-child{margin-bottom:0;}
+.callout.warn{border-left-color:var(--alert); background:var(--alert-tint);}
+.callout.warn h4{color:var(--alert);}
+
+/* deepen (aprofunde-se) */
+details.deepen{border:1px solid var(--rule); border-radius:4px; margin:22px 0; background:var(--paper-raised);}
+details.deepen summary{cursor:pointer; padding:15px 20px; font-family:'Fraunces',serif; font-weight:600; font-style:italic; color:var(--ms); list-style:none; display:flex; align-items:center; gap:12px; font-size:16px;}
+details.deepen summary::-webkit-details-marker{display:none;}
+details.deepen summary::before{content:"+"; font-family:'IBM Plex Mono',monospace; border:1px solid currentColor; width:19px; height:19px; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; font-size:13px; flex-shrink:0;}
+details.deepen[open] summary::before{content:"–";}
+details.deepen summary:hover{color:var(--ink);}
+.deepen-body{padding:2px 22px 20px 22px; border-top:1px dashed var(--rule); margin-top:2px; padding-top:16px;}
+.deepen-body p{font-size:15.5px;}
+.deepen-body h5{font-family:'Fraunces',serif; font-weight:600; font-size:15.5px; margin:16px 0 8px; color:var(--ink);}
+
+/* case cards */
+.case-card{border:1px solid var(--ink-soft); border-radius:5px; background:var(--paper-raised); margin:26px 0; overflow:hidden;}
+.case-head{padding:17px 22px; border-bottom:1px dashed var(--rule); display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px;}
+.case-head h4{font-family:'Fraunces',serif; font-size:19px; font-weight:600;}
+.case-context{font-style:italic; color:var(--ink-soft); font-size:14px; font-family:'Fraunces',serif;}
+.case-body{padding:18px 22px;}
+.reveal-btn{font-family:'IBM Plex Mono',monospace; font-size:12.5px; border:1px solid var(--ink); background:transparent; color:var(--ink); padding:9px 18px; border-radius:3px; cursor:pointer; margin-top:8px;}
+.reveal-btn:hover{background:var(--ink); color:var(--paper);}
+.case-result{max-height:0; overflow:hidden; transition:max-height .45s ease;}
+.case-result.open{max-height:900px;}
+.case-result-inner{padding:18px 22px; background:var(--ms-tint); border-top:1px solid var(--rule);}
+.case-result-inner h5{font-family:'Fraunces',serif; font-weight:600; margin-bottom:8px;}
+
+.specimen-dot{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:7px;}
+.specimen-dot.bact{background:var(--bact);}
+.specimen-dot.fung{background:var(--fung);}
+.specimen-dot.vir{background:var(--vir);}
+
+/* bar chart (epidemiologia) */
+.bar-chart{margin:22px 0;}
+.bar-row{margin-bottom:16px;}
+.bar-label{font-family:'IBM Plex Mono',monospace; font-size:13px; display:flex; justify-content:space-between; margin-bottom:5px; color:var(--ink-soft);}
+.bar-track{height:11px; background:var(--rule); border-radius:2px; overflow:hidden;}
+.bar-fill{height:100%; background:var(--ms); border-radius:2px;}
+
+/* references */
+.refs{font-size:14.5px; color:var(--ink-soft); line-height:1.7;}
+.refs .ref{margin-bottom:14px; padding-left:1.6em; text-indent:-1.6em;}
+.refs .ref i{color:var(--ink);}
+
+/* toolbar */
+.toolbar{position:fixed; bottom:20px; right:20px; display:flex; gap:8px; background:var(--ink); padding:9px; border-radius:9px; box-shadow:0 8px 22px rgba(0,0,0,.28); z-index:60;}
+.toolbar button{background:transparent; border:1px solid rgba(255,255,255,.28); color:#fdfdfb; font-family:'IBM Plex Mono',monospace; font-size:11.5px; padding:9px 13px; border-radius:5px; cursor:pointer; transition:background .15s;}
+.toolbar button:hover{background:rgba(255,255,255,.12);}
+.toolbar button.active{background:var(--ms); border-color:var(--ms);}
+.toast{position:fixed; bottom:74px; right:20px; background:var(--ink); color:#fff; font-family:'IBM Plex Mono',monospace; font-size:12px; padding:9px 15px; border-radius:6px; opacity:0; transform:translateY(6px); transition:opacity .25s, transform .25s; z-index:60; pointer-events:none;}
+.toast.show{opacity:1; transform:translateY(0);}
+body.editing .editable{outline:1px dashed transparent; outline-offset:3px; border-radius:2px; cursor:text;}
+body.editing .editable:hover{outline-color:var(--ms);}
+body.editing .editable:focus{outline:1.5px solid var(--ms); background:rgba(47,107,76,.06);}
+
+footer.colophon{padding:34px 0 100px; text-align:center;}
+footer.colophon p{margin:0 auto; font-size:13px; color:var(--ink-faint); font-family:'IBM Plex Mono',monospace; max-width:60ch;}
+
+*:focus-visible{outline:2px solid var(--ms); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="kicker">Material de aprofundamento construído a partir da Aula 2 — Meningites, Prof. Anderson L. · Graduação em Medicina, 5ª fase · Uniarp-SC · versão docente de 08/09/2026</p>
+    <h1>Meningites</h1>
+    <p class="dek">Da anatomia das leptomeninges à proteção dos contatos</p>
+    <p class="lede">Este guia segue o mesmo percurso da aula — anatomia, fisiopatologia, epidemiologia, vacinação, patógenos, suspeita clínica, laboratório, tratamento, isolamento e quimioprofilaxia — mas para em cada parada e pergunta <i>por quê</i>. Onde os slides citam um mecanismo em uma linha, aqui ele é desenvolvido; onde as fontes divergem, a divergência é mantida visível, não resolvida à força.</p>
+    <div class="legend">
+      <div class="legend-item">
+        <span class="legend-swatch" style="background:var(--ms)"></span>
+        <span class="legend-text"><span class="legend-label">MS · GVS · NT 154 · SBP</span>Normas e sociedades brasileiras — primeira hierarquia de leitura desta aula.</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-swatch" style="background:var(--oms)"></span>
+        <span class="legend-text"><span class="legend-label">OMS 2025</span>Diretriz internacional — complemento clínico, sobretudo em imagem, corticoide e suporte.</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-swatch" style="background:var(--usp)"></span>
+        <span class="legend-text"><span class="legend-label">USP · Cochrane</span>Acervo acadêmico — sustenta anatomia, fisiopatologia e a discussão da evidência.</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-swatch" style="background:var(--alert); border-radius:50%;"></span>
+        <span class="legend-text"><span class="legend-label">Divergência</span>Pontos em que as fontes não concordam — nomeados, nunca mesclados.</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Índice do guia">
+  <div class="nav-inner wrap" style="padding:0;">
+    <a href="#p01"><span class="n">01</span>Anatomia</a>
+    <a href="#p02"><span class="n">02</span>Fisiopatologia</a>
+    <a href="#p03"><span class="n">03</span>Epidemiologia</a>
+    <a href="#p04"><span class="n">04</span>Vacinação</a>
+    <a href="#p05"><span class="n">05</span>Patógenos</a>
+    <a href="#p06"><span class="n">06</span>Suspeita clínica</a>
+    <a href="#p07"><span class="n">07</span>Laboratório</a>
+    <a href="#p08"><span class="n">08</span>Tratamento</a>
+    <a href="#p09"><span class="n">09</span>Isolamento</a>
+    <a href="#p10"><span class="n">10</span>Quimioprofilaxia</a>
+    <a href="#p11"><span class="n">11</span>Divergências</a>
+    <a href="#p12"><span class="n">12</span>Fechamento</a>
+    <a href="#p13"><span class="n">13</span>Referências</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ===================== PLATE 01 — ANATOMIA ===================== -->
+<section class="plate" id="p01">
+  <div class="plate-head">
+    <span class="plate-num">01</span>
+    <div>
+      <h2 class="editable">Anatomia</h2>
+      <p class="plate-dek editable">Onde a doença ocorre e de onde vem a amostra.</p>
+    </div>
+  </div>
+
+  <div class="unit">
+    <div class="unit-main">
+      <p class="editable">Antes de falar em bactéria, vírus ou fungo, pare num instante numa pergunta que parece boba: quando você faz uma punção lombar num paciente com suspeita de infecção do sistema nervoso central, de que compartimento, exatamente, você está retirando líquido? A resposta organiza tudo o que vem depois — porque é esse compartimento, e nenhum outro, que se inflama, e é dele que vem cada número do laudo que você vai aprender a ler na prancha 07.</p>
+
+      <h3 class="editable">As meninges e o espaço subaracnóideo</h3>
+      <p class="editable">Da superfície para dentro, o encéfalo é envolto por três membranas. A <i>dura-máter</i> é a mais externa, espessa e fibrosa — no crânio ela tem, na prática, duas lâminas coladas uma na outra (uma periosteal, aderida ao osso, e uma meníngea, voltada para dentro), que só se separam onde formam os seios venosos durais e as pregas que dividem a cavidade craniana (foice do cérebro, tenda do cerebelo). A dura-máter <i>não</i> integra as leptomeninges — isso importa porque hemorragias e coleções relacionadas a ela (extradural, subdural) seguem uma lógica anatômica diferente da meningite, que é essencialmente uma doença do espaço abaixo dela.</p>
+      <p class="editable">Logo abaixo vem a <i>aracnoide</i>, uma membrana fina e avascular, e colada à superfície do encéfalo — acompanhando cada sulco e giro — está a <i>pia-máter</i>. Aracnoide e pia-máter, juntas, formam as <i>leptomeninges</i> ("meninges finas"), e entre elas fica o espaço subaracnóideo: um compartimento contínuo, preenchido por líquido cefalorraquidiano (LCR), por vasos sanguíneos e por trabéculas aracnóideas que atravessam esse espaço como fios de teia.</p>
+      <p class="editable">É precisamente nas leptomeninges e no espaço subaracnóideo que a meningite infecciosa se instala. E é dali — não do parênquima, não do espaço subdural — que sai a amostra de líquor, e é ali que se produzem as alterações que você vai interpretar depois: celularidade, proteína, glicose e microbiologia. Guarde essa frase: o laudo do líquor é, literalmente, uma fotografia bioquímica do espaço subaracnóideo naquele momento.</p>
+
+      <details class="deepen">
+        <summary>Aprofunde-se — histologia das leptomeninges e as barreiras que protegem o LCR</summary>
+        <div class="deepen-body">
+          <p class="editable">A aracnoide tem uma camada de células justapostas por junções oclusivas (as <i>arachnoid barrier cells</i>), que funciona como uma das barreiras que mantêm o LCR relativamente isolado do sangue. A outra grande barreira fica no plexo corióideo, dentro dos ventrículos: ali, as células epiteliais do plexo — não o endotélio dos capilares, que nessa região é na verdade fenestrado — são unidas por junções oclusivas e formam a barreira hemato-liquórica propriamente dita. É essa dupla barreira (hematoencefálica, no parênquima; hemato-liquórica, no plexo corióideo) que explica por que o LCR normal tem tão pouca proteína e praticamente nenhum leucócito: grande parte do conteúdo plasmático é fisicamente excluída.</p>
+          <p class="editable">O LCR não é estático. Cerca de 70 a 80% dele é produzido por secreção ativa no plexo corióideo (localizado nos ventrículos laterais, terceiro e quarto ventrículos), com uma contribuição adicional por vias perivasculares e ependimárias. Em um adulto, o volume total gira em torno de 150 mL, mas a produção diária chega a aproximadamente 500 mL — ou seja, o líquor é trocado por completo três a quatro vezes ao dia. O trajeto clássico é: ventrículos laterais → forame interventricular (de Monro) → terceiro ventrículo → aqueduto cerebral (de Sylvius) → quarto ventrículo → forames laterais (de Luschka) e mediano (de Magendie) → espaço subaracnóideo, onde banha todo o encéfalo e a medula antes de ser reabsorvido principalmente pelas granulações aracnóideas para dentro dos seios venosos durais (vias linfáticas e perivasculares acessórias também participam, um tema de pesquisa ativa nos últimos anos).</p>
+          <p class="editable">Por que isso importa para meningite? Porque cada elo dessa cadeia é um ponto onde a infecção pode alterar o sistema: multiplicação no líquor (etapa 2 da cascata, prancha 02), obstrução da circulação por exsudato purulento (hidrocefalia obstrutiva) e entupimento das granulações aracnóideas por debris inflamatório (hidrocefalia comunicante, por falência de reabsorção) — os dois mecanismos que, somados ao edema, elevam a pressão intracraniana.</p>
+          <p class="editable" style="margin-bottom:0;"><i>Fonte de apoio para este bloco: Guyton &amp; Hall, capítulo sobre líquido cefalorraquidiano e sistema nervoso central; USP, cap. 56.</i></p>
+        </div>
+      </details>
+
+      <h3 class="editable">Meningite, encefalite e meningoencefalite</h3>
+      <p class="editable">A distinção não é apenas terminológica — ela orienta o exame físico e a lista de hipóteses. Na <i>meningite</i>, o processo inflamatório está nas leptomeninges e no espaço subaracnóideo: como as meninges e as raízes nervosas que as atravessam são ricamente inervadas e sensíveis à distensão, a inflamação ali gera cefaleia, fotofobia e os sinais de irritação meníngea (rigidez de nuca, Kernig, Brudzinski) — um pouco como a irritação peritoneal gera defesa abdominal. Na <i>encefalite</i>, o alvo é o parênquima encefálico propriamente dito: os neurônios e a glia estão inflamados, não apenas suas cobertas, e por isso predominam alteração do comportamento e da consciência, crises epilépticas e déficits focais. Quando os dois quadros se sobrepõem — o que é comum, por exemplo, na encefalite herpética — fala-se em <i>meningoencefalite</i>, e a distinção passa a ser clínica, orientando a investigação, não um simples rótulo para o prontuário.</p>
+
+      <div class="callout">
+        <h4>Por que a punção lombar investiga um processo intracraniano</h4>
+        <p class="editable">O compartimento liquórico é contínuo: o mesmo espaço subaracnóideo que envolve o encéfalo continua, sem interrupção, ao redor da medula espinal. Uma amostra colhida na região lombar reflete, portanto, o mesmo líquido que banha as estruturas cranianas — é por isso que se pode investigar um processo intracraniano puncionando um espaço bem distante do crânio, sem cirurgia. A punção também permite medir a pressão de abertura, uma informação que, como você verá na prancha seguinte, é tão importante quanto a análise bioquímica.</p>
+      </div>
+
+      <h3 class="editable">Compartimento rígido, pressão e perfusão</h3>
+      <p class="editable">O crânio adulto é, na prática, uma caixa rígida e fechada. Dentro dela cabem três volumes que somados são constantes: o parênquima encefálico (cerca de 80%), o sangue (cerca de 10%) e o líquor (cerca de 10%) — é a chamada doutrina de Monro-Kellie. Se um desses volumes aumenta, algum dos outros dois precisa ceder espaço (deslocamento de LCR para o compartimento espinal, redução do volume sanguíneo venoso) para que a pressão intracraniana (PIC) se mantenha estável. Esse mecanismo de compensação tem um limite: numa curva de complacência pressão-volume, o sistema tolera aumentos de volume com pouca variação de pressão até certo ponto — depois desse ponto, a curva fica íngreme, e pequenos aumentos adicionais de volume produzem elevações desproporcionais de pressão.</p>
+      <p class="editable">Aqui entra a equação mais importante desta prancha: a pressão de perfusão cerebral (PPC) é igual à pressão arterial média menos a pressão intracraniana (PPC = PAM − PIC). Não é a PIC isolada que lesa o tecido — é a queda da PPC abaixo do necessário para manter fluxo sanguíneo cerebral adequado. Em condições normais, a autorregulação cerebral mantém o fluxo sanguíneo relativamente constante numa ampla faixa de pressão arterial (mecanismos miogênicos e metabólicos); mas na meningite bacteriana grave essa autorregulação pode ficar comprometida, tornando a perfusão mais dependente, de forma passiva, da pressão sistêmica — o que explica por que hipotensão e má perfusão sistêmica (visto na prancha 06) são sinais de alarme tão importantes mesmo quando o exame neurológico ainda parece preservado.</p>
+      <p class="editable">Há ainda um terceiro conceito que amarra tudo isso à prática: efeito de massa e gradiente de pressão. Quando o aumento de volume não é uniforme — um abscesso, um edema focal, uma coleção — criam-se diferenças de pressão entre compartimentos separados por estruturas relativamente rígidas, como a tenda do cerebelo ou a foice do cérebro. Esses gradientes são o substrato da herniação (uncal, subfalcina, tonsilar), e são exatamente o que os critérios de imagem-antes-da-punção (prancha 07) tentam identificar: retirar líquor pela via lombar, na presença de um gradiente de pressão já estabelecido, pode acentuar abruptamente esse gradiente e precipitar herniação — inclusive tonsilar, através do forame magno.</p>
+
+      <div class="card-grid">
+        <div class="field-card">
+          <span class="corner-tab">LCR</span>
+          <h5 class="editable">A coleta de líquor</h5>
+          <p class="editable">Responde à investigação da síndrome: há inflamação? De que tipo? Qual agente?</p>
+        </div>
+        <div class="field-card oms">
+          <span class="corner-tab">TC</span>
+          <h5 class="editable">A tomografia</h5>
+          <p class="editable">Responde a perguntas sobre risco: há efeito de massa? Sinal de hipertensão intracraniana? Complicação estrutural?</p>
+        </div>
+      </div>
+      <p class="editable">A mensagem didática do professor merece ser repetida em letras grandes: são exames com funções diferentes, um não substitui o outro, e nenhum dos dois deve atrasar o tratamento da suspeita bacteriana — um ponto que vai reaparecer, quase como um refrão, em toda a prancha 07.</p>
+    </div>
+
+    <aside class="unit-margin">
+      <span class="tag tag--usp">USP cap. 56</span>
+      <span class="tag tag--ms">GVS pp. 123–125</span>
+      <span class="tag tag--oms">OMS §A.1</span>
+      <p class="margin-note q editable">Qual compartimento está inflamado, e por que uma punção lombar pode investigar um processo intracraniano?</p>
+      <p class="margin-note editable">A doutrina de Monro-Kellie e a equação PPC = PAM − PIC reaparecem nas pranchas 02 e 07 — vale fixar aqui.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== PLATE 02 — FISIOPATOLOGIA ===================== -->
+<section class="plate" id="p02">
+  <div class="plate-head">
+    <span class="plate-num">02</span>
+    <div>
+      <h2 class="editable">Fisiopatologia</h2>
+      <p class="plate-dek editable">Como a infecção produz sintomas e altera o líquor — tomando de base a meningite bacteriana comunitária.</p>
+    </div>
+  </div>
+
+  <div class="unit">
+    <div class="unit-main">
+      <h3 class="editable">A cascata da meningite bacteriana comunitária</h3>
+      <p class="editable">O modelo abaixo organiza o raciocínio para o cenário mais estudado — a meningite bacteriana adquirida na comunidade — mas não é a única história possível, como você vai ver logo adiante. Ainda assim, vale entendê-lo em profundidade, porque cada etapa explica um achado clínico ou laboratorial específico.</p>
+
+      <h4 class="sub editable">1 · Colonização e invasão</h4>
+      <p class="editable">Pneumococo, meningococo e Hib começam sua história colonizando a mucosa nasofaríngea de pessoas saudáveis — a chamada portação assintomática, muito mais comum do que a doença invasiva (é justamente por isso que a colonização em adolescentes e adultos jovens é epidemiologicamente relevante sem que eles, na maioria das vezes, adoeçam). Para romper essa mucosa, esses patógenos usam adesinas e pili para se fixar ao epitélio, e muitos produzem proteases que clivam a IgA secretora — a principal defesa de superfície da mucosa — abrindo caminho para invasão local e, então, para a corrente sanguínea.</p>
+      <p class="editable">Uma vez na circulação, o fator de virulência mais importante dos três é a cápsula polissacarídica. Ela é antifagocitária: dificulta a opsonização e a fagocitose, permitindo que a bactéria sobreviva na bacteremia tempo suficiente para alcançar o sistema nervoso central. Essa mesma lógica explica dois pontos que voltam a aparecer mais adiante — por que a asplenia e as deficiências de complemento (sobretudo do complexo de ataque à membrana, C5-C9) aumentam tanto o risco de doença invasiva (prancha 03), e por que vacinas conjugadas, que geram resposta imune duradoura contra o polissacarídeo capsular, mudam tanto a epidemiologia (prancha 04).</p>
+
+      <h4 class="sub editable">2 · Multiplicação no LCR</h4>
+      <p class="editable">Lembre da prancha 01: o líquor normal tem pouquíssimo complemento, pouca imunoglobulina e quase nenhum fagócito residente. É um ambiente relativamente desprotegido. Uma vez que a bactéria atravessa o plexo corióideo ou o endotélio microvascular cerebral e chega ao espaço subaracnóideo, ela se multiplica quase sem oposição nas primeiras horas — antes que uma resposta imune local eficaz consiga se organizar. Componentes da parede celular bacteriana se acumulam nesse processo: lipopolissacarídeo (LPS) nos Gram-negativos (meningococo, Hib), ácido teicoico e peptidoglicano no pneumococo (Gram-positivo), além de toxinas formadoras de poro como a pneumolisina.</p>
+
+      <h4 class="sub editable">3 · Resposta celular</h4>
+      <p class="editable">Esses componentes bacterianos são reconhecidos por receptores de reconhecimento de padrões (os Toll-like receptors — TLR4 para LPS, TLR2 para peptidoglicano e ácido lipoteicoico) presentes em astrócitos, micróglia e no endotélio que reveste o espaço subaracnóideo. A ativação desses receptores dispara a via do NF-κB e a liberação de citocinas pró-inflamatórias — TNF-α, IL-1β, IL-6 — e quimiocinas como a IL-8, que recrutam neutrófilos. Essas mesmas citocinas fazem duas coisas ao mesmo tempo: aumentam a expressão de moléculas de adesão no endotélio (selectinas para o rolamento inicial, depois integrinas e ICAM-1 para a adesão firme e a migração transendotelial dos neutrófilos) — explicando a pleocitose neutrofílica marcante da meningite bacteriana — e desorganizam as junções oclusivas das barreiras hematoencefálica e hemato-liquórica, aumentando diretamente sua permeabilidade. É esse segundo efeito que explica a proteinorraquia: proteínas plasmáticas, antes excluídas, passam a vazar para o LCR.</p>
+
+      <h4 class="sub editable">4 · Edema</h4>
+      <p class="editable">Três mecanismos de edema cerebral coexistem e se reforçam na meningite bacteriana, e vale a pena distingui-los porque cada um tem uma causa diferente:</p>
+      <div class="card-grid">
+        <div class="field-card"><span class="corner-tab">Vasogênico</span><h5 class="editable">Ruptura da barreira</h5><p class="editable">O aumento da permeabilidade da barreira hematoencefálica deixa proteína plasmática e fluido extravasarem para o interstício encefálico.</p></div>
+        <div class="field-card"><span class="corner-tab">Citotóxico</span><h5 class="editable">Lesão celular direta</h5><p class="editable">Toxinas bacterianas, hipóxia por vasculite/trombose de vasos corticais e excitotoxicidade lesam neurônios e glia, que incham por falência da bomba Na⁺/K⁺-ATPase.</p></div>
+        <div class="field-card"><span class="corner-tab">Intersticial</span><h5 class="editable">Falha de drenagem</h5><p class="editable">Exsudato purulento obstrui a circulação liquórica e entope as granulações aracnóideas, prejudicando a reabsorção — hidrocefalia obstrutiva e/ou comunicante, com passagem de líquido para a substância branca periventricular.</p></div>
+      </div>
+      <p class="editable">Somados, esses três mecanismos elevam a pressão intracraniana — e agora a equação PPC = PAM − PIC da prancha 01 deixa de ser abstrata: é exatamente essa elevação que reduz a perfusão cerebral.</p>
+
+      <h4 class="sub editable">5 · Lesão</h4>
+      <p class="editable">PIC elevada reduz PPC, reduzindo o fluxo sanguíneo cerebral e gerando isquemia, especialmente em territórios de zona limítrofe. Some a isso a vasculite inflamatória dos vasos corticais e penetrantes (achado histopatológico clássico), que favorece trombose arterial e venosa — inclusive de veias corticais e seios durais — e infartos. Crises convulsivas surgem da irritação cortical direta. E há um detalhe anatômico pouco lembrado, mas de altíssimo valor clínico: o espaço subaracnóideo se comunica com a orelha interna através do aqueduto coclear, permitindo que a inflamação se estenda diretamente às estruturas cocleares — é essa via, e não uma coincidência, que explica por que a perda auditiva neurossensorial é uma sequela tão comum da meningite bacteriana, e por que ela vai reaparecer como o desfecho mais defendido para o uso de corticoide adjuvante, na prancha 08.</p>
+
+      <div class="callout warn">
+        <h4 class="editable">A sequência não é mandatória</h4>
+        <p class="editable">Esse modelo organiza o raciocínio para a meningite bacteriana comunitária, mas cada agente tem sua própria história natural. Outras portas de entrada existem: extensão de foco contíguo (otite, mastoidite, sinusite — atravessando diretamente as barreiras anatômicas descritas na prancha 01, sem passar pela bacteremia), fístula liquórica e trauma (incluindo neurocirurgia e derivações), e mecanismos completamente distintos para criptococose e herpes. Usar o modelo bacteriano como explicação única leva a erros de hipótese diante de evolução subaguda, imunossupressão ou foco contíguo evidente.</p>
+      </div>
+
+      <details class="deepen">
+        <summary>Aprofunde-se — portas de entrada alternativas e por que a cinética muda o quadro clínico</summary>
+        <div class="deepen-body">
+          <p class="editable"><i>Foco contíguo:</i> otite média, mastoidite e sinusite permitem que o pneumococo — o principal colonizador dessas mucosas — atravesse diretamente osso e dura-máter (por erosão óssea ou por veias emissárias) até o espaço subaracnóideo, sem precisar da etapa de bacteremia. Meningite bacteriana pneumocócica recorrente deve sempre levantar a suspeita de uma fístula liquórica oculta.</p>
+          <p class="editable"><i>Criptococose:</i> a aquisição começa pela inalação de leveduras/esporos do ambiente (solo, fezes de aves, certas árvores no caso do <i>Cryptococcus gattii</i>), causando uma infecção pulmonar primária frequentemente subclínica. A disseminação hematogênica para o SNC depende sobretudo de imunidade celular — daí o tropismo por pacientes com imunossupressão que compromete linfócitos T, como o HIV avançado. O fungo carrega fatores de virulência próprios (cápsula polissacarídica antifagocitária, melanina/lacase, fosfolipase) que favorecem sua sobrevivência no LCR. A cinética é lenta — semanas — o que explica por que o quadro é mais arrastado, com cefaleia e alterações visuais insidiosas, e por que a pressão de abertura costuma estar desproporcionalmente elevada em relação à celularidade.</p>
+          <p class="editable"><i>Herpes:</i> o HSV tipicamente reativa no gânglio trigeminal e se espalha de forma retrógrada para os lobos temporal e frontal — o padrão típico da encefalite herpética. Enterovírus, por outro lado, chegam por via fecal-oral ou respiratória, com viremia e disseminação para o SNC — uma cinética aguda, compatível com o quadro benigno e autolimitado que você vai reencontrar na prancha 08.</p>
+        </div>
+      </details>
+
+      <h3 class="editable">Precisões importantes</h3>
+      <p class="editable">Quatro atalhos merecem ser desfeitos, porque são exatamente os pontos em que o raciocínio automático falha:</p>
+      <div class="card-grid">
+        <div class="field-card"><h5 class="editable">Cefaleia e vômitos</h5><p class="editable">Não demonstram, isoladamente, hipertensão intracraniana. São achados frequentes e inespecíficos; a hipótese exige o conjunto clínico.</p></div>
+        <div class="field-card"><h5 class="editable">Petéquias</h5><p class="editable">Não são específicas de meningococo — e meningococcemia pode existir sem meningite.</p></div>
+        <div class="field-card"><h5 class="editable">Glicose baixa no líquor</h5><p class="editable">Não se explica só como "a bactéria comeu a glicose". Há também alteração do transporte de glicose pela barreira inflamada, e consumo pelas células inflamatórias.</p></div>
+        <div class="field-card"><h5 class="editable">Líquor límpido</h5><p class="editable">Não significa quadro benigno — o aspecto macroscópico não substitui a análise laboratorial completa.</p></div>
+      </div>
+
+      <div class="callout">
+        <h4 class="editable">Por que eliminar a bactéria não interrompe a lesão — a ponte para a dexametasona</h4>
+        <p class="editable">Se o antibiótico esteriliza o líquor em poucas horas, por que o paciente ainda piora, e por que ainda restam sequelas? Porque antibióticos bactericidas — como os beta-lactâmicos usados como base do tratamento (prancha 08) — matam a bactéria por lise, liberando de uma só vez, dentro do espaço subaracnóideo, uma grande quantidade de componentes de parede celular (fragmentos de peptidoglicano, LPS, ácidos teicoicos). Esses fragmentos amplificam a resposta inflamatória do hospedeiro — justamente nas primeiras horas de tratamento, via os mesmos receptores TLR descritos na etapa 3. Recrutamento leucocitário, aumento de permeabilidade e edema continuam avançando, mesmo com o líquor a caminho da esterilização, e é essa resposta do hospedeiro — não mais a bactéria viva — que sustenta boa parte do dano: pressão intracraniana elevada, perfusão comprometida, infartos, lesão neuronal e sequelas, entre elas a perda auditiva.</p>
+        <p class="editable">Se parte do dano vem da resposta do hospedeiro, faz sentido modulá-la exatamente no momento em que ela é deflagrada — por isso a dexametasona é administrada antes ou junto da primeira dose do antibiótico, e não depois: um corticoide, ao suprimir de forma ampla a transcrição de citocinas dependente de NF-κB, embota esse pico inflamatório secundário à lise bacteriana sem interferir na ação bactericida do antibiótico. Dose, indicação e evidência entram em detalhe na prancha 08 — mas guarde o mecanismo aqui, porque é ele que dá sentido à regra clínica.</p>
+      </div>
+    </div>
+
+    <aside class="unit-margin">
+      <span class="tag tag--ms">GVS pp. 107–113</span>
+      <span class="tag tag--oms">OMS §§A.2–B.4</span>
+      <span class="tag tag--usp">Cochrane 2015</span>
+      <p class="margin-note editable">A cascata: colonização → multiplicação no LCR → resposta celular → edema → lesão. Cada etapa explica um achado da prancha 07.</p>
+      <p class="margin-note q editable">Por que eliminar a bactéria pode não interromper imediatamente a lesão?</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== PLATE 03 — EPIDEMIOLOGIA ===================== -->
+<section class="plate" id="p03">
+  <div class="plate-head">
+    <span class="plate-num">03</span>
+    <div>
+      <h2 class="editable">Epidemiologia</h2>
+      <p class="plate-dek editable">Quem adoece, em qual contexto e com qual gravidade — frequência e gravidade são perguntas diferentes.</p>
+    </div>
+  </div>
+
+  <div class="unit">
+    <div class="unit-main">
+      <h3 class="editable">Panorama brasileiro: o que se pode e o que não se pode afirmar</h3>
+      <div class="card-grid">
+        <div class="field-card">
+          <span class="corner-tab">Pode-se afirmar</span>
+          <p class="editable" style="margin-top:14px;">A meningite é endêmica no Brasil. Meningites virais e bacterianas têm, ambas, grande relevância. Há descrição de maior frequência de bacterianas no outono/inverno e de virais na primavera/verão.</p>
+        </div>
+        <div class="field-card usp">
+          <span class="corner-tab">Não se deve afirmar</span>
+          <p class="editable" style="margin-top:14px;">Um ranking universal de agentes sem definir população, período e definição de caso. A ocorrência ao longo do ano todo também não exclui diferenças sazonais.</p>
+        </div>
+      </div>
+      <p class="editable">Vale reter o princípio metodológico por trás desse cuidado, porque ele serve para qualquer dado epidemiológico que você for ler daqui em diante: um número de incidência ou prevalência só é interpretável em relação a uma população definida, um período definido e uma definição de caso definida. Fora desse contexto, ele é apenas um número solto — e números soltos são a matéria-prima de generalizações erradas.</p>
+      <p class="editable">A sazonalidade descrita (bacteriana mais no outono/inverno, viral mais na primavera/verão) tem lógica biológica: o clima mais seco e frio favorece aglomeração em ambientes fechados, facilitando a transmissão respiratória de bactérias encapsuladas colonizadoras da nasofaringe; already enteroviroses, transmitidas por via fecal-oral e por gotículas em contextos de maior circulação ao ar livre e contato entre crianças, acompanham os meses mais quentes.</p>
+
+      <h3 class="editable">Doença meningocócica: em quem pensar primeiro</h3>
+      <div class="spec-list">
+        <div class="spec-row"><span class="spec-label">Menores de 5 anos</span><span class="spec-value editable">Especialmente menores de 1 ano — maior risco absoluto de doença invasiva.</span></div>
+        <div class="spec-row"><span class="spec-label">Adolescentes e adultos jovens</span><span class="spec-value editable">Relevantes sobretudo para a colonização nasofaríngea — e colonização não equivale a doença.</span></div>
+        <div class="spec-row"><span class="spec-label">Asplenia e deficiências de complemento</span><span class="spec-value editable">Aumentam o risco de doença invasiva.</span></div>
+      </div>
+
+      <details class="deepen">
+        <summary>Aprofunde-se — por que essa distribuição etária, e não outra</summary>
+        <div class="deepen-body">
+          <p class="editable">A distribuição etária da doença meningocócica é classicamente bimodal, e a explicação é imunológica. Lactentes perdem a proteção conferida pelos anticorpos maternos transferidos por via transplacentária por volta dos primeiros meses de vida, e ainda não tiveram tempo de desenvolver imunidade própria contra os diferentes sorogrupos por exposição natural — um vale de vulnerabilidade que coincide exatamente com o pico de incidência em menores de 1 ano. Adolescentes e adultos jovens, por outro lado, já costumam ter alguma imunidade adquirida por colonizações prévias, o que reduz seu risco pessoal de doença invasiva mesmo com taxas de portação nasofaríngea mais altas — impulsionadas por comportamento social (proximidade, tabagismo, aglomeração em dormitórios) — o que os torna importantes como elo de transmissão para outros, sem necessariamente adoecerem eles mesmos.</p>
+          <p class="editable">Já a asplenia e as deficiências de complemento (sobretudo do complexo terminal C5–C9, que forma o complexo de ataque à membrana) retiram um mecanismo de defesa específico contra bactérias encapsuladas: o baço filtra organismos mal opsonizados da circulação, e o complemento terminal é o principal mecanismo bactericida direto contra Neisseria meningitidis. Pacientes asplênicos ou com deficiência de complemento — inclusive os em uso de inibidores terapêuticos do complemento, como eculizumabe — têm risco marcadamente maior de doença meningocócica recorrente, e por isso costumam entrar em esquemas de vacinação ampliados (ACWY e B), independentemente da rotina programática padrão.</p>
+        </div>
+      </details>
+
+      <h3 class="editable">Um dado brasileiro, com período explícito</h3>
+      <p class="editable">Incidência de doença meningocócica no Brasil, 2023:</p>
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label editable"><span>População geral</span><span>0,35 / 100 mil hab.</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:24.6%"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label editable"><span>Menores de 5 anos</span><span>1,42 / 100 mil hab.</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:100%; background:var(--alert);"></div></div>
+        </div>
+      </div>
+      <p class="editable">A diferença entre as duas barras não é retórica: menores de 5 anos têm uma incidência cerca de quatro vezes maior que a população geral — a mesma lógica imunológica descrita acima, expressa em números.</p>
+
+      <h3 class="editable">Vacinação, estado vacinal e notificação</h3>
+      <p class="editable">A vacinação muda a distribuição de agentes e sorogrupos ao longo do tempo — um fenômeno chamado substituição sorológica (ou de sorotipos): a pressão seletiva exercida pela vacina reduz a circulação do sorogrupo/sorotipo coberto, mas pode, com o tempo, abrir espaço relativo para sorogrupos/sorotipos não cobertos, bem documentado com vacinas pneumocócicas conjugadas ao redor do mundo. Some a isso a possibilidade de esquema vacinal incompleto e de falha primária ou secundária da resposta imune, e chega-se à resposta correta para a pergunta que fecha esta prancha nos slides: <i>"este paciente tem esquema vacinal completo, posso descartar meningite bacteriana?"</i> — não, por nenhum dos três motivos acima.</p>
+      <div class="callout">
+        <h4 class="editable">Notificação: já na suspeita</h4>
+        <p class="editable">Comunicar à vigilância em até 24 horas, sem aguardar identificação do agente. A notificação e a assistência são ações paralelas, não sequenciais — a primeira serve à detecção precoce de surtos e ao início da investigação de contatos (prancha 10); a segunda, ao paciente à sua frente. Os trâmites de um fluxograma municipal específico (como o de São Paulo) são locais e devem ser adaptados à rede onde você atua.</p>
+      </div>
+    </div>
+
+    <aside class="unit-margin">
+      <span class="tag tag--ms">GVS pp. 107–108</span>
+      <span class="tag tag--ms">NT 154 §2.4</span>
+      <span class="tag tag--local">SMS-SP (local)</span>
+      <p class="margin-note editable">Frequência e gravidade são perguntas diferentes — não confundir alta incidência com alta letalidade, nem o contrário.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== PLATE 04 — VACINAÇÃO ===================== -->
+<section class="plate" id="p04">
+  <div class="plate-head">
+    <span class="plate-num">04</span>
+    <div>
+      <h2 class="editable">Vacinação</h2>
+      <p class="plate-dek editable">Proteção específica — e a diferença entre a oferta do PNI e as recomendações da SBP.</p>
+    </div>
+  </div>
+
+  <div class="unit">
+    <div class="unit-main">
+      <p class="editable">Não existe "a vacina da meningite", pela mesma razão que meningite não é uma doença, e sim uma síndrome: cada agente exige uma estratégia antigênica própria. Organizar o raciocínio por agente — e não decorar uma lista de nomes de vacina — é o que realmente ajuda na prova e na prática.</p>
+
+      <div class="card-grid">
+        <div class="field-card"><span class="corner-tab">BCG</span><h5 class="editable">Formas graves da TB infantil</h5><p class="editable">Inclui a forma meníngea. Dose ao nascer; algumas situações em contactantes de hanseníase.</p></div>
+        <div class="field-card"><span class="corner-tab">Hib</span><h5 class="editable">Doença invasiva por <i>H. influenzae</i> b</h5><p class="editable">Na pentavalente. Série de rotina aos 2, 4 e 6 meses — vacina conjugada.</p></div>
+        <div class="field-card"><span class="corner-tab">MenC</span><h5 class="editable">Sorogrupo C</h5><p class="editable">PNI: doses aos 3 e 5 meses.</p></div>
+        <div class="field-card"><span class="corner-tab">MenACWY</span><h5 class="editable">Sorogrupos A, C, W e Y</h5><p class="editable">PNI: reforço aos 12 meses; dose na adolescência (11–14 anos).</p></div>
+        <div class="field-card oms"><span class="corner-tab">MenB</span><h5 class="editable">Sorogrupo B</h5><p class="editable">Recomendação de rotina da SBP para crianças e adolescentes — distinguir da rotina universal do PNI.</p></div>
+        <div class="field-card"><span class="corner-tab">Pneumo</span><h5 class="editable">Sorotipos incluídos</h5><p class="editable">Ensinar o princípio; produto, transição e esquemas especiais dependem da norma operacional vigente.</p></div>
+      </div>
+
+      <details class="deepen">
+        <summary>Aprofunde-se — por que vacina conjugada, e por que a MenB precisou ser diferente</summary>
+        <div class="deepen-body">
+          <p class="editable">Vacinas de polissacarídeo puro têm um problema imunológico específico em crianças pequenas: polissacarídeos ativam linfócitos B de forma independente de células T — sem apresentação por MHC de classe II, sem ajuda de linfócitos T auxiliares. Respostas T-independentes são fracas em lactentes (cujo sistema imune ainda não responde bem a esse tipo de antígeno) e, mesmo em adultos, não geram memória imunológica duradoura nem efeito de reforço com doses subsequentes. A solução — a mesma tecnologia por trás de Hib, MenC, MenACWY e das vacinas pneumocócicas conjugadas — é ligar covalentemente o polissacarídeo capsular a uma proteína carreadora. Isso converte a resposta em T-dependente: agora há apresentação de peptídeos derivados da proteína carreadora a linfócitos T auxiliares, que por sua vez ajudam os linfócitos B a gerar resposta robusta mesmo em lactentes, memória imunológica de longo prazo e, como benefício adicional, redução da colonização nasofaríngea nos vacinados — efeito rebanho, que contribui para a "mudança de distribuição" discutida na prancha 03.</p>
+          <p class="editable">O sorogrupo B do meningococo não seguiu esse caminho porque seu polissacarídeo capsular tem uma peculiaridade: estrutura química muito semelhante a uma molécula de adesão neural humana (o ácido polissiálico do NCAM), um caso de mimetismo molecular. Isso torna o polissacarídeo capsular B pouco imunogênico por si só, e gerar anticorpos fortes contra ele levanta, teoricamente, risco de reatividade cruzada com tecido neural próprio. Por isso as vacinas MenB disponíveis usam proteínas de membrana externa (identificadas por engenharia reversa de vacinas — reverse vaccinology, varrendo o genoma bacteriano em busca de antígenos de superfície) em vez de conjugação polissacarídica — uma solução tecnológica completamente diferente para o mesmo problema.</p>
+        </div>
+      </details>
+
+      <h3 class="editable">Meningo C → ACWY (quadrivalente): o que mudou e para quem</h3>
+      <div class="compare-grid">
+        <div class="compare-card">
+          <div class="src editable">PNI — oferta programática</div>
+          <p class="editable">A substituição do reforço de MenC por ACWY aos 12 meses entrou em vigor em julho de 2025. Crianças já com esquema MenC completo não recebem automaticamente uma dose extra de ACWY nessa estratégia.</p>
+        </div>
+        <div class="compare-card">
+          <div class="src editable">SBP — recomendação da sociedade</div>
+          <p class="editable">Recomenda preferencialmente ACWY na série infantil e nos reforços, inclusive em situações mais amplas que a oferta programática — e recomenda MenB de rotina em crianças e adolescentes.</p>
+        </div>
+      </div>
+      <div class="callout warn">
+        <h4 class="editable">Divergência: PNI ≠ SBP</h4>
+        <p class="editable">Identifique sempre qual calendário está sendo ensinado. Chamar a recomendação da SBP de "rotina do SUS" desinforma o aluno e o paciente. As duas informações são legítimas e convivem: uma descreve o que o serviço público oferece; a outra, o que a sociedade científica considera desejável.</p>
+      </div>
+
+      <h3 class="editable">Pneumocócicas: uma inconsistência documental a não repassar</h3>
+      <p class="editable">O PDF infantil de 2026 do Ministério da Saúde registra pneumocócica 20-valente aos 2 e 12 meses e 10-valente aos 4 meses — um esquema misto de transição. Documentos de anos anteriores não devem ser tratados como garantia de disponibilidade atual. A postura correta diante de uma inconsistência documental como essa não é adivinhar qual versão está certa: é manter no roteiro de estudo a proteção pneumocócica e as idades programáticas gerais, e verificar a especificação exata do produto e da transição por nota operacional do PNI antes de prescrever — reconhecer quando uma fonte não permite prescrever com segurança é, em si, uma competência clínica, e ela vai reaparecer de forma ainda mais explícita na prancha 08.</p>
+      <p class="editable">Mensagem de fechamento do bloco: vacinação não substitui a avaliação do caso suspeito nem a quimioprofilaxia quando indicada (prancha 10).</p>
+    </div>
+
+    <aside class="unit-margin">
+      <span class="tag tag--ms">GVS quadro 12</span>
+      <span class="tag tag--ms">SBP 2025</span>
+      <span class="tag tag--ms">Calendário Nacional MS</span>
+      <p class="margin-note q editable">Existe uma única vacina que previna todas as meningites?</p>
+      <p class="margin-note editable">Sempre nomeie a fonte do calendário que está ensinando: PNI oferece, SBP recomenda — são coisas diferentes.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== PLATE 05 — PATÓGENOS ===================== -->
+<section class="plate" id="p05">
+  <div class="plate-head">
+    <span class="plate-num">05</span>
+    <div>
+      <h2 class="editable">Patógenos</h2>
+      <p class="plate-dek editable">Organizar a hipótese pelo paciente e pela evolução — não por uma lista decorada de agentes.</p>
+    </div>
+  </div>
+
+  <div class="unit">
+    <div class="unit-main">
+      <h3 class="editable">Síndrome aguda: do contexto ao agente</h3>
+      <div class="card-grid">
+        <div class="field-card">
+          <span class="corner-tab">Fora do período neonatal</span>
+          <h5 class="editable">Crianças, adolescentes, adultos</h5>
+          <p class="editable">Pneumococo, meningococo e <i>H. influenzae</i>. Base do raciocínio da meningite bacteriana comunitária — pondere vacinação e epidemiologia locais.</p>
+        </div>
+        <div class="field-card">
+          <span class="corner-tab">Neonatal</span>
+          <h5 class="editable">Recém-nascidos e lactentes muito jovens</h5>
+          <p class="editable"><i>S. agalactiae</i>, bacilos Gram-negativos entéricos e <i>Listeria</i>. Não extrapolar o esquema do adulto: manejo e doses são próprios dessa faixa.</p>
+        </div>
+        <div class="field-card">
+          <span class="corner-tab">Extremos e imunossupressão</span>
+          <h5 class="editable">Idade avançada, gestação, imunossupressão</h5>
+          <p class="editable"><i>Listeria</i>, além dos agentes comunitários habituais. Pode exigir associação de ampicilina ao esquema empírico.</p>
+        </div>
+        <div class="field-card">
+          <span class="corner-tab">Foco contíguo</span>
+          <h5 class="editable">Fístula liquórica, otite, sinusite, mastoidite</h5>
+          <p class="editable">Pneumococo e agentes relacionados ao foco. Investigar a porta de entrada e as complicações locais.</p>
+        </div>
+      </div>
+
+      <details class="deepen">
+        <summary>Aprofunde-se — por que exatamente esses agentes em cada contexto</summary>
+        <div class="deepen-body">
+          <p class="editable">A tríade neonatal (<i>S. agalactiae</i>, Gram-negativos entéricos — sobretudo <i>E. coli</i> K1, cuja cápsula polissacarídica K1 tem estrutura semelhante a antígenos do próprio hospedeiro, favorecendo invasão do SNC — e <i>Listeria monocytogenes</i>) reflete as vias de aquisição vertical, no canal de parto ou por via transplacentária, somadas à imaturidade das defesas neonatais: função neutrofílica reduzida, transferência materna incompleta de IgG contra certos antígenos, e ausência de imunidade prévia por colonização, já que o recém-nascido simplesmente não teve tempo de construir essa história imunológica.</p>
+          <p class="editable"><i>Listeria monocytogenes</i> é um patógeno intracelular facultativo — ele sobrevive e se replica dentro de macrófagos, escapando do fagossomo para o citoplasma. Controlar uma infecção intracelular como essa depende, de forma central, de imunidade mediada por células (linfócitos T citotóxicos e resposta Th1), não de anticorpos. É exatamente esse braço da imunidade que está fisiologicamente reduzido nos três grupos de risco citados: no recém-nascido, por imaturidade; na gestação, por um estado de tolerância imune parcial necessário para não rejeitar o feto (que reduz certas respostas Th1); no idoso e no imunossuprimido, por senescência imunológica ou por supressão iatrogênica/patológica. É esse fio condutor único — não uma lista arbitrária — que explica por que esses três grupos, aparentemente tão diferentes, compartilham o mesmo risco aumentado para o mesmo agente.</p>
+          <p class="editable">Essa mesma lógica farmacológica explica por que a ceftriaxona, base do tratamento empírico (prancha 08), não cobre <i>Listeria</i> de forma confiável: ela é intrinsecamente resistente a todas as cefalosporinas, porque suas proteínas ligadoras de penicilina (PBPs) têm baixa afinidade por essa classe. Cobrir Listeria exige um antibiótico ativo especificamente contra ela — ampicilina — e não apenas "ampliar o espectro" de forma genérica.</p>
+        </div>
+      </details>
+
+      <h3 class="editable">Perfil viral, encefalite, evolução arrastada</h3>
+      <div class="card-grid">
+        <div class="field-card oms"><span class="corner-tab">Perfil viral agudo</span><h5 class="editable">Enterovírus; HSV-2 e VZV conforme contexto</h5><p class="editable">Diferenciar meningite viral de encefalite e de bacteriana parcialmente tratada.</p></div>
+        <div class="field-card oms"><span class="corner-tab">Encefalite</span><h5 class="editable">Alteração de consciência, crises focais, déficit focal</h5><p class="editable">HSV-1 entra entre as hipóteses. Aumenta a prioridade de investigar e tratar precocemente.</p></div>
+        <div class="field-card usp"><span class="corner-tab">Subaguda/crônica</span><h5 class="editable"><i>Cryptococcus</i> spp. e <i>M. tuberculosis</i></h5><p class="editable">Especialmente com imunossupressão. Investigação específica no líquor; atenção à pressão de abertura.</p></div>
+        <div class="field-card usp"><span class="corner-tab">Assistencial</span><h5 class="editable">Neurocirurgia, derivação, infecção associada</h5><p class="editable">Estafilococos e bacilos Gram-negativos, entre outros. Fora do esquema comunitário simplificado — terapia individualizada.</p></div>
+      </div>
+
+      <div class="callout warn">
+        <h4 class="editable">Dois cuidados ao usar essas tabelas de agentes</h4>
+        <p class="editable"><i>Fungo não é sinônimo de HIV:</i> <i>Cryptococcus gattii</i> também causa doença em pessoas sem imunossupressão reconhecida. Não transforme HIV em requisito diagnóstico para meningite fúngica — evolução subaguda com hipertensão liquórica pede investigação específica independentemente do status sorológico.</p>
+        <p class="editable" style="margin-bottom:0;"><i>Divergência — a partir de que idade cobrir Listeria?</i> USP adota > 50 anos; OMS, > 60 anos entre os fatores de risco. Registre o corte da fonte adotada pelo seu serviço, e valorize os demais fatores (gestação, imunossupressão, comorbidades) além do número isolado. Não existe uma mudança biológica abrupta aos 50 ou aos 60 anos — o risco é contínuo, o corte é operacional, uma convenção prática para orientar decisão de tratamento empírico, não uma fronteira fisiológica real.</p>
+      </div>
+      <p class="editable">Como usar este bloco na prática: a tabela não é para decorar. Ela treina a pergunta "que paciente é este, e há quanto tempo isso evolui?" — que é o que realmente muda o esquema empírico e a investigação, muito mais do que memorizar nomes de bactéria isolados.</p>
+    </div>
+
+    <aside class="unit-margin">
+      <span class="tag tag--ms">GVS pp. 107, 123–138</span>
+      <span class="tag tag--usp">USP cap. 56</span>
+      <span class="tag tag--oms">OMS §§1.7, B.2.2</span>
+      <p class="margin-note editable">Duas perguntas guiam tudo: que paciente é este? E há quanto tempo isso evolui?</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== PLATE 06 — SUSPEITA CLÍNICA ===================== -->
+<section class="plate" id="p06">
+  <div class="plate-head">
+    <span class="plate-num">06</span>
+    <div>
+      <h2 class="editable">Suspeita clínica</h2>
+      <p class="plate-dek editable">Reconhecer sem esperar a apresentação completa — a tríade clássica é o começo da história, não o critério de entrada.</p>
+    </div>
+  </div>
+
+  <div class="unit">
+    <div class="unit-main">
+      <h3 class="editable">Anamnese e exame dirigidos</h3>
+      <p class="editable">Ponto de partida: febre, cefaleia, rigidez de nuca, fotofobia e alteração do estado mental. A ausência de um item da tríade clássica não afasta a hipótese, e a presença de todos não é necessária para agir.</p>
+      <div class="card-grid">
+        <div class="field-card">
+          <span class="corner-tab">Perguntar</span>
+          <p class="editable" style="margin-top:14px;">Tempo de evolução e velocidade de instalação · antibiótico prévio (pode descaracterizar o líquor) · vacinação e contatos · infecção respiratória ou otológica recente · imunossupressão · cirurgia, trauma ou procedimento neurológico.</p>
+        </div>
+        <div class="field-card oms">
+          <span class="corner-tab">Examinar</span>
+          <p class="editable" style="margin-top:14px;">Nível de consciência · sinais vitais e perfusão · pele (petéquias, sufusões, púrpura) · sinais focais e pupilas · sinais meníngeos · em lactentes: fontanela, choro, irritabilidade, tônus.</p>
+        </div>
+      </div>
+
+      <h3 class="editable">Definição de caso suspeito para a vigilância (NT 154)</h3>
+      <div class="card-grid">
+        <div class="field-card"><span class="corner-tab">A</span><h5 class="editable">Febre + 2 sinais</h5><p class="editable">Cefaleia intensa, vômito, confusão ou alteração mental, fotofobia, torpor ou convulsão — pelo menos dois deles.</p></div>
+        <div class="field-card"><span class="corner-tab">B</span><h5 class="editable">Febre + irritação meníngea</h5><p class="editable">Febre acompanhada de pelo menos um sinal de irritação meníngea.</p></div>
+        <div class="field-card"><span class="corner-tab">C</span><h5 class="editable">Febre súbita + pele</h5><p class="editable">Febre de início súbito com petéquias ou sufusões hemorrágicas.</p></div>
+        <div class="field-card"><span class="corner-tab">&lt;2 anos</span><h5 class="editable">Menores de dois anos</h5><p class="editable">Considerar também febre com irritabilidade, choro persistente, sonolência ou abaulamento de fontanela.</p></div>
+      </div>
+      <div class="callout warn">
+        <h4 class="editable">A definição organiza a vigilância — não é regra de exclusão clínica</h4>
+        <p class="editable">Em surtos, a definição pode ser adaptada para maior sensibilidade. Alguns recém-nascidos podem não apresentar febre. Um paciente fora da definição epidemiológica ainda pode ter meningite, e ainda pode precisar de punção e antibiótico. Notificar segundo a definição e tratar segundo o julgamento clínico são ações paralelas, não alternativas. Não condicione a suspeita a uma temperatura acima de 39 °C.</p>
+      </div>
+
+      <h3 class="editable">Semiologia aplicada e sinais de gravidade</h3>
+      <p class="editable">A rigidez de nuca é resistência à mobilização passiva do pescoço, interpretada no contexto clínico. Os sinais de Kernig (dor/resistência à extensão do joelho com o quadril fletido) e Brudzinski (flexão reflexa dos joelhos à flexão passiva do pescoço) apoiam a suspeita, mas sua ausência não exclui meningite. Vale entender por que esses sinais existem: as raízes nervosas lombossacrais e cervicais, envolvidas por meninges inflamadas e hiperálgicas, respondem ao estiramento mecânico provocado por essas manobras com dor e espasmo muscular reflexo protetor — um mecanismo bastante análogo à defesa abdominal na irritação peritoneal. É por isso que a sensibilidade desses sinais é apenas moderada: ela depende da intensidade da irritação meníngea, que varia com gravidade, cronicidade e fatores do próprio paciente — em lactentes, idosos e imunossuprimidos, a resposta inflamatória e a capacidade de mobilizar esse reflexo protetor podem estar atenuadas, e os sinais clássicos podem simplesmente faltar mesmo com doença grave.</p>
+
+      <div class="callout warn">
+        <h4 class="editable">Meningococcemia: uma trilha fisiopatológica diferente</h4>
+        <p class="editable">A meningococcemia pode evoluir rapidamente sem rigidez de nuca e sem alterações liquóricas típicas — porque, nesse cenário, o processo que ameaça a vida não é a inflamação meníngea, e sim a endotoxemia sistêmica. O LPS meningocócico dispara uma tempestade de citocinas sistêmica que lesa diretamente o endotélio vascular, ativa a via do fator tecidual e desregula a via da proteína C — o substrato da coagulação intravascular disseminada (CIVD). O resultado é trombose microvascular difusa, que se manifesta como petéquias e púrpura na pele e como hipoperfusão e disfunção de múltiplos órgãos no restante do corpo. É uma trilha fisiopatológica sistêmica, distinta da cascata centrada no espaço subaracnóideo descrita na prancha 02 — mesmo organismo, dois processos diferentes. Por isso a gravidade aqui é julgada pelos sinais sistêmicos (perfusão, extensão da púrpura, função orgânica), e não pelo grau de alteração do líquor.</p>
+      </div>
+      <div class="card-grid">
+        <div class="field-card" style="border-left-color:var(--alert);"><h5 class="editable">Sinais de gravidade</h5><p class="editable">Rebaixamento progressivo · convulsão persistente ou recorrente · déficit focal · hipotensão, má perfusão, oligúria, dificuldade respiratória · púrpura extensa ou progressiva e disfunção orgânica.</p></div>
+      </div>
+    </div>
+
+    <aside class="unit-margin">
+      <span class="tag tag--ms">GVS pp. 108–112</span>
+      <span class="tag tag--ms">NT 154 §3.1</span>
+      <span class="tag tag--ms">SBP 2015</span>
+      <p class="margin-note q editable">A tríade clássica é o começo da história, não o critério de entrada.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== PLATE 07 — DIAGNÓSTICO LABORATORIAL ===================== -->
+<section class="plate" id="p07">
+  <div class="plate-head">
+    <span class="plate-num">07</span>
+    <div>
+      <h2 class="editable">Diagnóstico laboratorial</h2>
+      <p class="plate-dek editable">O que solicitar, qual pergunta cada exame responde, e quando a imagem antecede a punção.</p>
+    </div>
+  </div>
+
+  <div class="unit">
+    <div class="unit-main">
+      <h3 class="editable">Coletar antes do antibiótico — sem atrasá-lo</h3>
+      <div class="card-grid">
+        <div class="field-card"><span class="corner-tab">Regra geral</span><p class="editable" style="margin-top:14px;">Coletar sangue e líquor preferencialmente antes do antibiótico, quando isso é seguro e prontamente viável.</p></div>
+        <div class="field-card oms"><span class="corner-tab">Limite da regra</span><p class="editable" style="margin-top:14px;">Aguardar imagem, estabilização ou uma punção difícil não pode atrasar o tratamento da suspeita bacteriana relevante.</p></div>
+        <div class="field-card usp"><span class="corner-tab">Depois do antibiótico</span><p class="editable" style="margin-top:14px;">A coleta posterior continua útil, embora o rendimento microbiológico possa diminuir. Hemoculturas podem permanecer positivas.</p></div>
+      </div>
+      <p class="editable">Três perguntas organizam todo o pedido de exames: há inflamação meníngea, e de que tipo (celularidade e diferencial, proteína, glicose pareada, pressão de abertura)? Qual é o agente (Gram, cultura e antibiograma, testes moleculares, CrAg e cultura fúngica conforme a hipótese)? Quão grave é a repercussão sistêmica (hemograma, coagulação, função renal, eletrólitos, gasometria e lactato sanguíneo)?</p>
+
+      <h4 class="sub editable">Exames de sangue</h4>
+      <div class="spec-list">
+        <div class="spec-row"><span class="spec-label">Hemograma com diferencial</span><span class="spec-value editable">Leucocitose/neutrofilia e desvio à esquerda apoiam a hipótese bacteriana; leucopenia pode ocorrer em doença grave. Normal não exclui.</span></div>
+        <div class="spec-row"><span class="spec-label">Coagulograma (plaquetas, TP/INR, TTPa)</span><span class="spec-value editable">Plaquetopenia, prolongamento dos tempos e consumo de fibrinogênio podem acompanhar CIVD — pedir fibrinogênio e D-dímero se houver suspeita.</span></div>
+        <div class="spec-row"><span class="spec-label">PCR e procalcitonina</span><span class="spec-value editable">Apoiam a hipótese bacteriana; a elevação não identifica o agente, e valores baixos não excluem isoladamente meningite bacteriana.</span></div>
+        <div class="spec-row"><span class="spec-label">Glicemia pareada ao líquor</span><span class="spec-value editable">Indispensável para calcular a relação glicose LCR/sangue — sem ela, a glicorraquia isolada diz pouco.</span></div>
+        <div class="spec-row"><span class="spec-label">Hemoculturas</span><span class="spec-value editable">Identificam agente e sensibilidade; podem ser positivas mesmo quando a punção é adiada.</span></div>
+      </div>
+
+      <details class="deepen">
+        <summary>Aprofunde-se — por que a glicorraquia precisa de um par, e as duas causas da hipoglicorraquia</summary>
+        <div class="deepen-body">
+          <p class="editable">A glicose entra no LCR por transporte facilitado através de transportadores GLUT1, presentes no epitélio do plexo corióideo e no endotélio da barreira hematoencefálica. Esse transporte não é instantâneo: leva cerca de duas a quatro horas para o LCR equilibrar com uma mudança na glicemia sérica. É por isso que a glicorraquia isolada é quase inútil — ela só ganha significado quando comparada a uma glicemia colhida próxima no tempo, calculando a relação LCR/sangue (normal em torno de 0,5 a 0,8; considerada baixa quando ≤ 0,4).</p>
+          <p class="editable">A hipoglicorraquia da meningite bacteriana tem duas causas, não uma só — e essa é exatamente a correção que o professor destaca nos slides. A primeira é o consumo aumentado de glicose: tanto pela bactéria em franca replicação (que depende de glicólise), quanto pelas células inflamatórias ativadas no espaço subaracnóideo, que também são metabolicamente hiperativas. A segunda, menos lembrada, é a alteração do próprio transporte: citocinas inflamatórias reduzem a expressão e a função dos transportadores GLUT1 no plexo corióideo inflamado, prejudicando a entrada de glicose no LCR independentemente do consumo local. "A bactéria comeu a glicose" captura só metade da fisiopatologia.</p>
+        </div>
+      </details>
+
+      <h4 class="sub editable">Repercussão sistêmica e exames do líquor</h4>
+      <div class="spec-list">
+        <div class="spec-row"><span class="spec-label">Sódio, potássio, ureia, creatinina</span><span class="spec-value editable">Hiponatremia e lesão renal podem ocorrer; avaliar volemia e contexto sem presumir SIADH automaticamente.</span></div>
+        <div class="spec-row"><span class="spec-label">Gasometria e lactato sanguíneo</span><span class="spec-value editable">Refletem hipoperfusão e acidose na doença grave; lactato elevado não é específico de meningite nem prova mecanismo anaeróbico isoladamente.</span></div>
+        <div class="spec-row"><span class="spec-label">LCR: pressão, celularidade, proteína, glicose, Gram, cultura</span><span class="spec-value editable">Caracterizam a síndrome e pesquisam a etiologia — interpretar sempre o conjunto, nunca um marcador isolado.</span></div>
+        <div class="spec-row"><span class="spec-label">Teste molecular no LCR</span><span class="spec-value editable">Pesquisa dirigida ou painel de patógenos. Negativo não exclui todos os agentes; não substitui cultura e antibiograma.</span></div>
+        <div class="spec-row"><span class="spec-label">CrAg e cultura fúngica</span><span class="spec-value editable">Particularmente úteis na síndrome subaguda/crônica e na imunossupressão.</span></div>
+      </div>
+
+      <div class="callout warn">
+        <h4 class="editable">Duas ambiguidades que atrapalham a leitura do caso</h4>
+        <p class="editable"><i>PCR — uma sigla, dois exames:</i> escreva "proteína C-reativa" para o biomarcador de inflamação e "PCR molecular" para a reação em cadeia da polimerase. São perguntas diferentes — uma mede resposta inflamatória, a outra procura o agente.</p>
+        <p class="editable" style="margin-bottom:0;"><i>Lactato — dois lactatos:</i> o sanguíneo avalia perfusão e gravidade sistêmica; o liquórico auxilia o diagnóstico diferencial da síndrome meníngea, mas perde desempenho depois de antibióticos.</p>
+      </div>
+
+      <h4 class="sub editable">Valores de referência do adulto (usados neste exercício)</h4>
+      <div class="spec-list">
+        <div class="spec-row"><span class="spec-label">Celularidade</span><span class="spec-value editable">Até 5 leucócitos/µL</span></div>
+        <div class="spec-row"><span class="spec-label">Proteína</span><span class="spec-value editable">Aproximadamente 15–45/50 mg/dL, com variação entre laboratórios</span></div>
+        <div class="spec-row"><span class="spec-label">Glicose (relação LCR/sangue)</span><span class="spec-value editable">Normal em torno de 0,5–0,8; considerada baixa se ≤ 0,4</span></div>
+        <div class="spec-row"><span class="spec-label">Pressão de abertura</span><span class="spec-value editable">Medida em decúbito lateral; crianças pequenas têm valores próprios</span></div>
+      </div>
+
+      <h3 class="editable">Quando pedir imagem antes de puncionar?</h3>
+      <p class="editable">A TC não é rotina para todo caso suspeito. A OMS indica imagem antes da punção diante de seis situações — e cada uma delas é, na prática, um sinal indireto de que pode existir um gradiente de pressão significativo entre compartimentos (lembra a doutrina de Monro-Kellie da prancha 01?), o que torna a retirada abrupta de líquor pela via lombar mais arriscada:</p>
+      <div class="card-grid">
+        <div class="field-card oms"><h5 class="editable">Glasgow &lt; 10</h5><p class="editable">Sugere comprometimento difuso ou lesão estrutural significativa.</p></div>
+        <div class="field-card oms"><h5 class="editable">Sinais neurológicos focais</h5><p class="editable">Levantam suspeita de lesão localizada com possível efeito de massa.</p></div>
+        <div class="field-card oms"><h5 class="editable">Déficit de nervos cranianos</h5><p class="editable">Pode indicar compressão ou processo estrutural na base do crânio.</p></div>
+        <div class="field-card oms"><h5 class="editable">Papiledema</h5><p class="editable">Reflete hipertensão intracraniana já sustentada o suficiente para transmitir-se à bainha do nervo óptico.</p></div>
+        <div class="field-card oms"><h5 class="editable">Convulsão de início recente em adultos</h5><p class="editable">Levanta a possibilidade de lesão estrutural subjacente.</p></div>
+        <div class="field-card oms"><h5 class="editable">Imunossupressão grave</h5><p class="editable">Aumenta a probabilidade pré-teste de uma lesão que mimetize ou complique o quadro (abscesso, toxoplasmose, linfoma).</p></div>
+      </div>
+      <div class="callout warn">
+        <h4 class="editable">Se a imagem necessária não está disponível</h4>
+        <p class="editable">Adiar a punção e iniciar o tratamento. A indicação de imagem protege o procedimento — ela não posterga o antibiótico. E a TC não é o único filtro de segurança: instabilidade respiratória ou hemodinâmica, distúrbio significativo de coagulação e infecção no local da punção também exigem estabilização, avaliação ou adiamento. Uma TC normal não elimina esses problemas nem autoriza automaticamente a punção.</p>
+      </div>
+
+      <div class="divergence">
+        <h4 class="editable">Divergência: quais critérios de imagem adotar</h4>
+        <div class="compare-grid">
+          <div class="compare-card"><div class="src editable">USP — critérios mais amplos</div><p class="editable">Inclui idade &gt; 60 anos; inclui história de doença focal do SNC; adota cortes variáveis de Glasgow.</p></div>
+          <div class="compare-card"><div class="src editable">OMS — critérios mais restritos</div><p class="editable">Lista objetiva de seis situações. Se a imagem não está disponível: tratar e adiar a punção. Ressalva explícita para criptococose associada ao HIV.</p></div>
+        </div>
+        <p class="verdict editable">Adote um conjunto coerente de critérios — o do serviço onde você atua — e não misture listas. A necessidade de não atrasar antibióticos é comum a todas as fontes. E cuidado com a regra automática "imunossupressão = TC obrigatória": na suspeita de criptococose associada ao HIV, a própria OMS ressalta a importância da punção precoce, com medida da pressão de abertura e CrAg — adiar a punção nesse cenário específico pode custar o diagnóstico e o manejo da hipertensão liquórica, que é, ela mesma, uma emergência.</p>
+      </div>
+
+      <h3 class="editable">Os três padrões de líquor</h3>
+      <p class="editable">A coluna fúngica usa a criptococose como exemplo e não representa igualmente todas as micoses.</p>
+      <div class="card-grid">
+        <div class="field-card" style="border-left-color:var(--bact);">
+          <span class="corner-tab" style="background:var(--bact);"><span class="specimen-dot bact" style="margin-right:5px;"></span>Bacteriano piogênico</span>
+          <div class="spec-list" style="margin-top:18px;">
+            <div class="spec-row"><span class="spec-label">Aspecto</span><span class="spec-value">Frequentemente turvo</span></div>
+            <div class="spec-row"><span class="spec-label">Pressão</span><span class="spec-value">Frequentemente elevada</span></div>
+            <div class="spec-row"><span class="spec-label">Células</span><span class="spec-value">Centenas a milhares/µL, neutrófilos</span></div>
+            <div class="spec-row"><span class="spec-label">Glicose</span><span class="spec-value">Reduzida</span></div>
+            <div class="spec-row"><span class="spec-label">Proteína</span><span class="spec-value">Elevada, por vezes muito</span></div>
+            <div class="spec-row"><span class="spec-label">Lactato</span><span class="spec-value">Frequentemente elevado</span></div>
+            <div class="spec-row" style="border-bottom:none;"><span class="spec-label">Etiológico</span><span class="spec-value">Gram, cultura/antibiograma, PCR</span></div>
+          </div>
+        </div>
+        <div class="field-card" style="border-left-color:var(--fung);">
+          <span class="corner-tab" style="background:var(--fung);"><span class="specimen-dot fung" style="margin-right:5px;"></span>Fúngico (modelo criptocócico)</span>
+          <div class="spec-list" style="margin-top:18px;">
+            <div class="spec-row"><span class="spec-label">Aspecto</span><span class="spec-value">Frequentemente límpido</span></div>
+            <div class="spec-row"><span class="spec-label">Pressão</span><span class="spec-value">Pode estar muito elevada</span></div>
+            <div class="spec-row"><span class="spec-label">Células</span><span class="spec-value">Pleocitose linfomononuclear variável</span></div>
+            <div class="spec-row"><span class="spec-label">Glicose</span><span class="spec-value">Frequentemente reduzida</span></div>
+            <div class="spec-row"><span class="spec-label">Proteína</span><span class="spec-value">Elevada</span></div>
+            <div class="spec-row"><span class="spec-label">Lactato</span><span class="spec-value">Pode estar elevado</span></div>
+            <div class="spec-row" style="border-bottom:none;"><span class="spec-label">Etiológico</span><span class="spec-value">CrAg, cultura fúngica, microscopia</span></div>
+          </div>
+        </div>
+        <div class="field-card" style="border-left-color:var(--vir);">
+          <span class="corner-tab" style="background:var(--vir);"><span class="specimen-dot vir" style="margin-right:5px;"></span>Viral típico</span>
+          <div class="spec-list" style="margin-top:18px;">
+            <div class="spec-row"><span class="spec-label">Aspecto</span><span class="spec-value">Geralmente límpido</span></div>
+            <div class="spec-row"><span class="spec-label">Pressão</span><span class="spec-value">Normal ou discretamente elevada</span></div>
+            <div class="spec-row"><span class="spec-label">Células</span><span class="spec-value">Pleocitose geralmente linfocitária</span></div>
+            <div class="spec-row"><span class="spec-label">Glicose</span><span class="spec-value">Geralmente preservada</span></div>
+            <div class="spec-row"><span class="spec-label">Proteína</span><span class="spec-value">Elevação discreta a moderada</span></div>
+            <div class="spec-row"><span class="spec-label">Lactato</span><span class="spec-value">Frequentemente não elevado</span></div>
+            <div class="spec-row" style="border-bottom:none;"><span class="spec-label">Etiológico</span><span class="spec-value">PCR molecular dirigida</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <h4 class="editable">As exceções que desmontam os atalhos</h4>
+        <p class="editable"><i>Viral precoce</i> — na fase inicial, pode haver predomínio de neutrófilos. <i>Bacteriana parcialmente tratada</i> — pode fugir do padrão clássico após antibiótico prévio. <i>Imunossupressão grave</i> — pode gerar pouca resposta celular, com pleocitose discreta apesar de infecção grave. <i>Tuberculosa</i> — pode apresentar linfócitos, proteína alta e glicose baixa, sobrepondo-se ao padrão fúngico (evolução insidiosa ao longo de semanas, pressão de abertura frequentemente muito elevada, e realce meníngeo basal característico na neuroimagem; a dosagem de adenosina desaminase no líquor pode ajudar como exame complementar).</p>
+        <p class="editable" style="margin-bottom:0;">Dois atalhos inadequados: "linfócitos = vírus" e "líquor límpido = benigno". Ambos falham exatamente nos casos em que o erro custa mais caro — tuberculose, criptococose e bacteriana parcialmente tratada. Como ler um líquor, então? Pelo conjunto: tempo de evolução + hospedeiro + pressão de abertura + celularidade e diferencial + proteína + glicose pareada + microbiologia dirigida. Nenhum parâmetro isolado fecha o raciocínio.</p>
+      </div>
+
+      <h3 class="editable">Três laudos fictícios para discussão</h3>
+      <p class="editable"><i>Os três casos a seguir são exemplos fictícios criados para ensino — não são dados de pacientes nem pontos de corte diagnósticos.</i> Considere glicemia de 100 mg/dL, colhida próxima da punção, nos três exemplos. Leia o contexto e os parâmetros, forme sua hipótese, e só então clique para revelar o resultado etiológico — exatamente como você teria de fazer diante de um paciente real, sem espiar o Gram antes de pensar.</p>
+
+      <div class="case-card">
+        <div class="case-head">
+          <h4 class="editable"><span class="specimen-dot bact"></span>Caso A</h4>
+          <span class="case-context editable">Febre, cefaleia e rigidez de nuca há 18 horas</span>
+        </div>
+        <div class="case-body">
+          <div class="spec-list">
+            <div class="spec-row"><span class="spec-label">Aspecto</span><span class="spec-value">Turvo</span></div>
+            <div class="spec-row"><span class="spec-label">Pressão de abertura</span><span class="spec-value">32 cmH₂O</span></div>
+            <div class="spec-row"><span class="spec-label">Leucócitos</span><span class="spec-value">2.400/µL</span></div>
+            <div class="spec-row"><span class="spec-label">Diferencial</span><span class="spec-value">90% neutrófilos</span></div>
+            <div class="spec-row"><span class="spec-label">Proteína</span><span class="spec-value">240 mg/dL</span></div>
+            <div class="spec-row"><span class="spec-label">Glicose no LCR</span><span class="spec-value">20 mg/dL (relação 0,20)</span></div>
+            <div class="spec-row" style="border-bottom:none;"><span class="spec-label">Lactato liquórico</span><span class="spec-value">6,0 mmol/L</span></div>
+          </div>
+          <button class="reveal-btn" onclick="toggleCase(this)">Revelar Gram, cultura e discussão</button>
+          <div class="case-result">
+            <div class="case-result-inner">
+              <h5 class="editable">Gram: diplococos Gram-positivos · Cultura: <i>S. pneumoniae</i></h5>
+              <p class="editable" style="margin-bottom:0;">O conjunto sustenta fortemente meningite bacteriana. O Gram sugere pneumococo, mas é o antibiograma que orienta a terapia dirigida — o Gram nunca substitui a cultura para decisão terapêutica definitiva.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-head">
+          <h4 class="editable"><span class="specimen-dot fung"></span>Caso B</h4>
+          <span class="case-context editable">Cefaleia progressiva há 3 semanas, imunossupressão</span>
+        </div>
+        <div class="case-body">
+          <div class="spec-list">
+            <div class="spec-row"><span class="spec-label">Aspecto</span><span class="spec-value">Límpido</span></div>
+            <div class="spec-row"><span class="spec-label">Pressão de abertura</span><span class="spec-value">38 cmH₂O</span></div>
+            <div class="spec-row"><span class="spec-label">Leucócitos</span><span class="spec-value">90/µL</span></div>
+            <div class="spec-row"><span class="spec-label">Diferencial</span><span class="spec-value">85% linfomononucleares</span></div>
+            <div class="spec-row"><span class="spec-label">Proteína</span><span class="spec-value">120 mg/dL</span></div>
+            <div class="spec-row"><span class="spec-label">Glicose no LCR</span><span class="spec-value">30 mg/dL (relação 0,30)</span></div>
+            <div class="spec-row" style="border-bottom:none;"><span class="spec-label">Lactato liquórico</span><span class="spec-value">3,8 mmol/L</span></div>
+          </div>
+          <button class="reveal-btn" onclick="toggleCase(this)">Revelar CrAg, cultura e discussão</button>
+          <div class="case-result">
+            <div class="case-result-inner">
+              <h5 class="editable">CrAg: positivo · Cultura: <i>Cryptococcus</i> spp.</h5>
+              <p class="editable" style="margin-bottom:0;">Evolução subaguda, mais hipoglicorraquia, mais pressão de abertura muito elevada — pedem etiologia específica. O líquor límpido não reduz a gravidade: a pressão de abertura marcadamente elevada já era, sozinha, um sinal de alarme.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-head">
+          <h4 class="editable"><span class="specimen-dot vir"></span>Caso C</h4>
+          <span class="case-context editable">Febre e cefaleia há 2 dias, consciência preservada</span>
+        </div>
+        <div class="case-body">
+          <div class="spec-list">
+            <div class="spec-row"><span class="spec-label">Aspecto</span><span class="spec-value">Límpido</span></div>
+            <div class="spec-row"><span class="spec-label">Pressão de abertura</span><span class="spec-value">18 cmH₂O</span></div>
+            <div class="spec-row"><span class="spec-label">Leucócitos</span><span class="spec-value">180/µL</span></div>
+            <div class="spec-row"><span class="spec-label">Diferencial</span><span class="spec-value">85% linfócitos</span></div>
+            <div class="spec-row"><span class="spec-label">Proteína</span><span class="spec-value">65 mg/dL</span></div>
+            <div class="spec-row"><span class="spec-label">Glicose no LCR</span><span class="spec-value">65 mg/dL (relação 0,65)</span></div>
+            <div class="spec-row" style="border-bottom:none;"><span class="spec-label">Lactato liquórico</span><span class="spec-value">1,9 mmol/L</span></div>
+          </div>
+          <button class="reveal-btn" onclick="toggleCase(this)">Revelar PCR molecular e discussão</button>
+          <div class="case-result">
+            <div class="case-result-inner">
+              <h5 class="editable">PCR molecular para enterovírus: positiva</h5>
+              <p class="editable" style="margin-bottom:0;">Padrão compatível com viral, mas a conclusão dependia do contexto e da investigação — a consciência preservada não autoriza extrapolar para todo paciente com pleocitose linfocitária. Se você escondesse o Gram, a cultura e a PCR, quais hipóteses ainda permaneceriam de pé em cada um dos três casos? Essa é exatamente a pergunta de fechamento da prancha 12.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="unit-margin">
+      <span class="tag tag--ms">GVS pp. 111–138</span>
+      <span class="tag tag--oms">OMS §§A.1–A.4</span>
+      <span class="tag tag--usp">USP cap. 56</span>
+      <p class="margin-note q editable">Se eu esconder o Gram, a cultura e a PCR molecular, quais hipóteses ainda permanecem de pé em cada caso?</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== PLATE 08 — TRATAMENTO ===================== -->
+<section class="plate" id="p08">
+  <div class="plate-head">
+    <span class="plate-num">08</span>
+    <div>
+      <h2 class="editable">Tratamento na emergência</h2>
+      <p class="plate-dek editable">Agir enquanto se investiga — e saber o que cada fonte sustenta.</p>
+    </div>
+  </div>
+
+  <div class="unit">
+    <div class="unit-main">
+      <div class="callout">
+        <h4 class="editable">A precaução começa antes deste bloco</h4>
+        <p class="editable">Embora isolamento e contatos venham depois na exposição didática (pranchas 09 e 10), a precaução por gotículas deve começar já na avaliação inicial quando meningococo ou Hib são suspeitos. Ela não espera o fim da investigação.</p>
+      </div>
+
+      <h3 class="editable">Sequência assistencial</h3>
+      <div class="card-grid">
+        <div class="field-card"><span class="corner-tab">1</span><h5 class="editable">Estabilizar</h5><p class="editable">Via aérea, respiração, circulação, consciência e glicemia. Monitorização e acesso venoso; tratar hipoxemia, choque e convulsões.</p></div>
+        <div class="field-card"><span class="corner-tab">2</span><h5 class="editable">Colher sangue</h5><p class="editable">Hemoculturas e exames sanguíneos sem demora relevante.</p></div>
+        <div class="field-card"><span class="corner-tab">3</span><h5 class="editable">Decidir sobre o líquor</h5><p class="editable">Se a punção é segura e viável de imediato, colher antes do antibiótico. Caso contrário, iniciar o tratamento e investigar assim que possível.</p></div>
+        <div class="field-card"><span class="corner-tab">4</span><h5 class="editable">Tratar</h5><p class="editable">Antibiótico parenteral em dose para meningite; avaliar corticoide adjuvante e indicação de aciclovir.</p></div>
+        <div class="field-card"><span class="corner-tab">5</span><h5 class="editable">Reavaliar</h5><p class="editable">Perfusão, estado neurológico, diurese, eletrólitos e função orgânica; encaminhar a ambiente intensivo diante de instabilidade ou complicações.</p></div>
+      </div>
+      <div class="callout warn">
+        <h4 class="editable">Duas condutas que não são de rotina</h4>
+        <p class="editable">Restrição hídrica de rotina para todas as meningites — a ressuscitação é guiada pela resposta clínica e pelo contexto; hiponatremia exige avaliação de volemia e da causa, não uma regra genérica. Osmoterapia para todos — a suspeita de herniação ou hipertensão intracraniana grave exige abordagem especializada, não um protocolo automático.</p>
+      </div>
+
+      <h3 class="editable">Antibiótico empírico: adulto com suspeita comunitária</h3>
+      <p class="editable">Doses de referência didática para adulto com função renal preservada. Ajustes, alergias graves, gestação e cenários associados à assistência exigem avaliação própria. Não transponha doses de adulto para crianças.</p>
+      <div class="spec-list">
+        <div class="spec-row"><span class="spec-label">Base do tratamento comunitário</span><span class="spec-value editable">Ceftriaxona 2 g EV a cada 12 h (total 4 g/dia)</span></div>
+        <div class="spec-row"><span class="spec-label">Risco de pneumococo resistente</span><span class="spec-value editable">Considerar/associar vancomicina, 15–20 mg/kg/dose EV a cada 8–12 h, com monitorização de exposição e função renal</span></div>
+        <div class="spec-row"><span class="spec-label">Risco de Listeria</span><span class="spec-value editable">Associar ampicilina 2 g EV a cada 4 h</span></div>
+        <div class="spec-row" style="border-bottom:none;"><span class="spec-label">Agente identificado</span><span class="spec-value editable">Ajustar ao agente e à sensibilidade, mantendo doses apropriadas para o SNC</span></div>
+      </div>
+
+      <details class="deepen">
+        <summary>Aprofunde-se — por que ceftriaxona, e por que vancomicina não substitui</summary>
+        <div class="deepen-body">
+          <p class="editable">A escolha da ceftriaxona como espinha dorsal do tratamento empírico não é arbitrária. É uma cefalosporina de terceira geração com excelente penetração no LCR quando as meninges estão inflamadas — e aqui há um detalhe quase irônico: em condições normais, a mesma barreira hematoencefálica que protege o SNC também dificulta a entrada de muitos antibióticos; mas o próprio processo inflamatório que causa o dano (prancha 02) também aumenta transitoriamente a permeabilidade dessa barreira, facilitando a chegada do fármaco exatamente onde ele precisa agir. Some a isso um espectro amplo contra Gram-negativos e boa cobertura da maioria das cepas de pneumococo e meningococo, meia-vida longa (permitindo posologia de 12/12h) e ausência de necessidade de ajustes complexos específicos para o SNC.</p>
+          <p class="editable">A vancomicina, por outro lado, tem penetração liquórica relativamente pobre mesmo com meninges inflamadas — sua molécula grande e hidrofílica atravessa a barreira com mais dificuldade que um beta-lactâmico pequeno. É exatamente por isso que ela não é usada como base empírica isolada, e sim reservada para quando há risco real de pneumococo resistente à penicilina/cefalosporinas de 3ª geração: nesse cenário, a penetração imperfeita ainda é aceitável porque a alternativa (perder a cobertura de um agente resistente) é pior — mas exige monitorização de níveis séricos (para garantir concentração liquórica mínima adequada apesar da penetração ruim) e vigilância de nefro e ototoxicidade, dado o pequeno intervalo entre dose eficaz e dose tóxica.</p>
+          <p class="editable">A ampicilina cobre Listeria porque atua sobre proteínas ligadoras de penicilina às quais essa bactéria é sensível — diferente das cefalosporinas, para as quais a Listeria é intrinsecamente resistente (prancha 05). Em quadros graves de listeriose, é comum associar um aminoglicosídeo por sinergismo: o beta-lactâmico fragiliza a parede celular, facilitando a entrada do aminoglicosídeo — que, sozinho, penetra mal em bactérias intracelulares como a Listeria — potencializando a atividade bactericida combinada.</p>
+        </div>
+      </details>
+
+      <div class="divergence">
+        <h4 class="editable">Divergência: vancomicina empírica, para quem?</h4>
+        <div class="compare-grid">
+          <div class="compare-card"><div class="src editable">GVS</div><p class="editable">Enfatiza a cefalosporina e a associação apenas diante de resistência documentada.</p></div>
+          <div class="compare-card"><div class="src editable">OMS 2025</div><p class="editable">Recomenda considerar vancomicina em regiões com prevalência elevada de resistência pneumocócica à penicilina ou às cefalosporinas de 3ª geração.</p></div>
+          <div class="compare-card"><div class="src editable">USP cap. 56</div><p class="editable">Recomenda a associação empírica de rotina no contexto descrito no capítulo.</p></div>
+        </div>
+        <p class="verdict editable">O roteiro não presume o perfil de resistência do hospital onde você está. A pergunta prática é: qual é a prevalência de resistência pneumocócica no meu serviço, e onde consulto esse dado? Nenhuma das três fontes autoriza atrasar a primeira dose de antibiótico enquanto se decide sobre a vancomicina.</p>
+      </div>
+
+      <h3 class="editable">Pediatria: idade muda o esquema e a dose</h3>
+      <div class="card-grid">
+        <div class="field-card"><span class="corner-tab">&gt; 2 meses</span><p class="editable" style="margin-top:14px;">GVS: ceftriaxona 100 mg/kg/dia EV, dividida a cada 12 h — teto de 4 g/dia no fascículo pediátrico. Redação didática equivalente: 50 mg/kg/dose a cada 12 h, máximo de 2 g/dose.</p></div>
+        <div class="field-card oms"><span class="corner-tab">≤ 2 meses</span><p class="editable" style="margin-top:14px;">Associação de ampicilina com cefotaxima e alternativas. Grupo com esquema e doses próprios — não use ceftriaxona como regra neonatal.</p></div>
+      </div>
+      <div class="callout warn">
+        <h4 class="editable">Problema editorial identificado no GVS (p. 128)</h4>
+        <p class="editable">A linha pediátrica de cobertura para Listeria reúne ampicilina com amicacina a cada 12 horas. Isso não bate com a bula convencional de nenhum dos dois fármacos: tanto ampicilina quanto amicacina são classicamente dosadas de 8 em 8 horas, e é a gentamicina — não a amicacina — que costuma ser dada de 12 em 12 horas. Estudos observacionais compararam desfechos entre esquemas com aminoglicosídeos diferentes nessa indicação neonatal/pediátrica (ver referência DOI ao lado). De onde vem exatamente o erro — troca de aminoglicosídeo ou de intervalo — não muda a conclusão prática: reconhecer uma inconsistência de tabela, e não prescrever diretamente a partir dela, é competência clínica. Consulte pediatria/infectologia antes de aplicar esse esquema.</p>
+      </div>
+
+      <h3 class="editable">Duração e terapia dirigida</h3>
+      <div class="spec-list">
+        <div class="spec-row"><span class="spec-label">Meningococo</span><span class="spec-value editable">GVS: 7 dias · OMS: 5–7 dias</span></div>
+        <div class="spec-row"><span class="spec-label">Pneumococo</span><span class="spec-value editable">Geralmente 10–14 dias</span></div>
+        <div class="spec-row"><span class="spec-label"><i>H. influenzae</i></span><span class="spec-value editable">GVS adulto: 7 dias · GVS pediátrico e OMS: 7–10 dias</span></div>
+        <div class="spec-row" style="border-bottom:none;"><span class="spec-label">Listeria</span><span class="spec-value editable">Pelo menos 21 dias, conforme evolução</span></div>
+      </div>
+      <p class="editable">Não trate essas durações como alta automática: complicações e resposta clínica podem modificar o plano. Reduzir para penicilina ou ampicilina exige sensibilidade demonstrada, não apenas o nome do agente.</p>
+      <div class="callout warn">
+        <h4 class="editable">Discrepância dentro do próprio GVS</h4>
+        <p class="editable">A tabela adulta usa uma faixa de 10–14 dias também para enterobactérias e Pseudomonas; a pediátrica indica 21 dias para esses mesmos grupos. Não atribua a diferença apenas à idade, nem prescreva para todo bacilo Gram-negativo pelo quadro resumido — esses casos ficam fora do esquema simplificado e pedem terapia individualizada.</p>
+      </div>
+
+      <h3 class="editable">Dexametasona: dose, momento e evidência</h3>
+      <div class="spec-list">
+        <div class="spec-row"><span class="spec-label">Adultos</span><span class="spec-value editable">10 mg EV a cada 6 horas</span></div>
+        <div class="spec-row"><span class="spec-label">Crianças</span><span class="spec-value editable">0,15 mg/kg/dose EV a cada 6 horas, máximo de 10 mg/dose</span></div>
+        <div class="spec-row"><span class="spec-label">Momento</span><span class="spec-value editable">Antes ou junto da primeira dose do antibiótico, quando indicada</span></div>
+        <div class="spec-row" style="border-bottom:none;"><span class="spec-label">Duração</span><span class="spec-value editable">Reavaliar; até 4 dias no cenário apropriado</span></div>
+      </div>
+      <div class="callout warn">
+        <h4 class="editable">A regra que não pode ser invertida</h4>
+        <p class="editable">Nunca atrase o antibiótico para conseguir o corticoide. Se o corticoide não está disponível de imediato, o antibiótico segue no horário. Quem recebe, segundo a OMS: crianças acima de 1 mês e adultos com suspeita de meningite bacteriana aguda, em contexto não epidêmico, quando a punção pode ser realizada; se não é possível puncionar, a recomendação é condicional, exigindo forte suspeita e avaliação de contraindicações. O líquor e a etiologia orientam suspender ou manter — pneumococo e Hib são os agentes em que a continuidade tem maior suporte.</p>
+      </div>
+
+      <div class="divergence">
+        <h4 class="editable">Dexametasona: a evidência e as duas confusões frequentes</h4>
+        <div class="compare-grid">
+          <div class="compare-card"><div class="src editable">Cochrane 2015 (CD004405)</div><p class="editable">Sem redução estatisticamente significativa da mortalidade global — RR 0,90 (IC95% 0,80–1,01). Benefício encontrado em perda auditiva.</p></div>
+          <div class="compare-card"><div class="src editable">Síntese da OMS 2025</div><p class="editable">Sugere redução de mortalidade — RR 0,80 (IC95% 0,65–0,98). Diferenças no conjunto de estudos incluídos e nas populações analisadas.</p></div>
+        </div>
+        <p class="verdict editable">A revisão Cochrane não é uma recomendação de "não usar". Incerteza sobre mortalidade não equivale a ausência de benefício em outros desfechos — e a perda auditiva é um desfecho que o paciente carrega pela vida inteira. E atenção: um trecho do GVS que discute corticoide no contexto do choque não é a mesma indicação da dexametasona adjuvante na inflamação meníngea — não use um trecho para negar o outro. O mecanismo por trás dessa evidência é exatamente o que você já viu na prancha 02: embotar o pico inflamatório disparado pela lise bacteriana induzida pelo antibiótico, no exato momento em que ele acontece.</p>
+      </div>
+
+      <h3 class="editable">Não bacteriana: o que fazer na emergência</h3>
+      <div class="card-grid">
+        <div class="field-card oms"><span class="corner-tab">Viral, sem encefalite nem gravidade</span><p class="editable" style="margin-top:14px;">Suporte, analgesia, controle de sintomas e reavaliação, depois de investigação suficiente das hipóteses relevantes. O aspecto linfocitário isolado não autoriza interromper investigação ou antibiótico.</p></div>
+        <div class="field-card" style="border-left-color:var(--alert);"><span class="corner-tab" style="background:var(--alert);">Suspeita de encefalite herpética</span><p class="editable" style="margin-top:14px;">Aciclovir EV precoce — referência adulta 10 mg/kg/dose a cada 8 h, com ajuste renal e vigilância de toxicidade e hidratação. Investigar com PCR molecular no LCR e neuroimagem (preferencialmente RM). Duração usual de 14–21 dias conforme diagnóstico e contexto.</p></div>
+      </div>
+
+      <details class="deepen">
+        <summary>Aprofunde-se — por que tratar empiricamente para herpes, e como o aciclovir funciona</summary>
+        <div class="deepen-body">
+          <p class="editable">A meningite viral por enterovírus costuma ser autolimitada porque a resposta imune humoral e celular do hospedeiro controla um vírus, em geral, pouco agressivo ao SNC — daí não precisar de antiviral específico na maioria dos casos. A encefalite herpética é o oposto extremo: sem tratamento, a mortalidade é altíssima (historicamente próxima de 70%), e mesmo com tratamento pode deixar sequelas neurológicas graves. Diante dessa assimetria — baixo custo/toxicidade do aciclovir precoce versus custo catastrófico de um diagnóstico perdido — a conduta é tratar empiricamente sempre que a encefalite entra como hipótese razoável, sem esperar confirmação molecular.</p>
+          <p class="editable">O aciclovir é um análogo de nucleosídeo guanosina. Sua seletividade é elegante: ele só é ativado (fosforilado a monofosfato) de forma eficiente pela timidina-quinase viral, uma enzima presente nas células infectadas por HSV/VZV — em células não infectadas, essa primeira fosforilação praticamente não acontece. Uma vez monofosforilado, quinases celulares completam a conversão até o trifosfato ativo, que compete com a guanosina trifosfato natural pela DNA-polimerase viral e, ao ser incorporado à cadeia de DNA em formação, causa terminação de cadeia (por não ter o grupo 3'-hidroxila necessário para a próxima ligação fosfodiéster). Essa dependência da enzima viral para ativação é o que confere alta seletividade e baixa toxicidade para células não infectadas. A precaução renal existe porque o aciclovir pode cristalizar nos túbulos renais, sobretudo com infusão rápida e hidratação inadequada — daí a recomendação de hidratação e infusão lenta.</p>
+        </div>
+      </details>
+      <p class="editable"><i>Limite do aciclovir empírico:</i> a ausência de agente identificado, isoladamente, não é indicação universal de aciclovir. A indicação vem do quadro de encefalite, não do vazio microbiológico.</p>
+
+      <h3 class="editable">Criptococose e tuberculose: reconhecer e encaminhar</h3>
+      <div class="card-grid">
+        <div class="field-card" style="border-left-color:var(--fung);">
+          <span class="corner-tab" style="background:var(--fung);">Suspeita de criptococose</span>
+          <p class="editable" style="margin-top:14px;">Investigar CrAg e cultura; medir a pressão de abertura quando seguro. O manejo da hipertensão liquórica — por vezes com punções terapêuticas seriadas — é parte essencial do tratamento, porque a elevação da PIC por falência de reabsorção é, ela mesma, causa de morte e de perda visual, independente da carga fúngica. O GVS organiza o tratamento em indução, consolidação e manutenção; a indução associa classicamente anfotericina B e flucitosina nos esquemas preferenciais, com particularidades do hospedeiro e da disponibilidade. Em pacientes com HIV, a introdução da terapia antirretroviral precisa ser coordenada com o tratamento antifúngico para reduzir o risco de síndrome inflamatória de reconstituição imune (IRIS). Não apresente fluconazol isolado como solução universal da forma meníngea grave.</p>
+        </div>
+        <div class="field-card usp">
+          <span class="corner-tab">Suspeita de meningite tuberculosa</span>
+          <p class="editable" style="margin-top:14px;">Investigar micobactéria no líquor e em outros sítios; encaminhar para tratamento específico precoce. Ceftriaxona não substitui o esquema antituberculose. O tema entra aqui como hipótese subaguda e necessidade de abordagem especializada — não como uma quarta tabela de prescrição.</p>
+        </div>
+      </div>
+      <p class="editable">O que os dois cenários têm em comum: evolução subaguda ou crônica, frequentemente com pressão de abertura elevada e líquor límpido; investigação específica que precisa ser pedida, não sai no painel básico por acaso; e o antibiótico empírico da meningite bacteriana comunitária não cobre nenhum dos dois. Pensar neles é o que evita tratar por dias o agente errado.</p>
+    </div>
+
+    <aside class="unit-margin">
+      <span class="tag tag--ms">GVS pp. 112–132</span>
+      <span class="tag tag--oms">OMS §§B.1–B.6</span>
+      <span class="tag tag--usp">Cochrane CD004405</span>
+      <p class="margin-note editable">peds.2024-066588 — artigo referenciado sobre desfechos de esquemas antimicrobianos em Listeria neonatal (ver referências).</p>
+      <p class="margin-note q editable">Qual é a prevalência de resistência pneumocócica no meu serviço, e onde consulto esse dado?</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== PLATE 09 — ISOLAMENTO ===================== -->
+<section class="plate" id="p09">
+  <div class="plate-head">
+    <span class="plate-num">09</span>
+    <div>
+      <h2 class="editable">Isolamento e precauções</h2>
+      <p class="plate-dek editable">Medidas iniciadas na suspeita — e por que o nome "meningite" não define o isolamento.</p>
+    </div>
+  </div>
+
+  <div class="unit">
+    <div class="unit-main">
+      <h3 class="editable">Suspeita de doença meningocócica ou Hib</h3>
+      <div class="card-grid">
+        <div class="field-card"><span class="corner-tab">1</span><h5 class="editable">Precauções padrão e por gotículas</h5><p class="editable">Instituídas já na suspeita, mantidas até 24 horas de antibioticoterapia eficaz.</p></div>
+        <div class="field-card"><span class="corner-tab">2</span><h5 class="editable">Identificação rápida</h5><p class="editable">Reconhecer o paciente e sinalizar a precaução na porta e na passagem de caso.</p></div>
+        <div class="field-card"><span class="corner-tab">3</span><h5 class="editable">Máscara e higiene</h5><p class="editable">Máscara cirúrgica conforme a precaução, higiene de mãos e proteção adequada no manejo de secreções.</p></div>
+        <div class="field-card"><span class="corner-tab">4</span><h5 class="editable">Aerossóis</h5><p class="editable">Procedimentos geradores de aerossóis exigem EPI correspondente ao procedimento e protocolo de controle de infecção.</p></div>
+      </div>
+      <p class="editable">Vale entender por que gotículas, e não aerossol: a transmissão de meningococo e Hib se dá por contato próximo com secreções respiratórias/orais, em partículas que não permanecem suspensas no ar por longas distâncias ou tempo — diferente de patógenos verdadeiramente aerotransportados (tuberculose, sarampo, varicela), que exigem quarto com pressão negativa e respirador N95. É essa diferença física de comportamento da partícula que justifica protocolos de precaução tão diferentes para doenças que, à primeira vista, parecem igualmente "respiratórias".</p>
+
+      <div class="callout warn">
+        <h4 class="editable">Duas janelas de 24 horas que não devem ser confundidas</h4>
+        <p class="editable">24 horas de antibiótico eficaz = tempo de manutenção da precaução por gotículas. 24 horas após o início dos sintomas do caso = janela ideal citada pela NT 154 para iniciar a quimioprofilaxia dos contatos (prancha 10). São contagens diferentes, com pontos de partida diferentes — a precaução é uma decisão da avaliação inicial, não do resultado do líquor; esperar a confirmação para isolar significa não ter isolado quando importava.</p>
+      </div>
+
+      <h3 class="editable">O nome "meningite" não determina o isolamento</h3>
+      <p class="editable">A precaução segue o agente, as demais manifestações e a via de transmissão — não o diagnóstico sindrômico.</p>
+      <div class="card-grid">
+        <div class="field-card"><h5 class="editable">Pneumocócica</h5><p class="editable">Não se aplica automaticamente gotículas por 24 horas; avaliar o quadro e as demais manifestações.</p></div>
+        <div class="field-card usp"><h5 class="editable">Criptocócica</h5><p class="editable">Sem transmissão interpessoal característica que justifique precaução por gotículas.</p></div>
+        <div class="field-card" style="border-left-color:var(--alert);"><h5 class="editable">Tuberculosa</h5><p class="editable">Considerar concomitância de forma pulmonar ou laríngea transmissível — nesse caso, precaução por aerossóis.</p></div>
+        <div class="field-card oms"><h5 class="editable">Viral</h5><p class="editable">Considerar necessidades adicionais, como precaução de contato em crianças pequenas com transmissão fecal-oral.</p></div>
+      </div>
+      <div class="callout">
+        <h4 class="editable">Todo profissional que entrou no quarto precisa de profilaxia?</h4>
+        <p class="editable">Não. Investigue exposição relevante — sobretudo de mucosas a secreções, e procedimentos sem EPI adequado. A simples proximidade transitória não basta.</p>
+      </div>
+    </div>
+
+    <aside class="unit-margin">
+      <span class="tag tag--ms">GVS — transmissão/prevenção</span>
+      <span class="tag tag--ms">NT 154 §§2.1–3.2.3</span>
+      <p class="margin-note editable">A precaução é decidida na suspeita, não após a confirmação do líquor.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== PLATE 10 — QUIMIOPROFILAXIA ===================== -->
+<section class="plate" id="p10">
+  <div class="plate-head">
+    <span class="plate-num">10</span>
+    <div>
+      <h2 class="editable">Quimioprofilaxia dos contatos</h2>
+      <p class="plate-dek editable">Quem, quando e com qual esquema — para meningococo e para Hib, com regras diferentes.</p>
+    </div>
+  </div>
+
+  <div class="unit">
+    <div class="unit-main">
+      <p class="editable">A lógica por trás da quimioprofilaxia de contatos próximos não é tratar uma doença já instalada — é erradicar uma colonização nasofaríngea recém-adquirida antes que ela evolua para doença invasiva. Contatos próximos compartilham a mesma fonte de exposição do caso-índice e podem ter sido colonizados por uma cepa que seu próprio sistema imune ainda não aprendeu a controlar; a profilaxia reduz o risco individual desses contatos e, ao mesmo tempo, corta um elo da cadeia de transmissão.</p>
+
+      <h3 class="editable">Identificar o contato próximo e a exposição</h3>
+      <p class="editable">Janela de exposição (meningococo e Hib): desde 10 dias antes do início dos sintomas do caso até 24 horas após o início do tratamento apropriado.</p>
+      <div class="card-grid">
+        <div class="field-card"><span class="corner-tab">A</span><h5 class="editable">Mesmo domicílio ou dormitório</h5><p class="editable">Convivência em ambiente compartilhado de moradia.</p></div>
+        <div class="field-card"><span class="corner-tab">B</span><h5 class="editable">Exposição a secreções</h5><p class="editable">Contato direto com secreções nasofaríngeas do caso.</p></div>
+        <div class="field-card"><span class="corner-tab">C</span><h5 class="editable">Convívio prolongado</h5><p class="editable">Convivência próxima e prolongada em ambiente fechado.</p></div>
+        <div class="field-card"><span class="corner-tab">D</span><h5 class="editable">Procedimentos sem EPI</h5><p class="editable">Exposição durante procedimentos, sem proteção adequada.</p></div>
+      </div>
+      <p class="editable">A norma detalha situações de pelo menos 4 horas contínuas a até 1 metro em ambiente fechado, e exposição próxima por pelo menos 5 dias, contínuos ou não. Isso não significa prescrever para toda a escola ou empresa: a seleção exige reconstrução da exposição junto com a vigilância.</p>
+      <div class="callout warn">
+        <h4 class="editable">Contato sintomático não é contato</h4>
+        <p class="editable">A pessoa sintomática deve ser avaliada como possível caso, e não simplesmente receber dose profilática. Profilaxia não substitui o tratamento da doença.</p>
+      </div>
+
+      <h3 class="editable">Doença meningocócica: indicação e esquemas</h3>
+      <p class="editable">Indicar aos contatos próximos de casos suspeitos ou confirmados. O próprio paciente pode precisar de erradicação de portador quando o tratamento não utilizou ceftriaxona ou cefotaxima. Iniciar o mais cedo possível — a nota usa como ideal as primeiras 24 horas após o início dos sintomas; o benefício é muito limitado ou nulo se iniciada mais de 10 dias após a exposição.</p>
+      <div class="spec-list">
+        <div class="spec-row"><span class="spec-label">Rifampicina — 1ª escolha nacional, &lt;1 mês</span><span class="spec-value editable">5 mg/kg/dose VO 12/12h por 2 dias (4 doses)</span></div>
+        <div class="spec-row"><span class="spec-label">Rifampicina — 1 mês ou mais</span><span class="spec-value editable">10 mg/kg/dose VO, máx. 600 mg/dose, 12/12h por 2 dias (4 doses)</span></div>
+        <div class="spec-row"><span class="spec-label">Ceftriaxona — alternativa, preferida na gestação, &lt;12 anos</span><span class="spec-value editable">125 mg IM, dose única</span></div>
+        <div class="spec-row"><span class="spec-label">Ceftriaxona — 12 anos ou mais e gestantes</span><span class="spec-value editable">250 mg IM, dose única</span></div>
+        <div class="spec-row" style="border-bottom:none;"><span class="spec-label">Ciprofloxacino — alternativa, ≥18 anos não gestantes</span><span class="spec-value editable">500 mg VO, dose única, conforme perfil de resistência</span></div>
+      </div>
+      <p class="editable">Azitromicina é contemplada apenas em condições excepcionais de resistência ao ciprofloxacino com impossibilidade das demais opções — não é rotina nesta aula. Monitorar sintomas nos 10 dias após a última exposição.</p>
+
+      <details class="deepen">
+        <summary>Aprofunde-se — por que essas três drogas, e por que essas restrições de idade e gestação</summary>
+        <div class="deepen-body">
+          <p class="editable">A rifampicina inibe a RNA-polimerase bacteriana dependente de DNA, bloqueando a transcrição — um mecanismo eficaz e que atinge boas concentrações em secreções nasofaríngeas, útil justamente para erradicar colonização mucosa. Suas desvantagens práticas são reais: exige quatro doses (maior risco de má adesão), é um potente indutor do citocromo P450 (reduzindo a eficácia de diversos outros fármacos, inclusive contraceptivos hormonais — um ponto de orientação clínica relevante) e tinge de laranja-avermelhado suor, lágrima e urina, um efeito inofensivo mas que vale avisar ao paciente para evitar susto.</p>
+          <p class="editable">A ceftriaxona em dose única IM é preferida na gestação porque a rifampicina tem preocupações de segurança na gravidez e as quinolonas são, de modo geral, evitadas nesse contexto (risco teórico sobre cartilagem em desenvolvimento, extrapolado de estudos em animais — daí também a restrição de idade do ciprofloxacino, reservado a maiores de 18 anos). A vantagem operacional da ceftriaxona e do ciprofloxacino — dose única — reduz o problema de adesão que a rifampicina apresenta.</p>
+        </div>
+      </details>
+
+      <div class="divergence">
+        <h4 class="editable">Divergência: prioridade de fármaco e quem entra na profilaxia</h4>
+        <div class="compare-grid">
+          <div class="compare-card"><div class="src editable">NT 154 — norma brasileira</div><p class="editable">Rifampicina como primeira escolha nacional. Ceftriaxona e ciprofloxacino como alternativas, com preferência da ceftriaxona na gestação. Inclui contatos de casos suspeitos e confirmados.</p></div>
+          <div class="compare-card"><div class="src editable">OMS 2025</div><p class="editable">Prioriza ceftriaxona ou ciprofloxacino. Considera rifampicina quando essas opções não podem ser administradas. Para doença esporádica, refere-se à confirmação laboratorial, com adaptações quando ela não é viável.</p></div>
+        </div>
+        <p class="verdict editable">O esquema operacional principal desta aula é o brasileiro. A diferença é explicitada para que você reconheça a recomendação internacional quando a encontrar na literatura. Não atrase a ação em caso suspeito à espera de confirmação laboratorial — a NT 154 já contempla o caso suspeito, e a janela útil da profilaxia é curta.</p>
+      </div>
+
+      <h3 class="editable">Doença invasiva por Hib: a regra de seleção é outra</h3>
+      <p class="editable">No meningococo, a seleção parte do tipo de contato. No Hib, ela parte de quem vive com o contato — uma diferença conceitual que vale destacar:</p>
+      <div class="card-grid">
+        <div class="field-card"><p class="editable">Todos os contatos domiciliares quando o domicílio inclui pessoa imunocomprometida ou criança menor de 2 anos, independentemente de vacinação; ou criança menor de 4 anos sem vacinação completa.</p></div>
+        <div class="field-card"><p class="editable">Outros contatos próximos que tenham essas pessoas vulneráveis em seu domicílio: a profilaxia é para o contato direto do caso, não automaticamente para todos os familiares dele.</p></div>
+        <div class="field-card"><p class="editable">Em creche e ensino infantil, aplicar critérios de sala, duração da exposição e presença de crianças vulneráveis; diante do segundo caso de doença invasiva por Hib em até 60 dias, ampliar para os contatos da sala.</p></div>
+        <div class="field-card"><p class="editable">O próprio paciente, quando o tratamento não empregou ceftriaxona ou cefotaxima.</p></div>
+      </div>
+      <p class="editable">A demora na sorotipagem não deve paralisar a avaliação: a norma orienta ação nas condições previstas diante de confirmação inicial de doença invasiva por <i>H. influenzae</i>, enquanto se aguarda a tipagem.</p>
+
+      <div class="spec-list">
+        <div class="spec-row"><span class="spec-label">Rifampicina, &lt;1 mês</span><span class="spec-value editable">10 mg/kg/dose VO, 24/24h por 4 dias</span></div>
+        <div class="spec-row"><span class="spec-label">Rifampicina, 1 mês a &lt;18 anos</span><span class="spec-value editable">20 mg/kg/dose VO, máx. 600 mg, 24/24h por 4 dias</span></div>
+        <div class="spec-row"><span class="spec-label">Rifampicina, ≥18 anos</span><span class="spec-value editable">600 mg VO, 24/24h por 4 dias</span></div>
+        <div class="spec-row"><span class="spec-label">Ceftriaxona — alternativa, &lt;12 anos</span><span class="spec-value editable">50 mg/kg IM ou EV, 24/24h por 2 dias</span></div>
+        <div class="spec-row" style="border-bottom:none;"><span class="spec-label">Ceftriaxona — alternativa, ≥12 anos</span><span class="spec-value editable">1 g IM ou EV, 24/24h por 2 dias</span></div>
+      </div>
+      <div class="callout warn">
+        <h4 class="editable">Não confunda os dois esquemas de ceftriaxona</h4>
+        <p class="editable">Meningococo: dose única. Hib: 24/24h por dois dias. A oportunidade para o Hib pode estender-se até 30 dias da exposição, embora a intervenção deva ser precoce. Não há indicação rotineira de profilaxia antibacteriana dos contatos para meningite pneumocócica, viral, por Listeria ou criptocócica. Contatos de tuberculose são avaliados pelo programa específico — a lógica lá é outra (investigação de infecção latente), não a erradicação de colonização mucosa que fundamenta a profilaxia meningocócica/Hib.</p>
+      </div>
+    </div>
+
+    <aside class="unit-margin">
+      <span class="tag tag--ms">NT 154 §§4.2–4.7</span>
+      <span class="tag tag--oms">OMS §B.2.5</span>
+      <p class="margin-note editable">Meningococo: seleciona-se pelo tipo de contato. Hib: seleciona-se por quem vive com o contato.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== PLATE 11 — DIVERGÊNCIAS ===================== -->
+<section class="plate" id="p11">
+  <div class="plate-head">
+    <span class="plate-num">11</span>
+    <div>
+      <h2 class="editable">Quadro de divergências</h2>
+      <p class="plate-dek editable">O que as fontes discordam, e a decisão editorial adotada em cada ponto.</p>
+    </div>
+  </div>
+
+  <div class="unit">
+    <div class="unit-main">
+      <div class="card-grid">
+        <div class="field-card" style="border-left-color:var(--alert);"><h5 class="editable">Casos, contatos e profilaxia</h5><p class="editable">GVS anterior versus NT 154/2024. <i>Decisão:</i> priorizar a NT nos itens que ela modifica; não mesclar critérios antigos e novos.</p></div>
+        <div class="field-card" style="border-left-color:var(--alert);"><h5 class="editable">PNI versus SBP</h5><p class="editable">Oferta programática e recomendações individuais mais amplas. <i>Decisão:</i> identificar separadamente; não chamar recomendação da SBP de rotina do SUS.</p></div>
+        <div class="field-card" style="border-left-color:var(--alert);"><h5 class="editable">Pneumocócicas</h5><p class="editable">Documentos antigos e calendário 2026 com valências diferentes, inclusive inconsistência no PDF atual. <i>Decisão:</i> entender o período de transição, verificar antes de prescrever.</p></div>
+        <div class="field-card" style="border-left-color:var(--alert);"><h5 class="editable">Profilaxia meningocócica</h5><p class="editable">Rifampicina prioritária no Brasil; ceftriaxona/ciprofloxacino na OMS. <i>Decisão:</i> norma brasileira como principal, diferença explicitada.</p></div>
+        <div class="field-card" style="border-left-color:var(--alert);"><h5 class="editable">Confirmação antes da profilaxia</h5><p class="editable">Redações e contextos diferentes entre NT e OMS. <i>Decisão:</i> não atrasar a ação em caso suspeito enquadrado na norma.</p></div>
+        <div class="field-card" style="border-left-color:var(--alert);"><h5 class="editable">Corte etário de Listeria</h5><p class="editable">USP &gt; 50 anos; OMS &gt; 60 anos. <i>Decisão:</i> mantido aqui só para deixar claro que não existe consenso — o corte é operacional, não biológico.</p></div>
+        <div class="field-card" style="border-left-color:var(--alert);"><h5 class="editable">Vancomicina empírica</h5><p class="editable">GVS e OMS vinculam à resistência; USP recomenda associação no contexto descrito. <i>Decisão:</i> mostrar o risco microbiológico e a necessidade de dados locais.</p></div>
+        <div class="field-card" style="border-left-color:var(--alert);"><h5 class="editable">TC antes da punção</h5><p class="editable">Critérios do livro mais amplos que os da OMS. <i>Decisão:</i> adotar um conjunto coerente e preservar o tratamento sem atraso.</p></div>
+        <div class="field-card" style="border-left-color:var(--alert);"><h5 class="editable">Corticoides</h5><p class="editable">Diferenças de desfecho e de população entre revisões; o GVS discute também o choque. <i>Decisão:</i> separar a indicação adjuvante meníngea do tratamento do choque.</p></div>
+        <div class="field-card" style="border-left-color:var(--alert);"><h5 class="editable">Durações de tratamento</h5><p class="editable">Algumas faixas diferem; a tabela adulta do GVS resume excessivamente para Gram-negativos. <i>Decisão:</i> fixar apenas exemplos bem sustentados e individualizar cenários especiais.</p></div>
+        <div class="field-card" style="border-left-color:var(--alert);"><h5 class="editable">Linha pediátrica de Listeria</h5><p class="editable">Doses dos componentes e aprazamento precisam de revisão (ver prancha 08). <i>Decisão:</i> consultar pediatria/infectologia antes de internação.</p></div>
+      </div>
+      <p class="editable">Postura desta aula diante das divergências, no espírito do roteiro original: quando as fontes divergem, nomear a divergência, indicar qual norma opera no Brasil, e explicar o motivo da escolha. Não se inventa consenso, nem se mesclam critérios antigos e novos.</p>
+    </div>
+
+    <aside class="unit-margin">
+      <span class="tag tag--ms">MS</span>
+      <span class="tag tag--oms">OMS</span>
+      <span class="tag tag--usp">USP/Cochrane</span>
+      <p class="margin-note editable">Onze divergências nomeadas ao longo da aula, reunidas aqui como quadro de consulta rápida para a prova.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== PLATE 12 — FECHAMENTO ===================== -->
+<section class="plate" id="p12">
+  <div class="plate-head">
+    <span class="plate-num">12</span>
+    <div>
+      <h2 class="editable">Fechamento: voltar aos três líquores</h2>
+      <p class="plate-dek editable">O cuidado não termina na alta.</p>
+    </div>
+  </div>
+
+  <div class="unit">
+    <div class="unit-main">
+      <p class="editable">Volte à prancha 07 e reveja os casos A, B e C. Para cada um, você já deveria conseguir sustentar, sem precisar do resultado revelado: a hipótese principal e as hipóteses que permanecem abertas; o exame etiológico prioritário — o que pedir primeiro, e por quê; a primeira conduta — o que se faz nos primeiros minutos; se há critério para TC antes da punção; qual precaução, por quanto tempo; e se há indicação de avaliação de contatos para quimioprofilaxia. Se você respondeu às seis perguntas antes de clicar em "revelar", já pensou como quem vai atender o próximo caso de verdade — não como quem decorou um gabarito.</p>
+
+      <h3 class="editable">Selecionando o local de punção: a linha intercristal</h3>
+      <p class="editable">A linha intercristal (ou linha de Jacoby), que conecta as duas cristas ilíacas, cruza tipicamente o corpo de L4 no homem e o corpo de L5 na mulher — uma diferença puramente anatômica ligada ao formato da pelve. Ela serve como referência de superfície para localizar o espaço L4-L5 ou L3-L4, os mais usados para punção. É possível subir até, no máximo, o espaço entre L2 e L3 — e não mais alto que isso — para respeitar uma margem de segurança em relação ao término da medula espinal (o cone medular), que no adulto costuma terminar por volta de L1-L2, mas pode variar, e em crianças pequenas termina mais baixo, por volta de L3. É essa variabilidade, não uma regra arbitrária, que define o limite superior seguro do procedimento.</p>
+
+      <details class="deepen">
+        <summary>Aprofunde-se — a lei de Poiseuille e a estimativa de pressão liquórica sem manômetro</summary>
+        <div class="deepen-body">
+          <p class="editable">A lei de Poiseuille descreve o fluxo de um líquido através de um tubo: Q = (P₁ − P₂)·π·r⁴ / (8·L·η), onde Q é a vazão, (P₁ − P₂) é a diferença de pressão ao longo do tubo, r é o raio do tubo, L é seu comprimento e η é a viscosidade do líquido. Repare que a vazão depende da quarta potência do raio — pequenas variações no calibre da agulha mudam enormemente o fluxo — e é inversamente proporcional ao comprimento e à viscosidade.</p>
+          <p class="editable">Como a viscosidade do LCR se aproxima da do soro fisiológico a 0,9%, um estudo clássico (Ellis et al., referenciado nesta aula) usou essa equivalência para propor um método simples: para uma agulha espinhal de calibre e comprimento conhecidos, cronometrar o tempo necessário para um determinado número de gotas de LCR fluir livremente pela agulha permite estimar a pressão de abertura sem manômetro, comparando esse tempo a curvas de calibração previamente estabelecidas para aquele calibre de agulha. No estudo original, a contagem de gotas ficou dentro de aproximadamente 15% da medida manométrica direta em uma pequena série de pacientes — uma boa estimativa de campo, útil quando o manômetro não está disponível, mas não um substituto para a manometria direta quando ela pode ser feita.</p>
+        </div>
+      </details>
+
+      <div class="callout">
+        <h4 class="editable">O acompanhamento de sequelas</h4>
+        <p class="editable">A avaliação auditiva após meningite bacteriana deveria ser rotina, não exceção — e não por acaso: a perda auditiva é justamente o desfecho em que a evidência do corticoide adjuvante é mais consistente (prancha 08), e é um desfecho que só aparece se alguém procurar por ele depois da alta. O cuidado com meningite não termina quando o antibiótico acaba; termina quando alguém verificou se o paciente ainda ouve.</p>
+      </div>
+    </div>
+
+    <aside class="unit-margin">
+      <span class="tag tag--oms">OMS seção C</span>
+      <span class="tag tag--ms">MS 2030, pilar IV</span>
+      <p class="margin-note editable">A linha intercristal, a lei de Poiseuille e o seguimento auditivo fecham o círculo aberto na prancha 01.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ===================== PLATE 13 — REFERÊNCIAS ===================== -->
+<section class="plate" id="p13">
+  <div class="plate-head">
+    <span class="plate-num">13</span>
+    <div>
+      <h2 class="editable">Referências</h2>
+      <p class="plate-dek editable">Fontes da aula-base, em ordem alfabética, formato ABNT — mais os textos clássicos usados nos blocos de aprofundamento.</p>
+    </div>
+  </div>
+
+  <div class="unit" style="grid-template-columns:1fr;">
+    <div class="unit-main">
+      <div class="refs">
+        <p class="ref editable">BRASIL. Ministério da Saúde. <i>Calendário Nacional de Vacinação — Criança 2026.</i> Brasília: Ministério da Saúde, 2026. Consulta em 08 set. 2026.</p>
+        <p class="ref editable">BRASIL. Ministério da Saúde. <i>Diretrizes para Enfrentamento das Meningites até 2030.</i> Brasília: Ministério da Saúde, 2024.</p>
+        <p class="ref editable">BRASIL. Ministério da Saúde. <i>Guia de Vigilância em Saúde.</i> v. 1, 6. ed. rev. Brasília: Ministério da Saúde, 2024. Capítulos "Doença meningocócica" e "Outras meningites", p. 107–147.</p>
+        <p class="ref editable">BRASIL. Ministério da Saúde. <i>Meningite.</i> In: Saúde de A a Z. Brasília: Ministério da Saúde. Consulta em 08 set. 2026.</p>
+        <p class="ref editable">BRASIL. Ministério da Saúde. <i>Nota Técnica Conjunta nº 154/2024-DPNI/SVSA/MS.</i> Brasília: Ministério da Saúde, 2024. Atualiza itens correspondentes do Guia de Vigilância em Saúde e retifica a Nota Técnica nº 97/2024.</p>
+        <p class="ref editable">BROUWER, M. C.; MCINTYRE, P.; PRASAD, K.; VAN DE BEEK, D. Corticosteroids for acute bacterial meningitis. <i>Cochrane Database of Systematic Reviews</i>, n. 9, CD004405, 2015. Edição editorial de 2018, sem mudança de conclusões.</p>
+        <p class="ref editable">ELLIS, R. W.; STRAUSS, L. C.; WILEY, J. M.; KILLMOND, T. M.; ELLIS, R. W. A simple method of estimating cerebrospinal fluid pressure during lumbar puncture. PMID: 1579400.</p>
+        <p class="ref editable">GUEDES, B. F.; BRANDÃO NETO, R. A.; TURAÇA, K. Infecções do sistema nervoso central. In: <i>Medicina de Emergência: Abordagem Prática.</i> 18. ed. Barueri: Manole, 2024. cap. 56.</p>
+        <p class="ref editable">GUYTON, A. C.; HALL, J. E. <i>Tratado de Fisiologia Médica.</i> 14. ed. Rio de Janeiro: Guanabara Koogan/Elsevier, 2021.</p>
+        <p class="ref editable">HENRIQUE, J. O. B. et al. Encefalite herpética com sequelas neurológicas em paciente de hospital público pediátrico de São Paulo: relato de caso. <i>Anais da Sociedade Brasileira de Pediatria</i> (resumo).</p>
+        <p class="ref editable">HOSPITAL UNIVERSITÁRIO LAURO WANDERLEY (HULW/UFPB). <i>Meningoencefalites.</i> Protocolo PRT.UEC.UDIP.001, v. 1. João Pessoa: HULW/UFPB, 2023. Uso apenas como exercício crítico, não normativo nesta aula.</p>
+        <p class="ref editable">JAMESON, J. L. et al. (Ed.). <i>Medicina Interna de Harrison.</i> 21. ed. Porto Alegre: AMGH/McGraw-Hill, 2023.</p>
+        <p class="ref editable">KATZUNG, B. G.; TREVOR, A. J. <i>Farmacologia Básica e Clínica.</i> 14. ed. Porto Alegre: AMGH/McGraw-Hill, 2023.</p>
+        <p class="ref editable">KUMAR, V.; ABBAS, A. K.; ASTER, J. C. <i>Robbins &amp; Cotran: Patologia — Bases Patológicas das Doenças.</i> 10. ed. Rio de Janeiro: Guanabara Koogan/Elsevier, 2021.</p>
+        <p class="ref editable">MEDLINEPLUS; NATIONAL LIBRARY OF MEDICINE. Cerebrospinal fluid (CSF) collection. Bethesda: NLM. Consulta em 08 set. 2026.</p>
+        <p class="ref editable">MOTTA, F. Doença meningocócica: quadro clínico, diagnóstico e tratamento. <i>Sociedade Brasileira de Pediatria</i>, fascículo 3, nov. 2015.</p>
+        <p class="ref editable">MURPHY, K.; WEAVER, C. <i>Imunobiologia de Janeway.</i> 9. ed. Porto Alegre: Artmed, 2021.</p>
+        <p class="ref editable"><i>Pediatrics.</i> Artigo referenciado no material docente sobre desfechos comparados de esquemas antimicrobianos em infecção neonatal/pediátrica por Listeria. 2024. DOI: 10.1542/peds.2024-066588.</p>
+        <p class="ref editable">SÃO PAULO (Município). Secretaria Municipal da Saúde, COVISA. <i>Fluxograma de orientação para casos suspeitos de meningite bacteriana.</i> v. 6. São Paulo: SMS-SP, 2026. Fluxo local, não convertido em fluxo nacional.</p>
+        <p class="ref editable">SOCIEDADE BRASILEIRA DE PEDIATRIA. Departamento Científico de Imunizações. Substituição da dose de reforço da vacina meningocócica C pela ACWY no PNI. <i>Nota Técnica</i> n. 2, 14 ago. 2025.</p>
+        <p class="ref editable">WORLD HEALTH ORGANIZATION. <i>WHO Guidelines on Meningitis Diagnosis, Treatment and Care.</i> Geneva: WHO, 2025. ISBN 978-92-4-010804-2.</p>
+      </div>
+      <p class="editable" style="margin-top:24px; font-size:13.5px; color:var(--ink-faint);">Localização das informações conforme o roteiro docente de 08/09/2026 (Aula 2 — Meningites, Prof. Anderson L.). Os três laudos de líquor da prancha 07 são exemplos fictícios criados para ensino — não são dados de pacientes nem pontos de corte diagnósticos. O protocolo HULW/UFPB não define condutas nesta aula.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="colophon">
+  <p>Guia gerado a partir dos slides da Aula 2 — Meningites · uso pessoal de estudo · Uniarp-SC, 5ª fase</p>
+</footer>
+
+<div class="toolbar">
+  <button id="btn-edit" onclick="toggleEdit()">Ativar edição</button>
+  <button id="btn-download" onclick="downloadCopy()">Baixar cópia editada</button>
+  <button id="btn-restore" onclick="restoreOriginal()">Restaurar original</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var STORAGE_KEY = "meningites-aula2-anderson-edicoes-v1";
+  var autosaveTimer = null;
+  var editables = [];
+
+  function init(){
+    editables = Array.prototype.slice.call(document.querySelectorAll(".editable"));
+    editables.forEach(function(el, i){ el.setAttribute("data-eid","e"+i); });
+    applySaved();
+  }
+
+  function applySaved(){
+    var saved = null;
+    try{ saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null"); }catch(e){ saved = null; }
+    if(!saved) return;
+    editables.forEach(function(el){
+      var id = el.getAttribute("data-eid");
+      if(saved[id] !== undefined){ el.innerHTML = saved[id]; }
+    });
+  }
+
+  function collectState(){
+    var state = {};
+    editables.forEach(function(el){
+      state[el.getAttribute("data-eid")] = el.innerHTML;
+    });
+    return state;
+  }
+
+  function saveNow(showToast){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(collectState()));
+      if(showToast) toast("Salvo neste navegador");
+    }catch(e){
+      toast("Não foi possível salvar (armazenamento indisponível)");
+    }
+  }
+
+  function toast(msg){
+    var t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(t._hideTimer);
+    t._hideTimer = setTimeout(function(){ t.classList.remove("show"); }, 2600);
+  }
+
+  window.toggleCase = function(btn){
+    var result = btn.nextElementSibling;
+    result.classList.toggle("open");
+  };
+
+  window.toggleEdit = function(){
+    var body = document.body;
+    var btn = document.getElementById("btn-edit");
+    var turningOn = !body.classList.contains("editing");
+    if(turningOn){
+      body.classList.add("editing");
+      editables.forEach(function(el){ el.setAttribute("contenteditable","true"); });
+      btn.textContent = "Salvar e sair da edição";
+      btn.classList.add("active");
+      toast("Edição ativada — clique em qualquer texto para editar. Autosave a cada 15s (só funciona com o arquivo aberto direto no navegador, fora da pré-visualização do Claude.ai).");
+      autosaveTimer = setInterval(function(){ saveNow(true); }, 15000);
+    } else {
+      body.classList.remove("editing");
+      editables.forEach(function(el){ el.removeAttribute("contenteditable"); });
+      btn.textContent = "Ativar edição";
+      btn.classList.remove("active");
+      clearInterval(autosaveTimer);
+      saveNow(true);
+    }
+  };
+
+  window.downloadCopy = function(){
+    saveNow(false);
+    var clone = document.documentElement.cloneNode(true);
+    var cloneBody = clone.querySelector("body");
+    cloneBody.classList.remove("editing");
+    var toolbar = clone.querySelector(".toolbar");
+    if(toolbar) toolbar.parentNode.removeChild(toolbar);
+    var toastEl = clone.querySelector("#toast");
+    if(toastEl) toastEl.parentNode.removeChild(toastEl);
+    var editableEls = clone.querySelectorAll(".editable");
+    editableEls.forEach(function(el){ el.removeAttribute("contenteditable"); });
+    var html = "<!DOCTYPE html>\n" + clone.outerHTML;
+    var blob = new Blob([html], {type:"text/html;charset=utf-8"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "meningites-aula2-editado.html";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+    toast("Download iniciado");
+  };
+
+  window.restoreOriginal = function(){
+    if(confirm("Isso apaga as edições salvas neste navegador e recarrega o texto original. Continuar?")){
+      localStorage.removeItem(STORAGE_KEY);
+      location.reload();
+    }
+  };
+
+  document.addEventListener("DOMContentLoaded", init);
+})();
+</script>
+</body>
+</html>

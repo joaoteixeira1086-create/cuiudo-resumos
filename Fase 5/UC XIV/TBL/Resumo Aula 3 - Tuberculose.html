@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tuberculose — CID, Diagnóstico, Prescrição e Manejo Clínico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0e16;
+    --bg-panel: #10151f;
+    --bg-card: #131a26;
+    --text: #e7ecf3;
+    --text-dim: #9aa7ba;
+    --text-faint: #6b7688;
+    --border: #22293a;
+    --teal: #2dd4bf;
+    --amber: #fbbf24;
+    --rose: #f472b6;
+    --violet: #a78bfa;
+    --cyan: #22d3ee;
+    --red: #f87171;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 15% 0%, rgba(45,212,191,0.06), transparent 40%),
+      radial-gradient(circle at 85% 20%, rgba(167,139,250,0.06), transparent 40%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Inter', -apple-system, sans-serif;
+    line-height:1.6;
+    padding-bottom:120px;
+  }
+  h1,h2,h3,h4{ font-family:'Cormorant Garamond', serif; font-weight:600; color:var(--text); margin:0; }
+
+  .hero{
+    padding:64px 24px 40px; text-align:center; border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  }
+  .hero .kicker{ letter-spacing:.25em; text-transform:uppercase; font-size:.72rem; color:var(--text-faint); margin-bottom:14px; }
+  .hero h1{ font-size:clamp(2.1rem, 5vw, 3.4rem); font-style:italic; }
+  .hero p.sub{ color:var(--text-dim); font-size:1.02rem; margin-top:14px; max-width:680px; margin-left:auto; margin-right:auto; }
+  .hero .meta{ margin-top:22px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  .hero .meta span{ font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; border:1px solid var(--border); color:var(--text-dim); padding:6px 12px; border-radius:999px; }
+
+  .toc{ max-width:960px; margin:36px auto 0; padding:0 24px; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:12px; }
+  .toc a{ display:flex; align-items:center; gap:10px; background:var(--bg-panel); border:1px solid var(--border); border-top:3px solid var(--c, var(--teal)); border-radius:8px; padding:14px 16px; text-decoration:none; font-size:.9rem; color:var(--text); transition:transform .15s ease, border-color .15s ease; }
+  .toc a:hover{ transform:translateY(-2px); border-color:var(--c, var(--teal)); }
+  .toc a .n{ font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.3rem; color:var(--c, var(--teal)); }
+
+  section.bloco{ max-width:960px; margin:72px auto 0; padding:0 24px; scroll-margin-top:24px; }
+  .section-header{ display:flex; align-items:center; gap:16px; margin-bottom:28px; }
+  .section-header .tag{ font-weight:700; font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--c); border:1px solid var(--c); padding:6px 14px; border-radius:999px; white-space:nowrap; }
+  .section-header .line{ flex:1; height:1px; background:linear-gradient(90deg, var(--c), transparent); opacity:.55; }
+  section.bloco h2.title{ font-size:clamp(1.6rem,3.4vw,2.3rem); font-style:italic; margin-bottom:6px; }
+  section.bloco p.lead{ color:var(--text-dim); margin-bottom:28px; max-width:70ch; }
+
+  .grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:16px; margin-bottom:20px; }
+  .card{ background:var(--bg-card); border:1px solid var(--border); border-top:3px solid var(--c); border-radius:10px; padding:20px 22px; }
+  .card h3{ font-size:1.18rem; font-style:italic; margin-bottom:10px; }
+  .card h4{ font-weight:600; font-size:.78rem; letter-spacing:.05em; text-transform:uppercase; color:var(--c); margin-bottom:8px; }
+  .card p{ margin:0 0 8px; color:var(--text-dim); font-size:.94rem; }
+  .card ul{ margin:6px 0 0; padding-left:20px; color:var(--text-dim); font-size:.94rem; }
+  .card ul li{ margin-bottom:5px; }
+  .card b, .card strong{ color:var(--text); font-weight:600; }
+  .full{ grid-column:1 / -1; }
+
+  .alert{ border:1px solid var(--c); background:transparent; border-radius:8px; padding:14px 18px; margin:14px 0; font-size:.92rem; color:var(--text); display:flex; gap:12px; align-items:flex-start; }
+  .alert .ico{ font-size:1.1rem; line-height:1.4; color:var(--c); }
+  .alert b{ color:var(--c); }
+
+  table{ width:100%; border-collapse:collapse; font-size:.88rem; margin-top:6px;}
+  th,td{ text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); color:var(--text-dim); vertical-align:top; }
+  th{ color:var(--c); text-transform:uppercase; letter-spacing:.05em; font-size:.7rem; font-weight:700; }
+  td b{ color:var(--text); }
+  tr:last-child td{ border-bottom:none; }
+
+  .pillrow{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .pill{ border:1px solid var(--c); color:var(--c); border-radius:999px; padding:4px 12px; font-size:.78rem; }
+
+  #cid{ --c:var(--cyan); }
+  #diagnostico{ --c:var(--violet); }
+  #tratamento{ --c:var(--amber); }
+  #notificacao{ --c:var(--red); }
+  #manejo{ --c:var(--teal); }
+  #contatos{ --c:var(--rose); }
+
+  .toc a[href="#cid"]{ --c:var(--cyan); }
+  .toc a[href="#diagnostico"]{ --c:var(--violet); }
+  .toc a[href="#tratamento"]{ --c:var(--amber); }
+  .toc a[href="#contatos"]{ --c:var(--rose); }
+  .toc a[href="#notificacao"]{ --c:var(--red); }
+  .toc a[href="#manejo"]{ --c:var(--teal); }
+
+  footer.ref{ max-width:960px; margin:80px auto 0; padding:24px 24px 0; border-top:1px solid var(--border); color:var(--text-faint); font-size:.82rem; }
+  footer.ref b{ color:var(--text-dim); }
+
+  #edit-toolbar{ position:fixed; bottom:20px; right:20px; z-index:999; display:flex; gap:8px; background:var(--bg-panel); border:1px solid var(--border); border-radius:999px; padding:8px; box-shadow:0 8px 24px rgba(0,0,0,0.4); }
+  #edit-toolbar button{ font-size:.78rem; font-weight:600; letter-spacing:.02em; border:1px solid var(--border); background:var(--bg-card); color:var(--text); padding:9px 16px; border-radius:999px; cursor:pointer; transition:all .15s ease; }
+  #edit-toolbar button:hover{ border-color:var(--teal); color:var(--teal); }
+  #edit-toolbar button.active{ background:var(--teal); color:#04221d; border-color:var(--teal); }
+  #edit-toast{ position:fixed; bottom:76px; right:20px; z-index:999; background:var(--bg-panel); border:1px solid var(--teal); color:var(--teal); padding:8px 16px; border-radius:8px; font-size:.8rem; opacity:0; pointer-events:none; transition:opacity .3s ease; }
+  #edit-toast.show{ opacity:1; }
+  [contenteditable="true"]{ outline:1px dashed var(--text-faint); outline-offset:3px; border-radius:3px; }
+  [contenteditable="true"]:focus{ outline:1px dashed var(--teal); background:rgba(45,212,191,0.04); }
+
+  @media (max-width:640px){
+    .hero{padding:48px 18px 32px;}
+    section.bloco{padding:0 16px;}
+    #edit-toolbar{ right:12px; bottom:12px; }
+    #edit-toolbar button{ padding:8px 11px; font-size:.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="kicker">Manual TBL · UCXIV — Febre, Inflamação e Infecção</div>
+  <h1>Tuberculose</h1>
+  <p class="sub">CID, epidemiologia, diagnóstico, prescrição terapêutica, notificação compulsória e manejo clínico — resumo consolidado para estudo prévio, iRAT/tRAT.</p>
+  <div class="meta">
+    <span>Aula 2 — UCXIV</span>
+    <span>Prof. Andrew</span>
+    <span>Ministério da Saúde · OMS 2025</span>
+  </div>
+</div>
+
+<div class="toc">
+  <a href="#cid"><span class="n">01</span> CID e Epidemiologia</a>
+  <a href="#diagnostico"><span class="n">02</span> Diagnóstico</a>
+  <a href="#tratamento"><span class="n">03</span> Prescrição Terapêutica</a>
+  <a href="#contatos"><span class="n">04</span> Manejo de Contatos</a>
+  <a href="#notificacao"><span class="n">05</span> Notificação Compulsória</a>
+  <a href="#manejo"><span class="n">06</span> Manejo Clínico</a>
+</div>
+
+<!-- ================= CID E EPIDEMIOLOGIA ================= -->
+<section class="bloco" id="cid">
+  <div class="section-header"><span class="tag">01 — Fundamentos</span><span class="line"></span></div>
+  <h2 class="title">CID e Epidemiologia</h2>
+  <p class="lead">Classificação da doença e panorama epidemiológico mundial, nacional e das populações vulneráveis — contexto indispensável para entender prioridades de manejo e notificação.</p>
+
+  <div class="grid">
+    <div class="card full">
+      <h4>Nível 1 — Indispensável</h4>
+      <h3>CID-10: A15 – A19</h3>
+      <table>
+        <tr><th>Código</th><th>Descrição</th></tr>
+        <tr><td><b>A15</b></td><td>Tuberculose pulmonar</td></tr>
+        <tr><td><b>A16</b></td><td>Tuberculose das vias respiratórias</td></tr>
+        <tr><td><b>A17</b></td><td>Tuberculose do sistema nervoso</td></tr>
+        <tr><td><b>A18</b></td><td>Tuberculose de outros órgãos</td></tr>
+        <tr><td><b>A19</b></td><td>Tuberculose miliar</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h4>Nível 1</h4>
+      <h3>Epidemiologia mundial e nacional</h3>
+      <ul>
+        <li><b>10,7 milhões</b> de casos no mundo (OMS 2025)</li>
+        <li><b>1,23 milhão</b> de óbitos em 2024</li>
+        <li><b>84 mil casos/ano</b> no Brasil (2025)</li>
+        <li><b>6.000 óbitos/ano</b> no país em 2025</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h4>Nível 1 — Indispensável</h4>
+      <h3>Populações vulneráveis</h3>
+      <table>
+        <tr><th>Grupo</th><th>Risco relativo</th></tr>
+        <tr><td>Pessoas vivendo com HIV</td><td><b>23x</b></td></tr>
+        <tr><td>Privados de liberdade</td><td><b>26x</b></td></tr>
+        <tr><td>Situação de rua</td><td><b>54x</b></td></tr>
+        <tr><td>Indígenas</td><td><b>1,7x</b></td></tr>
+        <tr><td>Imigrantes</td><td><b>5,8x</b></td></tr>
+      </table>
+    </div>
+
+    <div class="card full">
+      <h4>Nível 2 — Secundário</h4>
+      <h3>Panorama Brasil e Santa Catarina</h3>
+      <p>Boletim Epidemiológico do Ministério da Saúde (mar/2025 e mar/2026) traz o coeficiente de incidência por 100 mil habitantes por Unidade da Federação, incluindo dados específicos de Santa Catarina e do município de Caçador, além do panorama do tratamento preventivo da tuberculose (TPT) em 2025.</p>
+      <div class="alert"><span class="ico">✦</span><div>A <b>prescrição do TPT por enfermeiros e farmacêuticos</b> representa um avanço estratégico recente, tornando o tratamento mais ágil e acessível.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DIAGNÓSTICO ================= -->
+<section class="bloco" id="diagnostico">
+  <div class="section-header"><span class="tag">02 — Diagnóstico</span><span class="line"></span></div>
+  <h2 class="title">Diagnóstico da Tuberculose</h2>
+  <p class="lead">Cinco pilares diagnósticos — clínico, bacteriológico, histopatológico, por imagem e imunológico — que se complementam conforme a apresentação clínica.</p>
+
+  <div class="grid">
+    <div class="card full">
+      <h4>Nível 1 — Indispensável</h4>
+      <h3>Formas clínicas: primária, pós-primária e miliar</h3>
+      <table>
+        <tr><th></th><th>TB Primária</th><th>TB Pós-primária (secundária)</th><th>TB Miliar</th></tr>
+        <tr><td><b>Quem</b></td><td>Mais comum em crianças e imunocomprometidos; após 1º contato com o bacilo</td><td>Adolescentes e adultos jovens</td><td>Imunocomprometidos (ex.: HIV avançado), crianças e adultos jovens — pode ocorrer na TB primária ou secundária</td></tr>
+        <tr><td><b>Sintoma principal</b></td><td>Febre baixa, sudorese noturna, inapetência, irritabilidade; tosse pode estar ausente</td><td>Tosse seca ou produtiva; expectoração purulenta, mucoide ou com sangue; febre vespertina (&lt;38,5°C), sudorese noturna, anorexia, emagrecimento</td><td>Forma grave; sintomas em até 80% dos casos: febre, astenia, emagrecimento, tosse. Pode se apresentar como doença crônica (idosos) ou febre de origem obscura</td></tr>
+        <tr><td><b>Exame físico</b></td><td>Frequentemente inexpressivo</td><td>Diminuição do murmúrio vesicular, sopro anfórico, ou ausculta normal — <b>bom estado geral não exclui TB</b></td><td>Apresentação aguda ou subaguda</td></tr>
+      </table>
+      <div class="alert"><span class="ico">✦</span><div><b>Sintomas clássicos comuns às três formas:</b> tosse persistente (seca ou produtiva), febre vespertina, sudorese noturna e perda ponderal.</div></div>
+    </div>
+
+    <div class="card">
+      <h4>Nível 1 — Indispensável</h4>
+      <h3>Diagnóstico bacteriológico</h3>
+      <table>
+        <tr><th>Método</th><th>Características</th></tr>
+        <tr><td><b>Baciloscopia (BAAR)</b></td><td>Sensibilidade 60–80% em adultos; resultado em 24h</td></tr>
+        <tr><td><b>Teste Rápido Molecular (GeneXpert®)</b></td><td>Detecta MTB e resistência à rifampicina; resultado em 2h; sensibilidade ~90%</td></tr>
+        <tr><td><b>Cultura</b></td><td><b>Padrão-ouro</b>; meio sólido (4–8 semanas) ou líquido (2–4 semanas)</td></tr>
+      </table>
+      <div class="alert"><span class="ico">✦</span><div>No Brasil, o <b>TRM-TB</b> é o método <b>preferencial</b> para diagnóstico inicial (pulmonar e extrapulmonar), por alta sensibilidade/especificidade, menor tempo de resposta e por investigar resistência à rifampicina. Meta OMS (2ª Reunião de Alto Nível da ONU, 2023): 100% de diagnóstico por teste rápido molecular até 2027.</div></div>
+    </div>
+
+    <div class="card">
+      <h4>Nível 1</h4>
+      <h3>Métodos complementares</h3>
+      <ul>
+        <li><b>Histopatológico</b>: granuloma caseificante; BAAR em tecidos</li>
+        <li><b>Imagem</b>: radiografia de tórax (padrões cavitários, miliar); TC para avaliação de complicações</li>
+        <li><b>Imunológicos</b>: prova tuberculínica (PT/PPD), IGRA (QuantiFERON®)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TRATAMENTO ================= -->
+<section class="bloco" id="tratamento">
+  <div class="section-header"><span class="tag">03 — Farmacoterapia</span><span class="line"></span></div>
+  <h2 class="title">Prescrição Terapêutica</h2>
+  <p class="lead">Mecanismos de ação, racional farmacológico de cada fármaco de 1ª linha, objetivos do esquema terapêutico, esquemas padronizados por faixa etária e definições de resistência.</p>
+
+  <div class="grid">
+    <div class="card full">
+      <h4>Nível 1 — Indispensável</h4>
+      <h3>Fármacos de 1ª linha: mecanismo e racional</h3>
+      <table>
+        <tr><th>Fármaco</th><th>Mecanismo de ação</th><th>Fase/local de maior eficácia</th><th>Por quê</th></tr>
+        <tr><td><b>Isoniazida (H)</b></td><td>Pró-fármaco ativado pela KatG; metabólito inibe principalmente a InhA, bloqueando síntese de ácidos micólicos da parede</td><td>Cavidade pulmonar — bacilos extracelulares em multiplicação rápida</td><td>Maior atividade bactericida precoce contra bacilos metabolicamente ativos; menos eficaz contra populações quiescentes</td></tr>
+        <tr><td><b>Rifampicina (R)</b></td><td>Liga-se à subunidade β da RNA-polimerase (rpoB) → inibe síntese de RNA</td><td>Atua nas três populações bacilares, com papel especial sobre bacilos de crescimento lento/intermitente em lesões caseosas</td><td>Excelente penetração tecidual/intracelular; mantém atividade sobre bacilos pouco ativos; um dos principais fármacos esterilizantes, reduz recidiva</td></tr>
+        <tr><td><b>Pirazinamida (Z)</b></td><td>Pró-fármaco convertido pela pirazinamidase (PncA) em ácido pirazinoico; interfere na homeostase energética e de membrana</td><td>Intracelular em macrófagos e focos caseosos com ambiente ácido</td><td>Atividade aumenta em pH ácido; atua sobre bacilos persistentes com metabolismo reduzido; forte efeito esterilizante nas primeiras semanas/meses</td></tr>
+        <tr><td><b>Etambutol (E)</b></td><td>Inibe arabinosiltransferases (Emb), prejudicando síntese de arabinogalactano da parede</td><td>Principalmente bacilos em multiplicação, sobretudo extracelulares</td><td>Atividade predominantemente bacteriostática; protege contra seleção de resistência enquanto se aguarda perfil de sensibilidade</td></tr>
+        <tr><td><b>Estreptomicina (S)</b></td><td>Aminoglicosídeo: liga-se irreversivelmente à subunidade 30S → erro de leitura do mRNA, inibindo síntese proteica</td><td>Cavidades pulmonares — bacilos extracelulares, rapidamente multiplicantes, ambiente rico em O₂</td><td>Aminoglicosídeos dependem de transporte ativo/oxigênio-dependente; pouca atividade em ambientes ácidos, hipóxicos e intracelulares</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h4>Nível 1 — Indispensável</h4>
+      <h3>Objetivos do esquema terapêutico</h3>
+      <ul>
+        <li><b>1. Atividade bactericida precoce</b> — matar a maior quantidade de bacilos rapidamente. Indicador: conversão da cultura de escarro no 2º mês. Drogas mais eficazes: H, R, Estreptomicina (alternativas: fluoroquinolonas, injetáveis, linezolida).</li>
+        <li><b>2. Prevenção de resistência</b> — combinação de drogas evita seleção de bacilos resistentes (ex.: etambutol associado a drogas mais potentes).</li>
+        <li><b>3. Atividade esterilizante</b> — eliminar bacilos em cavidades, lesões caseosas e macrófagos. Indicador: taxa de recidiva. Drogas mais eficazes: R, Z, fluoroquinolonas (Mfx &gt; Lfx).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h4>Nível 1 — Indispensável</h4>
+      <h3>Esquemas padronizados</h3>
+      <ul>
+        <li><b>Adultos e adolescentes (≥10 anos)</b>: <b>2RHZE/4RH</b></li>
+        <li><b>Crianças (&lt;10 anos)</b>: <b>2RHZ/4RH</b></li>
+        <li><b>Formas especiais (meningoencefálica/óssea)</b>: 2RHZE/<b>10RH</b></li>
+      </ul>
+      <p style="font-size:.82rem;">R = Rifampicina · H = Isoniazida · Z = Pirazinamida · E = Etambutol. O número indica a duração em meses de cada fase.</p>
+    </div>
+
+    <div class="card full">
+      <h4>Nível 1 — Indispensável</h4>
+      <h3>TB Resistente</h3>
+      <table>
+        <tr><th>Classificação</th><th>Definição</th></tr>
+        <tr><td><b>Monorresistente</b></td><td>Resistente a 1 droga (rifampicina ou isoniazida). Outras monorresistências não alteram o esquema inicial nem exigem notificação no SITE-TB.</td></tr>
+        <tr><td><b>Polirresistente</b></td><td>Resistente a ≥2 drogas (exceto associação R+H)</td></tr>
+        <tr><td><b>MDR</b> (multirresistência)</td><td>Resistente a R+H</td></tr>
+        <tr><td><b>XDR</b> (resistência extensiva)</td><td>MDR + resistência a fluoroquinolonas e injetáveis</td></tr>
+      </table>
+      <div class="alert warn" style="--c:var(--amber)"><span class="ico">⚠</span><div>Conduta na TB resistente: encaminhar para referência especializada; esquemas individualizados com <b>Bedaquilina</b> e <b>Delamanida</b> (não disponíveis rotineiramente no Brasil); duração de <b>18–24 meses</b>.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MANEJO DE CONTATOS ================= -->
+<section class="bloco" id="contatos">
+  <div class="section-header"><span class="tag">04 — Rastreamento</span><span class="line"></span></div>
+  <h2 class="title">Manejo de Contatos</h2>
+  <p class="lead">Diferenciar infecção latente de doença ativa e saber investigar contatos é essencial para interromper a cadeia de transmissão.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h4>Nível 1 — Indispensável</h4>
+      <h3>Quem é considerado contato de TB</h3>
+      <p>Contato próximo (casa, escola, trabalho) por dias frequentes ou ≥1 noite com caso de TB pulmonar ou laríngea; ou contato com criança com TB (independente da forma clínica), nos últimos 3 meses antes do início do tratamento do "caso índice".</p>
+      <div class="alert"><span class="ico">✦</span><div><b>Infecção por TB ≠ Doença por TB.</b> Infecção (ILTB) = bactérias entraram no corpo mas ainda não causam doença ativa.</div></div>
+    </div>
+
+    <div class="card">
+      <h4>Nível 1</h4>
+      <h3>Quem deve ser investigado</h3>
+      <p>Contatos que moram na mesma casa, ou que passam ≥20h/semana por ≥3 meses com caso de TB pulmonar bacilífera.</p>
+      <ul>
+        <li>Verificar sintomas respiratórios: tosse ≥3 semanas, febre, sudorese noturna, emagrecimento</li>
+        <li>Radiografia de tórax</li>
+        <li>Teste tuberculínico (PPD) ou IGRA, conforme protocolo e disponibilidade</li>
+      </ul>
+    </div>
+
+    <div class="card full">
+      <h4>Nível 1 — Indispensável</h4>
+      <h3>Manejo do contato assintomático</h3>
+      <table>
+        <tr><th>Achado</th><th>Conduta</th></tr>
+        <tr><td>RxT normal + PT negativo</td><td>Acompanhamento</td></tr>
+        <tr><td>RxT normal + PT positivo</td><td>Iniciar tratamento de infecção latente (ILTB), se indicado</td></tr>
+        <tr><td>RxT alterado</td><td>Investigar TB ativa</td></tr>
+      </table>
+    </div>
+
+    <div class="card full">
+      <h4>Nível 1</h4>
+      <h3>Tratamento da infecção latente (ILTB)</h3>
+      <p>Esquema preferencial em elegíveis: <b>isoniazida + rifapentina (3HP)</b>, uma vez por semana, com comida, total de <b>12 doses em 12–15 semanas</b>.</p>
+      <p>Considerar exceções/individualização quando: idade &lt;2 anos ou &lt;10 kg; contato de caso índice com TB resistente à isoniazida; intolerância conhecida à isoniazida; gestante (decidir conduta pós-parto ou, se HIV+, após 12 semanas de gestação); HIV+ em uso de inibidor de protease ou nevirapina.</p>
+      <div class="alert warn" style="--c:var(--amber)"><span class="ico">⚠</span><div><b>Rifapentina reduz o nível de contraceptivos hormonais combinados</b> e do implante subdérmico — orientar uso de contraceptivo injetável trimestral (medroxiprogesterona) ou DIU.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NOTIFICAÇÃO COMPULSÓRIA ================= -->
+<section class="bloco" id="notificacao">
+  <div class="section-header"><span class="tag">05 — Vigilância</span><span class="line"></span></div>
+  <h2 class="title">Notificação Compulsória</h2>
+  <p class="lead">Obrigação legal do médico frente a um caso confirmado — base da vigilância epidemiológica da tuberculose no Brasil.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h4>Nível 1 — Indispensável</h4>
+      <h3>Portaria MS nº 204/2016</h3>
+      <ul>
+        <li>Notificar todos os casos no <b>SINAN em até 24h</b></li>
+        <li>Notifica-se apenas o caso <b>confirmado</b> (critério laboratorial ou clínico)</li>
+        <li>Investigar todos os contatos</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h4>Nível 1</h4>
+      <h3>Tratamento Diretamente Observado (TDO)</h3>
+      <p>Indicado para:</p>
+      <div class="pillrow">
+        <span class="pill">Situação de rua</span>
+        <span class="pill">Privados de liberdade</span>
+        <span class="pill">Histórico de abandono</span>
+        <span class="pill">TB resistente</span>
+      </div>
+    </div>
+
+    <div class="card full">
+      <h4>Nível 2 — Secundário</h4>
+      <h3>Sistema IL-TB (infecção latente)</h3>
+      <table>
+        <tr><th>Entrada no IL-TB</th><th>Encerramento no IL-TB</th></tr>
+        <tr><td>Caso novo — nunca tratou ILTB</td><td>Tratamento completo</td></tr>
+        <tr><td>Reingresso após abandono</td><td>Abandono: &gt;90 dias (isoniazida) ou &gt;60 dias (rifampicina) sem tratamento</td></tr>
+        <tr><td>Reentrada após mudança de esquema (reação adversa)</td><td>Suspenso por reação adversa, com necessidade de troca/suspensão</td></tr>
+        <tr><td>Reexposição a novo caso de TB pulmonar/laríngea</td><td>Suspenso por PT &lt;5mm em QP primária ao final do 3º mês</td></tr>
+        <tr><td>—</td><td>Tuberculose ativa / óbito / transferência para outro país</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MANEJO CLÍNICO ================= -->
+<section class="bloco" id="manejo">
+  <div class="section-header"><span class="tag">06 — Prática Clínica</span><span class="line"></span></div>
+  <h2 class="title">Manejo Clínico do Paciente</h2>
+  <p class="lead">Orientações práticas para o acompanhamento do paciente em tratamento de TB ativa e de ILTB — tema recorrente em casos clínicos de tRAT.</p>
+
+  <div class="grid">
+    <div class="card full">
+      <h4>Nível 1 — Indispensável</h4>
+      <h3>Paciente com TB ativa — 5 eixos do manejo</h3>
+      <ul>
+        <li><b>1. Educação e aderência</b>: explicar riscos da interrupção (resistência); oferecer TDO a pacientes com má adesão/histórico de abandono; encaminhar para agente comunitário/equipe multiprofissional se necessário.</li>
+        <li><b>2. Prevenção da transmissão</b>: ventilação (manter janelas abertas); máscara cirúrgica nas primeiras 2 semanas (ou até baciloscopia negativa) em contato social; higiene — cobrir a boca com o cotovelo (não as mãos) ao tossir, lavar as mãos com frequência.</li>
+        <li><b>3. Retorno às atividades</b>: afastamento mínimo de 2 semanas (ou até baciloscopia negativa, se houver melhora clínica); prolongar se persistirem sintomas ou risco de transmissão.</li>
+        <li><b>4. Redução de comportamentos de risco</b>: alertar sobre álcool/drogas (prejuízo à adesão e recuperação); incentivar cessação do tabagismo, com encaminhamento a programas específicos.</li>
+        <li><b>5. Monitoramento de efeitos adversos</b>: orientar relato imediato de náuseas, icterícia, neuropatia, alterações visuais (ex.: etambutol); fornecer contato rápido para ajuste do esquema.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h4>Nível 1 — Indispensável</h4>
+      <h3>ILTB — orientações gerais</h3>
+      <ul>
+        <li>Evitar álcool (aumenta risco de hepatotoxicidade)</li>
+        <li>Efeitos colaterais comuns: perda de apetite, náusea, desconforto abdominal, fadiga, urina escura, fezes pálidas</li>
+      </ul>
+      <div class="alert warn" style="--c:var(--amber)"><span class="ico">⚠</span><div><b>Sinais de alerta</b> (parar tratamento e buscar ajuda urgente): vômito súbito, dor abdominal superior, icterícia, rash, chiado, dificuldade respiratória, PAS &lt;90, tontura/desmaio.</div></div>
+    </div>
+
+    <div class="card">
+      <h4>Nível 1</h4>
+      <h3>Monitoramento mensal da ILTB</h3>
+      <p>Avaliação a cada 30 dias:</p>
+      <ul>
+        <li>Sintomas de TB ativa (tosse, febre, perda de peso)</li>
+        <li>Efeitos adversos (ex.: neuropatia periférica — dor/queimação nos pés)</li>
+        <li>Adesão: se má adesão/interrupção, explorar razões, reforçar educação e considerar TDO ou apoio multiprofissional</li>
+      </ul>
+    </div>
+
+    <div class="card full">
+      <h4>Nível 1 — Indispensável</h4>
+      <h3>Critérios de reinício após interrupção do tratamento de ILTB</h3>
+      <table>
+        <tr><th>Esquema</th><th>Interrupção crítica</th><th>Ação</th></tr>
+        <tr><td><b>Rifampicina (4R)</b></td><td>≥60 doses perdidas ou ≥2 meses</td><td>Reiniciar tratamento</td></tr>
+        <tr><td><b>Isoniazida (9H)</b></td><td>≥90 doses perdidas ou ≥3 meses</td><td>Reiniciar tratamento</td></tr>
+        <tr><td><b>Rifapentina + Isoniazida (3HP)</b></td><td>≥3 doses perdidas ou ≥3 semanas</td><td>Reiniciar tratamento</td></tr>
+      </table>
+      <div class="alert"><span class="ico">✦</span><div>Em uma <b>segunda interrupção</b>, discutir riscos e benefícios para decidir entre continuar ou suspender definitivamente o tratamento.</div></div>
+    </div>
+  </div>
+</section>
+
+<footer class="ref">
+  <p><b>Bibliografia de referência:</b> Manual de Recomendações para o Controle da Tuberculose no Brasil (MS, 2019); Protocolo de vigilância da infecção latente pelo M. tuberculosis (MS, 2022); Boletins Epidemiológicos de Tuberculose (MS, mar/2025 e mar/2026); PACK Brasil Adulto (Florianópolis, 2025); WHO Global Tuberculosis Report 2025; Cardoso et al. — Diagnóstico e tratamento em pneumologia (2021).</p>
+  <p style="margin-top:8px;">Resumo gerado para estudo prévio, iRAT/tRAT e discussão em grupo — TBL, UCXIV, UNIARP.</p>
+</footer>
+
+<div id="edit-toast">Alterações salvas</div>
+<div id="edit-toolbar">
+  <button id="btn-toggle">✎ Ativar edição</button>
+  <button id="btn-download">⭳ Baixar cópia editada</button>
+  <button id="btn-reset">↺ Restaurar original</button>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = "tbl_resumo_tuberculose_ucxiv_v1";
+  const editableSelector = "h1, h2, h3, h4, p, li, td, th, .kicker, .pill, .n";
+  let editing = false;
+
+  function markEditable(state){
+    document.querySelectorAll(editableSelector).forEach(el => {
+      if (el.closest("#edit-toolbar, #edit-toast")) return;
+      el.setAttribute("contenteditable", state ? "true" : "false");
+    });
+  }
+
+  function serializeContent(){
+    const data = {};
+    document.querySelectorAll("[data-eid]").forEach(el => { data[el.getAttribute("data-eid")] = el.innerHTML; });
+    return data;
+  }
+
+  function tagElements(){
+    let i = 0;
+    document.querySelectorAll(editableSelector).forEach(el => {
+      if (el.closest("#edit-toolbar, #edit-toast")) return;
+      if (!el.hasAttribute("data-eid")) el.setAttribute("data-eid", "e" + (i++));
+    });
+  }
+
+  function saveToStorage(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(serializeContent()));
+      showToast("Alterações salvas");
+    }catch(e){}
+  }
+
+  function loadFromStorage(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return;
+      const data = JSON.parse(raw);
+      Object.keys(data).forEach(id => {
+        const el = document.querySelector('[data-eid="' + id + '"]');
+        if(el) el.innerHTML = data[id];
+      });
+    }catch(e){}
+  }
+
+  function showToast(msg){
+    const t = document.getElementById("edit-toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    setTimeout(()=> t.classList.remove("show"), 1800);
+  }
+
+  let autosaveTimer = null;
+  function startAutosave(){ autosaveTimer = setInterval(()=>{ if(editing) saveToStorage(); }, 15000); }
+  function stopAutosave(){ if(autosaveTimer) clearInterval(autosaveTimer); }
+
+  tagElements();
+  loadFromStorage();
+
+  document.getElementById("btn-toggle").addEventListener("click", function(){
+    editing = !editing;
+    markEditable(editing);
+    this.classList.toggle("active", editing);
+    this.textContent = editing ? "✓ Salvar e sair" : "✎ Ativar edição";
+    if(editing){ startAutosave(); showToast("Modo de edição ativado"); }
+    else{ stopAutosave(); saveToStorage(); showToast("Edições salvas"); }
+  });
+
+  document.getElementById("btn-download").addEventListener("click", function(){
+    saveToStorage();
+    const clone = document.documentElement.cloneNode(true);
+    clone.querySelectorAll("[contenteditable]").forEach(el => el.removeAttribute("contenteditable"));
+    const toolbar = clone.querySelector("#edit-toolbar");
+    const toast = clone.querySelector("#edit-toast");
+    if(toolbar) toolbar.remove();
+    if(toast) toast.remove();
+    const html = "<!DOCTYPE html>\n" + clone.outerHTML;
+    const blob = new Blob([html], {type: "text/html"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "resumo_tuberculose_editado.html";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  document.getElementById("btn-reset").addEventListener("click", function(){
+    if(confirm("Restaurar o conteúdo original e apagar as edições salvas neste navegador?")){
+      try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+      location.reload();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Transmissão vertical: do pré-natal aos 18 meses</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Familjen+Grotesk:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#edf2f0;--ink:#13242f;--mu:#5a6c75;--ln:#c9d5d1;--pp:#fbfdfc;--a:#13242f}
+*{box-sizing:border-box;font-weight:400!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.75 'Newsreader',Georgia,serif}
+h1,h2,h3,summary,.lb,nav a,.rule a,button{font-family:'Familjen Grotesk',system-ui,sans-serif}
+.wrap{display:grid;grid-template-columns:150px minmax(0,1fr);max-width:1080px;margin:0 auto;gap:0 36px;padding:0 20px}
+.rule{position:sticky;top:0;height:100vh;padding:28px 0;font-size:13px}
+.rule div{position:relative;height:100%;border-left:2px solid var(--ink);margin-left:8px}
+.rule a{position:absolute;left:-6px;display:flex;gap:8px;align-items:center;color:var(--ink);text-decoration:none;line-height:1}
+.rule a:before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c);flex:none}
+.rule a:hover{color:var(--c)}
+header{grid-column:2;padding:64px 0 24px}
+h1{font-size:clamp(2.4rem,6vw,4.4rem);line-height:1;margin:0 0 18px;letter-spacing:-.03em}
+header p{max-width:60ch;color:var(--mu);font-style:italic;margin:0}
+main{grid-column:2;padding-bottom:80px}
+section{--a:var(--c);background:var(--pp);border:1px solid var(--ln);border-top:8px solid var(--a);padding:30px 34px;margin:34px 0;border-radius:2px 18px 2px 2px}
+h2{font-size:2rem;line-height:1.1;margin:0 0 6px;color:var(--a);letter-spacing:-.02em}
+.lb{font-size:13px;color:var(--mu);margin:0 0 18px}
+h3{font-size:1.15rem;margin:26px 0 4px;color:var(--a)}
+p{margin:.7em 0;max-width:68ch}
+.k{color:var(--a);font-style:italic}
+.c{border-left:4px solid var(--a);background:color-mix(in srgb,var(--a) 7%,white);padding:6px 16px;margin:14px 0;max-width:68ch}
+.c .lb{margin:4px 0 0;color:var(--a)}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:14px 0}
+.g .c{margin:0;max-width:none}
+.warn{border-left-color:#b3261e;background:#fbeceb}.warn .lb{color:#b3261e}
+details{margin:16px 0;border:1px dashed var(--a);padding:2px 18px;background:#fff}
+summary{cursor:pointer;color:var(--a);padding:10px 0;list-style:none}
+summary:before{content:"+ ";}details[open] summary:before{content:"− "}
+details[open]{border-style:solid}
+ul{padding-left:1.1em;max-width:68ch}li{margin:.3em 0}
+.hs{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.hs label{font:14px 'Familjen Grotesk';display:flex;flex-direction:column;gap:3px;color:var(--mu)}
+select{font:16px 'Familjen Grotesk';padding:8px;border:1px solid var(--ink);background:#fff;color:var(--ink)}
+#out{min-height:60px}
+#bar{position:fixed;right:14px;bottom:14px;display:flex;gap:6px;background:var(--ink);padding:8px;border-radius:12px;z-index:9;box-shadow:0 6px 24px #0005}
+#bar button{font-size:13px;background:#fff;color:var(--ink);border:0;padding:8px 11px;border-radius:7px;cursor:pointer}
+#bar button.on{background:#f3c969}
+body.ed main :is(h2,h3,p,li,.c){outline:1px dotted #8aa;cursor:text}
+a:focus-visible,button:focus-visible,summary:focus-visible,select:focus-visible{outline:3px solid #f3a712;outline-offset:2px}
+@media(max-width:820px){.wrap{display:block}.rule{display:none}section{padding:22px 18px}#bar{flex-wrap:wrap;width:calc(100% - 28px)}}
+@media print{#bar,.rule{display:none}}
+
+body{background:radial-gradient(1200px 500px at 85% -10%,#d7e8e2,transparent),linear-gradient(#e9f0ee,#dfe9e6);font-size:18.5px}
+h1,h2{font-family:'Instrument Serif',Georgia,serif;letter-spacing:-.01em}
+h1{font-size:clamp(2.8rem,7.5vw,5.6rem);line-height:.95;color:#fff;margin:0 0 22px;max-width:14ch}
+h2{font-size:2.6rem;line-height:1}
+header{background:#0d1c26;color:#fff;margin:28px 0 0;padding:64px 44px 54px;border-radius:6px 46px 6px 6px;position:relative;overflow:hidden;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='120'%3E%3Cpath d='M0 60H120l20 0 15-40 20 80 15-40h210' fill='none' stroke='%23ffffff' stroke-opacity='.13' stroke-width='2'/%3E%3C/svg%3E"),radial-gradient(600px 300px at 90% 100%,#a3265b55,transparent),radial-gradient(500px 300px at 0 0,#1b4f9c55,transparent);background-repeat:repeat-x,no-repeat,no-repeat;background-position:0 70%,0 0,0 0;animation:ecg 14s linear infinite}
+@keyframes ecg{to{background-position:-400px 70%,0 0,0 0}}
+@media(prefers-reduced-motion:reduce){header{animation:none}}
+header p{color:#b9ccd4;font-size:1.1rem}
+.chips{grid-column:2;display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
+.chips a{font-size:14px;text-decoration:none;color:#fff;background:var(--c);padding:7px 14px;border-radius:99px}
+.chips a:hover{filter:brightness(1.15)}
+#pg{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,#a3265b,#1b4f9c,#b27a00,#0e7c6b,#6b3fa0);z-index:20}
+section{position:relative;overflow:hidden;border:0;border-top:0;box-shadow:0 1px 0 #fff inset,0 18px 40px -22px #0d1c2655;padding:40px 44px;margin:44px 0;border-radius:6px 36px 6px 6px;background:linear-gradient(180deg,color-mix(in srgb,var(--a) 9%,#fff),#fff 220px)}
+section:before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--a)}
+section:after{position:absolute;right:26px;top:6px;font:italic 7rem/1 'Instrument Serif',serif;color:var(--a);opacity:.1;pointer-events:none}
+#sif:after{content:"Tp"}#hiv:after{content:"HIV"}#toxo:after{content:"Tg"}#hcv:after{content:"HCV"}#hbv:after{content:"HBV"}#tv:after{content:"TV"}#comp:after{content:"+"}#rev:after{content:"?"}
+.lb{font-size:14px;letter-spacing:.01em}
+h3{font-size:1.3rem;border-bottom:1px solid color-mix(in srgb,var(--a) 30%,transparent);padding-bottom:4px;max-width:68ch}
+.c{border:1px solid color-mix(in srgb,var(--a) 25%,transparent);border-left:5px solid var(--a);border-radius:4px 16px 4px 4px;background:#fff;box-shadow:0 8px 20px -14px var(--a)}
+details{border-radius:4px 16px 4px 4px;background:linear-gradient(135deg,#fff,color-mix(in srgb,var(--a) 6%,#fff))}
+summary{font-size:1.02rem}
+#fc{margin:16px 0}
+#fcq{min-height:190px;background:var(--a);color:#fff;border-radius:6px 28px 6px 6px;padding:30px;display:flex;align-items:center;font:italic 1.7rem/1.25 'Instrument Serif',serif;cursor:pointer}
+#fcq.a{background:#fff;color:var(--ink);border:2px solid var(--a);font:1.05rem/1.6 'Newsreader',serif}
+.fb{display:flex;gap:8px;align-items:center;margin-top:10px}.fb button{font-size:14px;padding:8px 14px;border:1px solid var(--a);background:#fff;border-radius:99px;cursor:pointer}
+@media(max-width:820px){header{padding:40px 22px}section{padding:28px 20px}h2{font-size:2.1rem}}
+
+:root{--bg:#0d1418;--pn:#142027;--pn2:#1a2a33;--ink:#e3e9ec;--mu:#93a5ae;--ln:#2a3d47}
+body{background:var(--bg);color:var(--ink);font-size:18px;line-height:1.75}
+#sif{--c:#d9677f!important}#hiv{--c:#6aa5e0!important}#toxo{--c:#d6a640!important}#hcv{--c:#45b79f!important}#hbv{--c:#a58be0!important}#tv,#ref{--c:#c9a24a!important}#comp{--c:#7fb0c4!important}#rev{--c:#d9677f!important}
+.wrap{max-width:1640px;grid-template-columns:240px minmax(0,1fr);gap:0 44px;padding:0 40px}
+.rule,.chips{display:none}
+.nav{grid-column:1;grid-row:1/span 6;align-self:start;position:sticky;top:0;height:100vh;overflow:auto;padding:36px 0;border-right:1px solid var(--ln);font-family:'Familjen Grotesk',sans-serif}
+.nav a{display:block;padding:10px 16px;color:var(--mu);text-decoration:none;font-size:15px;border-left:3px solid transparent;margin-right:20px}
+.nav a:hover{color:var(--ink);background:var(--pn);border-left-color:#c9a24a}
+.nav .t{padding:0 16px 14px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#c9a24a}
+h1,h2{font-family:'Oswald','Familjen Grotesk',sans-serif;letter-spacing:.01em}
+h1{font-size:clamp(2.6rem,5.5vw,4.8rem);line-height:1.02;text-transform:uppercase;max-width:20ch;margin-bottom:20px}
+h2{font-size:2.5rem;line-height:1.1;text-transform:uppercase;letter-spacing:.02em}
+header{margin-top:36px;border-radius:3px;padding:60px 52px;border:1px solid var(--ln);border-top:4px solid #c9a24a;background-color:#0f1a21;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='120'%3E%3Cpath d='M0 60H120l20 0 15-40 20 80 15-40h210' fill='none' stroke='%23c9a24a' stroke-opacity='.12' stroke-width='2'/%3E%3C/svg%3E");background-repeat:repeat-x;background-position:0 75%;animation:none}
+header p{max-width:78ch;color:var(--mu)}
+#pg{height:3px;background:#c9a24a}
+main{padding-bottom:100px}
+section{border-radius:3px;padding:44px 52px;margin:36px 0;background:var(--pn);border:1px solid var(--ln);box-shadow:none}
+section:before{width:5px}
+section:after{opacity:.07}
+p,ul,h3{max-width:104ch}
+h3{border-bottom-color:var(--ln);font-size:1.3rem}
+.g{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.c{background:var(--pn2);border:1px solid var(--ln);border-left:4px solid var(--a);border-radius:3px;box-shadow:none;padding:12px 20px}
+.warn{background:#2a1719;border-left-color:#e0645b}.warn .lb{color:#ff9d96}
+details{background:var(--pn2);border:1px solid var(--ln);border-left:4px solid var(--a);border-radius:3px}
+details[open]{border-style:solid}
+summary{padding:14px 0}
+.hs label{color:var(--mu)}
+select{background:var(--pn2);color:var(--ink);border:1px solid #3a5361;border-radius:3px}
+.chips a{border-radius:3px}
+#fcq{border-radius:3px;background:var(--pn2);color:var(--ink);border:1px solid var(--a);border-left:6px solid var(--a);font:1.55rem/1.3 'Oswald',sans-serif}
+#fcq.a{background:var(--a);color:#0d1418;font:1.1rem/1.65 'Newsreader',serif}
+.fb button{background:var(--pn2);color:var(--ink);border-radius:3px}
+#bar{background:#1a2a33;border:1px solid var(--ln);border-radius:4px}
+#bar button{background:#0d1418;color:var(--ink);border:1px solid #3a5361;border-radius:3px}#bar button.on{background:#c9a24a;color:#0d1418}
+body.ed main :is(h2,h3,p,li,.c){outline:1px dotted #c9a24a}
+@media(max-width:1000px){.nav{display:none}.wrap{padding:0 16px}header,section{padding:28px 20px}}
+
+:root{--bg:#d6d3ca;--pn:#ecebe4;--pn2:#f7f6f1;--ink:#14171a;--mu:#555d61;--ln:#14171a;--or:#e4572e;--mono:'IBM Plex Mono',ui-monospace,monospace}
+body{background:var(--bg) repeating-linear-gradient(0deg,transparent 0 39px,#0000000d 39px 40px),repeating-linear-gradient(90deg,transparent 0 39px,#0000000d 39px 40px);color:var(--ink)}
+#sif{--c:#a62b1f!important}#hiv{--c:#1f4e79!important}#toxo{--c:#a85d0a!important}#hcv{--c:#2f6b4f!important}#hbv{--c:#4b3f72!important}#tv,#ref{--c:#14171a!important}#comp{--c:#3d4b52!important}#rev{--c:#e4572e!important}
+.wrap{display:block;max-width:1520px;padding:0 40px}
+.nav,.rule{display:none}
+.lb,.c .lb{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase}
+.chips{display:flex;position:sticky;top:0;z-index:15;gap:0;margin:0;background:#14171a;box-shadow:0 0 0 100vmax #14171a;clip-path:inset(0 -100vmax);overflow-x:auto}
+.chips a{font:12px var(--mono);letter-spacing:.12em;text-transform:uppercase;background:transparent;color:#cfcdc4;border-radius:0;padding:16px 18px;border-bottom:4px solid transparent;white-space:nowrap}
+.chips a:hover,.chips a.on{color:#fff;border-bottom-color:var(--or);filter:none}
+header{margin:0 0 20px;padding:54px 48px 44px;background:#14171a;color:#f1efe8;border:0;border-radius:0;position:relative;background-image:none}
+header:before{content:"";position:absolute;left:0;right:0;top:0;height:12px;background:repeating-linear-gradient(135deg,#e4572e 0 14px,#14171a 14px 28px)}
+header .tg{font:12px var(--mono);letter-spacing:.2em;color:var(--or);margin:12px 0 16px}
+h1{font-size:clamp(2.8rem,6.4vw,5.6rem);line-height:.98;max-width:16ch;color:#f1efe8}
+header p{color:#aeb4b7;max-width:84ch}
+.st{display:flex;flex-wrap:wrap;gap:0;margin-top:34px;border-top:1px solid #3b4348}
+.st div{flex:1 1 240px;padding:16px 22px 0 0;font:13px/1.5 var(--mono);color:#aeb4b7}
+.st b{display:block;font:400 3rem/1 'Oswald',sans-serif;color:var(--or)}
+#pg{background:var(--or);height:4px}
+section{background:var(--pn);border:2px solid var(--ink);border-radius:0;box-shadow:8px 8px 0 var(--ink);padding:48px 54px;margin:56px 0;background-image:none}
+section:before{width:10px}
+section:after{font:400 9rem/1 'Oswald',sans-serif;color:transparent;-webkit-text-stroke:2px var(--a);opacity:.28;right:30px;top:12px;font-style:normal}
+#tv:after{content:"00"}#sif:after{content:"01"}#hiv:after{content:"02"}#toxo:after{content:"03"}#hcv:after{content:"04"}#hbv:after{content:"05"}#comp:after{content:"06"}#rev:after{content:"07"}#ref:after{content:"08"}
+h2{font-size:3rem;color:var(--ink)}
+h3{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.04em;font-size:1.25rem;color:var(--a);border-bottom:2px solid var(--ink);max-width:none}
+p,ul{max-width:112ch}
+.mt{display:grid;grid-template-columns:repeat(4,1fr);border:2px solid var(--ink);background:#fff;margin:4px 0 26px}
+.mt div{padding:12px 16px;border-right:2px solid var(--ink)}.mt div:last-child{border:0}
+.mt span{display:block;font:10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mu)}
+.mt i{font:400 1.1rem/1.3 'Oswald',sans-serif;font-style:normal;color:var(--a)}
+.g{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.c{background:#fff;border:2px solid var(--ink);border-left:8px solid var(--a);border-radius:0;box-shadow:4px 4px 0 #14171a22}
+.warn{background:#fff1ee;border-left-color:#c1272d}.warn .lb{color:#c1272d}
+details{background:#fff;border:2px dashed var(--ink);border-left:8px solid var(--a);border-radius:0}
+details[open]{border-style:solid}
+summary{font:13px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
+summary:before{color:var(--or);content:"[+] "}details[open] summary:before{content:"[−] "}
+select{background:#fff;color:var(--ink);border:2px solid var(--ink);border-radius:0}
+#fcq{background:var(--ink);color:#f1efe8;border:0;border-left:10px solid var(--or);border-radius:0;font:400 1.7rem/1.3 'Oswald',sans-serif}
+#fcq.a{background:var(--or);color:#14171a;font:1.15rem/1.65 'Newsreader',serif}
+.fb button{background:#fff;color:var(--ink);border:2px solid var(--ink);border-radius:0;font-family:var(--mono);text-transform:uppercase;font-size:12px}
+#bar{background:#14171a;border:0;border-radius:0;box-shadow:5px 5px 0 var(--or)}
+#bar button{background:#f1efe8;color:#14171a;border:0;border-radius:0;font-family:var(--mono);font-size:11.5px;text-transform:uppercase}#bar button.on{background:var(--or)}
+body.ed main :is(h2,h3,p,li,.c){outline:1px dashed var(--or)}
+@media(max-width:900px){.wrap{padding:0 14px}.mt{grid-template-columns:1fr 1fr}.mt div{border-bottom:2px solid var(--ink)}section{padding:28px 20px;box-shadow:5px 5px 0 var(--ink)}header{padding:40px 22px}section:after{font-size:5rem}}
+
+.wrap{max-width:1240px;padding:0 32px}
+header{padding:46px 40px 38px}
+h1{font-size:clamp(2.6rem,5.6vw,4.8rem)}
+section{border:1.5px solid var(--ink);box-shadow:7px 7px 0 color-mix(in srgb,var(--a) 38%,transparent);padding:40px 44px;margin:48px 0}
+section:before{width:6px}
+section:after{font-size:6.5rem;-webkit-text-stroke:1.5px var(--a);opacity:.22}
+h2{font-size:2.6rem}
+p,ul,h3{max-width:92ch}
+h3{border-bottom:1px solid var(--ink);padding-bottom:3px}
+.g{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.c{border:1.5px solid color-mix(in srgb,var(--ink) 70%,transparent);border-left:6px solid var(--a);box-shadow:none;background:#fbfaf6}
+.mt{border:1.5px solid var(--ink);margin-bottom:22px}.mt div{border-right:1.5px solid color-mix(in srgb,var(--ink) 40%,transparent)}
+details{border:1.5px dashed var(--ink);border-left:6px solid var(--a)}
+.chips a{padding:15px 15px}
+@media(max-width:900px){.wrap{padding:0 14px}section{padding:26px 18px}}
+
+.wrap{display:grid;grid-template-columns:190px minmax(0,1020px);gap:0 44px;max-width:1320px;margin:0 auto;padding:0 32px}
+.rule{display:block;grid-column:1;grid-row:1/span 8;align-self:start;top:0;height:100vh;padding:84px 0 32px;font-family:var(--mono);font-size:11.5px;letter-spacing:.02em}
+.rule div{border-left:2px solid var(--ink)}
+.rule a{color:var(--ink)}
+.rule a:before{width:11px;height:11px;border-radius:0;transform:rotate(45deg);margin-left:0}
+header,.chips,main{grid-column:2}
+p,ul,h3{max-width:84ch}
+#resumo{--c:#5f6b2a!important}#resumo:after{content:"08"}#ref:after{content:"09"}
+.rs li{margin:.35em 0;font-size:16.5px;line-height:1.55}
+.rs ul{padding-left:1.1em;margin:6px 0}
+.rs .c{padding-bottom:12px}
+@media(max-width:1000px){.wrap{display:block;padding:0 14px}.rule{display:none}}
+
+body{background:none;background-color:#d6d3ca;background-image:repeating-linear-gradient(0deg,transparent 0 39px,#0000000d 39px 40px),repeating-linear-gradient(90deg,transparent 0 39px,#0000000d 39px 40px)}
+.chips{box-shadow:none;clip-path:none;margin-bottom:0;border-top:1px solid #2b3338}
+header{margin:44px 0 0;padding:56px 48px 40px;overflow:hidden;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='140'%3E%3Cpath d='M0 70H150l20 0 18-52 24 104 18-52h290' fill='none' stroke='%23e4572e' stroke-opacity='.3' stroke-width='2.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 24px top 56px;background-size:420px}
+header h1{font-size:clamp(2.6rem,6vw,4.9rem);line-height:1;max-width:none;margin:0 0 8px;white-space:normal}
+.sub{font:400 clamp(1.3rem,2.6vw,2rem)/1.2 'Oswald',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--or);margin-bottom:24px}
+header p{font-style:normal;font-size:1.05rem;line-height:1.65;max-width:68ch;color:#b4babd}
+section h2{padding-right:110px}
+section:after{font-size:4.6rem;top:14px;right:26px}
+.rule{z-index:1}
+@media(max-width:900px){header h1{font-size:2.4rem}section h2{padding-right:0}section:after{display:none}}
+
+.rule{display:none!important}
+.chips{display:none}
+.nav{display:flex;flex-direction:column;justify-content:space-between;grid-column:1;grid-row:1/span 9;position:sticky;top:0;height:100vh;padding:110px 0 44px 14px;border:0;overflow:visible;font-family:var(--mono)}
+.nav:before{content:"";position:absolute;left:19px;top:112px;bottom:52px;border-left:2px solid var(--ink)}
+.nav .t{position:absolute;top:44px;left:14px;padding:0;font:11.5px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--or)}
+.nav a{position:relative;display:block;margin:0;padding:0 0 0 30px;border:0;background:none;color:var(--ink);font:400 15px/1.1 'Oswald',sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.nav a em{display:block;margin-top:3px;font:400 10.5px/1.3 var(--mono);letter-spacing:.02em;text-transform:none;color:var(--mu)}
+.nav a:before{content:"";position:absolute;left:0;top:.05em;width:11px;height:11px;background:var(--c);transform:rotate(45deg);outline:3px solid #d6d3ca}
+.nav a:hover,.nav a.on{color:var(--or);background:none;border:0}
+.nav a.on:before{background:var(--or);outline-color:#e4572e55}
+@media(max-width:1000px){.nav{display:none}.chips{display:flex}}
+</style><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400&display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"></head><body>
+<div class="wrap">
+<aside class="rule" aria-label="Régua gestacional"><div>
+<a href="#tv" style="top:0;--c:#13242f">semana 0</a>
+<a href="#hbv" style="top:12%;--c:#6b3fa0">1º tri: HBsAg</a>
+<a href="#sif" style="top:26%;--c:#a3265b">sífilis 1º/2º/3º tri</a>
+<a href="#toxo" style="top:40%;--c:#b27a00">16 sem: avidez</a>
+<a href="#hcv" style="top:54%;--c:#0e7c6b">anti-HCV 1º tri</a>
+<a href="#hiv" style="top:68%;--c:#1b4f9c">CV 34-36 sem</a>
+<a href="#sif" style="top:82%;--c:#a3265b">sala de parto</a>
+<a href="#ref" style="top:96%;--c:#13242f">18 meses</a>
+</div></aside>
+
+<nav class="nav" aria-label="Seções"><div class="t">Linha do tempo</div>
+<a href="#tv" style="--c:#14171a">Conceito<em>3 janelas, puerpério</em></a>
+<a href="#sif" style="--c:#a62b1f">Sífilis<em>1º ao 3º tri e parto</em></a>
+<a href="#hiv" style="--c:#1f4e79">HIV<em>CV com 34-36 sem</em></a>
+<a href="#toxo" style="--c:#a85d0a">Toxoplasmose<em>avidez até 16 sem</em></a>
+<a href="#hcv" style="--c:#2f6b4f">Hepatite C<em>anti-HCV e HCV-RNA</em></a>
+<a href="#hbv" style="--c:#4b3f72">Hepatite B<em>HBsAg e HBIG</em></a>
+<a href="#comp" style="--c:#3d4b52">Complementos<em>detalhes do slide</em></a>
+<a href="#rev" style="--c:#e4572e">Modo revisão<em>14 flashcards</em></a>
+<a href="#resumo" style="--c:#5f6b2a">Super resumo<em>o essencial</em></a>
+<a href="#ref" style="--c:#14171a">Referências<em>ABNT</em></a></nav>
+<header><h1>Transmissão vertical</h1><div class="sub">Do pré-natal aos 18 meses</div>
+<p>Material de estudo aprofundado a partir dos slides da aula (sífilis, HIV, toxoplasmose, hepatites C e B). Cada bloco abre com o essencial; os blocos tracejados aprofundam o mecanismo. Pontos em vermelho sinalizam onde o slide pede cuidado.</p></header>
+
+<div id="pg"></div>
+<nav class="chips" aria-label="Seções"><a href="#tv" style="--c:#13242f">Conceito</a><a href="#sif" style="--c:#a3265b">Sífilis</a><a href="#hiv" style="--c:#1b4f9c">HIV</a><a href="#toxo" style="--c:#b27a00">Toxoplasmose</a><a href="#hcv" style="--c:#0e7c6b">Hepatite C</a><a href="#hbv" style="--c:#6b3fa0">Hepatite B</a><a href="#comp" style="--c:#13242f">Complementos</a><a href="#rev" style="--c:#a3265b">Modo revisão</a><a href="#resumo" style="--c:#5f6b2a">Super resumo</a></nav>
+<main id="m">
+
+<section id="tv" style="--c:#13242f">
+<h2>O que é transmissão vertical e por que ela falha tanto</h2>
+<p class="lb">conceito, três momentos, puerpério e saúde pública</p>
+<p>Transmissão vertical é a passagem de um agente da mãe para o filho. Ela acontece em três janelas, e cada janela pede uma estratégia diferente: <span class="k">intraútero</span> (transplacentária: o agente cruza a barreira placentária e chega à circulação fetal), <span class="k">intraparto</span> (contato do bebê com sangue e secreções maternas no canal de parto) e <span class="k">pós-parto</span> (sobretudo leite materno). Pensar por janela organiza tudo o que vem depois: sífilis e toxoplasmose são principalmente transplacentárias, HBV, HCV e HIV pesam muito no parto, e o HIV ainda tem a janela do leite.</p>
+<div class="g">
+<div class="c"><p class="lb">Intraútero</p>Sífilis, toxoplasmose, HIV (menor parcela).</div>
+<div class="c"><p class="lb">Intraparto</p>HBV, HCV, HIV: exposição ao sangue materno.</div>
+<div class="c"><p class="lb">Pós-parto</p>HIV e, em teoria, qualquer vírus no leite.</div>
+</div>
+<details><summary>Aprofunde-se: por que a placenta deixa passar alguns e outros não</summary>
+<p>A placenta hemocorial põe o sangue materno em contato com o sinciciotrofoblasto, a camada que funciona como barreira. O IgG materno atravessa ativamente pelo receptor FcRn (transferência crescente após cerca de 28 semanas, por isso o recém-nascido carrega o IgG da mãe), enquanto o IgM, pentâmero grande, não passa (Guyton & Hall; Robbins). Isso vira ferramenta diagnóstica: IgM positivo no recém-nascido sugere produção própria, e IgG positivo isolado pode ser só herança materna. Esse raciocínio reaparece em quase todas as seções.</p>
+<p>No caso da sífilis, a passagem do <i>T. pallidum</i> ocorre em qualquer fase, mas o clássico dos livros-texto é que a infecção fetal grave se torna mais provável a partir de 16-18 semanas, quando o feto já tem imunocompetência para gerar a reação inflamatória que causa as lesões (hepatoesplenomegalia, periostite).</p></details>
+
+<h3>O elo mais fraco: puerpério e HIV</h3>
+<p>O slide traz a frase "ganhou o bebê, esquece a mãe". Toda a atenção vai para o recém-nascido e a mulher deixa de ser acompanhada. Se ela adquire HIV no puerpério, vive a <span class="k">infecção aguda</span>, fase de replicação explosiva com carga viral altíssima no sangue e em secreções, inclusive no leite, enquanto o bebê mama várias vezes ao dia. Daí a recomendação de testar a mulher pelo menos no 2º e no 6º mês de puerpério.</p>
+<h3>Problema de saúde pública e o pediatra que não sabe o que fazer</h3>
+<p>É morbimortalidade evitável: óbito fetal, aborto, prematuridade, sepse neonatal, sequelas neurológicas, deficiência visual, atraso do desenvolvimento. Dois gargalos: baixa cobertura da atenção básica (menos exames, consultas perdidas, tratamento abandonado) e o recém-nascido exposto liberado sem investigação, sem revisar o cartão da gestante. O exemplo-chave é a toxoplasmose: cerca de 80% dos infectados são assintomáticos ao nascer, e entre 8 e 9 meses surgem calcificações, uveíte posterior e atraso neuropsicomotor. A família só descobre na idade escolar, e a janela de tratamento já passou.</p>
+<h3>Notificação compulsória</h3>
+<p>Notificam-se: sífilis em gestante, sífilis congênita, HIV em gestante, aids em menores de 13 anos, hepatites B e C na gestação, toxoplasmose gestacional e congênita. Regra de prova: no HIV, <span class="k">cada gestação é um novo evento epidemiológico</span> e gera nova notificação, mesmo com diagnóstico antigo. Na hepatite B, mulher já sabidamente portadora geralmente não é renotificada só por nova gestação (conforme o slide; confirme a regra vigente no seu município).</p>
+</section>
+
+<section id="sif" style="--c:#a3265b">
+<h2>Sífilis gestacional e congênita</h2>
+<p class="lb">Treponema pallidum: o caso em que a interpretação do exame é a doença</p>
+
+<h3>Rastreamento e a lógica dos dois tipos de teste</h3>
+<p>Rastreia-se no 1º, 2º e 3º trimestres e no parto, porque infecção recente pode ainda não ser detectável. Há dois algoritmos: o <span class="k">tradicional</span> (não treponêmico, depois treponêmico) e o <span class="k">reverso</span> (treponêmico primeiro, depois VDRL), o mais usado hoje. Discordância no reverso (treponêmico positivo, VDRL negativo) exige um segundo treponêmico de metodologia diferente.</p>
+<div class="g">
+<div class="c"><p class="lb">Treponêmicos: teste rápido, FTA-ABS, ELISA, CMIA</p>Detectam anticorpos contra antígenos do próprio treponema. Muito sensíveis e específicos, mas ficam positivos pela vida toda. Servem para diagnosticar, nunca para controle de cura.</div>
+<div class="c"><p class="lb">Não treponêmicos: VDRL, RPR</p>Medem anticorpos anticardiolipina em floculação, com titulação por diluição seriada (1:2, 1:4, 1:8...). Acompanham atividade e resposta ao tratamento, mas dão falso-positivo.</div>
+</div>
+<details><summary>Aprofunde-se: cardiolipina, falsos-positivos, prozona e erros do teste rápido</summary>
+<p>Cardiolipina é um fosfolipídio de membranas mitocondriais, presente no treponema e nas células humanas. A infecção destrói tecido e libera cardiolipina, e o organismo responde com anticorpos contra ela (reagina). Qualquer agressão celular pode gerar isso: lúpus, hanseníase, outras doenças autoimunes e a própria gestação, que envolve remodelação tecidual e modulação imune. Por isso o VDRL não é específico.</p>
+<p>Cada diluição divide a amostra por 2: de 1:4 para 1:16 são duas diluições, o que é considerado mudança real, acima da variação do método. Em títulos muito altos pode ocorrer efeito prozona (excesso de anticorpos impede a floculação e o resultado sai falsamente baixo ou negativo); o laboratório resolve diluindo a amostra.</p>
+<p>O teste rápido é imunocromatográfico e tem erros operacionais frequentes: troca de reagente entre lotes, quantidade de sangue incorreta e leitura fora do tempo (10 a 30 minutos). Lido após uma hora, praticamente qualquer imunocromatográfico positiva falsamente. Paciente com TR positivo, VDRL negativo e FTA-ABS negativo provavelmente não tem sífilis.</p>
+<p>O IgM só tem lugar na primoinfecção muito precoce: cancro duro com 10-14 dias de exposição e TR ainda negativo (soroconversão incompleta). Fora disso, não se pede IgM nem se repete treponêmico em quem já teve sífilis; acompanha-se com VDRL.</p></details>
+
+<h3>Interprete como o professor: ferramenta interativa</h3>
+<div class="hs">
+<label>Teste rápido<select id="s1"><option value="p">positivo</option><option value="n">negativo</option></select></label>
+<label>VDRL<select id="s2"><option value="r">reagente</option><option value="n">não reagente</option><option value="x">ainda não feito</option></select></label>
+<label>Sífilis tratada antes?<select id="s3"><option value="s">sim</option><option value="n">não</option></select></label>
+</div>
+<div class="c" id="out"></div>
+
+<h3>Formas clínicas versus classificação operacional</h3>
+<p>A classificação <span class="k">clínica</span> segue a doença: primária (cancro duro, ulcerado, indolor, base endurecida, rico em treponemas), secundária (disseminação hematogênica: roséola sifilítica, rash difuso, lesões que somem sozinhas em 2-3 semanas e costumam ser tomadas por alergia), terciária (anos depois: gomas, osteólise, cardiovascular, neurológica; hoje rara) e neurossífilis, que pode ocorrer em qualquer fase, até com cancro duro, e muitas vezes é assintomática. A <span class="k">operacional</span> segue o tempo: precoce ou tardia, e serve para o que a clínica não consegue estratificar, como a sífilis latente (sem sintomas, diagnosticada só por exame, e a maioria das gestantes).</p>
+<div class="g">
+<div class="c"><p class="lb">Latente precoce</p>Evidência de infecção há menos de 12 meses (exame negativo documentado dentro desse prazo).</div>
+<div class="c"><p class="lb">Latente tardia</p>Tempo desconhecido ou maior que 12 meses. Sem documentação anterior, trata-se como tardia: por isso muitas gestantes recebem 3 doses.</div>
+</div>
+<p>Sempre pergunte "quando foi seu último exame?" e confie no prontuário, não só no relato. Não use o valor do VDRL sozinho para datar a doença ("está baixo, deve ser antigo" é erro): a conduta na primoinfecção é a mesma com 1:2 ou 1:216.</p>
+<details><summary>Aprofunde-se: neurossífilis, VDRL acima de 1:512 e líquor</summary>
+<p>O treponema invade o SNC cedo, nas primeiras semanas. Títulos altos de VDRL aumentam a chance de acometimento silencioso; o slide cita acima de 1:512 como motivo para considerar punção lombar mesmo sem sintomas, e VDRL residual persistente maior ou igual a 1:8 após tratamento também. No líquor avaliam-se celularidade, proteína e VDRL. O VDRL liquórico é muito específico e pouco sensível: positivo praticamente confirma, negativo não exclui. No caso do slide (celularidade normal, proteína acima de 45, VDRL liquórico negativo), a proteína alta indica processo inflamatório e, com forte suspeita, trata-se como neurossífilis. Líquor totalmente normal enfraquece a hipótese e sustenta o diagnóstico de <span class="k">sorofast de alta titulação</span> (cicatriz sorológica persistente com título alto), sem retratamento obrigatório.</p>
+<p>A penicilina benzatina forma depósito intramuscular de liberação lenta e gera níveis séricos baixos, porém duradouros; não atinge concentração treponemicida no líquor. Por isso neurossífilis se trata com penicilina G cristalina IV por 10-14 dias.</p></details>
+
+<h3>Mesmo sem relação penetrativa? Mesmo "virgem"?</h3>
+<p>A sífilis passa pelo contato direto com a lesão, não apenas pela penetração vaginal. Cancro na vulva e sexo oral inoculam o treponema na mucosa oral do parceiro; contato manual pode inocular o dedo. Lesão oral inicial muitas vezes se apresenta só como linfonodomegalia cervical, e há casos encaminhados para investigar linfoma. Teste positivo se trata, mesmo que o paciente negue vida sexual; sífilis congênita tardia em adulto é hipótese muito improvável hoje por causa do seguimento até a negativação do VDRL. Regra: diante de exames compatíveis, trate.</p>
+
+<h3>Cicatriz sorológica, reinfecção e falha terapêutica</h3>
+<p>Cicatriz sorológica é o VDRL que cai, mas não zera, e fica baixo e estável por anos (1:2 ou 1:4), como um eco imunológico. Os sinais: tratamento adequado, queda de pelo menos duas diluições, título estável, sem sintomas. Exemplo do slide: 1:64, 1:16, 1:8, 1:4. Não se retrata só porque está positivo baixo. Suspeita-se de <span class="k">reinfecção ou falha</span> quando o título sobe duas diluições (1:4 para 1:16).</p>
+<div class="g">
+<div class="c"><p class="lb">Quando avaliar resposta</p>A queda esperada leva cerca de 6 meses (latente precoce) a 12 meses (latente tardia). Controle trimestral serve mais para flagrar reinfecção. Falha: menos de 2 diluições de queda em 6 meses (precoce) ou 12 meses (tardia).</div>
+<div class="c"><p class="lb">Evolução sem tratamento</p>O VDRL cai com os anos mesmo sem tratar, porque a inflamação diminui e o treponema se refugia em santuários. Isso não é cura: um idoso com VDRL 1:1 e FTA-ABS positivo pode ter sífilis antiga.</div>
+</div>
+<div class="c"><p class="lb">Transmissibilidade</p>A transmissão sexual é maior nas fases primária e secundária e nos primeiros 2,5 a 3 anos. Um parceiro de 10 anos negativo é plausível, mas não dispensa o tratamento, pois neurossífilis, gomas e sífilis cardiovascular seguem possíveis.</div>
+<h3>Na gestante o limiar para retratar é bem menor</h3>
+<p>Fora da gestação, 1:4 estável com queda documentada é cicatriz. Na gestante, o VDRL baixo isolado não distingue cicatriz de reinfecção inicial, e o risco fetal existe mesmo com título baixo. O médico monta o quebra-cabeça: tratamento anterior e queda documentados? Título estável? Já houve VDRL negativo (se voltou a positivar, é praticamente reinfecção)? Parceiro é o mesmo e qual a sorologia dele? Se o parceiro soroconverteu, retratar. Se há dúvida (sem seguimento, sem exames antigos, parceiro novo, parceiro positivo), geralmente retrata-se. Após tratar, VDRL mensal na gestação; aumento de quatro vezes (1:8 para 1:32) sugere reinfecção ou falha; depois, controles semestrais por cerca de 2 anos.</p>
+
+<h3>Tratamento na gestante</h3>
+<div class="g">
+<div class="c"><p class="lb">Formas precoces</p>Primária, secundária, latente precoce: penicilina benzatina 2,4 milhões UI IM, dose única (1,2 milhão em cada glúteo).</div>
+<div class="c"><p class="lb">Formas tardias</p>Terciária, latente tardia, tempo ignorado: 2,4 milhões UI IM por semana por 3 semanas (total 7,2 milhões UI).</div>
+<div class="c"><p class="lb">Neurossífilis</p>Penicilina G cristalina IV por 10-14 dias.</div>
+</div>
+<p>A penicilina benzatina é o único tratamento comprovado para prevenir a sífilis congênita; gestante alérgica é dessensibilizada, porque não há alternativa com eficácia fetal comprovada. Fora da gestação, antibióticos para outras infecções às vezes tratam sífilis "por tabela", e estudos avaliaram amoxicilina em altas doses e azitromicina, mas na gestante nada substitui a benzatina.</p>
+<details><summary>Aprofunde-se: por que penicilina, por que três semanas e resistência</summary>
+<p>A penicilina inibe as transpeptidases (PBPs) e bloqueia a síntese do peptidoglicano, sendo bactericida só em bactéria em divisão. O treponema se divide muito lentamente (cerca de 30 horas), de modo que se precisa de concentração treponemicida mantida por vários dias: isso a benzatina oferece. Na doença tardia, com mais organismos em repouso, repete-se a dose três vezes. O treponema praticamente não desenvolveu resistência à penicilina; quando o VDRL não cai, pense em reinfecção, tratamento inadequado, erro de diluição, aplicação ou absorção ruins (obesidade importante) e perda de seguimento. Reação de Jarisch-Herxheimer pode ocorrer nas primeiras 24 horas por liberação de lipoproteínas dos treponemas mortos, e na gestante pode vir com contrações e queda da variabilidade fetal.</p>
+<p>Ponto que o slide sinaliza e que mudou: antes, parceiro não tratado tornava o tratamento materno "inadequado" e o recém-nascido virava "doente". Os protocolos atuais deixaram de usar o tratamento do parceiro como critério de adequação do tratamento materno, embora o parceiro deva ser tratado do mesmo jeito.</p></details>
+
+<h3>Recém-nascido: exposto ou doente?</h3>
+<p>Todo filho de mãe com sífilis na gestação atual é avaliado na sala de parto. A pergunta: é só anticorpo materno passivo ou há infecção? Ele é <span class="k">doente</span> (sífilis congênita) se qualquer um dos três: mãe sem tratamento ou com tratamento inadequado (qualquer coisa que não seja benzatina, ou sem comprovação); clínica compatível (alteração neurológica, hepatite, icterícia, plaquetopenia, lesões cutâneas, alterações ósseas e oculares, convulsões, hepatoesplenomegalia); ou VDRL do bebê duas diluições acima do materno (mãe 1:4, bebê 1:16). VDRL do bebê igual ou menor que o da mãe, assintomático e mãe tratada: <span class="k">exposto</span>.</p>
+<div class="g">
+<div class="c"><p class="lb">Exposto</p>Alta com seguimento ambulatorial. A lógica é que a penicilina materna tratou o feto na gestação.</div>
+<div class="c"><p class="lb">Doente: investigar</p>Punção lombar, ultrassom transfontanela e radiografia de ossos longos (osteíte, periostite). Qualquer alteração: sífilis congênita grave.</div>
+<div class="c"><p class="lb">Tratar sem SNC</p>Líquor, ultrassom e radiografia normais: penicilina procaína IM 10-14 dias.</div>
+<div class="c"><p class="lb">Tratar com SNC</p>Qualquer exame alterado: penicilina cristalina IV 10-14 dias. Muitos serviços usam cristalina em todos.</div>
+</div>
+<div class="c warn"><p class="lb">Alerta de prova</p>Em muitos protocolos a classificação do recém-nascido leva também em conta o tratamento materno 30 dias antes do parto. O slide não menciona esse prazo; confirme no PCDT vigente. Também confirme doses e esquema de cada penicilina no protocolo, pois o slide não os lista.</div>
+<h3>Seguimento até os 18 meses</h3>
+<p>VDRL seriado ao nascer, 1, 3, 6, 9 e 12 meses (alguns serviços fazem 18). Esperado: título caindo (1:4, 1:4, 1:2...). Pelo critério do Ministério, VDRL ainda reagente aos 6 meses, em qualquer título, é falha terapêutica: reinternar, reinvestigar e geralmente retratar. Duas sorologias negativas seguidas dão alta por cura. Líquor alterado repete-se até normalizar; se aos 6 meses seguir alterado, retratar. Testes treponêmicos antes de 18 meses não confirmam nada, porque o IgG materno persiste. Aos 18 meses: treponêmico negativo, a criança nunca teve sífilis congênita e tudo foi preventivo; positivo com VDRL negativo, a doença foi tratada e o treponêmico fica como cicatriz. Isso importa: uma menina curada pode engravidar anos depois com treponêmico positivo e VDRL negativo, sem doença ativa, e uma criança de 4 anos assim exige, se o contexto for incompatível, pensar em nova infecção ou abuso sexual.</p>
+</section>
+
+<section id="hiv" style="--c:#1b4f9c">
+<h2>Gestante vivendo com HIV</h2>
+<p class="lb">carga viral como bússola de toda a conduta</p>
+<p>O objetivo é diagnosticar cedo e deixar a carga viral (CV) indetectável antes do parto. Sem intervenção, a transmissão vertical do HIV chega a cerca de 15-45% (incluindo aleitamento); com TARV bem tomada, cai para menos de 1% (Harrison; PCDT do Ministério da Saúde). Testa-se no 1º, 2º e 3º trimestres e no parto, com teste rápido (cerca de 30 minutos) ou sorologia, num algoritmo T1 e T2 (confirmatório).</p>
+<div class="g">
+<div class="c"><p class="lb">CV 1: no diagnóstico</p>Valor basal, antes do efeito do tratamento.</div>
+<div class="c"><p class="lb">CV 2: cerca de 26 semanas</p>Avalia adesão e resposta; a CV já deveria estar muito baixa (log em torno de 1 a 1,5). Se não, CV mensal, discutir adesão, serviço social.</div>
+<div class="c"><p class="lb">CV 3: a partir de 34 semanas (ou 36)</p>É a mais importante: define a via de parto.</div>
+</div>
+<h3>Via de parto e AZT intravenoso</h3>
+<p>CV menor que 1.000 cópias/mL: via obstétrica habitual (parto vaginal pode ser indicado). CV maior que 1.000 ou desconhecida: cesariana eletiva, geralmente com 38 semanas. CV indetectável: via obstétrica habitual e AZT IV não necessário. Segundo o slide, CV detectável (qualquer valor) leva ao AZT IV do início do trabalho de parto até o clampeamento do cordão. No trabalho de parto, evite amniotomia, episiotomia e fórceps, procedimentos que aumentam o contato fetal com sangue e secreções.</p>
+<details><summary>Aprofunde-se: por que a cesariana e o AZT funcionam</summary>
+<p>A maior parte da transmissão intraparto ocorre por exposição das mucosas fetais ao sangue e às secreções cervicovaginais, e por microtransfusões durante as contrações. Cesariana eletiva antes do trabalho de parto e antes da ruptura de membranas reduz essa exposição. A zidovudina é um análogo de timidina (ITRN): é fosforilada e, como não tem o grupo 3'-OH, termina a cadeia de DNA que a transcriptase reversa sintetiza. Na profilaxia, a ideia é dupla: reduzir a replicação no momento crítico e, por atravessar a placenta, funcionar como profilaxia pré-exposição do feto (Katzung; Goodman & Gilman).</p></details>
+<div class="c warn"><p class="lb">Alerta de prova</p>O slide indica AZT IV para qualquer CV detectável. Protocolos atuais do Ministério da Saúde restringem a indicação a CV desconhecida ou maior que 1.000 cópias/mL (e pesam os valores intermediários). Confirme no PCDT vigente que sua prova segue.</div>
+<h3>Amamentação</h3>
+<p>Contraindicada, porque o vírus está no leite. O recém-nascido recebe fórmula infantil, ofertada pelo SUS até os 6 meses (em Santa Catarina, até 12 meses, conforme o slide). Este é o ponto em que a infecção aguda no puerpério vira catástrofe, como visto na primeira seção.</p>
+</section>
+
+<section id="toxo" style="--c:#b27a00">
+<h2>Toxoplasmose gestacional e congênita</h2>
+<p class="lb">Toxoplasma gondii: quando a infecção aconteceu é a pergunta central</p>
+<p>O diagnóstico é sorológico (IgG e IgM), e o ponto de corte é <span class="k">16 semanas</span> por causa do teste de avidez. Abaixo de 16 semanas:</p>
+<div class="g">
+<div class="c"><p class="lb">IgG+ / IgM-</p>Infecção antiga, imunidade prévia, risco fetal insignificante, sem tratamento.</div>
+<div class="c"><p class="lb">IgG- / IgM-</p>Suscetível. Prevenção e sorologia repetida (idealmente mensal, no mínimo trimestral, e no parto).</div>
+<div class="c"><p class="lb">IgG- / IgM+</p>Infecção hiperaguda ou falso-positivo. Repetir em 15-21 dias: se virar IgG+, infecção aguda; se continuar IgG-, falso-positivo.</div>
+<div class="c"><p class="lb">IgG+ / IgM+</p>Possível infecção recente: pedir avidez do IgG. Alta avidez afasta infecção recente; baixa avidez sugere infecção recente na gestação.</div>
+</div>
+<details><summary>Aprofunde-se: o que é avidez e por que 16 semanas</summary>
+<p>Avidez mede a força de ligação do anticorpo ao antígeno (maturação por hipermutação somática e seleção de afinidade nos centros germinativos, um conceito de Abbas). No teste, o antígeno fica na placa, o soro do paciente se liga e a placa é lavada com agente que rompe ligações fracas: anticorpo imaturo se solta (baixa avidez, infecção recente); maduro permanece (alta avidez). Essa maturação leva cerca de 12 a 16 semanas. Logo, antes de 16 semanas de gestação, alta avidez significa que a infecção tem mais de 12-16 semanas, ou seja, praticamente anterior à gravidez. Depois de 16 semanas, alta avidez já não separa infecção pré-gestacional de infecção no início da gestação (exemplo: 20 semanas, infecção com 4-8 semanas de gestação já teria alta avidez), então o teste perde o valor. Após 16 semanas, IgG+ e IgM+ é toxoplasmose provável: trata-se, sem avidez.</p></details>
+<h3>Tratamento da gestante</h3>
+<p>Até 18 semanas: <span class="k">espiramicina</span> 3 g/dia em 3 doses. Ela não trata o feto, ela reduz a passagem transplacentária (bloqueio da transmissão vertical); é usada porque a pirimetamina é teratogênica no início da gestação. Após 18 semanas, ou mantém espiramicina ou passa ao esquema tríplice, e o ideal é saber se o feto está infectado por amniocentese com PCR do líquido amniótico. PCR positivo confirma infecção fetal: suspende a espiramicina e inicia tríplice. PCR negativo não exclui (cerca de 20% de falso-negativo). Por isso, no SUS, a troca para esquema tríplice costuma ser automática após 18 semanas nos casos suspeitos ou prováveis, por 4 a 6 semanas ou até o parto.</p>
+<div class="g">
+<div class="c"><p class="lb">Sulfadiazina</p>Inibe a di-hidropteroato sintase do parasita.</div>
+<div class="c"><p class="lb">Pirimetamina</p>Inibe a di-hidrofolato redutase do parasita (e, em parte, a humana).</div>
+<div class="c"><p class="lb">Ácido folínico</p>Resgata a medula óssea do hospedeiro, reduzindo a toxicidade hematológica.</div>
+</div>
+<details><summary>Aprofunde-se: bloqueio sequencial da via do folato</summary>
+<p>O toxoplasma sintetiza o próprio folato. A sulfadiazina (análogo do PABA) bloqueia uma etapa inicial; a pirimetamina bloqueia a DHFR, etapa seguinte. Esse bloqueio sequencial é sinérgico. A pirimetamina também atinge a DHFR humana em menor grau, causando supressão medular (anemia, neutropenia); o ácido folínico (leucovorin, já na forma reduzida) é captado por células humanas e contorna a DHFR, enquanto o parasita não o aproveita. Por isso se usa folínico e não ácido fólico comum (Katzung; Goodman & Gilman).</p></details>
+<h3>Recém-nascido exposto</h3>
+<p>Investigar antes da alta: sorologia, exame físico, neuroimagem (ultrassom transfontanelar ou tomografia: calcificações, hidrocefalia) e avaliação oftalmológica (coriorretinite), esta agendada para a primeira semana de vida. Sorologia com sangue periférico, nunca de cordão, que pode ser contaminado por sangue materno. IgM do bebê não atravessa a placenta, então positivo sugere produção própria, mas nos primeiros 5-7 dias pode ser contaminação: repetir entre o 7º e o 10º dia; se persistir, confirma toxoplasmose congênita. IgG ao nascer pode ser herdado e não confirma nada.</p>
+<p>O que decide é a <span class="k">curva do IgG</span>: no bebê não infectado ele cai (queda progressiva a cada consulta, negativando entre 9 e 12 meses, às vezes só aos 18). No infectado, ele fica estável ou sobe (exemplo suspeito: 200 ao nascer e 190 aos 3 meses). IgG positivo após 12 meses é toxoplasmose congênita. Use sempre o mesmo laboratório e a mesma máquina, pois escalas diferem.</p>
+<h3>Tratamento da criança e prevenção</h3>
+<p>12 meses completos de tratamento a partir do diagnóstico (diagnóstico aos 6 meses, tratamento até os 18). Esquema do slide: pirimetamina 1 mg/kg a cada 12 h por 2 dias, depois 1 mg/kg/dia por 2-6 meses e então 1 mg/kg três vezes por semana; sulfadiazina 50 mg/kg a cada 12 h; ácido folínico 10 mg três vezes por semana; corticoide se coriorretinite ativa ou proteína muito alta no líquor. Doses sempre pelo peso. Macere o comprimido, dilua, não reaproveite sobra. Para ajudar na aceitação, pode-se misturar a calda de sorvete.</p>
+<div class="c warn"><p class="lb">Alerta</p>O slide diz que mel é contraindicado para menores de 2 anos. A contraindicação clássica, por botulismo infantil, vale para menores de 12 meses; confirme. Em qualquer caso, evite mel nessa faixa de idade.</div>
+<p>Prevenção primária (soronegativas): evitar carne crua ou malcozida, lavar frutas e verduras, luvas na terra, evitar fezes de gato e limpeza de caixa de areia, água filtrada. Prevenção secundária: triagem sorológica no pré-natal.</p>
+</section>
+
+<section id="hcv" style="--c:#0e7c6b">
+<h2>Hepatite C na gestação</h2>
+<p class="lb">risco baixo, sem tratamento possível na gestação</p>
+<p>Rastreia-se no 1º trimestre com anti-HCV (anticorpo, não vírus). Anti-HCV positivo não prova infecção ativa: confirme com HCV-RNA (PCR). Anti-HCV+ e carga viral positiva: hepatite C ativa, encaminha ao infectologista. Anti-HCV+ e carga viral negativa: não há infecção ativa (contato antigo resolvido espontaneamente ou falso-positivo); na frase do professor, "anti-HCV positivo com carga viral negativa é igual a nada".</p>
+<details><summary>Aprofunde-se: ALT, AST, antivirais e ribavirina</summary>
+<p>Na gestação a ALT (TGP) tende a cair discretamente no 3º trimestre, enquanto a AST (TGO) costuma ficar igual; elevação de AST não é normal. Não há antivirais de ação direta (DAAs) aprovados na gestação por falta de dados de segurança fetal, então a mulher é acompanhada e trata-se após o parto e o desmame. A ribavirina é análoga da guanosina que, entre outros mecanismos, esgota o pool de GTP inibindo a IMP desidrogenase; é teratogênica e o efeito persiste por até 6 meses após suspender, razão para não engravidar nesse período.</p></details>
+<p>A transmissão vertical é de cerca de 5,8% (mãe HIV negativa) e 10,8% (coinfecção com HIV), principalmente no parto, por contato com sangue materno. Cesariana não reduz comprovadamente esse risco e a amamentação não é contraindicada. Fulminante é raríssima; se houver piora de transaminases ou descompensação, investigue outras causas.</p>
+<h3>Recém-nascido</h3>
+<p>O IgG materno persiste até cerca de 18 meses, então anti-HCV positivo antes disso pode ser só herança. O método clássico é o anti-HCV após 18 meses: negativo, sem infecção; positivo, investigar infecção persistente. PCR a partir de 2-3 meses detecta o vírus precocemente, mas como não há tratamento disponível para lactentes, muitos serviços só acompanham. Cerca de 25% das crianças infectadas eliminam o vírus nos primeiros 6 anos; a evolução na infância é em geral menos agressiva, com acompanhamento até 10-12 anos, quando há opções aprovadas.</p>
+</section>
+
+<section id="hbv" style="--c:#6b3fa0">
+<h2>Hepatite B gestacional</h2>
+<p class="lb">aqui a transmissão vertical é quase totalmente evitável</p>
+<p>Todas as gestantes fazem HBsAg no 1º trimestre, independentemente de vacina, sintomas ou risco, porque a hepatite B crônica é silenciosa. Quem tem risco (parceiro HBsAg+, múltiplos parceiros, drogas injetáveis) repete no 3º trimestre. HBsAg positivo significa infecção ativa (aguda ou crônica) e pede HBeAg, anti-HBe, anti-HBc total, anti-HBs, ALT, AST e HBV-DNA.</p>
+<div class="g">
+<div class="c"><p class="lb">HBeAg reagente</p>Replicação intensa, maior infectividade.</div>
+<div class="c"><p class="lb">HBV-DNA</p>Principal determinante do risco. Risco sobe com mais de 200.000 UI/mL. Dosar com 24-28 semanas.</div>
+<div class="c"><p class="lb">Anti-HBc e anti-HBs</p>Anti-HBc: contato prévio. Anti-HBs: imunidade (vacina ou infecção resolvida).</div>
+</div>
+<h3>Tenofovir na gestante</h3>
+<p>Duas razões para tratar: indicação clínica da própria doença (HBV-DNA maior ou igual a 2.000 UI/mL com ALT acima de 1,5 vez o limite por mais de 3 meses) e <span class="k">profilaxia</span> (HBeAg reagente e/ou HBV-DNA maior ou igual a 200.000 UI/mL). Droga: TDF 300 mg VO 1 vez ao dia, iniciada entre 28 e 32 semanas, para reduzir a carga viral antes do parto. Se foi só profilaxia, suspende-se 4 a 12 semanas depois do parto; quem já tinha indicação continua. Quem já usava antiviral antes da gestação mantém, com preferência pelo TDF.</p>
+<details><summary>Aprofunde-se: mecanismo do tenofovir e por que a carga viral importa tanto</summary>
+<p>O tenofovir é análogo nucleotídeo da adenosina. Fosforilado a difosfato, compete com o dATP e termina a cadeia pela DNA polimerase/transcriptase reversa do HBV. Tem alta barreira genética (resistência rara). Como a transmissão acontece sobretudo no parto, por exposição a sangue e secreções, quanto menos vírus circulante, menos inóculo fetal, e é por isso que a carga viral (e não o HBsAg) é o que mais prediz a falha da profilaxia do bebê.</p></details>
+<h3>Sala de parto: imunoprofilaxia combinada</h3>
+<p>Todo recém-nascido de mãe HBsAg positiva recebe HBIG (0,5 mL IM, nas primeiras 12 horas), que dá proteção passiva imediata, e a 1ª dose da vacina contra hepatite B, idealmente nas primeiras 12 horas e no máximo em 24, que gera imunidade ativa. Juntas reduzem a transmissão vertical em cerca de 85-95%, mesmo com alta carga viral. Depois, completa o esquema de 3 a 4 doses. A amamentação não é contraindicada após imunoprofilaxia correta.</p>
+<h3>Seguimento do bebê</h3>
+<p>Entre 9 e 12 meses, solicitar HBsAg e anti-HBs. HBsAg negativo e anti-HBs positivo: profilaxia funcionou e a criança está protegida. HBsAg positivo: falha, houve transmissão. Anti-HBs negativo: sem proteção, pode precisar revacinar.</p>
+</section>
+
+<section id="comp" style="--c:#2b5d6e">
+<h2>Complementos: detalhes do slide que costumam cair em prova</h2>
+<p class="lb">itens que não couberam nos blocos acima</p>
+<div class="g">
+<div class="c"><p class="lb">Treponêmicos, um a um</p>Teste rápido: imunocromatografia, 10-30 min, usado no pré-natal. FTA-ABS: fluorescência. ELISA: reação enzimática com mudança de cor. CMIA/CMA: quimioluminescência, automatizado. Todos têm alta sensibilidade e especificidade e ficam positivos por toda a vida.</div>
+<div class="c"><p class="lb">Quando pedir treponêmico</p>Basicamente no primeiro diagnóstico: o TR basta uma vez na vida e o FTA-ABS não se repete. IgM e IgG do FTA-ABS não se interpretam como sorologia viral comum. Paciente tratado há 2 anos com TR positivo não tem sífilis nova: peça VDRL e compare.</div>
+<div class="c"><p class="lb">Alergia à penicilina na gestante</p>Dessensibiliza-se e trata-se com penicilina, pois não há outra droga com eficácia fetal comprovada. O slide diz que alergia há menos de 12 anos "não importa" e que mais antiga exige atenção; a frase é ambígua, então trate o relato de alergia como indicação de dessensibilização e confirme o critério no protocolo.</div>
+<div class="c"><p class="lb">Hepatite B e colestase</p>A gravidez não costuma piorar a hepatite B crônica, mas há maior risco de colestase intra-hepática da gestação (alteração do fluxo biliar, prurido intenso, alteração hepática).</div>
+<div class="c"><p class="lb">Seguimento sorológico da toxoplasmose no RN</p>IgG e IgM ao nascer e com 1 mês; IgG aos 3, 6, 9 e 12 meses (alguns serviços fazem 18; muitos fazem mensal no 1º semestre).</div>
+<div class="c"><p class="lb">Exposto versus infectado, em uma linha</p>Sífilis e HCV: anticorpo do bebê pode ser materno (treponêmico e anti-HCV só confirmam após 18 meses). Toxoplasmose: IgG que não cai sugere infecção. Hepatite B: HBsAg e anti-HBs com 9-12 meses.</div>
+</div>
+</section>
+
+<section id="rev" style="--c:#a3265b">
+<h2>Modo revisão</h2>
+<p class="lb">clique no cartão para virar; use os botões para navegar</p>
+<div id="fc"><div id="fcq"></div><div class="fb"><button id="fcp">Anterior</button><button id="fcn">Próximo</button><span class="lb" id="fcc"></span></div></div>
+</section>
+
+<section id="resumo" class="rs" style="--c:#5f6b2a">
+<h2>Super resumo: o que não pode escapar</h2>
+<p class="lb">os pontos de maior cobrança de cada bloco</p>
+<div class="g">
+<div class="c" style="--a:#14171a"><p class="lb">Conceito e saúde pública</p><ul>
+<li>Três janelas: intraútero, intraparto e pós-parto (leite).</li>
+<li>Puerpério é o elo fraco: testar a mulher aos 2 e 6 meses para HIV.</li>
+<li>Toxoplasmose congênita: cerca de 80% assintomáticos ao nascer.</li>
+<li>HIV: cada gestação é uma nova notificação.</li></ul></div>
+<div class="c" style="--a:#a62b1f"><p class="lb">Sífilis: diagnóstico</p><ul>
+<li>Rastrear no 1º, 2º e 3º trimestres e no parto; algoritmo reverso é o mais usado.</li>
+<li>Treponêmico fica positivo pela vida toda: nunca serve para cura. Acompanhar só com VDRL.</li>
+<li>TR positivo sem história prévia: tratar já. TR positivo e VDRL negativo: segundo treponêmico diferente.</li>
+<li>VDRL (cardiolipina) tem falsos-positivos: lúpus, hanseníase, gestação.</li></ul></div>
+<div class="c" style="--a:#a62b1f"><p class="lb">Sífilis: conduta e seguimento</p><ul>
+<li>Precoce: 2,4 mi UI IM dose única. Tardia ou tempo ignorado: 3 doses semanais (7,2 mi UI).</li>
+<li>Gestante alérgica: dessensibilizar. Neurossífilis: penicilina cristalina IV por 10-14 dias.</li>
+<li>Cicatriz: queda de 2 ou mais diluições e título baixo e estável. Aumento de 2 diluições: reinfecção ou falha.</li>
+<li>Na gestante, na dúvida, retrata-se.</li></ul></div>
+<div class="c" style="--a:#a62b1f"><p class="lb">Sífilis: recém-nascido</p><ul>
+<li>Doente: mãe sem tratamento adequado, clínica compatível ou VDRL 2 diluições acima do materno.</li>
+<li>Doente investiga: líquor, ultrassom transfontanela e radiografia de ossos longos.</li>
+<li>Sem SNC: procaína IM; com SNC: cristalina IV, ambas por 10-14 dias.</li>
+<li>VDRL seriado; reagente aos 6 meses é falha. Confirmação só após 18 meses.</li></ul></div>
+<div class="c" style="--a:#1f4e79"><p class="lb">HIV</p><ul>
+<li>Testar em cada trimestre e no parto. Carga viral no diagnóstico, com 26 semanas e a partir de 34.</li>
+<li>CV acima de 1.000 ou desconhecida: cesariana eletiva com 38 semanas.</li>
+<li>AZT IV no parto se CV detectável (pelo slide); evitar amniotomia, episiotomia e fórceps.</li>
+<li>Amamentação contraindicada: fórmula infantil.</li></ul></div>
+<div class="c" style="--a:#a85d0a"><p class="lb">Toxoplasmose: gestante</p><ul>
+<li>Antes de 16 semanas, IgG e IgM positivos: pedir avidez. Alta avidez afasta infecção recente.</li>
+<li>Depois de 16 semanas, não se faz avidez: IgG e IgM positivos é toxoplasmose provável.</li>
+<li>Até 18 semanas: espiramicina. Depois: esquema tríplice (PCR do líquido amniótico pode dar falso-negativo).</li></ul></div>
+<div class="c" style="--a:#a85d0a"><p class="lb">Toxoplasmose: recém-nascido</p><ul>
+<li>Sangue periférico, nunca de cordão. IgM não atravessa a placenta; repetir entre o 7º e o 10º dia.</li>
+<li>Seguir a curva do IgG, sempre no mesmo laboratório: cai se for só anticorpo materno.</li>
+<li>Ultrassom ou tomografia e fundo de olho na primeira semana.</li>
+<li>IgG positivo após 12 meses: congênita. Tratar por 12 meses completos.</li></ul></div>
+<div class="c" style="--a:#2f6b4f"><p class="lb">Hepatite C</p><ul>
+<li>Anti-HCV positivo pede HCV-RNA. Anti-HCV positivo com carga viral negativa: sem infecção ativa.</li>
+<li>Sem tratamento na gestação; ribavirina contraindicada. Trata-se após o desmame.</li>
+<li>Risco de transmissão cerca de 5,8% (10,8% com HIV), no parto. Cesariana não reduz; amamentação liberada.</li>
+<li>Bebê: anti-HCV aos 18 meses; PCR possível a partir de 2-3 meses.</li></ul></div>
+<div class="c" style="--a:#4b3f72"><p class="lb">Hepatite B</p><ul>
+<li>HBsAg em todas no 1º trimestre; HBV-DNA entre 24 e 28 semanas.</li>
+<li>TDF 300 mg/dia se HBV-DNA de 200.000 UI/mL ou mais, ou HBeAg reagente (início entre 28 e 32 semanas).</li>
+<li>RN: HBIG 0,5 mL IM e vacina em até 12 horas: reduz a transmissão em 85-95%.</li>
+<li>HBsAg e anti-HBs aos 9-12 meses. Amamentação liberada após a imunoprofilaxia.</li></ul></div>
+</div>
+</section>
+
+<section id="ref" style="--c:#13242f">
+<h2>Referências</h2>
+<p class="lb">formato ABNT; revise edições e anos conforme o padrão da Uniarp-SC</p>
+<ul>
+<li>BRASIL. Ministério da Saúde. <i>Protocolo Clínico e Diretrizes Terapêuticas para Prevenção da Transmissão Vertical de HIV, Sífilis e Hepatites Virais</i>. Brasília: Ministério da Saúde, 2022.</li>
+<li>BRASIL. Ministério da Saúde. <i>Protocolo Clínico e Diretrizes Terapêuticas para Atenção Integral às Pessoas com Infecções Sexualmente Transmissíveis (IST)</i>. Brasília: Ministério da Saúde, 2022.</li>
+<li>BRASIL. Ministério da Saúde. <i>Manual técnico para o diagnóstico da sífilis</i>. Brasília: Ministério da Saúde, 2016.</li>
+<li>BRUNTON, L. L.; HILAL-DANDAN, R.; KNOLLMANN, B. C. <i>As bases farmacológicas da terapêutica de Goodman &amp; Gilman</i>. 13. ed. Porto Alegre: AMGH, 2019.</li>
+<li>KATZUNG, B. G.; VANDERAH, T. W. <i>Farmacologia básica e clínica</i>. 15. ed. Porto Alegre: AMGH, 2022.</li>
+<li>KUMAR, V.; ABBAS, A. K.; ASTER, J. C. <i>Robbins &amp; Cotran: patologia, bases patológicas das doenças</i>. 10. ed. Rio de Janeiro: Elsevier, 2023.</li>
+<li>HALL, J. E.; HALL, M. E. <i>Guyton &amp; Hall: tratado de fisiologia médica</i>. 14. ed. Rio de Janeiro: Elsevier, 2021.</li>
+<li>WILSON, C. B. et al. <i>Remington and Klein's infectious diseases of the fetus and newborn infant</i>. 8. ed. Philadelphia: Elsevier, 2016.</li>
+<li>DUARTE, L. <i>Transmissão vertical</i>: slides de aula. Material didático não publicado.</li>
+</ul>
+</section>
+</main></div>
+
+<div id="bar" role="toolbar"><button id="be">Ativar edição</button><button id="bd">Baixar cópia editada</button><button id="br">Restaurar original</button></div>
+
+<script>
+(function(){
+var K='tv-estudo-uniarp-v3',m=document.getElementById('m'),on=false,t;
+function put(){try{var s=localStorage.getItem(K);if(s)m.innerHTML=s}catch(e){}}
+function save(){try{localStorage.setItem(K,m.innerHTML)}catch(e){}}
+function ed(v){on=v;document.body.classList.toggle('ed',v);document.getElementById('be').classList.toggle('on',v);
+document.getElementById('be').textContent=v?'Salvar e sair':'Ativar edição';
+m.querySelectorAll('h2,h3,p,li,.c').forEach(function(e){if(v)e.setAttribute('contenteditable','true');else e.removeAttribute('contenteditable')});
+clearInterval(t);if(v)t=setInterval(save,15000);else save()}
+function R(){var o=document.getElementById('out'),a=v('s1'),b=v('s2'),h=v('s3'),x;
+if(a=='p'&&b=='x')x='Teste rápido positivo, VDRL pendente: '+(h=='n'?'sem história prévia, considere sífilis ativa e comece o tratamento já, sem esperar o VDRL; peça o VDRL para ter o título basal e acompanhar.':'peça o VDRL antes de tratar para comparar com o título basal. Alguns municípios dão uma dose de benzatina de oportunidade até a confirmação.');
+else if(a=='p'&&b=='r')x=h=='n'?'Sífilis ativa: trate (precoce ou tardia conforme o histórico sorológico; sem documentação, trate como tardia) e acompanhe o título. Qualquer valor de VDRL.':'Compare o título com os anteriores. Queda documentada e título baixo e estável: cicatriz sorológica (na gestante, ponderar retratar). Aumento de 2 diluições ou VDRL novo após negativo: reinfecção, trate.';
+else if(a=='p'&&b=='n')x=h=='n'?'Discordância: treponêmico positivo e VDRL negativo. Peça um segundo treponêmico de metodologia diferente (FTA-ABS ou ELISA). Se vier negativo, pense em falso-positivo do teste rápido (leitura tardia, troca de reagente). Na dúvida clínica forte ou na gestante, avalie tratar.':'Treponêmico positivo e VDRL não reagente em quem já teve sífilis: esperado numa doença tratada. Geralmente não retrata; faz seguimento com VDRL.';
+else if(a=='n'&&b=='r')x='VDRL reagente com TR negativo: pense em falso-positivo biológico (cardiolipina: lúpus, hanseníase, gestação) ou fenômeno de prozona/erro técnico. Confirme com outro treponêmico (FTA-ABS ou ELISA). Esta combinação vai além do que o slide discute.';
+else x='Sem evidência laboratorial. Se houver cancro duro com 10-14 dias de exposição, o TR pode ainda não ter positivado: considere IgM e repita. No pré-natal, repita no 2º e 3º trimestres e no parto.';
+o.innerHTML='<p class="lb">Conduta sugerida</p>'+x}
+function v(i){return document.getElementById(i).value}
+document.addEventListener('change',function(e){if(/^s[123]$/.test(e.target.id))R()});
+document.getElementById('be').onclick=function(){ed(!on)};
+document.getElementById('br').onclick=function(){if(confirm('Apagar as edições salvas neste navegador?')){try{localStorage.removeItem(K)}catch(e){}location.reload()}};
+document.getElementById('bd').onclick=function(){var was=on;if(on)ed(false);
+var c=document.documentElement.cloneNode(true);c.querySelectorAll('[contenteditable]').forEach(function(e){e.removeAttribute('contenteditable')});c.querySelector('body').classList.remove('ed');
+var b=new Blob(['<!DOCTYPE html>\n'+c.outerHTML],{type:'text/html'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='transmissao_vertical_editado.html';a.click();if(was)ed(true)};
+var Q=[["Por que o teste rápido não serve para controle de cura?","É treponêmico: fica positivo pela vida toda. O controle usa VDRL (titulação)."],["Qual é a base da reação do VDRL e qual a consequência?","Cardiolipina, presente também em células humanas. Gera falsos-positivos (lúpus, hanseníase, doenças autoimunes, gestação)."],["TR positivo, sem história prévia de sífilis: conduta?","Considerar sífilis ativa e tratar imediatamente, sem esperar o VDRL, que é pedido para titulação."],["TR positivo e VDRL negativo?","Pedir outro treponêmico de metodologia diferente (FTA-ABS ou ELISA). Se negativo, pensar em falso-positivo do TR."],["Critérios de cicatriz sorológica?","Tratamento adequado, queda de pelo menos 2 diluições, título baixo (abaixo de 1:8) e estável, sem sintomas. Na gestante o limiar para retratar é menor."],["Quando suspeitar de neurossífilis e como tratar?","VDRL residual persistente de 1:8 ou mais (ou muito alto, acima de 1:512). Punção lombar. Penicilina G cristalina IV 10-14 dias, pois a benzatina não atinge o líquor."],["Como o VDRL do RN define doente ou exposto?","Doente: duas diluições acima do materno. Igual ou menor, assintomático e mãe tratada: exposto."],["Quando se confirma a sífilis congênita?","Após 18 meses: treponêmico negativo, nunca teve; positivo com VDRL negativo, tratada e curada (cicatriz)."],["Via de parto e AZT no HIV pelo slide?","CV acima de 1.000 ou desconhecida: cesariana eletiva com 38 semanas. CV detectável: AZT IV. Indetectável: via obstétrica e sem AZT. Amamentação contraindicada."],["Por que a avidez só vale antes de 16 semanas?","A maturação do IgG leva 12-16 semanas. Depois disso, alta avidez não exclui infecção no início da gestação."],["Esquema tríplice na toxoplasmose e papel do folínico?","Sulfadiazina, pirimetamina e ácido folínico, que protege a medula da toxicidade da pirimetamina. Até 18 semanas usa-se espiramicina."],["Como interpretar o IgG do RN na toxoplasmose?","Não infectado: cai e negativa até 12-18 meses. Infectado: estável ou ascendente. IgG positivo após 12 meses é congênita."],["Anti-HCV positivo com carga viral negativa?","Sem infecção ativa. RN: anti-HCV aos 18 meses; amamentação permitida; sem tratamento na gestação (DAAs não aprovados, ribavirina contraindicada)."],["Imunoprofilaxia do RN de mãe HBsAg positiva?","HBIG 0,5 mL IM e 1ª dose da vacina nas primeiras 12 h (vacina no máximo em 24 h). HBsAg e anti-HBs aos 9-12 meses."]],ix=0,sh=false;
+function fc(){var e=document.getElementById('fcq');if(!e)return;e.className=sh?'a':'';e.textContent=sh?Q[ix][1]:Q[ix][0];document.getElementById('fcc').textContent=(ix+1)+' / '+Q.length}
+document.addEventListener('click',function(e){var i=e.target.id;if(i=='fcq'){sh=!sh}else if(i=='fcn'){ix=(ix+1)%Q.length;sh=false}else if(i=='fcp'){ix=(ix+Q.length-1)%Q.length;sh=false}else return;fc()});
+var pg=document.getElementById('pg');addEventListener('scroll',function(){var d=document.documentElement;pg.style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%'});
+put();R();fc();
+var M={sif:["Agente","Treponema pallidum (espiroqueta)","Janela principal","Transplacentária","Exame que manda","VDRL em titulação","Arma","Penicilina benzatina"],hiv:["Agente","Retrovírus de RNA","Janela principal","Parto e leite materno","Exame que manda","Carga viral a partir de 34 sem","Arma","TARV, AZT IV e fórmula infantil"],toxo:["Agente","Toxoplasma gondii (protozoário)","Janela principal","Transplacentária","Exame que manda","IgG, IgM e avidez (até 16 sem)","Arma","Espiramicina ou esquema tríplice"],hcv:["Agente","Vírus de RNA (HCV)","Janela principal","Parto (sangue materno)","Exame que manda","Anti-HCV e depois HCV-RNA","Arma","Nenhuma na gestação; tratar após o desmame"],hbv:["Agente","Vírus de DNA (HBV)","Janela principal","Parto","Exame que manda","HBsAg, HBeAg e HBV-DNA","Arma","TDF, HBIG e vacina em até 12 h"]};
+Object.keys(M).forEach(function(k){var s=document.getElementById(k);if(!s||s.querySelector('.mt'))return;var d=document.createElement('div'),a=M[k],h='';d.className='mt';for(var i=0;i<8;i+=2)h+='<div><span>'+a[i]+'</span><i>'+a[i+1]+'</i></div>';d.innerHTML=h;var l=s.querySelector('.lb');l.parentNode.insertBefore(d,l.nextSibling)});
+var H=document.querySelector('header');if(H&&!H.querySelector('.st')){var t=document.createElement('div');t.className='tg';t.textContent='DOSSIÊ DE CAMPO // INFECÇÕES MATERNO-INFANTIS';H.insertBefore(t,H.firstChild);var st=document.createElement('div');st.className='st';st.innerHTML='<div><b>3</b>janelas de transmissão: útero, parto e leite</div><div><b>5</b>agentes: sífilis, HIV, toxoplasmose, HCV e HBV</div><div><b>18</b>meses para fechar o diagnóstico sorológico do bebê (sífilis, HCV, toxoplasmose)</div>';H.appendChild(st)}
+var CH=document.querySelectorAll('.nav a'),SC=[].map.call(CH,function(a){return document.querySelector(a.getAttribute('href'))});
+function act(){var y=scrollY+140,j=0;SC.forEach(function(s,i){if(s&&s.offsetTop<=y)j=i});CH.forEach(function(a,i){a.classList.toggle('on',i==j)})}
+addEventListener('scroll',act);act();
+})();
+</script></body></html>

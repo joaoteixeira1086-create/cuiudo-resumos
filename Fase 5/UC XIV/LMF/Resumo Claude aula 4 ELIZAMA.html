@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Termorregulação e febre — folha de temperatura</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=IBM+Plex+Sans:wght@400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f6f0e4;--card:#fbf7ee;--ink:#1d2a3a;--mute:#5f6670;--line:#d8ceb6;--red:#b8322a;--blue:#1f6a96;--gold:#98670f;--grn:#3a7a4a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#10171f;--card:#16202b;--ink:#e9e3d3;--mute:#9aa3ad;--line:#2b3a4a;--red:#ff7060;--blue:#76bbe3;--gold:#e2b25a;--grn:#7cc590}}
+:root[data-theme="dark"]{--paper:#10171f;--card:#16202b;--ink:#e9e3d3;--mute:#9aa3ad;--line:#2b3a4a;--red:#ff7060;--blue:#76bbe3;--gold:#e2b25a;--grn:#7cc590}
+*,*::before,*::after{box-sizing:border-box;font-weight:400}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.75 'IBM Plex Sans',system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0;z-index:-1;opacity:.28;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:34px 34px}
+main{max-width:760px;margin:0 auto;padding:0 22px 140px}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:400;line-height:1.15;margin:0}
+h1{font-size:clamp(2.3rem,7vw,3.8rem);margin:10px 0 18px}
+h2{font-size:clamp(1.6rem,4.5vw,2.1rem)}
+h3{font-size:1.2rem;font-style:italic;color:var(--blue);margin:26px 0 6px}
+.mono,summary,.lab,#tb button,#th small{font-family:'IBM Plex Mono',monospace}
+.lab{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.lead{font-size:1.18rem;color:var(--mute);max-width:620px}
+header{padding:56px 0 24px}
+header svg{width:100%;height:auto;margin-top:18px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+section{padding-top:64px}
+.hd{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--ink);padding-bottom:10px;margin-bottom:18px}
+.deg{font:italic 400 clamp(2.2rem,8vw,3.4rem)/1 Fraunces,serif;color:var(--red);white-space:nowrap}
+.deg sup{font-size:.4em;font-style:normal;font-family:'IBM Plex Mono',monospace}
+p{margin:0 0 15px}
+em{color:var(--blue)}.k{color:var(--red);font-style:italic}
+.card{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:14px 18px;margin:16px 0}
+.card.r{border-color:var(--red)}.card.b{border-color:var(--blue)}.card.g{border-color:var(--grn)}.card.y{border-color:var(--gold);background:transparent}
+.card .lab{display:block;margin-bottom:4px}.card p:last-child{margin:0}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.row .card{margin:6px 0}
+details{border-top:1px dashed var(--line);margin:22px 0 8px}
+summary{cursor:pointer;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);padding:12px 0;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+  "}details[open]>summary::before{content:"−  "}
+details>div{padding:2px 0 8px 14px;border-left:2px solid var(--blue)}
+.sim{border:1px solid var(--red);border-radius:12px;padding:18px;margin:26px 0}
+.sim label{display:flex;justify-content:space-between;font:.8rem 'IBM Plex Mono',monospace;margin-top:12px}
+.sim input[type=range]{width:100%;accent-color:var(--red)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.btns button,#tb button{font:.74rem 'IBM Plex Mono',monospace;color:var(--ink);background:transparent;border:1px solid var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer}
+.btns button:hover,#tb button:hover{border-color:var(--red);color:var(--red)}
+#sr{border:1px solid var(--blue);border-radius:10px;padding:12px 16px;min-height:96px}
+#th{position:fixed;left:20px;top:12vh;height:76vh;width:60px;display:none;z-index:5}
+#th .tube{position:absolute;left:8px;top:0;bottom:24px;width:12px;border:1.5px solid var(--ink);border-radius:8px 8px 0 0;background:var(--card);overflow:hidden}
+#th .hg{position:absolute;left:0;right:0;bottom:0;height:calc(var(--p,0)*100%);background:var(--red)}
+#th .bulb{position:absolute;left:1px;bottom:0;width:26px;height:26px;border-radius:50%;background:var(--red);border:1.5px solid var(--ink)}
+#th small{position:absolute;left:34px;top:-4px;font-size:.7rem;color:var(--mute);white-space:nowrap}
+#bar{position:fixed;top:0;left:0;height:3px;background:var(--red);width:calc(var(--p,0)*100%);z-index:6;padding-top:env(safe-area-inset-top,0px)}
+@media(min-width:1000px){#th{display:block}#bar{display:none}}
+#tb{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));display:flex;gap:6px;background:var(--card);border:1px solid var(--line);padding:6px;border-radius:999px;z-index:9;flex-wrap:wrap;justify-content:flex-end;max-width:calc(100% - 28px)}
+#doc[contenteditable=true]{outline:1px dashed var(--gold);outline-offset:8px}
+ol.ref{padding-left:20px;font-size:.88rem;line-height:1.55}ol.ref li{margin-bottom:9px}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div id="th" aria-hidden="true"><div class="tube"><div class="hg"></div></div><div class="bulb"></div><small id="tv">35,5 °C</small></div>
+<main><div id="doc">
+<header>
+<span class="lab">Fisiologia · Aula 4 · Profa. Elizama de Gregório</span>
+<h1>Regulação da temperatura corporal <em>e a febre</em></h1>
+<p class="lead">Um termostato com sensores espalhados pelo corpo, um comando no hipotálamo e uma caixa de ferramentas de efetores: vasos, glândulas, músculos e hormônios. A febre é o momento em que o próprio termostato é reajustado. Role a página e acompanhe o mercúrio subir junto com o conteúdo.</p>
+<svg viewBox="0 0 700 170" role="img" aria-label="Curva de febre em três fases com o ponto de ajuste em degrau">
+<rect x="20" y="125" width="660" height="15" fill="var(--blue)" opacity=".15"/>
+<g font-family="IBM Plex Mono" font-size="10" fill="var(--mute)"><text x="22" y="22">40 °C</text><text x="22" y="82">38 °C</text><text x="22" y="152">36,5–37 °C: faixa normal</text></g>
+<path d="M20,110 H170 V50 H450 V110 H680" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-dasharray="5 4"/>
+<path d="M20,110 H170 C200,110 205,96 215,84 L240,56 C250,50 255,50 270,50 H440 C470,50 470,105 520,110 H680" fill="none" stroke="var(--red)" stroke-width="2.4"/>
+<g font-family="IBM Plex Mono" font-size="10" fill="var(--ink)"><text x="150" y="38">1 ascensão com calafrio</text><text x="300" y="40" dx="40">2 platô</text><text x="440" y="136">3 defervescência</text><text x="530" y="24" fill="var(--gold)">ponto de ajuste</text><text x="530" y="38" fill="var(--red)">temperatura central</text></g>
+</svg>
+</header>
+
+<section id="s1"><div class="hd"><span class="deg">36,5<sup>°C</sup></span><h2>Qual é a temperatura normal, e por que ela importa</h2></div>
+<p>A temperatura central (cérebro, tórax, abdome, núcleo do corpo) fica em torno de 36,5 a 37 °C e oscila muito pouco. A temperatura cutânea é outra história: ela sobe e desce conforme o ambiente ao redor. O corpo é, portanto, um núcleo quente protegido por uma casca de temperatura variável, e a pele funciona como a interface de troca.</p>
+<p>A estreiteza dessa faixa não é capricho. Toda enzima tem uma cinética dependente da temperatura, as membranas lipídicas mudam de fluidez e as proteínas começam a perder a conformação nativa quando o calor passa de certo ponto. Por isso o organismo trata a temperatura central como uma variável regulada com precisão, e não apenas como um subproduto do metabolismo.</p>
+<div class="card b"><span class="lab">Leitura do gráfico do slide</span><p>No retal, a faixa vai de cerca de 36 °C (início da manhã, frio) até perto de 40 °C no exercício intenso. A variação usual do normal cabe entre 36 e 37 °C; emoção, trabalho pesado e exercício moderado empurram para 37,5 a 38,5 °C sem que isso seja febre. A medida oral costuma ser cerca de 0,5 °C menor que a retal.</p></div>
+<details><summary>Aprofunde-se: o que faz a temperatura "normal" variar</summary><div>
+<p>Ritmo circadiano: o núcleo supraquiasmático, que aparece nas figuras do hipotálamo, sincroniza uma oscilação de 0,5 a 1 °C, com o mínimo nas primeiras horas da manhã (cerca de 4 a 6 h) e o máximo no fim da tarde. É por isso que o critério de febre depende do horário da medida.</p>
+<p>Ciclo menstrual: a progesterona age sobre o hipotálamo e eleva a temperatura basal em 0,3 a 0,5 °C na fase lútea, achado usado historicamente para detectar ovulação.</p>
+<p>Idade: recém-nascidos têm relação superfície/massa alta e dependem do tecido adiposo marrom; idosos têm resposta vasomotora e sudorípara atenuada, e por isso podem ter infecção grave com febre discreta ou ausente.</p>
+<p>Limites de sobrevivência: acima de cerca de 41 °C há risco crescente de lesão neuronal e falência de múltiplos órgãos, e perto de 43 °C a desnaturação proteica costuma ser incompatível com a vida. Na outra ponta, abaixo de cerca de 32 °C surgem arritmias e queda do nível de consciência.</p></div></details>
+</section>
+
+<section id="s2"><div class="hd"><span class="deg">36,8<sup>°C</sup></span><h2>Produção de calor</h2></div>
+<p>O slide termina com a frase que organiza tudo: o calor é o produto final de quase toda a energia liberada no corpo. Isso vale até para o trabalho útil. A energia da glicose só é capturada no ATP com eficiência de cerca de 40 a 45%; o restante sai como calor na hora, e o ATP, ao ser gasto em transporte, síntese e contração, acaba convertido em calor também.</p>
+<div class="row">
+<div class="card r"><span class="lab">Base</span><p>Metabolismo basal de todas as células. Em repouso, o calor vem sobretudo de fígado, cérebro, coração e glândulas endócrinas.</p></div>
+<div class="card r"><span class="lab">Músculo</span><p>Em repouso é um grande contribuinte; no exercício a produção muscular pode multiplicar o calor total várias vezes.</p></div>
+<div class="card r"><span class="lab">Hormônios</span><p>T3 e T4, GH e testosterona elevam o metabolismo celular de modo sustentado.</p></div>
+<div class="card r"><span class="lab">Simpático</span><p>Epinefrina, norepinefrina e estimulação simpática aumentam a atividade celular de modo rápido.</p></div>
+<div class="card r"><span class="lab">Alimentos</span><p>Efeito termogênico: proteínas respondem por algo como 20 a 30% da energia ingerida; carboidratos e lipídeos, 5 a 10%.</p></div></div>
+<details><summary>Aprofunde-se: como o calor nasce na mitocôndria</summary><div>
+<p>A figura do slide mostra o ciclo de Krebs entregando NADH e FADH2 à cadeia transportadora de elétrons. À medida que os elétrons descem de FMN a coenzima Q, citocromos b, c, a e a3 até o oxigênio, os complexos bombeiam prótons e formam um gradiente. Normalmente a ATP sintase usa esse gradiente para fazer ATP. Se os prótons voltam por outro caminho, a energia do gradiente é dissipada como calor.</p>
+<p>Esse desvio é a base da termogênese química. No tecido adiposo marrom, a proteína desacopladora 1 (UCP1, ou termogenina) cria um poro de retorno de prótons e transforma a oxidação de lipídeos em calor sem produzir ATP. É a principal defesa térmica do recém-nascido, e a tomografia por emissão de pósitrons mostrou que adultos também têm depósitos ativos de gordura marrom. A ativação ocorre por norepinefrina via receptores beta-3 e AMPc, e os ácidos graxos livres liberados pela lipólise ativam a própria UCP1.</p>
+<p>Os hormônios tireoidianos atuam de dois modos: aumentam o número de mitocôndrias e a atividade da Na+/K+-ATPase e da SERCA (que gastam ATP e, por consequência, geram calor) e induzem a UCP1 por receptores nucleares. O efeito leva horas a dias, e por isso a tiroxina é uma ferramenta de termogênese lenta, ao passo que o simpático responde em segundos a minutos.</p>
+<p>Correlação clínica: o hipertireoidismo cursa com intolerância ao calor, sudorese e pele quente; o hipotireoidismo, com intolerância ao frio e redução do metabolismo basal.</p></div></details>
+</section>
+
+<section id="s3"><div class="hd"><span class="deg">37,0<sup>°C</sup></span><h2>Perda de calor</h2></div>
+<p>Quase todo o calor nasce nos órgãos profundos, e o desafio é levá-lo até a pele e entregá-lo ao ambiente. Isso acontece em duas etapas em série, exatamente como o slide separa: a velocidade de condução dos tecidos profundos para a pele e a velocidade de condução da pele para o meio. O gargalo pode estar em qualquer uma delas.</p>
+<p>A primeira etapa é controlada pelo sangue. A pele tem um plexo venoso subpapilar muito volumoso e, nas extremidades, anastomoses arteriovenosas que desviam sangue dos capilares. Quando o simpático relaxa, a pele recebe fluxo enorme, que pode chegar a algo como 30% do débito cardíaco, e o calor é levado do núcleo à superfície. Quando o simpático dispara, as arteríolas e anastomoses se fecham, o sangue se afasta da superfície e a pele vira um isolante. O gráfico do slide mostra isso: abaixo de cerca de 75 °F (24 °C) de temperatura ambiente a condutância é baixa e constante (vasocontraído), e acima dela cresce de forma acentuada.</p>
+<p>A segunda etapa depende da física da troca. Em repouso e em ambiente confortável, aproximadamente 60% do calor sai por radiação (infravermelho emitido pela pele), cerca de 22% por evaporação e o restante por condução e convecção (contato com objetos e com o ar que se renova junto à pele).</p>
+<div class="row">
+<div class="card b"><span class="lab">Radiação</span><p>Troca de infravermelho entre pele e objetos ao redor. Se o entorno for mais quente que a pele, o fluxo se inverte e o corpo ganha calor.</p></div>
+<div class="card b"><span class="lab">Condução e convecção</span><p>O ar parado conduz mal, mas o vento e a água removem a camada aquecida e aceleram a perda. Imersão em água fria perde calor muito mais rápido que ar na mesma temperatura.</p></div>
+<div class="card b"><span class="lab">Evaporação</span><p>Cada grama de água evaporada leva cerca de 0,58 kcal. É a única via eficaz quando o ambiente está mais quente que a pele.</p></div></div>
+<details><summary>Aprofunde-se: sudorese, contracorrente e as armadilhas da evaporação</summary><div>
+<p>A glândula sudorípara écrina (figura do slide) tem duas partes. A porção secretora enovelada na derme forma a secreção primária, um filtrado semelhante ao plasma e livre de proteínas. O duto que sobe até o poro reabsorve sódio e cloreto, de modo que o suor final é hipotônico. As fibras são simpáticas, mas colinérgicas: a acetilcolina age em receptores muscarínicos M3. Quando o suor é muito rápido, o duto não consegue reabsorver tudo e o suor fica mais salgado; na aclimatação ao calor (1 a 3 semanas), a aldosterona aumenta a reabsorção, o suor começa mais cedo e fica mais diluído, e o volume máximo sobe de cerca de 1,5 L/h para 2 L/h ou mais. Na fibrose cística, o canal CFTR defeituoso impede a reabsorção de cloreto, o que explica o suor salgado usado no teste diagnóstico.</p>
+<p>A vasodilatação cutânea no calor tem dois componentes: a retirada do tônus vasoconstritor noradrenérgico e uma vasodilatação ativa, dependente de cotransmissores dos nervos colinérgicos e de óxido nítrico, responsável pela maior parte do aumento máximo de fluxo.</p>
+<p>Troca em contracorrente: nos membros, as veias profundas acompanham as artérias, e o sangue arterial quente cede calor ao venoso que retorna, preservando o núcleo no frio. Ao se dilatar as veias superficiais, o sangue retorna pela superfície e o efeito é desligado, entregando calor à pele.</p>
+<p>Armadilha: suor que pinga sem evaporar não resfria. Em ambiente úmido, o gradiente de pressão de vapor cai, a evaporação falha e o risco de golpe de calor aumenta mesmo com sudorese intensa.</p></div></details>
+</section>
+
+<section id="s4"><div class="hd"><span class="deg">37,1<sup>°C</sup></span><h2>O termostato: sensores, central e ponto de ajuste</h2></div>
+<p>Como diz o slide, a temperatura é regulada quase inteiramente por feedback neural, e quase todos esses circuitos passam por centros no hipotálamo. O sistema tem a arquitetura clássica de um controle: sensores, um comparador com valor de referência e efetores que corrigem o desvio.</p>
+<p>Os sensores periféricos são as terminações nervosas livres da pele (a imagem do slide), que expressam canais iônicos sensíveis à temperatura; os receptores de frio são bem mais numerosos que os de calor. Também há sensores profundos na medula espinhal, nas vísceras abdominais e, sobretudo, no próprio hipotálamo.</p>
+<div class="card r"><span class="lab">Quem faz o quê</span>
+<p>Área pré-óptica e hipotálamo anterior (núcleos pré-ópticos lateral e medial e núcleo anterior, no retângulo do slide): o centro de controle termostático, rico em neurônios sensíveis ao calor cuja taxa de disparo sobe com o aquecimento local.</p>
+<p>Hipotálamo posterior: integra os sinais centrais e periféricos e comanda as respostas de conservação e produção de calor. Seu núcleo está marcado no slide com o X (resposta de resfriamento desligada) e com o raio (resposta de aquecimento ativada).</p>
+<p>Núcleo dorsomedial: centro motor primário dos calafrios. Núcleos pré-ópticos: também iniciam o eixo TRH, TSH, tiroxina.</p></div>
+<p>O hipotálamo compara a temperatura detectada com um valor de referência, o ponto de ajuste, em torno de 37,1 °C. O ponto importante: a temperatura que o hipotálamo "quer" não é um valor mágico fixo, mas o resultado do equilíbrio entre as entradas dos neurônios sensíveis ao calor e ao frio. Se esse equilíbrio muda, a referência muda, e o corpo passa a defender outro número.</p>
+<details><summary>Aprofunde-se: o modelo moderno e as ressalvas sobre o slide</summary><div>
+<p>Estudos recentes mostram um circuito de comando mais preciso que o desenho clássico. Neurônios GABAérgicos sensíveis ao calor na área pré-óptica mediana e medial inibem tonicamente o núcleo dorsomedial e a área pré-motora do rafe rostral, que por sua vez comandam a termogênese do tecido adiposo marrom, o calafrio e a vasoconstrição cutânea. No calor, a área pré-óptica fica ativa e freia as respostas de ganho de calor; no frio, a inibição cai e elas são liberadas (desinibição). A leitura é compatível com o slide, mas é mais fina.</p>
+<p>Duas ressalvas de estudo. Primeiro, o termo "ponto de ajuste" é útil para pensar, mas muitos fisiologistas o tratam como propriedade emergente, não como um número armazenado. Segundo, as respostas têm limiares diferentes: existe uma zona neutra em que nenhum efetor é recrutado, e sudorese, vasodilatação, vasoconstrição e calafrio disparam em limiares sucessivos. Isso é o que a bancada abaixo ilustra.</p></div></details>
+</section>
+
+<section id="s5"><div class="hd"><span class="deg">37,5<sup>°C</sup></span><h2>Os efetores: ligar o calor ou deixar sair</h2></div>
+<div class="row">
+<div class="card b"><span class="lab">Para esfriar</span><p>Vasodilatação cutânea, sudorese e redução da produção de calor (inibição do simpático, queda do tônus muscular, apatia e anorexia).</p></div>
+<div class="card r"><span class="lab">Para esquentar</span><p>Vasoconstrição, piloereção e aumento da termogênese: calafrios, termogênese química simpática e tiroxina.</p></div></div>
+<p>A vasoconstrição é obra do simpático noradrenérgico sobre receptores alfa nas arteríolas cutâneas, e é a primeira linha por ser rápida e barata. A piloereção contrai os músculos eretores do pelo e, em animais de pelagem densa, aprisiona uma camada de ar isolante; em humanos é um vestígio, daí a "pele de galinha". O calafrio é um tremor involuntário de contrações musculares assíncronas: nenhum trabalho útil é feito, então toda a energia vira calor, e pode quadruplicar ou mais a produção. Depois vem a termogênese química, cuja cascata hormonal o slide mostra: o hipotálamo libera TRH pelos vasos portais, a hipófise anterior libera TSH e a tireoide secreta T4 e T3.</p>
+<p>Não se esqueça do comportamento, o efetor mais potente: vestir-se, buscar abrigo, mudar a postura. Ele é recrutado pelo mesmo sinal de desconforto térmico, mas via córtex.</p>
+
+<div class="sim" contenteditable="false">
+<span class="lab">Bancada do termostato</span>
+<p style="margin:6px 0 0">Mova o ponto de ajuste e a temperatura central e veja qual efetor o hipotálamo recruta. Os botões reproduzem as fases da febre e uma hipertermia.</p>
+<label><span>Ponto de ajuste</span><span id="sv"></span></label><input type="range" id="S" min="36" max="40.5" step="0.1" value="37.1">
+<label><span>Temperatura central</span><span id="tv2"></span></label><input type="range" id="T" min="35" max="41.5" step="0.1" value="37.1">
+<div class="btns"><button data-p="37.1,37.1">Normal</button><button data-p="39,37.1">Febre: ascensão</button><button data-p="39,39">Febre: platô</button><button data-p="37.1,39">Defervescência</button><button data-p="37.1,41">Hipertermia</button></div>
+<div id="sr"></div></div>
+</section>
+
+<section id="s6"><div class="hd"><span class="deg">38,5<sup>°C</sup></span><h2>Febre: o termostato reajustado</h2></div>
+<p>O slide define febre como elevação da temperatura que ultrapassa a variação diária normal e se associa à elevação do ponto de ajuste hipotalâmico (no exemplo, de 37 para 39 °C): os neurônios termossensíveis são regulados para cima. Repare na consequência lógica. No momento em que o ponto de ajuste sobe, a temperatura real (37 °C) fica abaixo do novo alvo, e o hipotálamo interpreta isso como frio. O paciente sente calafrio, a pele fica pálida e fria, e o corpo se aquece ativamente até chegar a 39 °C. A febre não é falha do controle: é o controle funcionando, só que em torno de outro valor.</p>
+<div class="row">
+<div class="card r"><span class="lab">1 · Ascensão</span><p>Setpoint acima do corpo: vasoconstrição, calafrio, termogênese, pele fria.</p></div>
+<div class="card y"><span class="lab">2 · Platô</span><p>Temperatura igual ao novo alvo; sem calafrio, pele quente, regulação em torno de 39 °C.</p></div>
+<div class="card b"><span class="lab">3 · Defervescência</span><p>Setpoint volta ao normal: vasodilatação e sudorese profusa até 37 °C.</p></div></div>
+
+<h3>Quem aperta o botão: os pirógenos</h3>
+<p>Pirógeno vem do grego pyro, fogo: qualquer substância que cause febre. Os exógenos vêm de fora: lipopolissacarídeo (LPS) da parede de gram-negativos, peptidoglicano e ácido lipoteicoico de gram-positivos, RNA de dupla fita de vírus, além de toxinas como superantígenos. Eles são reconhecidos por receptores de padrão molecular, como os Toll-like (TLR4 para LPS, TLR3 para RNA dupla fita), em macrófagos e outras células, que ativam NF-κB e produzem os pirógenos endógenos: IL-1, TNF-α, IL-6, IL-2 e IFN-γ. Inflamação não infecciosa (trauma, infarto, neoplasia, reação a drogas) leva ao mesmo ponto pelas mesmas citocinas.</p>
+
+<h3>Como a mensagem chega ao hipotálamo</h3>
+<p>Citocinas são proteínas grandes e atravessam mal a barreira hematoencefálica. O slide mostra dois caminhos para contornar isso.</p>
+<div class="row">
+<div class="card b"><span class="lab">Via periférica</span><p>Macrófagos hepáticos e células fagocitárias circulantes liberam citocinas e PGE2, que ativam aferentes vagais. O sinal sobe ao núcleo do trato solitário e daí à área pré-óptica, onde neurônios noradrenérgicos reforçam a produção local de citocinas e PGE2.</p></div>
+<div class="card r"><span class="lab">Via central</span><p>Os órgãos circunventriculares, como o OVLT (órgão vascular da lâmina terminal), têm capilares fenestrados. Citocinas e pirógenos exógenos agem no endotélio e em células da glia e induzem a síntese de prostaglandinas dentro do SNC.</p></div></div>
+<p>Os dois caminhos convergem num único mensageiro: a prostaglandina E2. Ela é lipossolúvel, atravessa a barreira e chega aos neurônios termorreguladores da área pré-óptica. É o final comum que o esquema de mecanismo de ação do slide mostra, e é o alvo farmacológico central da febre.</p>
+<details><summary>Aprofunde-se: a cascata molecular da PGE2, passo a passo</summary><div>
+<p>Citocinas (principalmente IL-1β e TNF-α, e IL-6 como mediador chave) ativam o endotélio cerebral. Isso induz fosfolipase A2, que libera ácido araquidônico dos fosfolipídeos da membrana; a ciclo-oxigenase 2 (COX-2, induzida) o converte em PGH2; e a PGE sintase microssomal 1 (mPGES-1) forma a PGE2. A PGE2 liga-se ao receptor EP3, acoplado à proteína Gi, nos neurônios da área pré-óptica mediana e medial. A queda de AMPc diminui o disparo dos neurônios sensíveis ao calor, que são GABAérgicos; sem a inibição, o dorsomedial e o rafe rostral são liberados, e surgem vasoconstrição, termogênese e calafrio. Participam ainda EP1 e EP4 e, no fígado, o complemento (C5a) e as células de Kupffer na via vagal.</p>
+<p>Há debate sobre a importância relativa das vias. Um modelo propõe duas ondas: uma primeira rápida, neural (vagal), e uma segunda tardia, humoral (endotelial). Já a escola centrada no endotélio cerebral sustenta que a síntese local de PGE2 é suficiente. O slide apresenta o modelo integrado, que é o de ensino mais comum.</p>
+<p>Farmacologia: AINEs e paracetamol inibem a COX e reduzem a PGE2 central; a dipirona também age sobre a síntese central. Glicocorticoides inibem a indução de COX-2 e a síntese de citocinas, e por isso também baixam a febre. Os antipiréticos baixam o ponto de ajuste; não "resfriam" o corpo.</p>
+<p>Por que febre existe? Em ectotérmicos e endotérmicos ela é conservada. Temperaturas mais altas melhoram o tráfego de linfócitos, a atividade de neutrófilos, a resposta de proteínas de choque térmico e dificultam o crescimento de certos microrganismos (por exemplo, pela restrição de ferro livre). Em contrapartida, cada grau aumenta o consumo de oxigênio em cerca de 10 a 13%, e a frequência cardíaca em cerca de 10 bpm; em crianças de 6 meses a 5 anos há risco de convulsão febril.</p></div></details>
+</section>
+
+<section id="s7"><div class="hd"><span class="deg">40<sup>°C</sup></span><h2>Febre ou hipertermia: a pergunta que muda a conduta</h2></div>
+<div class="row">
+<div class="card y"><span class="lab">Febre</span><p>Ponto de ajuste elevado por pirógenos. O controle está íntegro e responde a antipiréticos. A temperatura raramente passa de 41 °C, porque o próprio sistema limita.</p></div>
+<div class="card r"><span class="lab">Hipertermia</span><p>Ponto de ajuste normal; a produção supera a perda, ou a perda falha. Não há PGE2 como mediador, e antipiréticos não funcionam. Exige resfriamento físico urgente.</p></div></div>
+<p>Exemplos de hipertermia: golpe de calor (falência da dissipação sob carga térmica; clássico em idosos e de esforço em atletas, com risco de rabdomiólise, coagulopatia e lesão cerebral); hipertermia maligna (defeito do receptor de rianodina RYR1 no músculo, desencadeado por halogenados e succinilcolina, com liberação descontrolada de Ca2+ e hipermetabolismo, tratada com dantroleno); síndrome neuroléptica maligna (bloqueio dopaminérgico); síndrome serotoninérgica; e tempestade tireoidiana.</p>
+<details><summary>Aprofunde-se: padrões de febre e sinais que ajudam no raciocínio</summary><div>
+<p>Contínua: oscilação diária menor que 1 °C, sem retorno ao normal (febre tifoide clássica, pneumonia lobar). Remitente: variação maior que 1 °C sem chegar ao normal (muitas infecções bacterianas). Intermitente: picos com retorno à normalidade (abscessos, malária, pielonefrite). Recorrente: dias febris separados por dias afebris (malária terçã e quartã; febre de Pel-Ebstein, no linfoma de Hodgkin, descrita de forma clássica).</p>
+<p>Dissociação pulso-temperatura (sinal de Faget): febre sem o aumento esperado da frequência cardíaca, descrita na febre tifoide, na febre amarela e em algumas infecções por patógenos intracelulares. Idosos, recém-nascidos, imunossuprimidos e pacientes em uso de corticoide ou AINE podem ter febre atenuada ou ausente, de modo que a ausência de febre nunca exclui infecção grave.</p>
+<p>Conceito clínico: critérios variam entre autores e serviços; muitos textos adotam temperatura oral próxima de 37,8 °C ou mais como febre, lembrando a variação circadiana e o sítio de medida. Febre de origem indeterminada tem definição própria (temperaturas acima de 38,3 °C por mais de 3 semanas sem diagnóstico após investigação inicial).</p></div></details>
+</section>
+
+<section id="s8"><div class="hd"><span class="deg">Rev.</span><h2>Revisão ativa</h2></div>
+<p>Responda de cabeça antes de abrir.</p>
+<details><summary>Por que o paciente tem calafrio no início da febre se a temperatura já está alta?</summary><div><p>Porque o ponto de ajuste subiu antes do corpo: com 38 °C e alvo de 39 °C, o hipotálamo registra "frio" e aciona vasoconstrição e calafrio. A sensação de frio acompanha a distância entre a temperatura real e o novo alvo.</p></div></details>
+<details><summary>Qual é o mensageiro final comum às duas vias pirogênicas, e em que receptor ele age?</summary><div><p>PGE2, no receptor EP3 (Gi) dos neurônios pré-ópticos termossensíveis, reduzindo o disparo dos neurônios sensíveis ao calor.</p></div></details>
+<details><summary>Por que o paracetamol baixa febre mas não resolve golpe de calor?</summary><div><p>Ele reduz a síntese de PGE2 e baixa o ponto de ajuste. No golpe de calor o ponto de ajuste já é normal e o problema é a falência da dissipação; o tratamento é físico.</p></div></details>
+<details><summary>Quais são as duas etapas em série da perda de calor, e quem comanda a primeira?</summary><div><p>Tecidos profundos para pele (fluxo sanguíneo cutâneo, comandado pelo simpático) e pele para o ambiente (radiação, condução, convecção e evaporação).</p></div></details>
+<details><summary>Qual é a diferença de tempo entre a termogênese simpática e a tireoidiana?</summary><div><p>A simpática age em segundos a minutos (catecolaminas, UCP1, atividade celular); a tireoidiana em horas a dias, pelo eixo TRH, TSH, T4 e pelo aumento de mitocôndrias e bombas iônicas.</p></div></details>
+</section>
+
+<section id="ref"><div class="hd"><span class="deg">Ref.</span><h2>Referências</h2></div>
+<ol class="ref">
+<li>HALL, John E.; HALL, Michael E. <em>Guyton &amp; Hall: tratado de fisiologia médica</em>. 14. ed. Rio de Janeiro: Elsevier, 2021. Capítulo 74: Equilíbrio entre ingestão e perda de calor; regulação da temperatura corporal e febre.</li>
+<li>BORON, Walter F.; BOULPAEP, Emile L. <em>Fisiologia médica</em>. 3. ed. Rio de Janeiro: Elsevier, 2015.</li>
+<li>JAMESON, J. Larry et al. (ed.). <em>Medicina interna de Harrison</em>. 20. ed. Porto Alegre: AMGH, 2019. Capítulo sobre febre e hipertermia.</li>
+<li>KUMAR, Vinay; ABBAS, Abul K.; ASTER, Jon C. <em>Robbins &amp; Cotran: patologia, bases patológicas das doenças</em>. 9. ed. Rio de Janeiro: Elsevier, 2016. Capítulo: inflamação e reparo (manifestações sistêmicas).</li>
+<li>KATZUNG, Bertram G.; TREVOR, Anthony J. <em>Farmacologia básica e clínica</em>. 13. ed. Porto Alegre: AMGH, 2017. Capítulo: fármacos anti-inflamatórios não esteroides e analgésicos não opioides.</li>
+<li>MURPHY, Kenneth; WEAVER, Casey. <em>Imunobiologia de Janeway</em>. 9. ed. Porto Alegre: Artmed, 2019.</li>
+<li>EVANS, Sharon S.; REPASKY, Elizabeth A.; FISHER, Daniel T. Fever and the thermal regulation of immunity: the immune system feels the heat. <em>Nature Reviews Immunology</em>, Londres, v. 15, n. 6, p. 335-349, 2015.</li>
+<li>SAPER, Clifford B.; ROMANOVSKY, Andrej A.; SCAMMELL, Thomas E. Neural circuitry engaged by prostaglandins during the sickness syndrome. <em>Nature Neuroscience</em>, Nova York, v. 15, n. 8, p. 1088-1095, 2012.</li>
+<li>ELIZAMA DE GREGÓRIO. <em>Regulação da temperatura corporal: febre</em>. Slides da Aula 4. Uniarp-SC, [2026]. Material didático.</li>
+</ol>
+<p class="lab" style="margin-top:18px">Confira edição, ano e paginação contra o modelo institucional da Uniarp-SC antes de citar em trabalho.</p>
+</section>
+</div></main>
+<div id="tb"><button id="be">Ativar edição</button><button id="bd">Baixar cópia editada</button><button id="br">Restaurar original</button></div>
+<script>
+const D=document,$=s=>D.querySelector(s),K='tf-febre-aula4-uniarp-v1';
+let ed=false,iv;
+function g(){const h=D.documentElement,p=Math.min(1,Math.max(0,scrollY/((h.scrollHeight-innerHeight)||1)));h.style.setProperty('--p',p);$('#tv').textContent=(35.5+p*6).toFixed(1).replace('.',',')+' °C'}
+addEventListener('scroll',g,{passive:true});addEventListener('resize',g);
+function sim(){const s=$('#S'),t=$('#T');if(!s||!t)return;const a=+s.value,b=+t.value,d=b-a,f=n=>n.toFixed(1).replace('.',',')+' °C';
+$('#sv').textContent=f(a);$('#tv2').textContent=f(b);let h;
+if(b>=41)h='<span class="k">Hipertermia grave.</span> Mesmo com o centro pedindo perda máxima, a dissipação não acompanha. Risco de lesão neuronal, rabdomiólise e falência de órgãos. Resfriamento físico imediato; antipirético não resolve.';
+else if(d<-1)h='<span class="k">Ascensão da febre.</span> A temperatura está bem abaixo do alvo: vasoconstrição intensa, piloereção, calafrio (núcleo dorsomedial) e termogênese química. Pele fria e sensação de frio, apesar de a temperatura real estar normal ou alta.';
+else if(d<-.4)h='Abaixo do alvo: vasoconstrição cutânea e sudorese suprimida, com aumento discreto da termogênese. O corpo conserva calor.';
+else if(d<=.4)h=(a>38.2?'<span class="k">Platô febril.</span> ':'Zona neutra. ')+'Temperatura próxima do alvo: poucos efetores recrutados. '+(a>38.2?'Pele quente, sem calafrio; o corpo defende o novo valor.':'Perda e produção se equilibram.');
+else if(d<1)h='Acima do alvo: vasodilatação cutânea e início de sudorese. O corpo passa a liberar calor.';
+else h='<span class="k">Defervescência (ou calor ambiental).</span> Muito acima do alvo: vasodilatação máxima e sudorese profusa até a temperatura voltar ao ponto de ajuste.';
+$('#sr').innerHTML='<span class="lab">Resposta do hipotálamo (diferença '+(d>=0?'+':'')+d.toFixed(1).replace('.',',')+' °C)</span><p style="margin:6px 0 0">'+h+'</p>'}
+D.addEventListener('input',e=>{if(e.target.matches('#S,#T'))sim()});
+D.addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(b){const[p,q]=b.dataset.p.split(',');$('#S').value=p;$('#T').value=q;sim()}});
+function save(){try{localStorage.setItem(K,$('#doc').innerHTML)}catch(e){}}
+try{const v=localStorage.getItem(K);if(v)$('#doc').innerHTML=v}catch(e){}
+sim();g();
+$('#be').onclick=function(){ed=!ed;$('#doc').contentEditable=ed;this.textContent=ed?'Salvar e sair da edição':'Ativar edição';if(ed){iv=setInterval(save,15000)}else{clearInterval(iv);save()}};
+$('#bd').onclick=()=>{save();const d=$('#doc');d.removeAttribute('contenteditable');const h='<!DOCTYPE html>\n'+D.documentElement.outerHTML;if(ed)d.contentEditable='true';const a=D.createElement('a');a.href=URL.createObjectURL(new Blob([h],{type:'text/html'}));a.download='termorregulacao-febre-editado.html';a.click()};
+$('#br').onclick=()=>{if(confirm('Apagar as edições salvas neste navegador e voltar ao original?')){try{localStorage.removeItem(K)}catch(e){}location.reload()}};
+</script>
+</body>
+</html>

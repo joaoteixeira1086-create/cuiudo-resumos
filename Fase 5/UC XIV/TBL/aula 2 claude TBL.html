@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doenças Exantemáticas — UCXIV | Aula 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0e1a;
+  --bg-alt:#0d1220;
+  --panel:#0f1524;
+  --panel-2:#111a2e;
+  --border:#1e293b;
+  --border-soft:#182234;
+  --text:#e6ecf5;
+  --text-dim:#9fb0c9;
+  --text-faint:#5f7191;
+  --cyan:#22d3ee;
+  --red:#f0576a;
+  --violet:#a78bfa;
+  --green:#4ade80;
+  --orange:#fb923c;
+  --teal:#2dd4bf;
+  --amber:#fbbf24;
+  --lime:#a3e635;
+  --gold:#f5c451;
+  --font-title:'Merriweather', serif;
+  --font-body:'DM Sans', sans-serif;
+  --font-mono:'DM Mono', monospace;
+  --sidebar-w:280px;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:
+    radial-gradient(ellipse 900px 500px at 15% -5%, rgba(34,211,238,0.07), transparent 60%),
+    radial-gradient(ellipse 800px 600px at 100% 20%, rgba(167,139,250,0.06), transparent 60%),
+    var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  line-height:1.65;
+  font-size:16px;
+}
+a{color:inherit; text-decoration:none;}
+::selection{background:rgba(34,211,238,0.25);}
+
+/* ===== SIDEBAR ===== */
+#sb{
+  position:fixed; top:0; left:0; bottom:0; width:var(--sidebar-w);
+  background:linear-gradient(180deg, var(--panel), var(--bg-alt));
+  border-right:1px solid var(--border);
+  overflow-y:auto; z-index:100;
+  padding:28px 0 40px;
+}
+#sb::-webkit-scrollbar{width:6px;}
+#sb::-webkit-scrollbar-thumb{background:var(--border); border-radius:3px;}
+.sb-brand{padding:0 24px 22px; border-bottom:1px solid var(--border-soft); margin-bottom:18px;}
+.sb-tag{font-family:var(--font-mono); font-size:11px; letter-spacing:0.12em; color:var(--cyan); text-transform:uppercase;}
+.sb-title{font-family:var(--font-title); font-size:20px; margin-top:8px; color:var(--text); line-height:1.3;}
+.sb-sub{font-family:var(--font-mono); font-size:11px; color:var(--text-faint); margin-top:6px;}
+.sb-nav{padding:0 14px;}
+.sb-group-label{font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; color:var(--text-faint); text-transform:uppercase; padding:14px 10px 6px;}
+.sb-link{
+  display:flex; align-items:center; gap:10px;
+  padding:9px 10px; border-radius:8px; font-size:13.5px; color:var(--text-dim);
+  border-left:2px solid transparent; transition:all .15s ease;
+}
+.sb-link:hover{background:rgba(255,255,255,0.04); color:var(--text);}
+.sb-dot{width:7px; height:7px; border-radius:50%; flex-shrink:0; background:var(--dot,#475569);}
+.sb-foot{margin-top:20px; padding:14px 24px 0; border-top:1px solid var(--border-soft);}
+.sb-foot p{font-family:var(--font-mono); font-size:10.5px; color:var(--text-faint); line-height:1.6;}
+
+/* ===== MAIN ===== */
+#main{margin-left:var(--sidebar-w); max-width:1180px;}
+
+/* ===== HERO ===== */
+.hero{
+  padding:72px 60px 56px;
+  border-bottom:1px solid var(--border);
+  background:
+    linear-gradient(180deg, rgba(34,211,238,0.05), transparent 70%);
+  position:relative; overflow:hidden;
+}
+.hero::after{
+  content:""; position:absolute; right:-120px; top:-120px; width:420px; height:420px;
+  background:radial-gradient(circle, rgba(240,87,106,0.10), transparent 70%);
+  pointer-events:none;
+}
+.hero-cat{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--cyan);}
+.hero h1{
+  font-family:var(--font-title); font-weight:900; font-size:52px; line-height:1.12;
+  margin:16px 0 18px; max-width:820px;
+  background:linear-gradient(135deg, #fff, #b9c6dc);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero p.lead{font-size:16.5px; color:var(--text-dim); max-width:680px; margin-bottom:22px;}
+.hero-tags{display:flex; flex-wrap:wrap; gap:8px;}
+.tag{
+  font-family:var(--font-mono); font-size:11.5px; padding:5px 12px; border-radius:20px;
+  border:1px solid var(--border); color:var(--text-dim); background:rgba(255,255,255,0.02);
+}
+
+/* ===== SECTIONS ===== */
+section.block{padding:56px 60px; border-bottom:1px solid var(--border-soft); scroll-margin-top:20px;}
+.sec-head{display:flex; align-items:baseline; gap:20px; margin-bottom:8px;}
+.sec-num{font-family:var(--font-title); font-size:44px; font-weight:900; color:var(--accent); opacity:0.35; line-height:1;}
+.sec-title-wrap{flex:1;}
+.sec-title{font-family:var(--font-title); font-size:28px; font-weight:700; color:var(--text);}
+.sec-sub{font-size:14.5px; color:var(--text-dim); margin-top:6px; max-width:760px;}
+.sec-rule{height:1px; background:linear-gradient(90deg, var(--accent), transparent); margin:22px 0 34px; opacity:0.5;}
+.tagline{
+  display:inline-block; font-family:var(--font-mono); font-size:11px; letter-spacing:0.1em;
+  text-transform:uppercase; color:var(--accent); border-bottom:1px solid var(--accent);
+  padding-bottom:4px; margin-bottom:10px;
+}
+.head-line{display:flex; align-items:center; gap:14px; margin:36px 0 16px;}
+.head-line .tagline{margin:0;}
+.head-line::after{content:""; flex:1; height:1px; background:var(--border);}
+
+/* ===== CARDS ===== */
+.card{
+  background:var(--panel); border:1px solid var(--border); border-top:3px solid var(--accent);
+  border-radius:10px; padding:22px 24px; margin-bottom:18px;
+}
+.card h4{font-family:var(--font-title); font-size:17px; color:var(--text); margin-bottom:10px;}
+.card p, .card li{color:var(--text-dim); font-size:14.5px;}
+.card ul{padding-left:18px; margin-top:6px;}
+.card li{margin-bottom:6px;}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+.grid-3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px;}
+@media(max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+
+.mini-card{
+  background:var(--panel-2); border:1px solid var(--border-soft); border-radius:9px; padding:16px 18px;
+}
+.mini-label{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); margin-bottom:6px;}
+
+/* ===== ALERTS (outline style) ===== */
+.alert{
+  border:1px solid var(--a-color); border-radius:9px; padding:16px 20px; margin:18px 0;
+  background:rgba(255,255,255,0.015);
+}
+.alert-label{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+  color:var(--a-color); margin-bottom:6px; display:flex; align-items:center; gap:8px;
+}
+.alert-label::before{content:"▸"; }
+.alert.attention{--a-color:var(--amber);}
+.alert.clinica{--a-color:var(--cyan);}
+.alert.prova{--a-color:var(--violet);}
+.alert.pegadinha{--a-color:var(--red);}
+.alert.importante{--a-color:var(--green);}
+.alert p{font-size:14.5px; color:var(--text-dim);}
+
+/* ===== FLOWCHART ===== */
+.flow{display:flex; flex-wrap:wrap; align-items:center; gap:0; margin:20px 0;}
+.flow-step{
+  background:var(--panel-2); border:1px solid var(--accent); border-radius:8px;
+  padding:11px 16px; font-family:var(--font-mono); font-size:12.5px; color:var(--text);
+  white-space:nowrap;
+}
+.flow-arrow{color:var(--accent); font-size:18px; padding:0 10px; opacity:0.7;}
+
+/* ===== COMPARISON GRID (no tables) ===== */
+.compare{display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr)); gap:16px; margin:20px 0;}
+.compare-card{
+  border:1px solid var(--border); border-top:3px solid var(--c-accent); border-radius:10px; background:var(--panel);
+  padding:18px 20px;
+}
+.compare-card .ch-title{font-family:var(--font-title); font-size:16px; color:var(--text); margin-bottom:10px;}
+.compare-row{display:flex; justify-content:space-between; gap:10px; font-size:13px; padding:6px 0; border-bottom:1px dashed var(--border-soft);}
+.compare-row:last-child{border-bottom:none;}
+.compare-row .k{color:var(--text-faint); font-family:var(--font-mono); font-size:11px; text-transform:uppercase;}
+.compare-row .v{color:var(--text-dim); text-align:right;}
+
+/* ===== BADGES ===== */
+.badge{
+  display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:11px;
+  padding:4px 10px; border-radius:6px; border:1px solid var(--border); color:var(--text-dim);
+}
+.badge.on{border-color:var(--red); color:var(--red);}
+.badge.off{border-color:var(--green); color:var(--green);}
+
+/* ===== DETAILS / APROFUNDE-SE ===== */
+details.deep{
+  margin:22px 0; border:1px solid var(--accent); border-radius:10px; overflow:hidden;
+  background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent);
+}
+details.deep summary{
+  cursor:pointer; list-style:none; padding:15px 22px; display:flex; align-items:center; gap:12px;
+  font-family:var(--font-mono); font-size:12.5px; letter-spacing:0.05em; text-transform:uppercase;
+  color:var(--accent); user-select:none;
+}
+details.deep summary::-webkit-details-marker{display:none;}
+details.deep summary::before{content:"+"; font-size:16px; width:18px;}
+details.deep[open] summary::before{content:"–";}
+details.deep .deep-body{padding:6px 24px 26px; border-top:1px solid var(--border-soft);}
+details.deep .deep-body p{color:var(--text-dim); margin-bottom:14px; font-size:14.5px;}
+details.deep .deep-body h5{font-family:var(--font-title); font-size:15px; color:var(--text); margin:16px 0 8px;}
+
+/* ===== TIMELINE ===== */
+.tline{position:relative; margin:26px 0; padding-left:26px;}
+.tline::before{content:""; position:absolute; left:6px; top:6px; bottom:6px; width:2px; background:var(--border);}
+.tline-item{position:relative; margin-bottom:20px;}
+.tline-item::before{content:""; position:absolute; left:-26px; top:4px; width:11px; height:11px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 3px var(--bg);}
+.tline-item .tl-tag{font-family:var(--font-mono); font-size:11px; color:var(--accent); text-transform:uppercase;}
+.tline-item h5{font-family:var(--font-title); font-size:15.5px; margin:4px 0 4px; color:var(--text);}
+.tline-item p{font-size:13.5px; color:var(--text-dim);}
+
+/* prose */
+.prose p{color:var(--text-dim); font-size:15px; margin-bottom:14px;}
+.prose p i{color:var(--text); font-style:italic;}
+
+/* super resumo */
+.super{
+  background:linear-gradient(135deg, rgba(245,196,81,0.06), rgba(240,87,106,0.04));
+  border:1px solid rgba(245,196,81,0.35); border-radius:14px; padding:34px 36px;
+}
+
+/* refs */
+.refs p{font-size:12.8px; color:var(--text-dim); margin-bottom:14px; line-height:1.7;}
+.refs i{font-style:italic;}
+
+footer.doc-foot{padding:40px 60px 100px; color:var(--text-faint); font-family:var(--font-mono); font-size:11.5px;}
+
+/* ===== TOOLBAR ===== */
+#toolbar{
+  position:fixed; bottom:22px; right:22px; z-index:999;
+  display:flex; gap:8px; background:var(--panel); border:1px solid var(--border);
+  border-radius:12px; padding:8px; box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+#toolbar button{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; color:var(--text-dim);
+  background:var(--panel-2); border:1px solid var(--border-soft); border-radius:8px;
+  padding:9px 13px; cursor:pointer; transition:all .15s ease; white-space:nowrap;
+}
+#toolbar button:hover{color:var(--text); border-color:var(--cyan);}
+#toolbar button.active{color:var(--bg); background:var(--cyan); border-color:var(--cyan);}
+#tb-status{
+  font-family:var(--font-mono); font-size:10px; color:var(--text-faint); align-self:center; padding:0 6px;
+}
+[contenteditable="true"]{outline:1px dashed rgba(34,211,238,0.4); outline-offset:2px; border-radius:3px;}
+[contenteditable="true"]:focus{outline:1px solid var(--cyan);}
+
+/* mobile */
+@media(max-width:1000px){
+  #sb{transform:translateX(-100%); transition:transform .2s ease;}
+  #sb.open{transform:translateX(0);}
+  #main{margin-left:0;}
+  .hero{padding:64px 22px 40px;}
+  .hero h1{font-size:34px;}
+  section.block{padding:40px 22px;}
+  .grid-2,.grid-3{grid-template-columns:1fr;}
+  #mobile-nav-btn{
+    position:fixed; top:16px; left:16px; z-index:200; background:var(--panel);
+    border:1px solid var(--border); color:var(--text); border-radius:8px; padding:8px 12px;
+    font-family:var(--font-mono); font-size:12px;
+  }
+  #toolbar{right:12px; bottom:12px; flex-wrap:wrap; max-width:200px;}
+}
+@media(min-width:1001px){#mobile-nav-btn{display:none;}}
+</style>
+</head>
+<body>
+
+<button id="mobile-nav-btn" onclick="document.getElementById('sb').classList.toggle('open')">☰ Índice</button>
+
+<nav id="sb">
+  <div class="sb-brand">
+    <div class="sb-tag">UCXIV · Febre, Inflamação e Infecção</div>
+    <div class="sb-title">Doenças Exantemáticas</div>
+    <div class="sb-sub">Aula 2 · Prof. Andrew · Uniarp</div>
+  </div>
+  <div class="sb-nav">
+    <div class="sb-group-label">Fundamentos</div>
+    <a class="sb-link" href="#s01" style="--dot:var(--cyan)"><span class="sb-dot"></span>01 · Exantema, Enantema e Mecanismos</a>
+    <a class="sb-link" href="#s02" style="--dot:var(--cyan)"><span class="sb-dot"></span>02 · Padrões Morfológicos</a>
+
+    <div class="sb-group-label">Exantemas Clássicos</div>
+    <a class="sb-link" href="#s03" style="--dot:var(--red)"><span class="sb-dot"></span>03 · Sarampo</a>
+    <a class="sb-link" href="#s04" style="--dot:var(--violet)"><span class="sb-dot"></span>04 · Rubéola</a>
+    <a class="sb-link" href="#s05" style="--dot:var(--green)"><span class="sb-dot"></span>05 · Varicela</a>
+    <a class="sb-link" href="#s06" style="--dot:var(--orange)"><span class="sb-dot"></span>06 · Escarlatina</a>
+    <a class="sb-link" href="#s07" style="--dot:var(--teal)"><span class="sb-dot"></span>07 · Eritema Infeccioso</a>
+    <a class="sb-link" href="#s08" style="--dot:var(--amber)"><span class="sb-dot"></span>08 · Exantema Súbito</a>
+    <a class="sb-link" href="#s09" style="--dot:var(--lime)"><span class="sb-dot"></span>09 · Enteroviroses</a>
+
+    <div class="sb-group-label">Síntese</div>
+    <a class="sb-link" href="#s10" style="--dot:#38bdf8"><span class="sb-dot"></span>10 · Vigilância e Notificação</a>
+    <a class="sb-link" href="#s11" style="--dot:var(--gold)"><span class="sb-dot"></span>11 · Super-Resumo</a>
+    <a class="sb-link" href="#refs" style="--dot:#64748b"><span class="sb-dot"></span>Referências</a>
+  </div>
+  <div class="sb-foot">
+    <p>Material de estudo aprofundado, produzido a partir dos slides do Prof. Andrew para a Aula 2 da UCXIV (Doenças Exantemáticas). Uso pessoal para PBL, provas e formação clínica.</p>
+  </div>
+</nav>
+
+<div id="main">
+
+  <div class="hero">
+    <div class="hero-cat">UCXIV — Febre, Inflamação e Infecção · Aula 2</div>
+    <h1>Doenças Exantemáticas</h1>
+    <p class="lead">Sarampo, rubéola, varicela, escarlatina, eritema infeccioso, exantema súbito e enteroviroses: do reconhecimento morfológico da lesão de pele ao mecanismo fisiopatológico que explica por que cada exantema tem a cara que tem — e por que isso importa na hora da prova e na hora do plantão.</p>
+    <div class="hero-tags">
+      <span class="tag">Infectologia Pediátrica</span>
+      <span class="tag">Dermatologia Clínica</span>
+      <span class="tag">Imunologia</span>
+      <span class="tag">Vigilância Epidemiológica</span>
+      <span class="tag">Vacinologia</span>
+    </div>
+  </div>
+
+  <!-- ============ SEÇÃO 01 ============ -->
+  <section class="block" id="s01" style="--accent:var(--cyan)">
+    <div class="sec-head">
+      <div class="sec-num">01</div>
+      <div class="sec-title-wrap">
+        <div class="sec-title">Exantema, Enantema e os Três Mecanismos que Geram uma Erupção</div>
+        <div class="sec-sub">Antes de decorar sete doenças, entenda o que realmente acontece na pele — porque é esse mecanismo que explica cada detalhe clínico que vem a seguir.</div>
+      </div>
+    </div>
+    <div class="sec-rule"></div>
+
+    <div class="prose">
+      <p>O slide define exantema como uma erupção cutânea de fundo vascular. Essa frase, apesar de curta, esconde a chave para entender tudo o que vem depois: <i>fundo vascular</i> significa que a lesão nasce de um fenômeno que ocorre nos pequenos vasos da derme — vasodilatação, aumento de permeabilidade capilar, extravasamento de hemácias ou infiltrado inflamatório perivascular — e não de uma alteração primária do estrato córneo, como aconteceria numa dermatose primariamente epidérmica (psoríase, por exemplo). O <i>enantema</i> é exatamente o mesmo processo fisiopatológico, só que acontecendo na mucosa em vez da pele — por isso Koplik (sarampo), o sinal de Forchheimer (rubéola) e as vesículas da doença mão-pé-boca na cavidade oral são todos enantemas, não exantemas.</p>
+      <p>A pergunta que separa quem decorou do quem entendeu é: <i>por que</i> a pele fica vermelha numa infecção viral? Existem três mecanismos fisiopatológicos distintos, e cada doença exantemática que você vai estudar nesta aula se encaixa predominantemente em um deles.</p>
+    </div>
+
+    <div class="head-line"><span class="tagline">Os três mecanismos</span></div>
+
+    <div class="grid-3">
+      <div class="card" style="--accent:var(--red)">
+        <h4>1 · Efeito citopático direto</h4>
+        <p>O próprio agente infeccioso replica dentro das células da pele e as destrói diretamente. A vesícula da varicela contém vírus infeccioso ativo — é por isso que o líquido vesicular é altamente contagioso e por isso que existe correlação direta entre extensão do rash e carga viral cutânea.</p>
+      </div>
+      <div class="card" style="--accent:var(--violet)">
+        <h4>2 · Resposta imune mediada por células/anticorpos</h4>
+        <p>O rash não é causado pelo vírus em si, mas pelo sistema imune atacando células infectadas ou depositando imunocomplexos nos vasos da pele. É o caso do sarampo (linfócitos T citotóxicos atacando endotélio infectado) e da fase exantemática tardia do eritema infeccioso (imunocomplexos IgM/IgG).</p>
+      </div>
+      <div class="card" style="--accent:var(--orange)">
+        <h4>3 · Mediado por toxina (superantígeno)</h4>
+        <p>A bactéria nem precisa estar na pele — ela libera uma exotoxina que ativa maciçamente o sistema imune à distância. É o mecanismo da escarlatina: o <i>Streptococcus pyogenes</i> fica na garganta, mas o eritema aparece na pele inteira.</p>
+      </div>
+    </div>
+
+    <details class="deep">
+      <summary>Aprofunde-se — por que isso é a pegadinha mais elegante da imunologia dos exantemas</summary>
+      <div class="deep-body">
+        <p>Guarde esse raciocínio porque ele aparece disfarçado em prova: se o rash do sarampo é gerado principalmente pela resposta citotóxica do hospedeiro contra as células endoteliais e epiteliais infectadas pelo <i>Morbillivirus</i> — e não pelo vírus destruindo a pele diretamente — então um paciente com imunidade celular gravemente comprometida (desnutrição grave, leucemia em quimioterapia, infecção por HIV avançada) pode cursar com sarampo <i>sem exantema</i>, ou com um exantema atípico e tardio, justamente porque falta o braço imunológico que produz a lesão visível. Paradoxalmente, esses são os casos mais graves, com maior risco de pneumonia de células gigantes e encefalite, e são subdiagnosticados exatamente por não "parecerem" sarampo. Esse mesmo princípio — rash como marcador de resposta imune competente, não de agressão viral direta — se repete no eritema infeccioso: a fase exantemática (face esbofeteada) só aparece depois que a viremia já foi controlada e os imunocomplexos estão se formando; por isso a criança já não é mais contagiosa quando o rash mais chamativo aparece, o oposto do que a intuição sugere.</p>
+        <h5>A base histológica da diferenciação clínica mácula/pápula/vesícula/petéquia</h5>
+        <p>A tabela do slide separa as lesões por critério morfológico, mas cada uma reflete um plano histológico diferente. Mácula e pápula diferem apenas pela presença de infiltrado celular ou edema que eleva a lesão — mácula é puramente uma alteração de cor por vasodilatação/eritema, sem relevo palpável; pápula tem relevo porque há edema dérmico ou infiltrado inflamatório subjacente. Vesícula implica em degeneração do queratinócito com formação de espaço contendo líquido (na varicela, degeneração balonizante com inclusões intranucleares); quando esse espaço aumenta, vira bolha. Já a petéquia é categoricamente diferente das demais: não é inflamação, é extravasamento de hemácias para a derme por ruptura ou aumento de permeabilidade capilar — por isso não desaparece à vitropressão (a prova do vitropressor, ou diascopia, comprime os vasos e "esvazia" uma lesão vascular funcional, mas não consegue remover sangue que já extravasou para o tecido). Esse é o motivo prático pelo qual petéquia é sempre um sinal de alerta — ela indica fragilidade capilar, trombocitopenia, vasculite ou coagulopatia, e nunca é um achado "benigno por padrão" mesmo quando a doença de base é leve, como pode ocorrer na rubéola.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ SEÇÃO 02 ============ -->
+  <section class="block" id="s02" style="--accent:var(--cyan)">
+    <div class="sec-head">
+      <div class="sec-num">02</div>
+      <div class="sec-title-wrap">
+        <div class="sec-title">Padrões Morfológicos do Exantema</div>
+        <div class="sec-sub">O nome do padrão já entrega o diagnóstico diferencial — se você souber ler a "textura" da erupção.</div>
+      </div>
+    </div>
+    <div class="sec-rule"></div>
+
+    <div class="compare">
+      <div class="compare-card" style="--c-accent:var(--green)">
+        <div class="ch-title">Papulovesicular</div>
+        <div class="compare-row"><span class="k">Padrão</span><span class="v">Máculas e pápulas evoluindo para vesículas, pústulas e crostas</span></div>
+        <div class="compare-row"><span class="k">Protótipo</span><span class="v">Varicela</span></div>
+        <div class="compare-row"><span class="k">Mecanismo</span><span class="v">Citopático direto</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--red)">
+        <div class="ch-title">Morbiliforme / Maculopapular</div>
+        <div class="compare-row"><span class="k">Padrão</span><span class="v">Máculas e pápulas avermelhadas com áreas de pele sã de permeio</span></div>
+        <div class="compare-row"><span class="k">Protótipo</span><span class="v">Sarampo</span></div>
+        <div class="compare-row"><span class="k">Mecanismo</span><span class="v">Imune (citotóxico)</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--violet)">
+        <div class="ch-title">Rubeoliforme</div>
+        <div class="compare-row"><span class="k">Padrão</span><span class="v">Semelhante ao morbiliforme, porém róseo e com pápulas menores</span></div>
+        <div class="compare-row"><span class="k">Protótipo</span><span class="v">Rubéola</span></div>
+        <div class="compare-row"><span class="k">Mecanismo</span><span class="v">Imune / vascular leve</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--orange)">
+        <div class="ch-title">Escarlatiniforme</div>
+        <div class="compare-row"><span class="k">Padrão</span><span class="v">Eritema difuso, áspero, sem áreas sãs</span></div>
+        <div class="compare-row"><span class="k">Protótipo</span><span class="v">Escarlatina</span></div>
+        <div class="compare-row"><span class="k">Mecanismo</span><span class="v">Toxina (superantígeno)</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:#e879f9">
+        <div class="ch-title">Petequial / Purpúrico</div>
+        <div class="compare-row"><span class="k">Padrão</span><span class="v">Não desaparece à digitopressão</span></div>
+        <div class="compare-row"><span class="k">Protótipo</span><span class="v">Rubéola, Kawasaki, dengue hemorrágica</span></div>
+        <div class="compare-row"><span class="k">Mecanismo</span><span class="v">Vascular / hemorrágico</span></div>
+      </div>
+    </div>
+
+    <div class="alert prova">
+      <div class="alert-label">Prova</div>
+      <p>"Áreas de pele sã de permeio" é o descritor clássico do padrão morbiliforme do sarampo — é isso que o distingue da escarlatina, cujo eritema é <i>confluente e difuso</i>, sem nenhuma ilha de pele normal entre as lesões. Se a questão descrever "eritema em lixa, difuso, sem áreas poupadas", pense escarlatina antes de sarampo, mesmo que ambos tenham febre alta.</p>
+    </div>
+  </section>
+
+  <!-- ============ SEÇÃO 03 — SARAMPO ============ -->
+  <section class="block" id="s03" style="--accent:var(--red)">
+    <div class="sec-head">
+      <div class="sec-num">03</div>
+      <div class="sec-title-wrap">
+        <div class="sec-title">Sarampo</div>
+        <div class="sec-sub">A doença exantemática mais contagiosa da medicina — e a que mais expõe as falhas de cobertura vacinal de uma população.</div>
+      </div>
+    </div>
+    <div class="sec-rule"></div>
+
+    <div class="head-line"><span class="tagline">Agente e patogênese</span></div>
+    <div class="card">
+      <h4>Morbillivirus — Paramyxoviridae</h4>
+      <p>Vírus de RNA fita simples, envelopado, sentido negativo. A infecção começa quando partículas em aerossol atingem o trato respiratório e o vírus se liga ao receptor <i>SLAM/CD150</i>, presente em células dendríticas e macrófagos alveolares — não em células epiteliais respiratórias diretamente, como se pensava classicamente. Essas células infectadas migram para os linfonodos regionais, onde ocorre a primeira replicação massiva (viremia primária), seguida de disseminação para todo o sistema reticuloendotelial (baço, timo, fígado, linfonodos) e, por fim, viremia secundária, que semeia pele, trato respiratório, conjuntiva e trato gastrointestinal — é esse trajeto que explica a tríade tosse + coriza + conjuntivite associada à febre alta.</p>
+    </div>
+
+    <div class="head-line"><span class="tagline">Quadro clínico</span></div>
+    <div class="tline">
+      <div class="tline-item"><span class="tl-tag">Incubação · 10-12 dias</span><h5>Assintomático</h5><p>Vírus se disseminando pelo sistema reticuloendotelial; já há alguma excreção viral no fim desse período.</p></div>
+      <div class="tline-item"><span class="tl-tag">Pródromo · 2-4 dias</span><h5>Febre alta + os "3 Cs"</h5><p>Cough (tosse), Coryza (coriza) e Conjunctivitis (conjuntivite), com febre progressivamente mais alta — este é o pico de contagiosidade, mesmo sem exantema ainda visível.</p></div>
+      <div class="tline-item"><span class="tl-tag">1-2 dias antes do rash</span><h5>Manchas de Koplik</h5><p>Enantema patognomônico: pequenos pontos branco-azulados sobre base eritematosa na mucosa jugal, altura dos pré-molares. Correspondem a necrose focal do epitélio ductal de pequenas glândulas salivares, com exsudato inflamatório associado — desaparecem assim que o exantema começa.</p></div>
+      <div class="tline-item"><span class="tl-tag">Dia do rash</span><h5>Exantema maculopapular morbiliforme</h5><p>Início na face/linha de implantação capilar, progressão céfalo-caudal em cerca de 3 dias, coincidindo com a resposta imune celular que está, ao mesmo tempo, controlando a infecção e gerando a lesão de pele.</p></div>
+    </div>
+
+    <div class="head-line"><span class="tagline">Classificação de caso suspeito</span></div>
+    <div class="compare">
+      <div class="compare-card" style="--c-accent:var(--red)">
+        <div class="ch-title">Critério A — Clínico clássico</div>
+        <div class="compare-row"><span class="v" style="text-align:left">Febre + exantema maculopapular morbiliforme de direção cefalocaudal, com tosse, coriza e/ou conjuntivite, independente de idade ou histórico vacinal.</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--orange)">
+        <div class="ch-title">Critério B — Vigilância / viagem</div>
+        <div class="compare-row"><span class="v" style="text-align:left">Febre + exantema, mesmo sem sintomas respiratórios clássicos, com viagem nos últimos 30 dias a área de circulação ativa ou contato com viajante dessas áreas.</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--violet)">
+        <div class="ch-title">Critério C — Laboratorial prévio</div>
+        <div class="compare-row"><span class="v" style="text-align:left">Febre + exantema maculopapular associados a sorologia IgM reagente, mesmo sem sintomas respiratórios.</span></div>
+      </div>
+    </div>
+    <div class="alert pegadinha">
+      <div class="alert-label">Pegadinha</div>
+      <p>A ausência de histórico de viagem internacional, o esquema vacinal completo e até formas clínicas leves <i>não excluem</i> a suspeita diagnóstica — essa frase do slide é cobrada porque o raciocínio errado mais comum é "está vacinado, então não pode ser sarampo". Nenhuma vacina tem 100% de eficácia, e o cenário de reintrodução por casos importados torna a suspeição clínica ainda mais importante do que a história vacinal isolada.</p>
+    </div>
+
+    <div class="head-line"><span class="tagline">Cenário epidemiológico 2026</span></div>
+    <div class="grid-2">
+      <div class="mini-card">
+        <div class="mini-label">Região das Américas — SE 26/2026</div>
+        <p>43.858 casos confirmados na região, concentrados principalmente na Guatemala (27.576) e no México (11.445), com números bem menores em Estados Unidos, Canadá e Peru. O Brasil foi recertificado pela OPAS em novembro de 2024 como livre da circulação endêmica do vírus — mas eliminação não é o mesmo que erradicação mundial, e a intensa circulação regional mantém elevado o risco de reintrodução por casos importados.</p>
+      </div>
+      <div class="mini-card">
+        <div class="mini-label">Brasil — dados até SE 28/2026</div>
+        <p>1.137 casos suspeitos notificados, 15 confirmados, distribuídos em 4 surtos distintos, todos iniciados por importação. Há um surto ativo no município de São Paulo desde a SE 22/2026, reforçando a exigência de suspeição clínica rápida e notificação imediata em até 24 horas diante de qualquer caso compatível.</p>
+      </div>
+    </div>
+
+    <div class="head-line"><span class="tagline">Complicações e notificação</span></div>
+    <div class="grid-2">
+      <div class="card" style="--accent:var(--red)">
+        <h4>Complicações</h4>
+        <ul>
+          <li>Otite média — a mais comum</li>
+          <li>Pneumonia — principal causa de óbito por sarampo</li>
+          <li>Encefalite pós-infecciosa — cerca de 1 em cada 1.000 casos, de natureza autoimune (desmielinizante, tipo ADEM)</li>
+          <li>Panencefalite Esclerosante Subaguda (PEES) — rara, tardia, fatal</li>
+        </ul>
+      </div>
+      <div class="card" style="--accent:var(--amber)">
+        <h4>Quando suspeitar de complicação</h4>
+        <ul>
+          <li>Febre que persiste além do 3º-5º dia do exantema</li>
+          <li>Febre que retorna após período afebril</li>
+          <li>Leucocitose no hemograma — chama atenção porque a leucopenia relativa é o padrão esperado em viroses não complicadas</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="flow-step">Caso suspeito de sarampo</div><span class="flow-arrow">→</span>
+      <div class="flow-step">Notificar SMS em até 24h</div><span class="flow-arrow">→</span>
+      <div class="flow-step">Investigar em até 48h</div>
+    </div>
+    <div class="flow">
+      <div class="flow-step">Coleta de sorologia + material viral no 1º contato</div><span class="flow-arrow">→</span>
+      <div class="flow-step">Vacinação de bloqueio em até 72h</div>
+    </div>
+    <p class="prose" style="margin-top:14px"><span style="color:var(--text-dim); font-size:14.5px">Bloqueio vacinal: todos os contatos a partir de 6 meses de idade, exceto gestantes e pessoas com sinais/sintomas de sarampo, não vacinadas ou com esquema incompleto.</span></p>
+
+    <div class="head-line"><span class="tagline">Tratamento — Vitamina A</span></div>
+    <div class="card">
+      <h4>Suporte + Vitamina A em crianças</h4>
+      <p>Não há antiviral específico — o tratamento é hidratação e antipiréticos. A suplementação de vitamina A (200.000 UI, 2 doses) é recomendada pela OMS mesmo em crianças sem deficiência prévia, porque reduz a gravidade da doença e a mortalidade: o sarampo consome rapidamente os estoques hepáticos de retinol, e a hipovitaminose A secundária compromete a integridade do epitélio respiratório e conjuntival, favorecendo complicações.</p>
+    </div>
+    <div class="compare">
+      <div class="compare-card" style="--c-accent:var(--red)">
+        <div class="ch-title">&lt; 6 meses</div>
+        <div class="compare-row"><span class="k">Dose</span><span class="v">50.000 UI (10 gotas)</span></div>
+        <div class="compare-row"><span class="k">Posologia</span><span class="v">VO, 1x/dia por 2 dias</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--orange)">
+        <div class="ch-title">6-11 meses</div>
+        <div class="compare-row"><span class="k">Dose</span><span class="v">100.000 UI (20 gotas)</span></div>
+        <div class="compare-row"><span class="k">Posologia</span><span class="v">VO, 1x/dia por 2 dias</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--amber)">
+        <div class="ch-title">≥ 1 ano</div>
+        <div class="compare-row"><span class="k">Dose</span><span class="v">200.000 UI (40 gotas)</span></div>
+        <div class="compare-row"><span class="k">Posologia</span><span class="v">VO, 1x/dia por 2 dias</span></div>
+      </div>
+    </div>
+
+    <div class="head-line"><span class="tagline">Vacina Tríplice Viral (SCR)</span></div>
+    <div class="compare">
+      <div class="compare-card" style="--c-accent:var(--cyan)">
+        <div class="ch-title">Bio-Manguinhos</div>
+        <div class="compare-row"><span class="k">Idade</span><span class="v">A partir de 6 meses</span></div>
+        <div class="compare-row"><span class="k">Validade pós-reconst.</span><span class="v">8h (+2°C a +8°C)</span></div>
+        <div class="compare-row"><span class="k">Contraindicação</span><span class="v">Gestantes, imunocomprometidos</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--teal)">
+        <div class="ch-title">Serum Institute of India</div>
+        <div class="compare-row"><span class="k">Idade</span><span class="v">A partir de 9 meses</span></div>
+        <div class="compare-row"><span class="k">Validade pós-reconst.</span><span class="v">6h (+2°C a +8°C)</span></div>
+        <div class="compare-row"><span class="k">Contraindicação</span><span class="v">APLV, gestantes, imunocomprometidos</span></div>
+      </div>
+    </div>
+    <div class="alert attention">
+      <div class="alert-label">Atenção</div>
+      <p>Antes de aplicar a Tríplice Viral, pergunte sempre se o paciente recebeu outra vacina de vírus vivo atenuado nos últimos 30 dias — se sim, a aplicação deve ser adiada até cumprir o intervalo. Vacinas rotina: 12m-29a → 2 doses; 30-59a → 1 dose; trabalhadores da saúde → 2 doses.</p>
+    </div>
+
+    <div class="alert attention">
+      <div class="alert-label">Medidas de controle</div>
+      <p>O caso suspeito/confirmado deve evitar ambientes de aglomeração por até 4 dias após o início do exantema. Mas atenção: o impacto do isolamento é relativo, porque o período prodrômico já apresenta elevada transmissibilidade e, em geral, não é possível isolar quem ainda está assintomático — por isso a vacinação de bloqueio dos contatos é mais eficaz que o isolamento isolado do caso índice. O monitoramento dos contatos se estende por 30 dias.</p>
+    </div>
+
+    <details class="deep">
+      <summary>Aprofunde-se — amnésia imunológica, SSPE e por que o sarampo é tão contagioso</summary>
+      <div class="deep-body">
+        <p>O sarampo tem um dos maiores números básicos de reprodução (R0) entre todas as doenças infecciosas humanas, estimado entre 12 e 18 — ou seja, um único caso pode gerar de 12 a 18 casos secundários numa população totalmente suscetível. Isso decorre de dois fatores combinados: transmissão por aerossóis capazes de permanecer viáveis suspensos no ar por até duas horas após o paciente deixar o ambiente, e um período de contagiosidade que começa antes do reconhecimento clínico da doença (durante o pródromo, antes mesmo do exantema aparecer). Por essa razão, a cobertura vacinal necessária para manter a imunidade de rebanho é excepcionalmente alta — cerca de 95%, muito acima do que basta para controlar a maioria das outras doenças imunopreveníveis.</p>
+        <h5>Amnésia imunológica pós-sarampo</h5>
+        <p>Um achado relativamente recente e muito relevante clinicamente: o vírus do sarampo infecta e depleta linfócitos B e T de memória já formados contra outros patógenos que a criança encontrou anteriormente, um fenômeno chamado amnésia imunológica. Isso explica por que crianças que tiveram sarampo apresentam maior morbimortalidade por outras infecções nos meses a até dois anos seguintes — o repertório imunológico foi parcialmente "resetado". Esse é um dos argumentos mais fortes a favor da vacinação, além da prevenção da doença aguda em si.</p>
+        <h5>Panencefalite Esclerosante Subaguda (PEES)</h5>
+        <p>Complicação tardia rara (cerca de 1 em 10.000 a 1 em 100.000 casos, com risco maior quanto mais precoce a infecção primária) causada pela persistência de um vírus do sarampo defeituoso dentro de neurônios do sistema nervoso central. Mutações acumuladas, principalmente na proteína M (matriz), impedem a montagem e o brotamento de partículas virais completas, de modo que o vírus não consegue ser eliminado pelo sistema imune nem se disseminar de forma citolítica clássica — em vez disso, dissemina-se lentamente de neurônio a neurônio por contiguidade sináptica, causando uma encefalite crônica progressiva que surge anos (em média 7 a 10 anos) após a infecção aguda, evoluindo com deterioração cognitiva, mioclonias e, invariavelmente, óbito. É um lembrete didático poderoso de que "sarampo é só uma doença benigna da infância" é um mito perigoso.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ SEÇÃO 04 — RUBÉOLA ============ -->
+  <section class="block" id="s04" style="--accent:var(--violet)">
+    <div class="sec-head">
+      <div class="sec-num">04</div>
+      <div class="sec-title-wrap">
+        <div class="sec-title">Rubéola</div>
+        <div class="sec-sub">Clinicamente a mais branda das exantemáticas virais no paciente pediátrico — e uma das mais temidas quando o paciente é o feto.</div>
+      </div>
+    </div>
+    <div class="sec-rule"></div>
+
+    <div class="head-line"><span class="tagline">Agente e quadro clínico</span></div>
+    <div class="card">
+      <h4>Rubivirus — Togaviridae</h4>
+      <p>Vírus de RNA fita simples de sentido positivo, envelopado. O quadro típico é discreto: febre baixa, exantema róseo pouco exuberante com progressão céfalo-caudal, e o achado clínico mais característico — linfadenopatia retroauricular, occipital e/ou cervical, que costuma preceder o exantema em alguns dias e é o principal diferencial semiológico frente ao sarampo, cujas adenopatias não são tão proeminentes.</p>
+    </div>
+
+    <div class="head-line"><span class="tagline">Classificação de caso suspeito</span></div>
+    <div class="compare">
+      <div class="compare-card" style="--c-accent:var(--violet)">
+        <div class="ch-title">Critério A — Clínico clássico</div>
+        <div class="compare-row"><span class="v" style="text-align:left">Febre + exantema maculopapular + linfadenopatia retroauricular, occipital e/ou cervical, independente de idade ou histórico vacinal.</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--orange)">
+        <div class="ch-title">Critério B — Vigilância / viagem</div>
+        <div class="compare-row"><span class="v" style="text-align:left">Febre + exantema ou linfadenopatia compatível, com viagem nos últimos 30 dias ou contato com viajante de área de circulação ativa.</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--cyan)">
+        <div class="ch-title">Critério C — Laboratorial prévio</div>
+        <div class="compare-row"><span class="v" style="text-align:left">Febre + exantema maculopapular associados a sorologia IgM reagente para rubéola.</span></div>
+      </div>
+    </div>
+
+    <div class="head-line"><span class="tagline">Linha do tempo e rastreamento</span></div>
+    <div class="tline">
+      <div class="tline-item"><span class="tl-tag">Incubação</span><h5>12 a 23 dias</h5><p>Intervalo entre exposição ao vírus e surgimento do exantema.</p></div>
+      <div class="tline-item"><span class="tl-tag">Período provável de exposição</span><h5>12 a 23 dias antes do exantema</h5><p>Cálculo retrospectivo usado para identificar a fonte original de contágio.</p></div>
+      <div class="tline-item"><span class="tl-tag">Transmissibilidade</span><h5>7 dias antes até 7 dias após o exantema</h5><p>Janela usada para definir isolamento de contato e período de afastamento.</p></div>
+      <div class="tline-item"><span class="tl-tag">Monitoramento de secundários</span><h5>12 a 35 dias após exposição</h5><p>Acompanhamento de contatos desde 12 dias após o 1º dia de exposição até 23 dias após o último dia de transmissibilidade.</p></div>
+    </div>
+
+    <div class="head-line"><span class="tagline">Síndrome da Rubéola Congênita (SRC)</span></div>
+    <div class="alert pegadinha">
+      <div class="alert-label">Correlação clínica</div>
+      <p>A infecção materna 12 dias antes da concepção e, principalmente, nas primeiras 8 a 10 semanas de gestação — o período mais crítico da organogênese — pode resultar em aborto espontâneo, morte fetal ou infantil precoce, e defeitos congênitos de múltiplos órgãos. Quanto mais precoce a infecção na gestação, maior o risco e a gravidade do acometimento fetal, o que faz sentido fisiopatologicamente: o vírus rubéola causa infecção persistente e não-lítica nas células fetais em divisão, provocando parada mitótica e insuficiência vascular no tecido em formação — mecanismo diferente da agressão citolítica aguda de outros vírus, e por isso o dano é estrutural e permanente, não apenas inflamatório e transitório.</p>
+    </div>
+    <div class="grid-2">
+      <div class="card" style="--accent:var(--violet)">
+        <h4>Tríade clássica</h4>
+        <ul>
+          <li>Catarata e/ou glaucoma congênito</li>
+          <li>Surdez neurossensorial</li>
+          <li>Cardiopatia congênita — persistência do canal arterial é a mais típica</li>
+        </ul>
+      </div>
+      <div class="card" style="--accent:var(--red)">
+        <h4>Outras manifestações</h4>
+        <ul>
+          <li>Microcefalia</li>
+          <li>Restrição de crescimento intrauterino</li>
+          <li>Hepatoesplenomegalia</li>
+          <li>"Blueberry muffin baby" — hematopoiese dérmica extramedular, vista como pápulas purpúricas</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="head-line"><span class="tagline">Complicações, notificação e tratamento</span></div>
+    <div class="grid-2">
+      <div class="card" style="--accent:var(--violet)">
+        <h4>Complicações no paciente não gestante</h4>
+        <p>Artrite/artralgia — mais comum em mulheres adultas, de natureza imunomediada por depósito de imunocomplexos nas sinóvias — e, raramente, encefalite.</p>
+      </div>
+      <div class="card" style="--accent:var(--green)">
+        <h4>Notificação e conduta</h4>
+        <p>Notificação obrigatória em 24h, seja suspeita ou confirmada. Tratamento é apenas de suporte, com isolamento até 7 dias após o exantema.</p>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="flow-step">Caso suspeito de rubéola</div><span class="flow-arrow">→</span>
+      <div class="flow-step">Notificar SMS em até 24h</div><span class="flow-arrow">→</span>
+      <div class="flow-step">Investigar em até 48h</div><span class="flow-arrow">→</span>
+      <div class="flow-step">Bloqueio vacinal em até 72h</div>
+    </div>
+
+    <div class="card">
+      <h4>Vacinação de rotina</h4>
+      <p>1ª dose aos 12 meses (Tríplice Viral) e 2ª dose aos 15 meses, geralmente já associada à Tetraviral (SCRV, que acrescenta a proteção contra varicela). Pessoas com esquema vacinal completo não necessitam de doses adicionais no bloqueio — só os suscetíveis é que recebem a vacina de bloqueio, e o prazo de 72h é o intervalo máximo em que essa estratégia ainda é capaz de interromper a cadeia de transmissão.</p>
+    </div>
+
+    <div class="alert prova">
+      <div class="alert-label">Prova</div>
+      <p>"Vacina SCR (tríplice viral) previne sarampo, caxumba e rubéola" — memorize essa associação porque é frequentemente cobrada de forma invertida ou incompleta em provas de multivacinação.</p>
+    </div>
+
+    <details class="deep">
+      <summary>Aprofunde-se — o marco da OPAS e os indicadores de qualidade da vigilância</summary>
+      <div class="deep-body">
+        <p>Em outubro de 2024 foram pactuados 12 indicadores mensais para monitorar a qualidade da vigilância das doenças exantemáticas no contexto da reverificação da eliminação do sarampo, da rubéola e da síndrome da rubéola congênita nas Américas. Três desses indicadores merecem destaque porque revelam a lógica por trás da vigilância epidemiológica moderna: rastreamento de contatos (meta de ≥ 80% dos casos confirmados com rastreamento ativo por 30 dias), coleta de amostras adequadas (swab respiratório até 14 dias do exantema ou urina até 10 dias, em ≥ 80% dos casos) e detecção viral em surto (≥ 80% dos surtos com genotipagem viral realizada). A genotipagem não é um detalhe técnico burocrático — ela permite diferenciar cepas endêmicas de cepas importadas, o que é justamente o critério que sustenta o status de "país livre de circulação endêmica" mesmo diante de surtos pontuais.</p>
+        <p>Um conceito complementar importante é o de "município silencioso": quando um município passa 12 semanas consecutivas ou mais sem notificar nenhum caso suspeito e, ao mesmo tempo, não realiza a notificação negativa semanal, isso é interpretado como sinal de alerta — silêncio epidemiológico pode significar ausência real de casos, mas pode igualmente significar falha na detecção. Por isso a notificação negativa (a notificação de que "nenhum caso foi identificado nesta semana") é tão importante quanto a notificação positiva: ela demonstra que o sistema de vigilância está ativamente procurando, e não apenas esperando passivamente que um caso apareça.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ SEÇÃO 05 — VARICELA ============ -->
+  <section class="block" id="s05" style="--accent:var(--green)">
+    <div class="sec-head">
+      <div class="sec-num">05</div>
+      <div class="sec-title-wrap">
+        <div class="sec-title">Varicela</div>
+        <div class="sec-sub">A doença que nunca termina de verdade — porque o vírus não vai embora, apenas dorme.</div>
+      </div>
+    </div>
+    <div class="sec-rule"></div>
+
+    <div class="head-line"><span class="tagline">Agente e patogênese</span></div>
+    <div class="card">
+      <h4>Vírus Varicela-Zoster (HHV-3) — Herpesviridae</h4>
+      <p>Vírus de DNA dupla-fita, envelopado. A infecção primária ocorre pela mucosa respiratória, com viremia primária por volta do 4º-6º dia semeando o sistema reticuloendotelial, seguida de uma viremia secundária (dia 14-16) que leva o vírus, em sucessivas ondas, até a pele — é essa dinâmica de "ondas" que explica por que as lesões da varicela aparecem em surtos sucessivos e, por isso, coexistem em diferentes estágios evolutivos num mesmo momento do exame físico.</p>
+    </div>
+
+    <div class="head-line"><span class="tagline">Transmissibilidade</span></div>
+    <div class="mini-card">
+      <div class="mini-label">Janela de contágio</div>
+      <p>De 1 a 2 dias antes do aparecimento do exantema até que todas as lesões estejam em fase de crosta. Transmissão principalmente por contato direto ou secreções respiratórias (partículas em aerossol), e raramente por contato direto com o líquido das lesões cutâneas. Incubação de 10 a 21 dias após o contato.</p>
+    </div>
+
+    <div class="head-line"><span class="tagline">Quadro clínico</span></div>
+    <div class="grid-2">
+      <div class="card" style="--accent:var(--green)">
+        <h4>Sinais e sintomas</h4>
+        <ul>
+          <li>Febre associada a vesículas pruriginosas, início no couro cabeludo/tronco</li>
+          <li>Lesões em diferentes estágios simultaneamente: máculas → pápulas → vesículas → crostas ("céu estrelado")</li>
+          <li>Eritema polimórfico altamente pruriginoso</li>
+          <li>Progressão céfalo-caudal</li>
+        </ul>
+      </div>
+      <div class="card" style="--accent:var(--red)">
+        <h4>Complicações</h4>
+        <ul>
+          <li>Infecção bacteriana secundária — a mais comum, geralmente por <i>S. aureus</i> ou <i>S. pyogenes</i></li>
+          <li>Ataxia cerebelar aguda</li>
+          <li>Pneumonite — mais grave em adultos, gestantes e imunocomprometidos</li>
+          <li>Trombocitopenia</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alert pegadinha">
+      <div class="alert-label">Pegadinha</div>
+      <p>Aspirina (ácido acetilsalicílico) é formalmente contraindicada em crianças com varicela ou qualquer síndrome febril viral, pelo risco de Síndrome de Reye — uma disfunção mitocondrial hepatocelular aguda que causa encefalopatia e esteatose hepática grave. É um dos exemplos clássicos de "não faça isso mesmo que pareça razoável" em pediatria.</p>
+    </div>
+
+    <div class="head-line"><span class="tagline">Notificação e tratamento</span></div>
+    <div class="card">
+      <h4>Notificação — apenas para óbitos ou surtos (24h)</h4>
+      <p>Diferente do sarampo e da rubéola, a varicela isolada e não complicada não exige notificação individual compulsória — a vigilância se concentra em formas graves e em surtos, especialmente em ambientes de aglomeração como creches e escolas.</p>
+    </div>
+    <div class="card">
+      <h4>Aciclovir — quando indicar</h4>
+      <p>Reservado para imunossuprimidos ou casos com complicações. Em crianças sem comprometimento imunológico: 20 mg/kg/dose VO, 5x/dia, dose máxima de 800 mg/dia, por 5 dias. Em adultos sem comprometimento imunológico: 800 mg VO, 5x/dia, por 7 dias. A maior efetividade ocorre quando iniciado nas primeiras 24 horas de doença — janela estreita porque o aciclovir só é ativado (fosforilado) dentro de células que já estão infectadas e replicando o vírus ativamente; depois que a maior parte da replicação já ocorreu, o benefício clínico cai muito.</p>
+    </div>
+
+    <details class="deep">
+      <summary>Aprofunde-se — latência em gânglio dorsal, herpes-zóster e o mecanismo do aciclovir</summary>
+      <div class="deep-body">
+        <p>Depois da infecção primária (varicela), o VZV não é eliminado do organismo — ele ascende por transporte axonal retrógrado a partir das terminações nervosas sensitivas cutâneas até os gânglios das raízes dorsais (ou gânglios de nervos cranianos, como o trigêmeo), onde estabelece latência dentro dos corpos neuronais, com expressão gênica viral restrita e sem produção de partículas infecciosas completas. Décadas depois, com a senescência imunológica relacionada à idade ou qualquer condição de imunossupressão (HIV, quimioterapia, corticoterapia crônica, estresse importante), a vigilância imune específica contra o VZV declina o suficiente para permitir reativação viral, que se propaga ao longo do trajeto sensitivo daquele gânglio até a pele — daí a distribuição estritamente dermatomérica, unilateral, do herpes-zóster. É por isso que zóster nunca "cruza a linha média" do corpo: o vírus está viajando dentro de um único nervo sensitivo, não se espalhando de forma sistêmica como na primoinfecção.</p>
+        <h5>Mecanismo bioquímico do aciclovir</h5>
+        <p>O aciclovir é um análogo de nucleosídeo (guanosina) inativo em sua forma original. Ele só se torna ativo após ser fosforilado uma primeira vez pela enzima timidina-quinase viral — uma enzima presente apenas em células infectadas por herpesvírus, e que tem afinidade muito maior pelo aciclovir do que a timidina-quinase celular humana. Essa é a base da seletividade do fármaco: ele praticamente só é ativado dentro de células que já estão replicando o vírus. Depois dessa primeira fosforilação, quinases celulares completam a conversão para a forma trifosfato ativa, que compete com a guanosina trifosfato natural pela incorporação na cadeia de DNA viral em formação pela DNA-polimerase viral — e, por não ter o grupo 3'-hidroxila necessário para continuar a cadeia, causa terminação de cadeia (chain termination), interrompendo a replicação do DNA viral.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ SEÇÃO 06 — ESCARLATINA ============ -->
+  <section class="block" id="s06" style="--accent:var(--orange)">
+    <div class="sec-head">
+      <div class="sec-num">06</div>
+      <div class="sec-title-wrap">
+        <div class="sec-title">Escarlatina</div>
+        <div class="sec-sub">A única exantemática clássica de origem bacteriana desta aula — e uma aula à parte sobre como uma toxina pode enganar o sistema imune inteiro.</div>
+      </div>
+    </div>
+    <div class="sec-rule"></div>
+
+    <div class="head-line"><span class="tagline">Agente e mecanismo</span></div>
+    <div class="card">
+      <h4><i>Streptococcus pyogenes</i> (Grupo A β-hemolítico)</h4>
+      <p>A escarlatina é a manifestação cutânea de uma faringoamigdalite estreptocócica em um hospedeiro sem imunidade prévia contra as exotoxinas pirogênicas (também chamadas toxinas eritrogênicas A, B ou C) produzidas por certas cepas de <i>S. pyogenes</i>. Essas toxinas funcionam como <i>superantígenos</i>: diferente de um antígeno convencional, que precisa ser processado e apresentado dentro do sulco de ligação do MHC de classe II para ativar um clone específico de linfócito T, o superantígeno se liga diretamente e por fora desse sulco, conectando de forma inespecífica o MHC-II da célula apresentadora à porção variável da cadeia beta do receptor de célula T (TCR Vβ). O resultado é a ativação policlonal maciça de até 20% de todos os linfócitos T do organismo, de uma só vez — gerando uma tempestade de citocinas (IL-2, IFN-gama, TNF) responsável pela febre alta e pelo eritema difuso, sem que a bactéria precise estar fisicamente presente na pele.</p>
+    </div>
+
+    <div class="head-line"><span class="tagline">Quadro clínico</span></div>
+    <div class="tline">
+      <div class="tline-item"><span class="tl-tag">Fase inicial</span><h5>Febre + dor de garganta</h5><p>Faringoamigdalite exsudativa clássica, geralmente precedendo o rash em 12-48h.</p></div>
+      <div class="tline-item"><span class="tl-tag">Exantema</span><h5>Eritema áspero, "em lixa", escarlatiniforme</h5><p>Difuso, confluente, sem áreas poupadas, mais acentuado nas dobras cutâneas.</p></div>
+      <div class="tline-item"><span class="tl-tag">Sinais associados</span><h5>Sinal de Filatov e Sinal de Pastia</h5><p>Filatov: palidez perioral em contraste com as bochechas hiperemiadas. Pastia: petéquias e linhas hiperpigmentadas nas dobras flexoras dos braços e raízes das coxas, que persistem mesmo após o desaparecimento do restante do rash — útil retrospectivamente.</p></div>
+      <div class="tline-item"><span class="tl-tag">Língua — 2º ao 4º dia</span><h5>Língua em framboesa</h5><p>Evolui de uma língua saburrosa branca com papilas hiperemiadas salientes ("morango branco") para uma língua vermelha e brilhante ("morango vermelho") após a descamação do revestimento branco.</p></div>
+      <div class="tline-item"><span class="tl-tag">1-3 semanas depois</span><h5>Descamação</h5><p>Fina e furfurácea no tronco, laminar/em lençol nas palmas e plantas — achado tardio útil quando o paciente procura atendimento sem o rash agudo ainda presente.</p></div>
+    </div>
+
+    <div class="head-line"><span class="tagline">Tratamento</span></div>
+    <div class="card">
+      <h4>Antibioticoterapia — objetivo além do alívio sintomático</h4>
+      <p>O tratamento antibiótico não serve apenas para encurtar a duração dos sintomas — sua principal finalidade é prevenir a febre reumática, o que só é possível se iniciado dentro de até 9 dias do início dos sintomas. Um ponto notável e frequentemente cobrado: apesar de décadas de uso amplo, o <i>S. pyogenes</i> nunca desenvolveu resistência clinicamente relevante à penicilina, que segue sendo a droga de primeira escolha.</p>
+    </div>
+    <div class="grid-2">
+      <div class="mini-card">
+        <div class="mini-label">Penicilina V (80.000 U/mL)</div>
+        <p>&lt; 12 anos: 0,3125-1,125 mL/kg/dia (25.000-90.000 U/kg/dia) VO 8/8 ou 6/6h por 10 dias, máx. 2.000.000 U/dia. ≥ 12 anos: 2,5-6,25 mL/dose (200.000-500.000 U) VO 8/8 ou 6/6h por 10 dias.</p>
+      </div>
+      <div class="mini-card">
+        <div class="mini-label">Amoxicilina (250 mg/5 mL)</div>
+        <p>&gt; 3 meses: 25-50 mg/kg/dia VO 8/8h por 10 dias, máx. 500 mg/dose. &gt; 12 anos: 500 mg/dose VO 8/8h por 10 dias, máx. 3 g/dia.</p>
+      </div>
+      <div class="mini-card">
+        <div class="mini-label">Alérgicos — Azitromicina (200 mg/5 mL)</div>
+        <p>12 mg/kg/dia VO, 24/24h, por 5 dias.</p>
+      </div>
+      <div class="mini-card">
+        <div class="mini-label">Notificação</div>
+        <p>Obrigatória apenas em surtos, em até 24 horas — não é notificação compulsória caso a caso.</p>
+      </div>
+    </div>
+
+    <details class="deep">
+      <summary>Aprofunde-se — as duas complicações não-supurativas que definem por que se trata a garganta</summary>
+      <div class="deep-body">
+        <p>Além das complicações supurativas óbvias (abscesso peritonsilar, otite, mastoidite, linfadenite cervical — extensão direta da infecção local), a escarlatina/faringite estreptocócica carrega o risco de duas complicações tardias e imunomediadas, que são o verdadeiro motivo pelo qual insistimos tanto em tratar uma infecção que, isoladamente, seria autolimitada.</p>
+        <h5>Febre reumática — mimetismo molecular</h5>
+        <p>A proteína M da parede celular do <i>S. pyogenes</i> compartilha epítopos estruturalmente semelhantes a proteínas humanas do tecido cardíaco (miosina cardíaca), articular e do sistema nervoso central (núcleos da base). Anticorpos produzidos originalmente contra a proteína M passam a reconhecer também essas proteínas próprias do hospedeiro — um fenômeno chamado mimetismo molecular — desencadeando uma reação cruzada autoimune que se manifesta, semanas depois da faringite (geralmente 2-4 semanas), como cardite (a manifestação mais temida, podendo cursar com valvulopatia crônica permanente, sobretudo mitral), poliartrite migratória, coreia de Sydenham, eritema marginado e nódulos subcutâneos — os critérios de Jones.</p>
+        <h5>Glomerulonefrite pós-estreptocócica</h5>
+        <p>Mecanismo diferente: aqui, imunocomplexos formados por antígenos estreptocócicos (como a estreptoquinase) e anticorpos específicos circulam e se depositam na membrana basal glomerular, ativando o sistema complemento e gerando uma reação inflamatória localizada — uma hipersensibilidade do tipo III. Diferente da febre reumática, a glomerulonefrite pode ocorrer após faringite (cerca de 10 dias depois) ou após impetigo estreptocócico (cerca de 3 semanas depois), e o tratamento antibiótico precoce da infecção de pele ou garganta não necessariamente previne essa complicação com a mesma eficácia que previne a febre reumática — outro ponto sutil frequentemente invertido em prova.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ SEÇÃO 07 — ERITEMA INFECCIOSO ============ -->
+  <section class="block" id="s07" style="--accent:var(--teal)">
+    <div class="sec-head">
+      <div class="sec-num">07</div>
+      <div class="sec-title-wrap">
+        <div class="sec-title">Eritema Infeccioso</div>
+        <div class="sec-sub">"Doença da bofetada": o rash mais bonito da aula esconde a fisiopatologia mais contraintuitiva de todas.</div>
+      </div>
+    </div>
+    <div class="sec-rule"></div>
+
+    <div class="head-line"><span class="tagline">Agente e tropismo celular</span></div>
+    <div class="card">
+      <h4>Parvovírus B19 — Parvoviridae</h4>
+      <p>Vírus de DNA fita simples, não envelopado, com tropismo notavelmente específico: ele se liga ao antígeno P (globosídeo), presente predominantemente nos precursores eritroides da medula óssea. A infecção desses precursores é lítica e causa parada transitória da eritropoiese — em uma criança saudável, isso passa despercebido porque a meia-vida das hemácias circulantes é longa (cerca de 120 dias) e a reserva medular compensa a pausa. Mas essa mesma característica torna o parvovírus B19 extremamente perigoso em dois grupos específicos, discutidos adiante.</p>
+    </div>
+
+    <div class="head-line"><span class="tagline">As três fases clínicas — e por que o rash chega tarde demais para ser contagioso</span></div>
+    <div class="tline">
+      <div class="tline-item"><span class="tl-tag">Fase 1 · Viremia</span><h5>Febre, mal-estar, anemia leve</h5><p>Fase de maior contagiosidade — replicação viral ativa e intensa na medula óssea, ainda sem anticorpos detectáveis e sem exantema.</p></div>
+      <div class="tline-item"><span class="tl-tag">Fase 2 · Face esbofeteada</span><h5>Exantema mediado por imunocomplexos</h5><p>Aparece somente depois que a viremia já foi controlada, coincidindo com a formação de anticorpos IgM e IgG que se depositam como imunocomplexos nos pequenos vasos da pele. Progressão céfalo-caudal, com padrão rendilhado (reticular/em renda) no tronco e membros.</p></div>
+      <div class="tline-item"><span class="tl-tag">Fase 3 · Recidivante</span><h5>Reaparecimento do exantema</h5><p>Pode recorrer por semanas, desencadeado por calor, sol, exercício físico ou estresse — persistência do fenômeno de imunocomplexos, sem relação com replicação viral ativa.</p></div>
+    </div>
+
+    <div class="alert pegadinha">
+      <div class="alert-label">Pegadinha</div>
+      <p>Ao contrário do sarampo e da varicela, quando o exantema do eritema infeccioso aparece, a criança <i>já não é mais contagiosa</i> — porque o rash é gerado pela resposta imune humoral, que só surge depois que a viremia já foi controlada. Isso muda completamente a orientação de afastamento escolar: não há necessidade de isolar a criança na fase do rash, mas sim reconhecer que ela provavelmente já transmitiu o vírus durante a fase prodrômica, quando ainda parecia apenas um resfriado comum.</p>
+    </div>
+
+    <div class="head-line"><span class="tagline">Populações de risco</span></div>
+    <div class="grid-2">
+      <div class="card" style="--accent:var(--red)">
+        <h4>Anemias hemolíticas crônicas (ex.: falciforme)</h4>
+        <p>Nesses pacientes, a produção de hemácias já opera perto do limite máximo para compensar a destruição periférica acelerada. Qualquer pausa na eritropoiese, mesmo que transitória, é catastrófica: gera uma crise aplásica aguda, com queda súbita e grave da hemoglobina — uma emergência hematológica que pode exigir transfusão.</p>
+      </div>
+      <div class="card" style="--accent:var(--violet)">
+        <h4>Gestação</h4>
+        <p>O vírus atravessa a placenta e infecta tanto os precursores eritroides quanto o miocárdio fetal, que também expressa o antígeno P. A combinação de anemia fetal grave com insuficiência cardíaca de alto débito pode resultar em hidropisia fetal não imune, com risco mais elevado no segundo trimestre — exige monitoramento fetal seriado e, em casos graves, transfusão intrauterina.</p>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card" style="--accent:var(--teal)">
+        <h4>Imunossuprimidos</h4>
+        <p>Incapazes de produzir uma resposta de anticorpos adequada para neutralizar o vírus, podem evoluir para infecção crônica com aplasia pura de série vermelha — anemia persistente por destruição contínua dos precursores eritroides sem clareamento viral.</p>
+      </div>
+      <div class="card" style="--accent:var(--green)">
+        <h4>Notificação e tratamento</h4>
+        <p>Notificação não compulsória. Tratamento apenas de suporte com antitérmicos; imunoglobulina intravenosa é reservada para os casos de infecção crônica em imunossuprimidos, pois fornece os anticorpos neutralizantes que o paciente não consegue produzir sozinho.</p>
+      </div>
+    </div>
+
+    <details class="deep">
+      <summary>Aprofunde-se — artralgia em adultos e o porquê do nome "quinta doença"</summary>
+      <div class="deep-body">
+        <p>Historicamente, o eritema infeccioso é referido como a "quinta doença" — uma nomenclatura numérica do século XIX que listava as seis principais doenças exantemáticas da infância (sarampo, escarlatina, rubéola, uma condição hoje considerada obsoleta ou sinônima chamada "Filatov-Dukes", eritema infeccioso e exantema súbito). Embora essa numeração seja mais curiosidade histórica do que ferramenta clínica atual, ela ainda aparece eventualmente em provas como associação de nome.</p>
+        <p>Em adultos, sobretudo mulheres, a infecção pelo parvovírus B19 tende a se manifestar de forma diferente da criança: o exantema facial clássico é menos comum ou ausente, e predomina uma poliartralgia simétrica de pequenas articulações (mãos, punhos, joelhos), que pode mimetizar artrite reumatoide inicial — inclusive com positividade transitória de fator reumatoide em alguns casos, um armadilha diagnóstica real. A base fisiopatológica é a mesma dos imunocomplexos que causam o rash na criança, só que se depositando preferencialmente nas sinóvias articulares do adulto.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ SEÇÃO 08 — EXANTEMA SÚBITO ============ -->
+  <section class="block" id="s08" style="--accent:var(--amber)">
+    <div class="sec-head">
+      <div class="sec-num">08</div>
+      <div class="sec-title-wrap">
+        <div class="sec-title">Exantema Súbito (Roséola Infantil)</div>
+        <div class="sec-sub">A única exantemática desta aula em que o rash aparece justamente quando a criança já está melhorando — e é isso que a torna, paradoxalmente, difícil de diagnosticar em tempo real.</div>
+      </div>
+    </div>
+    <div class="sec-rule"></div>
+
+    <div class="head-line"><span class="tagline">Agente e epidemiologia</span></div>
+    <div class="card">
+      <h4>HHV-6 (predominante) ou HHV-7 — Herpesviridae</h4>
+      <p>A infecção primária é praticamente universal até os 2 anos de idade, geralmente transmitida pela saliva de cuidadores — a maioria dos adultos elimina o vírus de forma assintomática e persistente na saliva ao longo da vida, o que explica a exposição precoce e quase inevitável. O vírus tem tropismo por linfócitos T CD4+ (usando o receptor CD46), nos quais também pode estabelecer latência, além de invadir diretamente o sistema nervoso central em uma proporção significativa dos casos — achado que ajuda a explicar a associação da doença com convulsões febris.</p>
+    </div>
+
+    <div class="head-line"><span class="tagline">O padrão clínico que inverte a lógica dos outros exantemas</span></div>
+    <div class="alert clinica">
+      <div class="alert-label">Clínica</div>
+      <p>Febre alta (39-40°C) por 72 horas, em uma criança classicamente ativa e com bom estado geral apesar da febre — discordância entre a intensidade da febre e o estado clínico é uma pista semiológica valiosa. A febre cede de forma abrupta ("em crise", e não em lise gradual) e é exatamente nesse momento, quando a febre já baixou, que o exantema surge: máculo-papular róseo, iniciando no tronco e se espalhando de forma centrípeta (do tronco para as extremidades — repare que essa direção é o oposto da progressão céfalo-caudal do sarampo e da rubéola). É a chamada "doença dos três dias".</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card" style="--accent:var(--amber)">
+        <h4>Complicações</h4>
+        <p>Convulsões febris — o HHV-6 é, isoladamente, uma das causas infecciosas mais frequentemente associadas a convulsão febril em menores de 2 anos, tanto pela velocidade de ascensão da febre quanto pela possível invasão direta do SNC. Encefalite e hepatite são raras, restritas principalmente a imunocomprometidos.</p>
+      </div>
+      <div class="card" style="--accent:var(--cyan)">
+        <h4>Notificação e tratamento</h4>
+        <p>Notificação não compulsória. Tratamento apenas com antitérmicos (paracetamol) — sempre lembrando de evitar aspirina pelo mesmo risco de Síndrome de Reye discutido na varicela.</p>
+      </div>
+    </div>
+
+    <div class="alert pegadinha">
+      <div class="alert-label">Pegadinha</div>
+      <p>O diagnóstico de roséola é, na maioria das vezes, retrospectivo: durante os três dias de febre alta sem foco aparente e sem exantema, é impossível confirmar clinicamente que se trata de roséola — o diagnóstico diferencial nesse momento precisa necessariamente incluir causas bacterianas potencialmente graves de febre sem sinais localizatórios, sobretudo em lactentes pequenos. Só depois que o exantema surge, coincidindo com a queda da febre, é que o diagnóstico se torna clínico e retrospectivamente óbvio.</p>
+    </div>
+
+    <details class="deep">
+      <summary>Aprofunde-se — Nagayama spots e o papel do HHV-6 além da roséola</summary>
+      <div class="deep-body">
+        <p>Um achado de enantema menos citado nos livros-texto de nível introdutório, mas clinicamente útil, são as manchas de Nagayama: pápulas eritematosas na úvula e no palato mole, que podem preceder o exantema cutâneo e servir de pista diagnóstica ainda durante a fase febril — analogamente ao papel que as manchas de Koplik desempenham no sarampo, embora com bem menos especificidade.</p>
+        <p>Vale reforçar que o HHV-6 não é relevante apenas na infância. Em adultos imunocomprometidos — sobretudo em receptores de transplante de células-tronco hematopoéticas — a reativação do HHV-6 latente pode causar encefalite límbica, supressão medular e até rejeição de enxerto, sendo hoje uma das infecções oportunistas monitoradas ativamente nesse contexto. Isso ilustra um padrão recorrente entre os herpesvírus (VZV, HHV-6): a infecção primária costuma ser benigna na infância, mas a latência estabelecida carrega um risco que só se manifesta décadas depois, sob condições específicas de imunossupressão.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ SEÇÃO 09 — ENTEROVIROSES ============ -->
+  <section class="block" id="s09" style="--accent:var(--lime)">
+    <div class="sec-head">
+      <div class="sec-num">09</div>
+      <div class="sec-title-wrap">
+        <div class="sec-title">Enteroviroses — Doença Mão-Pé-Boca</div>
+        <div class="sec-sub">A exantemática "de creche" por excelência — e a única deste grupo cujo agente pode, em cepas específicas, causar uma complicação neurológica fulminante.</div>
+      </div>
+    </div>
+    <div class="sec-rule"></div>
+
+    <div class="head-line"><span class="tagline">Visão geral da família</span></div>
+    <div class="card">
+      <h4>Picornaviridae — vírus de RNA pequenos, não envelopados</h4>
+      <p>A ausência de envelope lipídico é a característica estrutural que explica a robustez ambiental desse grupo: sem envelope, esses vírus resistem à acidez gástrica, a solventes lipídicos e a desinfetantes à base de álcool — é exatamente por isso que a transmissão fecal-oral é tão eficiente nas enteroviroses, diferente dos vírus envelopados (como o sarampo ou a varicela), que se inativam rapidamente fora do hospedeiro e dependem quase exclusivamente da via respiratória/aerossol.</p>
+      <ul>
+        <li><span style="color:var(--text)">Coxsackie A</span> — 23 tipos, associados sobretudo a doença mão-pé-boca e herpangina</li>
+        <li><span style="color:var(--text)">Coxsackie B</span> — 6 tipos, associados a pleurodinia (doença de Bornholm), miopericardite e meningite asséptica</li>
+        <li><span style="color:var(--text)">Echovírus</span> — 31 tipos, causa comum de meningite asséptica</li>
+        <li><span style="color:var(--text)">Enterovírus 68 a 71</span> — o Enterovírus 71 é o principal responsável pelas formas graves/neurológicas de doença mão-pé-boca</li>
+      </ul>
+      <p style="margin-top:10px">Reservatório exclusivamente humano. Transmissão fecal-oral, respiratória, vertical (pré-natal/periparto) e por fômites. Predominam em crianças menores de 5 anos, com fatores de risco associados a más condições de higiene, aglomeração e baixo nível socioeconômico — e o aleitamento materno funciona como fator protetor, provavelmente por transferência de anticorpos neutralizantes maternos via IgA secretora.</p>
+    </div>
+
+    <div class="head-line"><span class="tagline">Doença Mão-Pé-Boca</span></div>
+    <div class="grid-2">
+      <div class="card" style="--accent:var(--lime)">
+        <h4>Quadro clínico</h4>
+        <ul>
+          <li>Período de incubação de 3-6 dias</li>
+          <li>Febre baixa</li>
+          <li>Vesículas na cavidade oral: lábios, língua, mucosa jugal, gengivas, faringe, amígdalas — podem ulcerar e causar dor à deglutição</li>
+          <li>Vesículas nas extremidades: face dorsal de mãos e pés</li>
+          <li>Lesões máculo-papulares eventualmente também em nádegas</li>
+          <li>Resolução espontânea em cerca de 7 dias</li>
+        </ul>
+      </div>
+      <div class="card" style="--accent:var(--red)">
+        <h4>Enterovírus 71 — a exceção perigosa</h4>
+        <p>Diferente da maioria dos casos de doença mão-pé-boca, que são autolimitados e benignos, o Enterovírus 71 tem tropismo neurológico particular e pode causar rombencefalite (encefalite de tronco cerebral), com disfunção autonômica levando a edema pulmonar neurogênico e colapso cardiopulmonar rápido — a complicação mais temida da doença, historicamente associada a grandes surtos na região Ásia-Pacífico, e o principal motivo pelo qual sinais neurológicos (mioclonia, ataxia, letargia) em uma criança com mão-pé-boca exigem atenção redobrada.</p>
+      </div>
+    </div>
+
+    <div class="head-line"><span class="tagline">Diagnóstico e diferenciais</span></div>
+    <div class="compare">
+      <div class="compare-card" style="--c-accent:var(--lime)">
+        <div class="ch-title">Doença Mão-Pé-Boca</div>
+        <div class="compare-row"><span class="v" style="text-align:left">Vesículas orais + palmoplantares, febre baixa, sem outras lesões corporais difusas</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--teal)">
+        <div class="ch-title">Herpangina</div>
+        <div class="compare-row"><span class="v" style="text-align:left">Vesículas restritas à orofaringe posterior (palato mole, úvula, pilares amigdalianos) — sem lesões em mãos e pés, principal diferencial</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--green)">
+        <div class="ch-title">Varicela</div>
+        <div class="compare-row"><span class="v" style="text-align:left">Vesículas polimórficas e difusas por todo o corpo, prurido intenso, sem preferência palmoplantar</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--amber)">
+        <div class="ch-title">Exantema Súbito</div>
+        <div class="compare-row"><span class="v" style="text-align:left">Sem vesículas — exantema puramente máculo-papular, aparecendo após a resolução da febre</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Tratamento</h4>
+      <p>Diagnóstico eminentemente clínico (história + exame físico). Tratamento sintomático — hidratação, antitérmicos, analgésicos (importante para permitir a ingestão oral apesar das úlceras dolorosas). Não existem antivirais específicos aprovados na prática clínica de rotina. Imunoglobulina intravenosa fica reservada para casos graves ou pacientes imunodeficientes.</p>
+    </div>
+
+    <details class="deep">
+      <summary>Aprofunde-se — Coxsackie B, pleurodinia e miocardite, e a vigilância de surtos por EV-A71</summary>
+      <div class="deep-body">
+        <p>Embora o slide tenha focado na doença mão-pé-boca causada por Coxsackie A16 e Enterovírus 71, vale reforçar o espectro clínico do Coxsackie B, porque é um dos "principais grupos" citados na visão geral e frequentemente cobrado separadamente: além de meningite asséptica, o Coxsackie B é a causa clássica da pleurodinia epidêmica (doença de Bornholm) — dor torácica pleurítica intensa e paroxística por miosite dos músculos intercostais — e é também uma das principais causas virais de miopericardite aguda em crianças e adultos jovens previamente hígidos, incluindo casos de miocardite fulminante. Isso ilustra como vírus da mesma família podem ter tropismos teciduais completamente distintos dependendo do sorotipo específico.</p>
+        <p>No contexto de vigilância em saúde pública brasileira, embora a doença mão-pé-boca não seja rotineiramente de notificação compulsória caso a caso, surtos em coletividades (creches, escolas) e, principalmente, casos graves com sinais neurológicos sugestivos de infecção por EV-A71 são acompanhados de perto pela vigilância epidemiológica, dado o potencial de disseminação rápida em ambientes de aglomeração infantil e a experiência internacional com surtos de gravidade elevada associados a essa cepa específica.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ SEÇÃO 10 — VIGILÂNCIA ============ -->
+  <section class="block" id="s10" style="--accent:#38bdf8">
+    <div class="sec-head">
+      <div class="sec-num">10</div>
+      <div class="sec-title-wrap">
+        <div class="sec-title">Vigilância Epidemiológica Comparada</div>
+        <div class="sec-sub">Nem toda doença exantemática exige o mesmo grau de resposta da vigilância — e saber diferenciar isso é o que separa uma notificação correta de uma sobrecarga desnecessária do sistema.</div>
+      </div>
+    </div>
+    <div class="sec-rule"></div>
+
+    <div class="compare">
+      <div class="compare-card" style="--c-accent:var(--red)">
+        <div class="ch-title">Sarampo</div>
+        <div class="compare-row"><span class="k">CID-10</span><span class="v">B05</span></div>
+        <div class="compare-row"><span class="k">Agente</span><span class="v">Morbillivirus</span></div>
+        <div class="compare-row"><span class="k">Notificação</span><span class="v"><span class="badge on">Compulsória</span></span></div>
+        <div class="compare-row"><span class="k">Prazo</span><span class="v">24 horas</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--violet)">
+        <div class="ch-title">Rubéola</div>
+        <div class="compare-row"><span class="k">CID-10</span><span class="v">B06</span></div>
+        <div class="compare-row"><span class="k">Agente</span><span class="v">Rubivirus</span></div>
+        <div class="compare-row"><span class="k">Notificação</span><span class="v"><span class="badge on">Compulsória</span></span></div>
+        <div class="compare-row"><span class="k">Prazo</span><span class="v">24 horas</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--amber)">
+        <div class="ch-title">Exantema Súbito</div>
+        <div class="compare-row"><span class="k">CID-10</span><span class="v">B00</span></div>
+        <div class="compare-row"><span class="k">Agente</span><span class="v">HHV-6 / HHV-7</span></div>
+        <div class="compare-row"><span class="k">Notificação</span><span class="v"><span class="badge off">Não compulsória</span></span></div>
+        <div class="compare-row"><span class="k">Prazo</span><span class="v">—</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--teal)">
+        <div class="ch-title">Eritema Infeccioso</div>
+        <div class="compare-row"><span class="k">CID-10</span><span class="v">B01</span></div>
+        <div class="compare-row"><span class="k">Agente</span><span class="v">Parvovírus B19</span></div>
+        <div class="compare-row"><span class="k">Notificação</span><span class="v"><span class="badge off">Não compulsória</span></span></div>
+        <div class="compare-row"><span class="k">Prazo</span><span class="v">—</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--orange)">
+        <div class="ch-title">Escarlatina</div>
+        <div class="compare-row"><span class="k">CID-10</span><span class="v">A55</span></div>
+        <div class="compare-row"><span class="k">Agente</span><span class="v"><i>S. pyogenes</i></span></div>
+        <div class="compare-row"><span class="k">Notificação</span><span class="v"><span class="badge on">Em surtos</span></span></div>
+        <div class="compare-row"><span class="k">Prazo</span><span class="v">24h (surto)</span></div>
+      </div>
+      <div class="compare-card" style="--c-accent:var(--green)">
+        <div class="ch-title">Varicela</div>
+        <div class="compare-row"><span class="k">CID-10</span><span class="v">B01</span></div>
+        <div class="compare-row"><span class="k">Agente</span><span class="v">Varicela-Zoster</span></div>
+        <div class="compare-row"><span class="k">Notificação</span><span class="v"><span class="badge on">Formas graves</span></span></div>
+        <div class="compare-row"><span class="k">Prazo</span><span class="v">24h (óbitos/surtos)</span></div>
+      </div>
+    </div>
+
+    <div class="alert clinica">
+      <div class="alert-label">Correlação clínica</div>
+      <p>Repare no padrão: sarampo e rubéola — as duas doenças com potencial de eliminação regional pactuada pela OPAS e com consequências graves em nível populacional (surtos extensos, síndrome congênita) — exigem notificação compulsória individual e imediata. Já varicela, escarlatina, eritema infeccioso e exantema súbito, apesar de também poderem gerar complicações individuais sérias, são endêmicas, extremamente prevalentes e geralmente autolimitadas, de modo que a vigilância se concentra seletivamente em óbitos e surtos, evitando sobrecarregar o sistema com notificações de baixo valor agregado para o controle populacional da doença.</p>
+    </div>
+  </section>
+
+  <!-- ============ SEÇÃO 11 — SUPER RESUMO ============ -->
+  <section class="block" id="s11" style="--accent:var(--gold)">
+    <div class="sec-head">
+      <div class="sec-num">11</div>
+      <div class="sec-title-wrap">
+        <div class="sec-title">Super-Resumo Final</div>
+        <div class="sec-sub">O que precisa estar na ponta da língua no dia da prova.</div>
+      </div>
+    </div>
+    <div class="sec-rule"></div>
+
+    <div class="super">
+      <div class="head-line"><span class="tagline">Reconhecimento por achado-chave</span></div>
+      <div class="grid-3">
+        <div class="mini-card"><div class="mini-label">Sarampo</div><p>Manchas de Koplik + 3 Cs (tosse, coriza, conjuntivite) + morbiliforme cefalocaudal</p></div>
+        <div class="mini-card"><div class="mini-label">Rubéola</div><p>Linfadenopatia retroauricular/occipital precedendo rash rubeoliforme discreto</p></div>
+        <div class="mini-card"><div class="mini-label">Varicela</div><p>Lesões polimórficas simultâneas ("céu estrelado"), muito pruriginosas</p></div>
+        <div class="mini-card"><div class="mini-label">Escarlatina</div><p>Língua em framboesa + eritema em lixa + sinal de Filatov/Pastia</p></div>
+        <div class="mini-card"><div class="mini-label">Eritema Infeccioso</div><p>"Face esbofeteada" + padrão rendilhado, rash já não contagioso</p></div>
+        <div class="mini-card"><div class="mini-label">Exantema Súbito</div><p>Febre alta 3 dias, rash surge quando a febre já cedeu</p></div>
+        <div class="mini-card"><div class="mini-label">Mão-Pé-Boca</div><p>Vesículas orais + palmoplantares em criança pequena, febre baixa</p></div>
+      </div>
+
+      <div class="head-line"><span class="tagline">Pontos de prova / pegadinhas recorrentes</span></div>
+      <div class="grid-2">
+        <div class="card" style="--accent:var(--red)">
+          <ul>
+            <li>O rash do sarampo é imunomediado — pode estar ausente em imunocomprometidos graves, mascarando os casos mais perigosos</li>
+            <li>Esquema vacinal completo, forma leve e ausência de viagem NÃO excluem suspeita de sarampo</li>
+            <li>Aspirina é contraindicada em varicela e em qualquer viral febril pediátrico (Síndrome de Reye)</li>
+            <li>No eritema infeccioso, quando o rash aparece, a criança já não é mais contagiosa</li>
+          </ul>
+        </div>
+        <div class="card" style="--accent:var(--cyan)">
+          <ul>
+            <li>Roséola: a febre cede ANTES do rash aparecer — sequência invertida em relação às outras exantemáticas</li>
+            <li>HHV-6 é uma das principais causas infecciosas de convulsão febril abaixo dos 2 anos</li>
+            <li>Rubéola congênita: quanto mais precoce na gestação, maior o risco e a gravidade</li>
+            <li><i>S. pyogenes</i> permanece universalmente sensível à penicilina — sem resistência clinicamente relevante descrita</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="head-line"><span class="tagline">Complicações que não podem ser esquecidas</span></div>
+      <div class="grid-3">
+        <div class="mini-card"><div class="mini-label">Sarampo</div><p>Pneumonia (óbito), encefalite pós-infecciosa, PEES (tardia)</p></div>
+        <div class="mini-card"><div class="mini-label">Rubéola</div><p>Síndrome da Rubéola Congênita — surdez, catarata, cardiopatia</p></div>
+        <div class="mini-card"><div class="mini-label">Varicela</div><p>Infecção bacteriana secundária, ataxia cerebelar aguda</p></div>
+        <div class="mini-card"><div class="mini-label">Escarlatina</div><p>Febre reumática (mimetismo molecular), glomerulonefrite (imunocomplexos)</p></div>
+        <div class="mini-card"><div class="mini-label">Eritema Infeccioso</div><p>Crise aplásica (anemia falciforme), hidropisia fetal (gestante)</p></div>
+        <div class="mini-card"><div class="mini-label">Mão-Pé-Boca (EV71)</div><p>Rombencefalite → edema pulmonar neurogênico</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REFERÊNCIAS ============ -->
+  <section class="block refs" id="refs" style="--accent:#64748b">
+    <div class="sec-head">
+      <div class="sec-num">R</div>
+      <div class="sec-title-wrap">
+        <div class="sec-title">Referências</div>
+        <div class="sec-sub">Formato ABNT atualizado, conforme padrão institucional Uniarp-SC</div>
+      </div>
+    </div>
+    <div class="sec-rule"></div>
+
+    <p>ABBAS, Abul K.; LICHTMAN, Andrew H.; PILLAI, Shiv. <i>Imunologia Celular e Molecular</i>. 9. ed. Rio de Janeiro: Elsevier, 2019.</p>
+    <p>BRASIL. Ministério da Saúde. <i>Sarampo</i>. Brasília, DF: Ministério da Saúde, 2023. Disponível em: https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/s/sarampo.</p>
+    <p>BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde e Ambiente. <i>Nota Técnica Conjunta nº 234/2026-CGVDI/DPNI/SVSA/MS</i>: Alerta para intensificação das ações e sensibilização dos serviços de saúde quanto à identificação de casos suspeitos de sarampo diante do cenário epidemiológico nacional e internacional. Brasília, DF: Ministério da Saúde, 2026.</p>
+    <p>BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde e Ambiente. <i>Nota Técnica Conjunta nº 344/2025-CGVDI/DPNI/SVSA/MS</i>: Atualiza orientações técnicas sobre a vigilância do sarampo, da rubéola e da Síndrome da Rubéola Congênita (SRC). Brasília, DF: Ministério da Saúde, 2025. Disponível em: https://www.gov.br/saude/pt-br/centrais-de-conteudo/publicacoes/notas-tecnicas/2025/nota-tecnica-conjunta-no-344-2025-cgvdi-dpni-svsa-ms.pdf.</p>
+    <p>BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde e Ambiente. <i>Nota Técnica nº 85/2026-CGICI/DPNI/SVSA/MS</i>: Recomendações para o planejamento e a operacionalização da vacinação contra o sarampo durante a Estratégia de Multivacinação 2026 nos municípios de São Paulo, Guarulhos e São Bernardo do Campo (SP), diante da ocorrência de casos e do risco de disseminação do vírus. Brasília, DF: Ministério da Saúde, 2026.</p>
+    <p>JAMESON, J. L.; FAUCI, Anthony S.; KASPER, Dennis L.; et al. <i>Manual de Medicina de Harrison</i>. 20. ed. Porto Alegre: ArtMed, 2021.</p>
+    <p>KUMAR, Vinay; ABBAS, Abul K.; ASTER, Jon C. <i>Robbins & Cotran: Patologia — Bases Patológicas das Doenças</i>. 10. ed. Rio de Janeiro: Guanabara Koogan, 2021.</p>
+    <p>MURPHY, Kenneth; WEAVER, Casey. <i>Imunobiologia de Janeway</i>. 9. ed. Porto Alegre: ArtMed, 2021.</p>
+    <p>MURRAY, Patrick R.; ROSENTHAL, Ken S.; PFALLER, Michael A. <i>Microbiologia Médica</i>. 9. ed. Rio de Janeiro: Elsevier, 2021.</p>
+    <p>PEDIATRIA, Sociedade Brasileira de. <i>Tratado de Pediatria</i>. 6. ed. Barueri: Manole, 2024. E-book. ISBN 9788520458679.</p>
+    <p>PORTO, Celmo C. <i>Semiologia Médica</i>. 8. ed. Rio de Janeiro: Guanabara Koogan, 2019.</p>
+    <p>WARREN, L. <i>Microbiologia Médica e Imunologia</i>. Porto Alegre: Grupo A, 2016.</p>
+    <p>WOLFF, Klaus. <i>Dermatologia de Fitzpatrick: Atlas e Texto</i>. 8. ed. Porto Alegre: AMGH, 2019.</p>
+  </section>
+
+  <footer class="doc-foot">
+    <p>DOENÇAS EXANTEMÁTICAS · UCXIV — FEBRE, INFLAMAÇÃO E INFECÇÃO · AULA 2 · MATERIAL DE APROFUNDAMENTO PRODUZIDO A PARTIR DOS SLIDES DO PROF. ANDREW · USO PESSOAL DE ESTUDO</p>
+  </footer>
+
+</div>
+
+<div id="toolbar">
+  <span id="tb-status"></span>
+  <button id="btn-edit" onclick="toggleEdit()">Ativar edição</button>
+  <button id="btn-download" onclick="downloadCopy()">Baixar cópia editada</button>
+  <button id="btn-restore" onclick="restoreOriginal()">Restaurar original</button>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = 'uniarp_html_study_doencas_exantematicas_uc14_aula2';
+  let editing = false;
+  let autosaveTimer = null;
+  const editableSelectors = 'p, li, h1, h2, h3, h4, h5, .sec-title, .sec-sub, .hero-cat, .tag, .mini-label, .ch-title, .k, .v, .alert-label, summary, .tl-tag';
+
+  function isInsideToolbar(el){ return el.closest && el.closest('#toolbar'); }
+
+  function setEditable(state){
+    document.querySelectorAll(editableSelectors).forEach(function(el){
+      if(isInsideToolbar(el)) return;
+      el.setAttribute('contenteditable', state ? 'true' : 'false');
+    });
+  }
+
+  function toggleEdit(){
+    editing = !editing;
+    setEditable(editing);
+    const btn = document.getElementById('btn-edit');
+    if(editing){
+      btn.textContent = 'Salvar e sair da edição';
+      btn.classList.add('active');
+      startAutosave();
+      setStatus('Editando…');
+    } else {
+      btn.textContent = 'Ativar edição';
+      btn.classList.remove('active');
+      stopAutosave();
+      saveToStorage();
+      setStatus('Salvo neste navegador');
+    }
+  }
+
+  function startAutosave(){
+    stopAutosave();
+    autosaveTimer = setInterval(function(){
+      saveToStorage();
+      setStatus('Salvo automaticamente');
+    }, 15000);
+  }
+  function stopAutosave(){ if(autosaveTimer){ clearInterval(autosaveTimer); autosaveTimer = null; } }
+
+  function saveToStorage(){
+    try{
+      localStorage.setItem(STORAGE_KEY, document.getElementById('main').innerHTML);
+    }catch(e){
+      setStatus('Autosave indisponível neste ambiente');
+    }
+  }
+
+  function loadFromStorage(){
+    try{
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if(saved){
+        document.getElementById('main').innerHTML = saved;
+        setStatus('Versão editada carregada');
+      }
+    }catch(e){ /* localStorage indisponível (ex.: preview de artifact) */ }
+  }
+
+  function restoreOriginal(){
+    if(!confirm('Isso vai apagar as edições salvas neste navegador e voltar ao texto original gerado. Deseja continuar?')) return;
+    try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+    location.reload();
+  }
+
+  function downloadCopy(){
+    const doc = document.documentElement.cloneNode(true);
+    doc.querySelectorAll(editableSelectors).forEach(function(el){ el.removeAttribute('contenteditable'); });
+    const toolbarClone = doc.querySelector('#toolbar');
+    if(toolbarClone) toolbarClone.querySelector('#tb-status').textContent = '';
+    const html = '<!DOCTYPE html>\\n' + doc.outerHTML;
+    const blob = new Blob([html], {type:'text/html;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'doencas-exantematicas-aula2-editado.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    setStatus('Cópia baixada');
+  }
+
+  function setStatus(msg){
+    const el = document.getElementById('tb-status');
+    if(el){ el.textContent = msg; setTimeout(function(){ if(el.textContent === msg) el.textContent = ''; }, 3500); }
+  }
+
+  window.toggleEdit = toggleEdit;
+  window.downloadCopy = downloadCopy;
+  window.restoreOriginal = restoreOriginal;
+
+  document.addEventListener('DOMContentLoaded', loadFromStorage);
+  if(document.readyState !== 'loading') loadFromStorage();
+})();
+</script>
+
+</body>
+</html>

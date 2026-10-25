@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Antimicrobianos: fichário de bancada</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap">
+<style>
+:root{--bg:#e8edeb;--paper:#f7f9f7;--ink:#13222a;--mut:#53656c;--line:#c5d0cd;--v:#5b3fa6;--f:#a8610a;--b:#0b7a6b;--t:#b3322a}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.6 Newsreader,Georgia,serif;font-synthesis:none}
+h1,h2,h3,button,input,.lb{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:500}
+header{padding:56px 6vw 28px;max-width:1180px;margin:auto}
+h1{font-size:clamp(34px,6vw,64px);line-height:1.02;letter-spacing:-.025em;max-width:14ch}
+header p{max-width:60ch;color:var(--mut);margin-top:16px}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:12px 6vw}
+.bar div{max-width:1180px;margin:auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tab,.tg{border:1.5px solid var(--ink);background:transparent;color:var(--ink);padding:7px 14px;border-radius:99px;font-size:15px;cursor:pointer}
+.tab[aria-pressed=true]{background:var(--c,var(--ink));border-color:var(--c,var(--ink));color:#fff}
+.tg[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+input{flex:1;min-width:150px;padding:8px 14px;border:1.5px solid var(--line);border-radius:99px;background:var(--paper);font-size:15px;color:var(--ink)}
+:focus-visible{outline:3px solid #e0a100;outline-offset:2px}
+main{max-width:1180px;margin:auto;padding:8px 6vw 80px}
+section{margin-top:56px}
+section>h2{font-size:clamp(26px,4vw,40px);letter-spacing:-.02em;color:var(--c)}
+.sub{color:var(--mut);max-width:62ch;margin:4px 0 20px}
+.trail{display:flex;gap:0;overflow-x:auto;padding-bottom:6px;margin-bottom:26px}
+.st{flex:0 0 auto;min-width:150px;max-width:190px;padding:10px 14px 10px 22px;background:var(--paper);border:1.5px solid var(--c);margin-right:-1.5px;position:relative;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,0 100%,14px 50%)}
+.st:first-child{clip-path:polygon(0 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,0 100%)}
+.st i{display:block;font-size:13.5px;color:var(--mut)}
+.st span{font:500 15px/1.25 'Bricolage Grotesque',sans-serif;color:var(--c)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;align-items:start}
+.card{background:var(--paper);border:1px solid var(--line);border-left:7px solid var(--c);border-radius:4px 14px 4px 14px;padding:20px 20px 16px;cursor:default}
+.card h3{font-size:21px;line-height:1.15}
+.dr{color:var(--c);font-style:italic;margin:4px 0 12px}
+.hook{background:var(--ink);color:#eef3f1;padding:12px 14px;border-radius:3px 10px 3px 10px;margin-bottom:12px}
+.hook .lb,.f .lb{display:block;font-size:13.5px;color:var(--mut);margin-bottom:1px}
+.hook .lb{color:#9fd3c9}
+.f{margin-top:9px;font-size:16px}
+.rev .card .f{filter:blur(7px);user-select:none;transition:filter .25s}
+.rev .card.open .f{filter:none;user-select:auto}
+.rev .card{cursor:pointer}
+.rev .card:not(.open)::after{content:'Clique para revelar o resto da ficha';display:block;margin-top:10px;font-size:14px;color:var(--mut);font-style:italic}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.chip{border:1px solid var(--line);background:var(--paper);padding:9px 12px;border-radius:10px}
+.chip b{font:500 18px 'Bricolage Grotesque',sans-serif}
+.chip span{display:block;font-size:14.5px;color:var(--mut);line-height:1.35}
+.tw{overflow-x:auto;background:var(--paper);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:15.5px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 15px 'Bricolage Grotesque',sans-serif;background:#dfe7e4}
+td:first-child{font:500 16px 'Bricolage Grotesque',sans-serif}
+tr:last-child td{border:0}
+.hide{display:none}
+@media(max-width:560px){.grid{grid-template-columns:1fr}header{padding-top:36px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header>
+<h1>Antimicrobianos para decorar</h1>
+<p>Cada ficha tem um gancho de memória, o mecanismo, onde usar, o que cuidar e com quem a droga anda. Base: planilha de Infecto, organizada segundo Katzung, Goodman e Gilman e Rang e Dale. No modo revisão, só o gancho e o nome aparecem; tente lembrar o resto antes de clicar.</p>
+</header>
+<div class="bar"><div id="tabs"></div></div>
+<main>
+<section id="rad" style="--c:var(--ink)">
+<h2>Radicais que entregam a classe</h2>
+<p class="sub">Antes de decorar droga por droga, decore a terminação. Ela diz a classe, e a classe diz o mecanismo.</p>
+<div class="chips" id="chips"></div>
+</section>
+<div id="out"></div>
+<section id="comb" style="--c:var(--ink)">
+<h2>Quem anda com quem</h2>
+<p class="sub">Associações que aparecem em prova e em enfermaria, com a razão de cada uma.</p>
+<div class="tw"><table><thead><tr><th>Cenário</th><th>Combinação</th><th>Por que junta</th></tr></thead><tbody id="cb"></tbody></table></div>
+</section>
+</main>
+<script>
+const G=[
+{id:"v",n:"Antivirais",c:"--v",s:"Vírus não têm metabolismo próprio: todo antiviral mira uma etapa do ciclo dentro da célula ou a saída dela. Por isso o ciclo do HIV é o melhor mapa.",
+trail:[["Entrada","maraviroque (CCR5)"],["Fusão gp41","enfuvirtida"],["RNA vira DNA","ITRN e ITRNN"],["Integração","-tegravir"],["Clivagem","-navir"],["Capsídeo","lenacapavir"],["Saída","neuraminidase"]],
+r:[
+["Inibidores da transcriptase reversa, ITRN","zidovudina (AZT), tenofovir, lamivudina","Tijolo falso: o vírus embute o análogo na cadeia de DNA e a obra para. AZT imita a timidina.","Análogos de nucleosídeo ou nucleotídeo, ativados dentro da célula. Sem a hidroxila 3' a cadeia não alonga, e o DNA viral fica truncado.","HIV, sempre como base do esquema. Tenofovir também na hepatite B crônica. AZT pode ser usada na gestação e no recém-nascido.","AZT: anemia macrocítica e neutropenia, pois danifica a medula. VO ou IV; metabolismo hepático e excreção renal e biliar.","Dois ITRN mais uma droga de outra classe (tenofovir + lamivudina + dolutegravir)."],
+["Inibidores da transcriptase reversa não nucleosídeos, ITRNN","efavirenz, nevirapina, etravirina, rilpivirina","Calço na engrenagem: ligam direto na enzima e a travam, sem precisar de ativação. Efavirenz traz sonhos vívidos.","Ligam-se à transcriptase reversa fora do sítio ativo e a inativam por mudança de forma.","HIV-1. Efavirenz e nevirapina foram usados na gestação para reduzir a transmissão vertical.","VO, ligação à albumina, metabolismo hepático. Efavirenz tem meia-vida de cerca de 50 h. Efeitos neuropsiquiátricos (efavirenz) e hepatotoxicidade (nevirapina).","Sempre junto de ITRN."],
+["Inibidores da protease","darunavir, ritonavir, lopinavir, atazanavir","-navir é nave sem tripulação: os vírions saem imaturos e não infecciosos. Ritonavir é o booster, pois freia o CYP3A4.","A protease corta poliproteínas em proteínas ativas. Bloqueada, a célula libera partículas inertes.","HIV, em geral em esquemas de resgate ou resistência.","Muitas interações medicamentosas por inibição do CYP3A4. VO, ligação à albumina, metabolismo hepático.","Nunca em monoterapia: sempre com ITRN."],
+["Inibidores da DNA polimerase","aciclovir, fanciclovir, ganciclovir, valganciclovir, foscarnete","-ciclovir: o ciclo do DNA viral não fecha. Aciclovir para herpes e zóster; Ganciclovir tem gancho na medula, para CMV.","O aciclovir só é ativado pela timidina-quinase viral, por isso é seletivo. O trifosfato inibe a polimerase e interrompe o alongamento.","Herpes simples, varicela-zóster e citomegalovírus. VO (cerca de 20% de absorção), IV e tópica; atinge o líquor.","Nefrotoxicidade (cristalúria, hidratar). Ganciclovir: mielotoxicidade. Foscarnete não precisa de ativação e fica para resistência.","Usado isolado."],
+["Inibidores da neuraminidase","oseltamivir, zanamivir","Velcro e tesoura: o vírion novo brota preso ao ácido siálico, e a neuraminidase é a tesoura que o solta. Oseltamivir e zanamivir travam a tesoura.","Sem a enzima, os vírions ficam presos à membrana e não infectam novas células.","Influenza A e B, incluindo H1N1, de preferência nas primeiras 48 h.","VO, metabolismo hepático e excreção renal. Zanamivir inalado pode causar broncoespasmo.","Isolado."],
+["Outros mecanismos no HIV","enfuvirtida, raltegravir, maraviroque, lenacapavir","Cada um fecha uma porta: maraviroque trava a maçaneta (CCR5), enfuvirtida impede a fusão, -tegravir barra a integração, lenacapavir ataca a casca.","Enfuvirtida liga o gp41 e impede a fusão com a membrana. Raltegravir inibe a integrase. Maraviroque bloqueia o CCR5 do hospedeiro. Lenacapavir é o primeiro inibidor de capsídeo.","Maraviroque: único do tipo e só para vírus com tropismo CCR5. Raltegravir: quando há resistência. Lenacapavir: HIV multirresistente.","Maraviroque não inibe vírus CXCR4 ou duplo trópico: pedir teste de tropismo antes.","Lenacapavir em combinação com outros antirretrovirais."],
+["Biofármacos e imunomoduladores","imunoglobulinas, palivizumabe, interferons, ribavirina, inosina pranobex","Imunoglobulina é soro pronto: anticorpo emprestado que tapa o envelope viral.","Imunoglobulinas neutralizam o envelope. Palivizumabe bloqueia glicoproteína de superfície do VSR. Interferons induzem estado antiviral. Ribavirina interfere no mRNA viral; inosina, na síntese de ácido nucleico.","Imunoglobulina: hepatite B, varicela-zóster, raiva. Interferons: hepatites B e C. Ribavirina: hepatite C e VSR.","Ribavirina é teratogênica e causa hemólise.","Ribavirina com interferon na hepatite C."]]},
+{id:"f",n:"Antifúngicos",c:"--f",s:"O alvo é o que o fungo tem e nós não: ergosterol na membrana e glicano na parede. A ordem da via do ergosterol organiza quase tudo.",
+trail:[["Esqualeno vira lanosterol","terbinafina"],["Lanosterol vira ergosterol","-conazol"],["Ergosterol na membrana","polienos"],["Parede de glicano","-fungina"],["DNA e RNA","flucitosina"],["Mitose","griseofulvina"]],
+r:[
+["Polienos","anfotericina B, nistatina","Furo no balde: poros no ergosterol e a célula vaza. Anfo B lipossomal (L) é leve; desoxicolato (D) dói no rim.","Ligam-se ao ergosterol e formam canais que aumentam a permeabilidade e extravasam conteúdo citosólico.","Anfo B: infecções fúngicas invasivas, IV, em esquema inicial para reduzir a carga e depois trocar por azol. Nistatina: tópica, não é absorvida; candidíase cutânea, vaginal e oral (bochecha).","Anfo B: nefrotoxicidade, anemia se uso acima de 2 semanas, evitar na insuficiência renal; meia-vida de 15 dias; pouca penetração no SNC, exceto em meningites. Nistatina é menos eficaz que azóis na vaginal.","Anfo B + flucitosina na meningite criptocócica."],
+["Griseofulvina","griseofulvina","Gris de grisalho: fica grudada na queratina nova, no cabelo e na unha. Tratamento longo.","Deposita-se em tecidos novos com queratina e inibe a mitose fúngica ao ligar-se à beta-tubulina.","Dermatofitoses: couro cabeludo 1 mês, unha da mão 6 a 9 meses, unha do pé mais de 1 ano. Substituída por itraconazol e terbinafina.","Contraindicada na gestação. Induz CYP e reduz o efeito da varfarina.","Isolada."],
+["Azóis imidazóis","cetoconazol, miconazol, clotrimazol","Imidazol é tópico: menos seletivo e mais tóxico. Ceto de Cushing: acima de 600 mg bloqueia a esteroidogênese.","Inibem a lanosterol 14-alfa-desmetilase (CYP fúngico): o lanosterol não vira ergosterol e a membrana fica defeituosa.","Miconazol e clotrimazol: dermatofitoses e candidíase vulvovaginal, inclusive em gestantes por até 7 dias. Cetoconazol: dermatofitoses, câncer de próstata testosterona-dependente (2ª linha), Cushing.","Cetoconazol oral: ginecomastia, impotência e hepatotoxicidade; precisa de acidez gástrica; meia-vida de 6 a 9 h; não atinge o líquor.","Preferir via tópica."],
+["Azóis triazóis","fluconazol, itraconazol, voriconazol, posaconazol","Triazol é seletivo e sistêmico. Flu: líquor e criptococo. Itra: micoses variadas. Vori: Aspergillus. Posa: profilaxia dos difíceis.","Mesma inibição da 14-alfa-desmetilase, com maior afinidade pela enzima fúngica que pela humana.","Fluconazol: candidíase vulvovaginal e meningite criptocócica. Voriconazol: aspergilose, menos tóxico que a anfo B. Posaconazol: amplo espectro e profilaxia contra Candida e Aspergillus.","Interações por CYP (fluconazol com alprazolam, varfarina, clopidogrel). Itra, vori e posa: absorção variável; vori depende da função hepática.","Fluconazol após a fase inicial com anfo B."],
+["Terbinafina","terbinafina","Terbi trava um degrau acima dos azóis, no esqualeno. O esqualeno acumulado é tóxico ao fungo.","Inibe a esqualeno epoxidase e reduz a síntese de ergosterol.","Dermatofitoses e onicomicose, VO ou tópica.","Monitorar fígado em uso oral prolongado.","Alternativa à griseofulvina."],
+["Flucitosina","flucitosina","Disfarçada de 5-FU dentro do fungo: bloqueia o DNA. Nunca anda sozinha.","Convertida em 5-fluoruracila, inibe a timidilato sintetase e, assim, a síntese de DNA.","Meningite criptocócica, como adjuvante.","Depressão medular: anemia, leucopenia e trombocitopenia.","Anfotericina B."],
+["Equinocandinas","caspofungina, anidulafungina","-fungina derruba a parede. Célula humana não tem parede, por isso é segura.","Inibem a síntese do beta-1,3-glicano, polímero de glicose que dá integridade à parede.","Candidíase invasiva e aspergilose de resgate, por via IV.","Em geral bem toleradas.","Podem ser associadas a azóis em casos graves."]]},
+{id:"b",n:"Antibacterianos",c:"--b",s:"Seis alvos: parede, ribossomo 30S, ribossomo 50S, DNA, folato e RNA polimerase. Decore o alvo e a terminação, e a classe vem junto.",
+trail:[["Parede","beta-lactâmicos, vanco, fosfomicina"],["Ribossomo 30S","AT: amino e tetraciclinas"],["Ribossomo 50S","CLE: cloranfenicol, linco, eritro"],["DNA","quinolonas, nitrofurantoína"],["Folato","sulfa e trimetoprima"],["RNA polimerase","rifampicina"]],
+r:[
+["Penicilinas","penicilina G, amoxicilina, oxacilina","Anel beta-lactâmico é um tijolo que não cola: a parede racha. -cilina. Oxacilina mira o MSSA.","Ligam-se às PBP e bloqueiam a transpeptidação do peptidoglicano. Bactericidas.","Gram-positivos (estreptococos) e sífilis; oxacilina contra MSSA.","Alergia, com risco de anafilaxia.","Clavulanato, que protege a amoxicilina."],
+["Inibidores de beta-lactamase","clavulanato, sulbactam, tazobactam","Guarda-costas: leva o tiro da beta-lactamase para o antibiótico sobreviver.","Inibem enzimas bacterianas que hidrolisam o anel beta-lactâmico.","Sempre em associação, como amoxicilina + clavulanato.","Sem ação antibacteriana relevante isolados.","Penicilinas."],
+["Cefalosporinas","ceftriaxona, ceftazidima","cef-: ceftriaxona vai ao SNC; ceftazidima mira Pseudomonas.","Mesmo mecanismo das penicilinas.","Ceftriaxona e cefotaxima: meningite e infecções graves. Ceftazidima: Pseudomonas.","Alergia cruzada parcial com penicilinas.","Isoladas ou com aminoglicosídeo em casos graves."],
+["Carbapenêmicos","imipeném","-penem: o arsenal pesado. Guardar para sepse hospitalar e multirresistentes.","Inibem a parede celular; beta-lactâmico de espectro muito amplo.","Infecções graves e multirresistentes, como sepse hospitalar.","Imipeném pode causar convulsão.","Uso restrito."],
+["Monobactâmicos","aztreonam","Mono, só gram-negativo: enterobactérias e Pseudomonas.","Inibe a parede celular.","Gram-negativos aeróbios; opção em alergia a penicilina.","Não cobre gram-positivos nem anaeróbios.","Associa-se para cobrir gram-positivos."],
+["Vancomicina","vancomicina","Vanco tapa o D-ala-D-ala, o encaixe da parede. É a chave do MRSA.","Liga-se ao D-ala-D-ala e impede a formação da parede.","Gram-positivos graves: MRSA, sepse, endocardite, meningite.","Síndrome do homem vermelho (infusão rápida), nefrotoxicidade.","Aminoglicosídeo na endocardite."],
+["Fosfomicina e nitrofurantoína","fosfomicina, nitrofurantoína","Fosfo: dose única, trava o primeiro passo da parede (MurA). Nitro: só trabalha na bexiga.","Fosfomicina inibe a MurA. Nitrofurantoína forma metabólitos reativos que lesam o DNA.","Primeira linha na cistite não complicada, ótimas em gestantes. Nitro também na profilaxia de ITU.","Nitrofurantoína não serve para pielonefrite, pois não atinge níveis teciduais.","Usadas isoladas."],
+["Sulfas e trimetoprima","sulfametoxazol, trimetoprima, Bactrim","Dois degraus da mesma escada do folato: sulfa imita o PABA, TMP bloqueia a redução do tetraidrofolato.","Bloqueio sequencial do folato; juntos podem ser bactericidas.","ITU, pneumonias e infecções oportunistas.","Alergia grave (Stevens-Johnson); evitar no fim da gestação e em neonatos.","Sulfametoxazol + trimetoprima."],
+["Tetraciclinas e glicilciclinas","doxiciclina, minociclina, tetraciclina, tigeciclina","AT no 30: Aminoglicosídeos e Tetraciclinas atuam no 30S.","Ligam-se ao 30S e inibem a síntese proteica; bacteriostáticas.","IST (clamídia), pneumonia atípica, H. pylori.","Contraindicadas em gestantes e crianças pequenas (dentes e ossos); quelação por cálcio.","Isoladas."],
+["Aminoglicosídeos","amicacina, gentamicina","Amicacina e gentamicina: ouvido e rim em risco. Precisam de oxigênio, então não pegam anaeróbios.","Ligação irreversível ao 30S; bactericidas.","Gram-negativos graves, sepse por Pseudomonas, endocardite associados.","Nefrotoxicidade e ototoxicidade.","Beta-lactâmico: a parede lesada facilita a entrada."],
+["Macrolídeos","azitromicina, eritromicina","CLE no 50: Cloranfenicol, Lincosamidas, Eritromicina. Azitro: dose curta.","Ligam-se ao 50S e inibem a síntese proteica.","IVAS, pneumonia atípica, alternativa em alérgicos à penicilina.","Prolongam o QT; eritromicina interage via CYP3A4.","Isolados."],
+["Cloranfenicol","cloranfenicol","Do grupo CLE no 50S; reserva por causa da toxicidade.","Inibe a peptidiltransferase (50S).","Meningite em alergia a beta-lactâmico e infecções graves.","Aplasia medular e síndrome do bebê cinzento.","Reserva."],
+["Lincosamidas","clindamicina","Clinda traz a colite: elimina a flora e abre espaço para o C. difficile.","Inibe a síntese proteica (50S).","Abscessos, anaeróbios, IVAS em alérgicos.","Colite pseudomembranosa.","Isolada."],
+["Quinolonas","ciprofloxacino, levofloxacino","-floxacino: a girase não gira e o DNA fica enrolado. Levo é a respiratória.","Inibem a DNA girase e a topoisomerase IV.","ITU complicadas e pneumonia (quinolonas respiratórias).","Tendinopatia, QT longo; evitar em gestantes e crianças.","Isoladas."]]},
+{id:"t",n:"Tuberculose",c:"--t",s:"Esquema RIPE: quatro drogas, uma letra cada. O erro de cada letra costuma ser a pergunta da prova.",
+trail:[["R","RNA polimerase"],["I","ácido micólico"],["P","membrana"],["E","arabinosil-transferase"]],
+r:[
+["Rifampicina (R)","rifampicina","R de Rubro: urina, suor e lágrima laranja. Indutora potente do CYP.","Inibe a RNA polimerase dependente de DNA e bloqueia a síntese de RNA. Bactericida.","Tuberculose. Tomar em jejum.","Indutora de CYP: reduz ACO, varfarina, antirretrovirais, corticoide. Síndrome gripal, hepatotoxicidade, trombocitopenia.","Isoniazida, com hepatotoxicidade somada."],
+["Isoniazida (H)","isoniazida","I de nervo irritado: neuropatia periférica, e a vitamina B6 trata.","Inibe a síntese de ácido micólico da parede. Bactericida em crescimento rápido, bacteriostática em crescimento lento.","Tuberculose.","Hepatotoxicidade, neuropatia, convulsão, psicose, anemia. Metabolismo por NAT2; inibe CYP e induz CYP2E1.","Rifampicina."],
+["Pirazinamida (Z)","pirazinamida","P de podagra: eleva o ácido úrico e dispara gota.","Convertida em ácido pirazinoico, altera a membrana. Bacteriostática.","Tuberculose. Boa absorção oral; ajustar na insuficiência renal.","Hepatotoxicidade e hiperuricemia.","Esquema RIPE."],
+["Etambutol (E)","etambutol","E de enxergar: neurite óptica, perde-se o vermelho e o verde.","Inibe a arabinosil-transferase e impede a formação da parede. Bacteriostático.","Tuberculose. Excreção renal, ajustar na insuficiência renal.","Neurite óptica e náusea; evitar em crianças.","Esquema RIPE."]]}
+];
+const RAD=[["-vir","antiviral em geral"],["-ciclovir","DNA polimerase: herpes, zóster, CMV"],["-vudina","ITRN do HIV"],["-virenz","ITRNN (efavirenz)"],["-navir","protease do HIV"],["-tegravir","integrase do HIV"],["-amivir","neuraminidase da influenza"],["-conazol","azol: bloqueia o ergosterol"],["-fungina","equinocandina: parede"],["-cilina","penicilina"],["cef-","cefalosporina"],["-penem","carbapenêmico"],["-micina","macrolídeo, lincosamida ou aminoglicosídeo"],["-ciclina","tetraciclina: 30S"],["-floxacino","quinolona: girase"],["-bactam","inibidor de beta-lactamase"]];
+const CB=[["Anti-HIV de manutenção","2 ITRN + dolutegravir (tenofovir + lamivudina + dolutegravir)","Dois ITRN dão a base; a terceira droga de outra classe fecha outra etapa e dificulta a resistência."],
+["PEP, 28 dias","Tenofovir/lamivudina 300/300 mg + dolutegravir 50 mg ao dia","Esquema padrão pós-exposição."],
+["PEP sem tenofovir","Zidovudina/lamivudina + dolutegravir","Alternativa se tenofovir não puder ser usado."],
+["PEP sem dolutegravir","Tenofovir/lamivudina + darunavir + ritonavir","O ritonavir reforça o darunavir pela inibição do CYP3A4."],
+["Inibidor de protease","Sempre com ITRN","Nunca em monoterapia."],
+["Criptococose meníngea","Anfotericina B + flucitosina, depois fluconazol","Indução reduz a carga fúngica; o fluconazol atinge o líquor na consolidação."],
+["Amoxicilina","Amoxicilina + clavulanato","O inibidor poupa o antibiótico da beta-lactamase."],
+["Cotrimoxazol","Sulfametoxazol + trimetoprima","Bloqueio sequencial do folato: pode virar bactericida."],
+["Endocardite","Beta-lactâmico (ou vanco) + aminoglicosídeo","A parede lesada facilita a entrada do aminoglicosídeo: sinergia."],
+["Tuberculose","Rifampicina + isoniazida + pirazinamida + etambutol (RIPE)","Quatro alvos reduzem resistência; rifampicina + isoniazida somam hepatotoxicidade, e a B6 protege os nervos."]];
+const $=s=>document.querySelector(s);let cur="todos",q="",rev=false;
+$("#chips").innerHTML=RAD.map(r=>`<div class="chip"><b>${r[0]}</b><span>${r[1]}</span></div>`).join("");
+$("#cb").innerHTML=CB.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("");
+const tabs=[["todos","Todas"],...G.map(g=>[g.id,g.n])];
+$("#tabs").innerHTML=tabs.map(t=>`<button class="tab" data-id="${t[0]}" aria-pressed="${t[0]==cur}" style="--c:var(${(G.find(g=>g.id==t[0])||{c:"--ink"}).c})">${t[1]}</button>`).join("")+`<input id="q" type="search" placeholder="Buscar droga ou classe" aria-label="Buscar"><button class="tg" id="rv" aria-pressed="false">Modo revisão</button>`;
+function draw(){
+ $("#out").className=rev?"rev":"";
+ $("#out").innerHTML=G.filter(g=>cur=="todos"||cur==g.id).map(g=>{
+  const rs=g.r.filter(r=>(r[0]+r[1]).toLowerCase().includes(q));
+  if(!rs.length)return"";
+  return`<section style="--c:var(${g.c})"><h2>${g.n}</h2><p class="sub">${g.s}</p>
+  <div class="trail">${g.trail.map(t=>`<div class="st"><span>${t[0]}</span><i>${t[1]}</i></div>`).join("")}</div>
+  <div class="grid">${rs.map(r=>`<article class="card"><h3>${r[0]}</h3><div class="dr">${r[1]}</div>
+  <div class="hook"><span class="lb">Decore assim</span>${r[2]}</div>
+  <div class="f"><span class="lb">Mecanismo</span>${r[3]}</div>
+  <div class="f"><span class="lb">Onde usar</span>${r[4]}</div>
+  <div class="f"><span class="lb">Cuidado e contraindicações</span>${r[5]}</div>
+  <div class="f"><span class="lb">Combina com</span>${r[6]}</div></article>`).join("")}</div></section>`}).join("");
+ $("#rad").classList.toggle("hide",cur!="todos");$("#comb").classList.toggle("hide",cur!="todos")}
+document.addEventListener("click",e=>{const t=e.target.closest(".tab");if(t){cur=t.dataset.id;document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-pressed",b==t));draw();return}
+ if(e.target.id=="rv"){rev=!rev;e.target.setAttribute("aria-pressed",rev);draw();return}
+ const c=e.target.closest(".rev .card");if(c)c.classList.toggle("open")});
+$("#q").addEventListener("input",e=>{q=e.target.value.toLowerCase().trim();draw()});
+draw();
+</script>
+</body>
+</html>

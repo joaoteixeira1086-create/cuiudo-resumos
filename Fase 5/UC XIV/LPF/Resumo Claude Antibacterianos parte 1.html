@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Gram: atlas dos antibacterianos, parte 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;1,400&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f1ece1;--card:#faf6ec;--ink:#1d1b22;--mut:#5d5966;--v:#4b2e83;--p:#c2416b;--t:#1f7a72;--o:#a96a12;--ln:#cfc6b2;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#17141c;--card:#201c28;--ink:#ece6f3;--mut:#a39cb0;--v:#a98ae6;--p:#ee7a9c;--t:#4cc2b5;--o:#e0a346;--ln:#3a3347}}
+:root[data-theme=dark]{--bg:#17141c;--card:#201c28;--ink:#ece6f3;--mut:#a39cb0;--v:#a98ae6;--p:#ee7a9c;--t:#4cc2b5;--o:#e0a346;--ln:#3a3347}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15.5px/1.7 'IBM Plex Sans',system-ui,sans-serif;display:grid;grid-template-columns:210px 1fr;min-height:100vh}
+b,strong{font-weight:400}
+nav{position:sticky;top:0;height:100vh;padding:26px 18px;border-right:1px solid var(--ln);display:flex;flex-direction:column;gap:4px;font:400 12px 'IBM Plex Mono',monospace;overflow:auto}
+nav .lg{font:italic 400 26px/1 Fraunces,serif;color:var(--v);margin-bottom:4px}nav .sb{color:var(--mut);margin-bottom:18px;line-height:1.4}
+nav a{color:var(--mut);text-decoration:none;padding:6px 8px;border-radius:6px}nav a:hover{background:var(--card);color:var(--ink)}nav a i{color:var(--p);font-style:normal;margin-right:6px}
+main{padding:0 clamp(18px,3vw,48px) 60px;min-width:0}
+header{padding:44px 0 26px;border-bottom:1px solid var(--ln);display:grid;grid-template-columns:1.3fr 1fr;gap:30px;align-items:end}
+h1{font:400 clamp(38px,5.4vw,84px)/.98 Fraunces,serif;margin:0;letter-spacing:-.02em}h1 em{color:var(--p)}
+header p{margin:0;color:var(--mut);max-width:60ch}
+h2{font:400 clamp(26px,2.8vw,38px)/1.1 Fraunces,serif;margin:0 0 6px;display:flex;align-items:baseline;gap:14px}
+h2 span{font:400 13px 'IBM Plex Mono',monospace;color:var(--p)}
+h3{font:italic 400 20px/1.2 Fraunces,serif;margin:0 0 8px;color:var(--v)}
+sec{display:block;padding:44px 0 6px;border-bottom:1px solid var(--ln)}
+.lead{color:var(--mut);max-width:110ch;margin:0 0 20px}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,370px),1fr));gap:16px;align-items:start}
+.c{background:var(--card);border:1px solid var(--ln);border-radius:12px;padding:18px 20px}
+.c p{margin:0 0 10px}.c.w{grid-column:1/-1}
+.tag{font:400 11px 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);display:inline-block;border:1px solid var(--ln);border-radius:20px;padding:1px 10px;margin-bottom:8px}
+.k{color:var(--v);font-style:italic}.r{color:var(--p);font-style:italic}.tl{color:var(--t);font-style:italic}.m{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--o)}
+.al{border:1.5px solid var(--o);border-radius:10px;padding:10px 14px;margin:10px 0;background:transparent;font-size:14.5px}
+.al.rd{border-color:var(--p)}.al.tt{border-color:var(--t)}
+details{border-top:1px dashed var(--ln);margin-top:10px;padding-top:8px}
+summary{cursor:pointer;font:400 12.5px 'IBM Plex Mono',monospace;color:var(--t);list-style:none}summary::-webkit-details-marker{display:none}
+summary::before{content:'+ ';color:var(--p)}details[open]>summary::before{content:'- '}
+details>div{padding-top:8px;font-size:14.5px}details p{margin:0 0 8px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}
+button{font:400 12.5px 'IBM Plex Mono',monospace;background:transparent;color:var(--ink);border:1px solid var(--ln);border-radius:20px;padding:5px 13px;cursor:pointer}
+button:hover{border-color:var(--v)}button.on{background:var(--v);color:var(--bg);border-color:var(--v)}
+#map{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;align-items:center}
+svg{width:100%;height:auto}svg [data-k]{cursor:pointer}svg [data-k]:hover{opacity:.7}svg text{font:400 12px 'IBM Plex Mono',monospace;fill:var(--ink);pointer-events:none}
+#pan{min-height:190px}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0;font:400 12.5px 'IBM Plex Mono',monospace}
+.nd{border:1.5px solid var(--t);border-radius:8px;padding:6px 10px}.ar{color:var(--mut);padding:2px 6px;border-radius:6px}
+.ar.cut{color:var(--p);text-decoration:line-through;border:1px solid var(--p)}.nd.dead{border-color:var(--p);color:var(--p);opacity:.6}
+.fc{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}.fc details{border:1px solid var(--ln);border-radius:10px;padding:12px 14px;margin:0;background:var(--card)}
+.fc summary{color:var(--ink);font:italic 400 17px/1.3 Fraunces,serif}.fc summary::before{content:''}
+.gens{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:10px 0}.gens div{border:1px solid var(--ln);border-radius:10px;padding:10px 12px;font-size:14px}
+ol.ref{font-size:13.5px;color:var(--mut)}footer{padding:30px 0}
+@media(max-width:860px){body{grid-template-columns:1fr}nav{display:none}header,#map{grid-template-columns:1fr}}
+</style></head><body>
+<nav><div class="lg">Gram</div><div class="sb">atlas dos antibacterianos<br>parte 1</div>
+<a href="#s0"><i>00</i>mapa de alvos</a><a href="#s1"><i>01</i>princípios</a><a href="#s2"><i>02</i>escolha do ATB</a><a href="#s3"><i>03</i>folato</a><a href="#s4"><i>04</i>beta-lactâmicos</a><a href="#s5"><i>05</i>vancomicina</a><a href="#s6"><i>06</i>conferir nos slides</a><a href="#s7"><i>07</i>revisão</a><a href="#ref"><i>--</i>referências</a>
+<button id="th" style="margin-top:auto">tema claro/escuro</button></nav>
+<main>
+<header><div><h1>O alvo decide<br>o <em>fármaco.</em></h1></div>
+<p>Fármacos antibacterianos, parte 1, aula dos Profs. Felipe Vanz e Líncon Somensi (Medicina, 5º período, Uniarp). Os slides dão o esqueleto; aqui entram o mecanismo, o porquê da toxicidade seletiva e a lógica clínica. Cor roxa para o que é Gram-positivo, rosa para Gram-negativo, como na lâmina.</p></header>
+
+<sec id="s0"><h2><span>00</span>Mapa de alvos da célula bacteriana</h2>
+<p class="lead">Todo antibacteriano útil explora uma diferença entre a célula procariótica e a nossa: parede de peptidoglicano, ribossomo 70S, DNA-girase, via própria de folato. Essa assimetria é a toxicidade seletiva. Clique numa estrutura.</p>
+<div id="map"><svg viewBox="0 0 640 250" role="img" aria-label="Bactéria com alvos clicáveis">
+<g data-k="parede"><rect x="16" y="26" width="608" height="198" rx="99" fill="none" stroke="var(--v)" stroke-width="14"/></g>
+<g data-k="membrana"><rect x="40" y="50" width="560" height="150" rx="75" fill="none" stroke="var(--p)" stroke-width="6"/></g>
+<g data-k="folato"><ellipse cx="170" cy="125" rx="78" ry="42" fill="var(--t)" opacity=".18"/><text x="132" y="129">via do folato</text></g>
+<g data-k="dna"><path d="M290 125c14-40 28-40 42 0s28 40 42 0 28-40 42 0" fill="none" stroke="var(--o)" stroke-width="5"/><rect x="280" y="80" width="190" height="90" fill="transparent"/><text x="338" y="190">DNA / RNA</text></g>
+<g data-k="ribo" fill="var(--ink)"><circle cx="500" cy="100" r="9"/><circle cx="530" cy="130" r="9"/><circle cx="495" cy="150" r="9"/><circle cx="545" cy="95" r="9"/><rect x="480" y="80" width="80" height="90" fill="transparent"/><text x="490" y="190">ribossomo 70S</text></g>
+<text x="60" y="22">parede</text><text x="60" y="64">membrana</text></svg>
+<div class="c" id="pan"></div></div></sec>
+
+<sec id="s1"><h2><span>01</span>Princípios que sustentam tudo</h2>
+<p class="lead">A história mostra um padrão: da quinina (1619) ao prontosil de Klarer e Mietzsch (1932), da penicilina de Fleming (1929, uso clínico em 1941) à cefalosporina de Brotzu (1948), cada descoberta nasceu de observar uma guerra química entre microrganismos ou de sintetizar um análogo de metabólito. O prontosil é um pró-fármaco: só in vivo libera a sulfanilamida ativa.</p>
+<div class="g">
+<div class="c"><span class="tag">bacteriostático x bactericida</span><h3>Parar ou matar</h3>
+<p>Bacteriostáticos inibem a multiplicação e dependem das defesas do hospedeiro para eliminar a população. Bactericidas reduzem o número de viáveis, encurtam o tratamento e deixam efeito pós-antibiótico. Em imunossuprimidos, endocardite e meningite (onde fagócitos e complemento atuam mal) o bactericida é essencial.</p>
+<div class="al tt">Classificação não é absoluta: depende da espécie, do inóculo e da concentração. Sulfas e trimetoprima isoladas são estáticas; juntas podem ser cidas.</div>
+<details><summary>Aprofunde-se: CIM, CBM e parâmetros PK/PD</summary><div><p>A concentração inibitória mínima (CIM) é a menor que impede crescimento visível; a bactericida mínima (CBM), a que mata 99,9 por cento. Se CBM/CIM for 4 ou menos, falamos de bactericida. Beta-lactâmicos são tempo-dependentes: o que importa é o tempo em que a fração livre fica acima da CIM (fT>CIM), daí doses frequentes ou infusão prolongada. Aminoglicosídeos e quinolonas são concentração-dependentes (pico/CIM, AUC/CIM). Vancomicina segue AUC/CIM.</p></div></details></div>
+<div class="c"><span class="tag">espectro</span><h3>Estreito, largo e o custo do largo</h3>
+<p>Espectro estreito atinge um grupo (só <span class="k">Gram-positivos</span> ou só <span class="r">Gram-negativos</span>); largo atinge ambos. A dica de ouro do professor é esta: sempre que possível, estreitar. Antibiótico largo elimina também a microbiota protetora do cólon, abrindo nicho para <em>Clostridioides difficile</em> e selecionando resistência.</p>
+<details><summary>Aprofunde-se: por que a parede Gram-negativa muda o espectro</summary><div><p>A Gram-positiva expõe peptidoglicano espesso, acessível. A Gram-negativa tem peptidoglicano fino sob uma membrana externa de lipopolissacarídeo; moléculas hidrofílicas entram por porinas. Por isso a penicilina G (pequena, mas pouco penetrante) é fraca em bacilos Gram-negativos, as aminopenicilinas e cefalosporinas de 3ª geração passam melhor, e a vancomicina (grande demais) não entra.</p></div></details></div>
+<div class="c"><span class="tag">terapia</span><h3>Empírica, definitiva, profilática</h3>
+<p><span class="tl">Empírica:</span> sem agente identificado, cobre os patógenos prováveis com espectro largo, porque esperar a cultura custa vida (meningite, pneumonia grave, sepse, endocardite). Colhem-se culturas antes da primeira dose. <span class="tl">Definitiva:</span> com agente e antibiograma, troca-se pelo fármaco de espectro estreito, baixa toxicidade e maior índice terapêutico (descalonamento). <span class="tl">Profilática:</span> prevê os germes típicos do sítio operatório e age antes da incisão (por exemplo, cefazolina 30 a 60 minutos antes, para ter concentração tecidual no momento da contaminação).</p>
+<details><summary>Aprofunde-se: profilaxia não é tratamento prolongado</summary><div><p>Na cirurgia limpa a dose única, repetida só se a cirurgia passar de duas meias-vidas ou houver grande perda de sangue, já protege. Prolongar a profilaxia não reduz infecção de sítio cirúrgico e aumenta resistência e toxicidade. Em prótese (mamária, articular) o alvo é <em>Staphylococcus</em> e a formação de biofilme, que depois é quase impossível de erradicar sem remover o material.</p></div></details></div>
+</div></sec>
+
+<sec id="s3"><h2><span>02</span>Antimetabólitos: sulfas e trimetoprima</h2>
+<p class="lead">Bactérias não absorvem folato do meio; sintetizam a partir de PABA. Nós obtemos folato da dieta e não temos a diidropteroato-sintase. Essa é a toxicidade seletiva em estado puro. Clique nos fármacos para bloquear a via.</p>
+<div class="g"><div class="c w"><span class="tag">simulador</span>
+<div class="tabs"><button id="bs">sulfonamida</button><button id="bt">trimetoprima</button></div>
+<div class="flow"><span class="nd" id="n1">PABA</span><span class="ar" id="a1">DHPS</span><span class="nd" id="n2">di-hidrofolato</span><span class="ar" id="a2">DHFR</span><span class="nd" id="n3">tetra-hidrofolato</span><span class="ar">&rarr;</span><span class="nd" id="n4">timidilato, purinas, metionina</span><span class="ar">&rarr;</span><span class="nd" id="n5">DNA</span></div>
+<div class="al" id="st"></div></div>
+<div class="c"><h3>Sulfas</h3><p>Análogos estruturais do PABA (grupo sulfonamida no lugar do carboxilato). Competem pela diidropteroato-sintase e ainda geram um análogo falso (sulfa-pteridina) sem função. O antagonismo é competitivo e reversível: o excesso de PABA, como em pus e tecido necrótico, desfaz o efeito. São bacteriostáticas.</p>
+<p>Farmacocinética: absorção oral rápida, pico em 4 a 6 h, distribuição dependente da ligação a proteínas, boa penetração no líquor e na placenta, metabolismo hepático (acetilação) e excreção urinária. Sulfassalazina age no cólon; sulfadiazina de prata, tópica em queimados; sulfadoxina tem meia-vida de 100 a 230 h.</p>
+<details><summary>Aprofunde-se: efeitos adversos e o porquê de cada um</summary><div><p><span class="r">Cristalúria:</span> a forma acetilada é pouco solúvel em urina ácida; hidratação e alcalinização previnem. <span class="r">Kernicterus:</span> deslocam bilirrubina da albumina, proibidas no fim da gestação e em neonatos. <span class="r">Hemólise</span> em deficiência de G6PD, <span class="r">síndrome de Stevens-Johnson</span> e outras hipersensibilidades. <span class="r">Potencialização:</span> deslocam da albumina e inibem CYP2C9, elevando efeito de varfarina, fenitoína e sulfonilureias.</p></div></details></div>
+<div class="c"><h3>Trimetoprima</h3><p>Inibe a diidrofolato-redutase bacteriana, impedindo a regeneração do tetra-hidrofolato, cofator da timidilato-sintase e da síntese de purinas. Não impede a síntese do folato, e sim sua redução. Afinidade pela enzima bacteriana cerca de 10 mil vezes maior que pela humana. Boa concentração em pulmão, rim e líquor; uso em infecções urinárias e respiratórias.</p>
+<details><summary>Aprofunde-se: sinergia, razão 1:5 e eventos adversos</summary><div><p>Bloqueio sequencial de duas etapas da mesma via gera sinergia: o cotrimoxazol usa 1 parte de trimetoprima para 5 de sulfametoxazol, que resulta em razão plasmática próxima de 1:20, ótima para a combinação. Usos: ITU, pneumocistose, nocardiose, <em>Stenotrophomonas</em>, pele por MRSA comunitário. Trimetoprima causa <span class="r">hipercalemia</span> (bloqueio do ENaC no néfron distal, como a amilorida), elevação de creatinina por bloqueio da secreção tubular e anemia megaloblástica, tratável com ácido folínico, que a bactéria não capta. Resistência: genes <em>sul1/sul2</em> (DHPS alterada) e <em>dfr</em> (DHFR alterada), além de hiperprodução de PABA.</p></div></details></div></div></sec>
+
+<sec id="s4"><h2><span>03</span>Inibidores da síntese da parede: família beta-lactâmica e vancomicina</h2>
+<p class="lead">Penicilinas, cefalosporinas, carbapenêmicos e monobactâmicos compartilham o anel beta-lactâmico, de quatro membros e tensionado, que mimetiza o dipeptídeo D-Ala-D-Ala. A enzima que tentaria ligar o peptidoglicano é enganada.</p>
+<div class="g">
+<div class="c w"><span class="tag">mecanismo</span><h3>Da acilação da PBP à lise osmótica</h3>
+<p>A parede é uma malha de cadeias de N-acetilglicosamina e ácido N-acetilmurâmico (NAG-NAM) com pentapeptídeos ligados em ponte. A transpeptidação (PBPs, proteínas ligadoras de penicilina) corta o D-Ala terminal e forma a ligação cruzada que dá rigidez. O beta-lactâmico acila o resíduo de serina do sítio ativo da PBP, formando um complexo estável que não se desfaz. Sem ligações cruzadas, a parede não suporta a pressão osmótica de 5 a 20 atm no interior da célula. Só atuam sobre células em crescimento, que estão fabricando parede; daí a eficácia ser menor em fase estacionária e o antagonismo com bacteriostáticos.</p>
+<div class="al rd">Ponto a corrigir no slide: bactérias não têm caspases nem apoptose. A morte decorre da ativação desregulada de autolisinas (hidrolases de mureína), que degradam a parede já fragilizada, mais lise osmótica. Em bactérias com autolisinas pouco ativas (tolerância) o efeito é estático.</div>
+<details><summary>Aprofunde-se: três vias de resistência</summary><div><p>1) <span class="r">Beta-lactamases</span> hidrolisam o anel (codificadas por plasmídeos nas Gram-positivas, secretadas; nas Gram-negativas ficam no periplasma, onde protegem a PBP). Há ESBL, AmpC e carbapenemases (KPC, metalo-beta-lactamases). 2) <span class="r">PBP alterada</span>: PBP2a do MRSA (gene <em>mecA</em>) tem afinidade baixíssima por quase todos os beta-lactâmicos; pneumococo resistente usa PBPs em mosaico. 3) <span class="r">Permeabilidade e efluxo</span>: perda de porinas (OprD na <em>Pseudomonas</em> reduz entrada do imipenem) e bombas de efluxo. O desenho da tabela de resistência dos slides (amidase na cadeia lateral, beta-lactamase no anel) é exatamente o ponto vulnerável da molécula.</p></div></details></div>
+
+<div class="c"><span class="tag">penicilinas</span><h3>Quatro grupos, quatro lógicas</h3>
+<p><span class="k">Naturais:</span> G cristalina (IV, curta duração, instável em ácido gástrico), G procaína (IM, dói menos) e G benzatínica (IM profunda, liberação por semanas: sífilis, profilaxia de febre reumática). V é oral, estável em ácido. Ativas contra cocos Gram-positivos, <em>N. meningitidis</em>, <em>T. pallidum</em>, <em>Corynebacterium diphtheriae</em>, <em>Clostridium tetani</em>.</p>
+<p><span class="k">Antiestafilocócicas</span> (oxacilina, nafcilina, cloxacilina, dicloxacilina; meticilina saiu de uso por nefrite): cadeia lateral volumosa impede a beta-lactamase estafilocócica de se aproximar. Não cobrem MRSA, enterococos nem Gram-negativos.</p>
+<p><span class="tl">Aminopenicilinas</span> (ampicilina, amoxicilina): grupo amino melhora a passagem pelas porinas; cobrem <em>Listeria</em>, <em>E. faecalis</em>, <em>Proteus mirabilis</em>, <em>E. coli</em>. <span class="r">Antipseudomonas</span>: carboxipenicilinas (carbenicilina, ticarcilina) e ureidopenicilinas (piperacilina, mezlocilina, azlocilina), com <em>Pseudomonas</em>, <em>Enterobacter</em>, <em>Klebsiella</em>.</p>
+<details><summary>Aprofunde-se: farmacocinética e alergia</summary><div><p>Excreção por secreção tubular ativa (OAT); a probenecida a bloqueia e prolonga a meia-vida. Hipersensibilidade tipo I (IgE) contra o determinante maior (benzilpeniciloil) é a reação mais temida; teste cutâneo tem bom valor preditivo negativo. Doses altas causam convulsão e a forma potássica, hipercalemia. Amoxicilina em mononucleose provoca exantema não alérgico.</p></div></details></div>
+
+<div class="c"><span class="tag">cefalosporinas</span><h3>Gerações: Gram-positivo desce, Gram-negativo sobe</h3>
+<div class="gens"><div><span class="k">1ª</span> cefazolina, cefalexina, cefadroxila. Cocos Gram-positivos, <em>E. coli</em>, <em>Klebsiella</em>, <em>Proteus</em>. Pele e profilaxia cirúrgica.</div><div><span class="k">2ª</span> cefuroxima, cefprozila. <em>H. influenzae</em>, <em>Neisseria</em>, <em>Enterobacter</em>; perde parte do Gram-positivo.</div><div><span class="r">3ª</span> ceftriaxona, cefotaxima, ceftazidima. Bacilos Gram-negativos; cruzam a barreira hematoencefálica inflamada. Ceftazidima cobre <em>Pseudomonas</em>.</div><div><span class="r">4ª</span> cefepima. Espectro largo, estável a AmpC.</div></div>
+<p>Ceftriaxona e cefotaxima são a escolha empírica em meningite bacteriana. Nenhuma cefalosporina cobre enterococos, <em>Listeria</em> nem atípicos; por isso na meningite do idoso soma-se ampicilina.</p>
+<details><summary>Aprofunde-se: efeitos indesejados</summary><div><p>Reação cruzada com penicilinas gira em torno de 1 a 2 por cento e depende da semelhança da cadeia lateral R1. Cefalosporinas com o grupo N-metiltiotetrazol (cefotetana, cefoperazona) inibem a acetaldeído-desidrogenase e causam reação tipo dissulfiram, além de hipoprotrombinemia; o slide generaliza a intolerância ao álcool. Ceftriaxona é excretada na bile (pseudolitíase biliar) e é evitada com cálcio IV em neonatos. Diarreia associada a <em>C. difficile</em> é o preço da amplitude.</p></div></details></div>
+
+<div class="c"><span class="tag">carbapenêmicos</span><h3>Imipenem, meropenem, ertapenem</h3>
+<p>O núcleo com cadeia hidroxietil em trans torna a molécula quase imune às beta-lactamases, inclusive ESBL e AmpC. Largo espectro aeróbio e anaeróbio; só IV. Resistem mal as carbapenemases e <em>Pseudomonas</em> pode desenvolver resistência durante o tratamento (por perda de OprD), motivo da restrição à monoterapia. Ertapenem não cobre <em>Pseudomonas</em> nem <em>Acinetobacter</em>.</p>
+<p>O imipenem é hidrolisado pela di-hidropeptidase-I do túbulo proximal, gerando metabólito nefrotóxico; a cilastatina inibe a enzima e protege o rim, e o prolonga na urina.</p>
+<div class="al rd">O slide cita sinvastatina como causa de ineficácia. A interação clássica é com ácido valproico: carbapenêmicos derrubam os níveis de valproato em dias e precipitam convulsões. Confirme com o professor.</div></div>
+
+<div class="c"><span class="tag">monobactâmico</span><h3>Aztreonam</h3>
+<p>Anel beta-lactâmico isolado, sem anel fusionado, ligado seletivamente à PBP3 de bacilos Gram-negativos aeróbios, incluindo <em>Pseudomonas</em>. Não atua em Gram-positivos nem em anaeróbios. IM ou IV, excreção renal. Quase não tem reação cruzada com penicilinas, o que o torna alternativa em alérgicos; a exceção é a ceftazidima, que compartilha a cadeia lateral.</p></div>
+
+<div class="c"><span class="tag">inibidores de beta-lactamase</span><h3>Clavulanato, sulbactam, tazobactam, avibactam</h3>
+<p>Os três primeiros são inibidores suicidas: acilam a serina da beta-lactamase e a inativam de forma irreversível (a enzima morre ao tentar hidrolisá-los). Cobrem sobretudo enzimas de plasmídeo (classe A). Avibactam e vaborbactam não têm anel beta-lactâmico clássico e se ligam de forma covalente reversível, alcançando também KPC. Combinações: amoxicilina-clavulanato, ampicilina-sulbactam, piperacilina-tazobactam, ceftazidima-avibactam, ceftolozano-tazobactam, meropenem-vaborbactam, imipenem-cilastatina-relebactam.</p>
+<details><summary>Aprofunde-se: AmpC cromossômica induzível</summary><div><p><em>Enterobacter</em>, <em>Citrobacter freundii</em> e <em>Serratia</em> carregam <em>ampC</em> reprimido, que passa a ser expresso quando um beta-lactâmico indutor agride a parede. Clavulanato e sulbactam não inativam AmpC; o slide propõe tazobactam, mas na prática cefepima, carbapenêmico ou ceftazidima-avibactam são as opções mais confiáveis. Confira nos livros-texto.</p></div></details></div>
+</div></sec>
+
+<sec id="s5"><h2><span>04</span>Vancomicina, o glicopeptídeo</h2>
+<div class="g"><div class="c"><h3>Mecanismo e espectro</h3>
+<p>Liga-se com alta afinidade (cinco pontes de hidrogênio) ao terminal D-Ala-D-Ala do pentapeptídeo precursor, no lado externo da membrana. Isso bloqueia por impedimento estérico tanto a transglicosilase quanto a transpeptidase, antes mesmo de a PBP agir. Molécula grande demais para porinas: só atua em <span class="k">Gram-positivos</span>. Cobre MRSA, pneumococo resistente a penicilina e enterococo resistente a ampicilina; é tratamento de escolha em endocardite e pneumonia por MRSA e, por via oral (sem absorção, age no lúmen), em colite por <em>C. difficile</em>.</p>
+<details><summary>Aprofunde-se: VRE, VISA e VRSA</summary><div><p>Nos enterococos com <em>vanA</em> ou <em>vanB</em> o terminal vira D-Ala-D-lactato, trocando uma ponte de hidrogênio por repulsão eletrostática e derrubando a afinidade cerca de mil vezes. VISA tem parede espessada que sequestra o fármaco; VRSA adquiriu <em>vanA</em> de enterococo. Linezolida e daptomicina são alternativas em alguns VRE.</p></div></details></div>
+<div class="c"><h3>Eventos adversos</h3>
+<p>Flebite (infundir diluída). <span class="r">Síndrome do homem vermelho</span>: eritema e prurido em tronco e face por liberação direta de histamina por mastócitos (não é IgE); previne-se infundindo mais lentamente (não mais que 10 mg/min) e com anti-histamínico, e a reação difere da anafilaxia verdadeira. Ototoxicidade rara, potencializada por aminoglicosídeos.</p>
+<div class="al">Omitido no slide, mas clássico: nefrotoxicidade, sobretudo com piperacilina-tazobactam. As diretrizes atuais favorecem o monitoramento por AUC em vez do vale isolado.</div></div></div></sec>
+
+<sec id="s6"><h2><span>05</span>Pontos a conferir nos slides</h2>
+<p class="lead">Itens em que a literatura difere do que está escrito. Podem ser lapsos de digitação do material; vale checar com os professores.</p>
+<div class="g">
+<div class="c"><p><span class="r">Nomes:</span> "diidropeptase-sintase" é diidropteroato-sintase (DHPS); "trimetopima" é trimetoprima; "clavulônico" é clavulânico.</p></div>
+<div class="c"><p><span class="r">Alvos da membrana:</span> anfotericina B, azóis e nistatina são antifúngicos; entre os antibacterianos de membrana, o exemplo clássico é a polimixina.</p></div>
+<div class="c"><p><span class="r">Aztreonam:</span> não é tratamento de escolha para <em>Salmonella</em> e gonococo (usa-se ceftriaxona, quinolona conforme sensibilidade). Seu papel é cobrir Gram-negativos aeróbios, sobretudo em alérgicos.</p></div>
+<div class="c"><p><span class="r">Rifampicina e ácido nalidíxico:</span> a rifampicina inibe a RNA-polimerase DNA-dependente; o nalidíxico e as fluoroquinolonas inibem DNA-girase e topoisomerase IV. Flucitosina é antifúngica.</p></div></div></sec>
+
+<sec id="s7"><h2><span>06</span>Revisão ativa</h2>
+<p class="lead">Responda mentalmente, depois clique.</p>
+<div class="fc">
+<details><summary>Por que sulfa e trimetoprima juntas são mais que a soma?</summary><div>Bloqueiam duas etapas sequenciais da mesma via; a segunda atua num pool de substrato já reduzido pela primeira. Resultado, ação cida e menos resistência.</div></details>
+<details><summary>Por que o excesso de PABA antagoniza a sulfa?</summary><div>Competição reversível pelo mesmo sítio da DHPS. Em pus e tecido necrótico o PABA liberado reduz a eficácia.</div></details>
+<details><summary>Por que beta-lactâmico não funciona bem em célula em repouso?</summary><div>Só há acilação útil das PBPs se a parede está sendo sintetizada; sem crescimento, não há ligação cruzada nova para impedir.</div></details>
+<details><summary>Como o MRSA resiste à oxacilina?</summary><div>Produz PBP2a (gene <em>mecA</em>), que mantém transpeptidação com afinidade mínima por beta-lactâmicos; opções incluem vancomicina, daptomicina, linezolida.</div></details>
+<details><summary>Por que a vancomicina oral não trata sepse?</summary><div>Não é absorvida no trato gastrointestinal; por isso serve para <em>C. difficile</em> (ação luminal) e a via IV é necessária para infecção sistêmica.</div></details>
+<details><summary>Para que serve a cilastatina?</summary><div>Inibe a di-hidropeptidase-I renal, evitando a degradação do imipenem em metabólito nefrotóxico e preservando sua concentração urinária.</div></details>
+<details><summary>Como o enterococo VRE escapa da vancomicina?</summary><div>Troca D-Ala-D-Ala por D-Ala-D-Lac (operon <em>van</em>); afinidade cai cerca de 1000 vezes.</div></details>
+<details><summary>Qual a relação entre churrasco e resistência?</summary><div>Cerca de 70 por cento dos antibióticos nos EUA são usados em animais, em grande parte como promotores de crescimento, pressionando seleção de cepas resistentes que chegam ao homem pela cadeia alimentar. Conceito de Saúde Única.</div></details></div></sec>
+
+<footer id="ref"><h2><span>--</span>Referências</h2>
+<ol class="ref">
+<li>BRUNTON, L. L.; HILAL-DANDAN, R.; KNOLLMANN, B. C. (org.). <em>As bases farmacológicas da terapêutica de Goodman &amp; Gilman</em>. 13. ed. Porto Alegre: AMGH, 2019.</li>
+<li>KATZUNG, B. G.; VANDERAH, T. W. <em>Farmacologia básica e clínica</em>. 15. ed. Porto Alegre: AMGH, 2023.</li>
+<li>RANG, H. P. et al. <em>Rang &amp; Dale: farmacologia</em>. 9. ed. Rio de Janeiro: Elsevier, 2020.</li>
+<li>VANZ, F.; SOMENSI, L. B. <em>Fármacos antibacterianos: parte 1</em>. Caçador: Uniarp, [s.d.]. Slides de aula, Medicina, 5º período.</li></ol></footer>
+</main>
+<script>
+const T={parede:['Parede (peptidoglicano)','Beta-lactâmicos (penicilinas, cefalosporinas, carbapenêmicos, monobactâmicos), inibidores de beta-lactamase e vancomicina. Alvo ausente em células humanas: seletividade máxima.'],
+membrana:['Membrana celular','Polimixinas (detergente catiônico, ligam o lipídeo A do LPS). Anfotericina, azóis e nistatina atuam em ergosterol de fungos.'],
+folato:['Metabolismo do folato','Sulfonamidas inibem a DHPS; trimetoprima inibe a DHFR. Sinergia em bloqueio sequencial.'],
+dna:['Ácidos nucleicos','Fluoroquinolonas e ácido nalidíxico (girase), rifampicina (RNA-polimerase), metronidazol (radicais que fragmentam o DNA em anaeróbios).'],
+ribo:['Síntese proteica (ribossomo 70S)','30S: aminoglicosídeos (bactericidas) e tetraciclinas. 50S: macrolídeos, clindamicina, cloranfenicol. A diferença 70S x 80S dá a seletividade.']};
+const pan=document.getElementById('pan');
+function sh(k){pan.innerHTML='<span class="tag">alvo</span><h3>'+T[k][0]+'</h3><p>'+T[k][1]+'</p>'}
+document.querySelectorAll('[data-k]').forEach(e=>e.onclick=()=>sh(e.dataset.k));sh('parede');
+const S={sulfa:0,tmp:0};
+function up(){const{sulfa:a,tmp:b}=S;
+document.getElementById('a1').classList.toggle('cut',!!a);document.getElementById('a2').classList.toggle('cut',!!b);
+document.getElementById('bs').classList.toggle('on',!!a);document.getElementById('bt').classList.toggle('on',!!b);
+['n2','n3','n4','n5'].forEach((id,i)=>document.getElementById(id).classList.toggle('dead',(a&&i>=0)||(b&&i>=1)));
+document.getElementById('st').textContent=a&&b?'Duplo bloqueio: sem di-hidrofolato nem tetra-hidrofolato. Sinergia, ação bactericida e razão de 1:20 no plasma.':a?'Só sulfa: a síntese de folato cai, a bactéria para de crescer (bacteriostático) e o excesso de PABA pode reverter.':b?'Só trimetoprima: o folato é feito, mas não é reduzido a tetra-hidrofolato. Bacteriostático.':'Via livre: a bactéria sintetiza folato e se multiplica. Escolha um fármaco.'}
+document.getElementById('bs').onclick=()=>{S.sulfa^=1;up()};document.getElementById('bt').onclick=()=>{S.tmp^=1;up()};up();
+document.getElementById('th').onclick=()=>{const r=document.documentElement,d=getComputedStyle(r).getPropertyValue('--bg').trim()=='#17141c';r.dataset.theme=d?'light':'dark'};
+</script></body></html>

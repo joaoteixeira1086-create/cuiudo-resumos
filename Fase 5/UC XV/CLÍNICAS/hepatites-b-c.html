@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hepatites B e C: caderno de laudos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..560;1,9..144,300..560&family=Literata:ital,opsz,wght@0,7..72,300..520;1,7..72,300..520&family=Red+Hat+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+[hidden]{display:none!important}
+
+/* Caderno de laudos: cada seção é um exame com código, material e método; o corpo imita um laudo impresso em papel quente.
+   Cores de bile: vinho (fígado, HCV), azul-petróleo (HBV), âmbar (bilirrubina, alerta), verde (biliverdina, cura), violeta (imunidade). */
+:root{
+  --paper:#F5EFE3; --sheet:#FBF8F1; --ink:#24191A; --ink2:#5E4E4B; --line:#DDD0BC; --line2:#C9B99F;
+  --liver:#822C37; --liver-soft:#F3DDDD; --on-liver:#FFFFFF;
+  --hbv:#1B5A73; --hbv-soft:#D9EAF0;
+  --bile:#9A6209; --bile-soft:#F8E8C6;
+  --green:#2B6A4D; --green-soft:#D8EBDD;
+  --imm:#5B4B8F; --imm-soft:#E6E1F3;
+  --f-display:"Fraunces",Georgia,serif; --f-body:"Literata",Georgia,serif; --f-mono:"Red Hat Mono",ui-monospace,Menlo,monospace;
+  --gutter:max(1rem,env(safe-area-inset-left,0px));
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#171112; --sheet:#211819; --ink:#F3EADF; --ink2:#BFADA6; --line:#3B2D2E; --line2:#56443F;
+    --liver:#EC919A; --liver-soft:#3B1D23; --on-liver:#1F0E11;
+    --hbv:#82C6DE; --hbv-soft:#14303A;
+    --bile:#EBB24F; --bile-soft:#3A2B10;
+    --green:#74CDA0; --green-soft:#12301F;
+    --imm:#BBAEF2; --imm-soft:#2A2445; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#171112; --sheet:#211819; --ink:#F3EADF; --ink2:#BFADA6; --line:#3B2D2E; --line2:#56443F;
+  --liver:#EC919A; --liver-soft:#3B1D23; --on-liver:#1F0E11;
+  --hbv:#82C6DE; --hbv-soft:#14303A;
+  --bile:#EBB24F; --bile-soft:#3A2B10;
+  --green:#74CDA0; --green-soft:#12301F;
+  --imm:#BBAEF2; --imm-soft:#2A2445; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:4.5rem;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.02rem/1.72 var(--f-body);font-optical-sizing:auto;overflow-x:hidden;padding-bottom:6rem;
+  background-image:radial-gradient(circle at 12% 0%,color-mix(in srgb,var(--bile) 9%,transparent),transparent 36rem),radial-gradient(circle at 100% 30%,color-mix(in srgb,var(--liver) 6%,transparent),transparent 40rem)}
+h1,h2,h3,h4,h5,summary,dt,th,button,label,legend,b,strong{font-weight:400}
+b,strong{font-weight:400}
+p{margin:0 0 1rem}
+a{color:var(--hbv)}
+i,em{font-style:italic}
+code,.mono{font:400 .86em var(--f-mono)}
+.wrap{width:min(100% - 2*var(--gutter),74rem);margin-inline:auto}
+:focus-visible{outline:2px solid var(--liver);outline-offset:2px}
+
+/* barra superior */
+.top{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:1rem;min-height:3.4rem}
+.brand{font:400 1.05rem var(--f-display);text-decoration:none;color:var(--ink);white-space:nowrap;letter-spacing:-.01em}
+.brand span{font:400 .66rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);margin-left:.5rem}
+.pnav{display:flex;gap:.15rem;overflow-x:auto;scrollbar-width:thin;flex:1;min-width:0;padding-block:.35rem}
+.pnav a{font:500 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--ink2);padding:.42rem .55rem;border:1px solid transparent;border-radius:3px;white-space:nowrap}
+.pnav a:hover,.pnav a[aria-current="true"]{color:var(--ink);border-color:var(--line2);background:var(--sheet)}
+.btn{font:500 .74rem var(--f-mono);letter-spacing:.04em;padding:.5rem .8rem;border:1px solid var(--line2);background:var(--sheet);color:var(--ink);border-radius:3px;cursor:pointer}
+.btn:hover{border-color:var(--hbv)}
+.btn[aria-pressed="true"],.btn.on{background:var(--hbv);color:var(--paper);border-color:var(--hbv)}
+.btn.danger{border-color:var(--liver);color:var(--liver)}
+.btn:disabled{opacity:.5;cursor:default}
+
+/* capa */
+.hero{padding-block:clamp(2.6rem,6vw,5rem) 2.6rem;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(1.5rem,4vw,3.4rem);align-items:center}
+.eyebrow{font:500 .7rem var(--f-mono);letter-spacing:.18em;text-transform:uppercase;color:var(--liver);margin:0 0 .9rem}
+.hero h1{font:420 clamp(2.5rem,6.4vw,4.9rem)/1.02 var(--f-display);letter-spacing:-.03em;margin:0 0 1.1rem;text-wrap:balance;font-variation-settings:"opsz" 144}
+.hero h1 em{color:var(--liver);font-style:italic}
+.hero .sub{font:400 1.18rem/1.65 var(--f-body);color:var(--ink2);max-width:36rem;margin:0 0 1.3rem}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;padding:0;margin:0;list-style:none}
+.tags li{font:500 .68rem var(--f-mono);letter-spacing:.06em;padding:.3rem .55rem;border:1px solid var(--line2);border-radius:99px;color:var(--ink2);background:var(--sheet)}
+.laudo{background:var(--sheet);border:1px solid var(--line2);border-radius:4px;padding:1.1rem 1.25rem 1.2rem;box-shadow:0 1px 0 var(--line),6px 8px 0 -2px color-mix(in srgb,var(--bile) 16%,transparent);position:relative;font-family:var(--f-mono)}
+.laudo h2{font:500 .66rem var(--f-mono);letter-spacing:.18em;text-transform:uppercase;color:var(--ink2);margin:0 0 .2rem}
+.laudo .pac{font:400 .72rem var(--f-mono);color:var(--ink2);margin:0 0 .8rem;padding-bottom:.7rem;border-bottom:1px dashed var(--line2)}
+.laudo dl{margin:0;display:grid;gap:.1rem}
+.laudo .row{display:grid;grid-template-columns:1fr auto;gap:.8rem;padding:.38rem 0;border-bottom:1px dotted var(--line);font-size:.78rem}
+.laudo dt{color:var(--ink)}
+.laudo dd{margin:0;text-align:right}
+.laudo .pos{color:var(--liver)} .laudo .neg{color:var(--ink2)} .laudo .hi{color:var(--bile)}
+.laudo .interp{margin:.9rem 0 0;font:400 .8rem/1.5 var(--f-body);font-style:italic;color:var(--ink)}
+.laudo .stamp{position:absolute;right:.9rem;bottom:-.9rem;font:500 .66rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;padding:.3rem .55rem;border:1.5px solid var(--liver);color:var(--liver);background:var(--paper);transform:rotate(-3deg);border-radius:3px}
+.guide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.4rem;border-top:1px solid var(--line2);padding-top:1.5rem;margin-top:1.6rem}
+.guide p{font-size:.94rem;line-height:1.6;color:var(--ink2);margin:0}
+.guide .k{display:block;font:500 .66rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--liver);margin-bottom:.3rem}
+
+/* seção = exame */
+.lx{border-top:1px solid var(--line2);padding-block:3.2rem 1.4rem}
+.lx-grid{display:grid;grid-template-columns:6.4rem minmax(0,1fr);gap:0 2rem}
+.rail{position:relative}
+.rail .in{position:sticky;top:5rem;display:flex;flex-direction:column;gap:.5rem}
+.rail .n{font:300 4.4rem/.9 var(--f-display);color:color-mix(in srgb,var(--liver) 38%,transparent);letter-spacing:-.04em}
+.rail .tg{font:500 .62rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);writing-mode:vertical-rl;transform:rotate(180deg);align-self:flex-start;margin-left:.4rem}
+.lh{display:flex;flex-wrap:wrap;gap:.3rem 1.3rem;font:400 .66rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);padding-bottom:.6rem;border-bottom:1px dashed var(--line2);margin-bottom:1.1rem}
+.lh span:first-child{color:var(--liver)}
+.lc h2{font:420 clamp(1.8rem,3.8vw,2.7rem)/1.1 var(--f-display);letter-spacing:-.022em;margin:0 0 1rem;max-width:22ch;text-wrap:balance}
+.lc h3{font:450 1.35rem/1.25 var(--f-display);letter-spacing:-.012em;margin:2.1rem 0 .6rem}
+.lc h4{font:500 .72rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--hbv);margin:1.6rem 0 .5rem}
+.lc>*{max-width:44rem}
+.lc>.wide{max-width:none}
+.lede{font:400 1.2rem/1.6 var(--f-body);color:var(--ink2);margin:0 0 1.4rem}
+.c-hbv{color:var(--hbv)} .c-hcv{color:var(--liver)} .c-bile{color:var(--bile)} .c-green{color:var(--green)} .c-imm{color:var(--imm)}
+.hl{background:linear-gradient(transparent 62%,color-mix(in srgb,var(--bile) 30%,transparent) 62%)}
+ul.pts,ol.pts{padding-left:1.3rem;margin:0 0 1rem}
+ul.pts li,ol.pts li{margin:.35rem 0;padding-left:.2rem}
+ul.pts li::marker{color:var(--liver)}
+
+/* caixas */
+.box{--c:var(--hbv);border:1px solid color-mix(in srgb,var(--c) 40%,var(--line));border-left:4px solid var(--c);background:var(--sheet);border-radius:3px;padding:1rem 1.15rem .35rem;margin:1.4rem 0}
+.box::before{content:attr(data-label);display:block;font:500 .64rem var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--c);margin-bottom:.45rem}
+.box[data-kind="clinica"]{--c:var(--green)} .box[data-kind="atencao"]{--c:var(--liver)} .box[data-kind="prova"]{--c:var(--imm)} .box[data-kind="mecanismo"]{--c:var(--hbv)}
+.box[data-kind="conferir"]{--c:var(--bile);border-style:dashed;border-left-style:solid;background:var(--bile-soft)}
+.box p:last-child{margin-bottom:.7rem}
+.note{border-left:3px solid var(--hbv);padding:.1rem 0 .1rem .9rem;margin:1.1rem 0;font-size:.95rem;line-height:1.62;color:var(--ink2)}
+.note .k{display:block;font:500 .62rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--hbv);margin-bottom:.15rem}
+.note.check{border-left-color:var(--bile)} .note.check .k{color:var(--bile)}
+
+/* seções expansíveis */
+details.deep{border:1px solid var(--line2);border-radius:4px;background:var(--sheet);margin:1.2rem 0}
+details.deep>summary{list-style:none;cursor:pointer;padding:.85rem 1.1rem;display:flex;gap:.8rem;align-items:baseline;font:450 1.08rem/1.35 var(--f-display)}
+details.deep>summary::-webkit-details-marker{display:none}
+details.deep>summary::before{content:"+";font:500 1rem var(--f-mono);color:var(--liver);width:1rem;flex:none;transition:transform .2s}
+details.deep[open]>summary::before{content:"\2212"}
+details.deep>summary .lv{font:500 .6rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--liver);flex:none}
+details.deep>.in{padding:.2rem 1.1rem .5rem;border-top:1px dashed var(--line2)}
+details.deep>.in>:first-child{margin-top:1rem}
+details.deep details.deep{background:var(--paper);border-color:var(--line2);margin:1rem 0}
+details.deep details.deep>summary{font-size:1rem}
+details.deep details.deep>summary .lv{color:var(--imm)}
+details.deep details.deep>summary::before{color:var(--imm)}
+summary:focus-visible{outline:2px solid var(--liver)}
+
+/* cadeias (fluxos) */
+.chain{list-style:none;padding:0;margin:1.1rem 0 1.4rem;display:flex;flex-wrap:wrap;gap:.45rem .2rem;align-items:center;counter-reset:ch;max-width:none!important}
+.chain li{display:flex;align-items:center;gap:.2rem;margin:0;padding:0}
+.chain li:not(:last-child)::after{content:"\2192";font:400 1rem var(--f-mono);color:var(--ink2);margin-inline:.15rem}
+.chain .s{font:500 .76rem/1.3 var(--f-mono);padding:.42rem .65rem;border:1px solid var(--line2);border-radius:3px;background:var(--sheet);color:var(--ink)}
+.chain .s.h{border-color:var(--hbv);background:var(--hbv-soft)} .chain .s.l{border-color:var(--liver);background:var(--liver-soft)}
+.chain .s.b{border-color:var(--bile);background:var(--bile-soft)} .chain .s.g{border-color:var(--green);background:var(--green-soft)} .chain .s.v{border-color:var(--imm);background:var(--imm-soft)}
+.chain.vert{flex-direction:column;align-items:stretch;gap:0}
+.chain.vert li{display:block;position:relative;padding-left:1.1rem;border-left:2px solid var(--line2);padding-bottom:.9rem}
+.chain.vert li::after{content:none}
+.chain.vert li::before{content:"";position:absolute;left:-.36rem;top:.5rem;width:.7rem;height:.7rem;border-radius:50%;background:var(--paper);border:2px solid var(--liver)}
+.chain.vert .s{display:inline-block;margin-bottom:.25rem}
+.chain.vert p{margin:0;font-size:.95rem;line-height:1.6;color:var(--ink2)}
+
+/* cartas comparativas (duelo) */
+.duel{display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:.8rem;margin:1.2rem 0 1.4rem}
+.duel .d{background:var(--sheet);border:1px solid var(--line2);border-radius:4px;padding:.8rem .95rem .9rem}
+.duel .d>span{display:block;font:500 .62rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);margin-bottom:.45rem}
+.duel .d p{margin:0 0 .35rem;font-size:.9rem;line-height:1.45;display:grid;grid-template-columns:2.4rem minmax(0,1fr);gap:.4rem}
+.duel .d p:last-child{margin:0}
+.duel .d p i{font:500 .62rem var(--f-mono);font-style:normal;letter-spacing:.06em;padding-top:.2rem}
+.duel .d p i.b{color:var(--hbv)} .duel .d p i.c{color:var(--liver)}
+.meters{display:grid;gap:.7rem;margin:1.2rem 0}
+.meter{display:grid;grid-template-columns:9rem minmax(0,1fr) 3rem;gap:.8rem;align-items:center;font:400 .84rem var(--f-mono)}
+.meter .bar{height:.8rem;background:var(--line);border-radius:2px;overflow:hidden}
+.meter .bar i{display:block;height:100%;width:var(--w);background:var(--liver)}
+.meter b{text-align:right;color:var(--liver);font-weight:400}
+
+/* cartões de marcadores e fases */
+.fichas{display:grid;grid-template-columns:repeat(auto-fill,minmax(13.5rem,1fr));gap:.75rem;margin:1.2rem 0 1.5rem}
+.ficha{--c:var(--hbv);background:var(--sheet);border:1px solid var(--line2);border-top:3px solid var(--c);border-radius:3px;padding:.8rem .95rem .85rem}
+.ficha .k{display:block;font:500 .62rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--c);margin-bottom:.2rem}
+.ficha h5{font:450 1.05rem/1.25 var(--f-display);margin:0 0 .35rem}
+.ficha p{margin:0;font-size:.9rem;line-height:1.5;color:var(--ink2)}
+.ficha[data-c="l"]{--c:var(--liver)} .ficha[data-c="b"]{--c:var(--bile)} .ficha[data-c="g"]{--c:var(--green)} .ficha[data-c="v"]{--c:var(--imm)}
+.phases{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.6rem;margin:1.3rem 0}
+.ph{--c:var(--hbv);background:var(--sheet);border:1px solid var(--line2);border-radius:4px;padding:.8rem .75rem;display:flex;flex-direction:column;gap:.2rem;position:relative;overflow:hidden}
+.ph::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--c)}
+.ph .no{font:500 .62rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--c);margin-top:.2rem}
+.ph h5{font:450 .98rem/1.2 var(--f-display);margin:0 0 .4rem;min-height:2.4em}
+.ph .m{display:flex;justify-content:space-between;gap:.4rem;font:400 .7rem var(--f-mono);padding:.22rem 0;border-bottom:1px dotted var(--line)}
+.ph .m b{font-weight:400}
+.ph .p{color:var(--liver)} .ph .n{color:var(--ink2)} .ph .u{color:var(--bile)}
+.ph[data-p="1"]{--c:var(--hbv)} .ph[data-p="2"]{--c:var(--liver)} .ph[data-p="3"]{--c:var(--green)} .ph[data-p="4"]{--c:var(--bile)} .ph[data-p="5"]{--c:var(--imm)}
+.pn{display:grid;gap:.55rem}
+
+/* decodificador, curva e calculadora */
+.tool{background:var(--sheet);border:1px solid var(--line2);border-radius:5px;padding:1.2rem;margin:1.6rem 0}
+.tool-h{display:flex;flex-wrap:wrap;gap:.3rem 1rem;justify-content:space-between;align-items:baseline;margin-bottom:.9rem}
+.tool-h h3{margin:0!important;font:450 1.3rem var(--f-display)}
+.tool-h span{font:500 .62rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--liver)}
+.presets{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1rem}
+.presets .btn{font-size:.68rem;padding:.4rem .6rem}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(12.5rem,1fr));gap:.55rem;margin-bottom:1rem}
+.mk{border:1px solid var(--line2);border-radius:3px;padding:.5rem .6rem;background:var(--paper)}
+.mk>span{display:block;font:500 .64rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.35rem;color:var(--ink)}
+.seg{display:flex;border:1px solid var(--line2);border-radius:3px;overflow:hidden}
+.seg button{flex:1 1 0;font:500 .66rem var(--f-mono);padding:.4rem .2rem;background:var(--sheet);color:var(--ink2);border:0;border-right:1px solid var(--line2);cursor:pointer;min-width:0}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.seg button[aria-pressed="true"].pos{background:var(--liver);color:var(--on-liver)}
+.dout{border:1px solid var(--c,var(--hbv));border-left-width:5px;border-radius:3px;padding:1rem 1.15rem .4rem;background:var(--paper);--c:var(--hbv)}
+.dout .k{font:500 .62rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--c);margin:0 0 .2rem}
+.dout h4{font:450 1.5rem/1.2 var(--f-display)!important;letter-spacing:-.01em!important;text-transform:none!important;color:var(--ink)!important;margin:0 0 .6rem!important}
+.dout p{font-size:.97rem;line-height:1.62}
+.dout .nx{border-top:1px dashed var(--line2);padding-top:.7rem;margin-top:.3rem}
+.dout .nx i{font:500 .62rem var(--f-mono);font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--green);display:block;margin-bottom:.15rem}
+.dout[data-t="acute"]{--c:var(--bile)} .dout[data-t="chronic"]{--c:var(--hbv)} .dout[data-t="safe"]{--c:var(--green)} .dout[data-t="risk"]{--c:var(--liver)} .dout[data-t="odd"]{--c:var(--imm)}
+.kin svg{width:100%;height:auto;display:block;background:var(--paper);border:1px solid var(--line2);border-radius:3px}
+.kctl{display:grid;gap:.4rem;margin:.9rem 0}
+.kctl label{font:500 .74rem var(--f-mono);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.kctl output{color:var(--liver)}
+.kctl input[type=range]{width:100%;accent-color:var(--liver);margin:0}
+.klist{display:grid;grid-template-columns:repeat(auto-fill,minmax(10.5rem,1fr));gap:.4rem;margin:0;padding:0;list-style:none}
+.klist li{display:flex;align-items:center;gap:.5rem;font:400 .72rem var(--f-mono);padding:.35rem .5rem;border:1px solid var(--line);border-radius:3px;background:var(--paper)}
+.klist li i{width:.8rem;height:.8rem;border-radius:50%;flex:none;border:2px solid var(--c);background:transparent}
+.klist li[data-on="1"] i{background:var(--c)}
+.klist li[data-on="0"]{color:var(--ink2)}
+.kmsg{margin:.9rem 0 0;padding:.7rem .9rem;border:1px dashed var(--line2);border-radius:3px;font-size:.95rem;line-height:1.6}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(9.5rem,1fr));gap:.6rem;margin-bottom:1rem}
+.cgrid label{display:grid;gap:.25rem;font:500 .64rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.cgrid input{font:400 1rem var(--f-mono);padding:.5rem .6rem;border:1px solid var(--line2);background:var(--paper);color:var(--ink);border-radius:3px;width:100%;min-width:0}
+.cres{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.7rem}
+.cres>div{border:1px solid var(--line2);border-radius:3px;padding:.8rem 1rem;background:var(--paper)}
+.cres .v{font:420 2rem/1.1 var(--f-display);color:var(--liver)}
+.cres .l{font:500 .62rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+.cres p{margin:.4rem 0 0;font-size:.9rem;line-height:1.5}
+
+/* quiz */
+.quiz{background:var(--sheet);border:1px solid var(--line2);border-radius:5px;padding:1.3rem;display:grid;gap:1rem;max-width:48rem}
+.qtop{display:flex;justify-content:space-between;gap:1rem;font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);flex-wrap:wrap}
+.qbar{height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.qbar i{display:block;height:100%;background:var(--liver);width:0;transition:width .3s}
+.qq{font:420 1.22rem/1.45 var(--f-display);margin:0;text-wrap:pretty}
+.qcase{font:400 .98rem/1.65 var(--f-body);margin:0;padding:.8rem 1rem;border-left:3px solid var(--bile);background:var(--bile-soft)}
+.qopts{display:grid;gap:.5rem}
+.qopt{text-align:left;font:400 .98rem/1.5 var(--f-body);padding:.7rem .9rem;border:1px solid var(--line2);background:var(--paper);color:var(--ink);border-radius:3px;cursor:pointer}
+.qopt:hover:not(:disabled){border-color:var(--hbv)}
+.qopt:disabled{cursor:default}
+.qopt.right{border-color:var(--green);background:var(--green-soft)}
+.qopt.wrong{border-color:var(--liver);background:var(--liver-soft)}
+.qexp{margin:0;font-size:.97rem;line-height:1.62;padding:.8rem .9rem;border:1px dashed var(--line2);border-radius:3px}
+.qnav{display:flex;gap:.5rem;flex-wrap:wrap}
+.qres{display:grid;gap:.7rem}
+.qres ul{margin:0;padding-left:1.2rem;display:grid;gap:.4rem;font-size:.95rem}
+
+/* super-resumo e referências */
+.sumgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr));gap:.9rem;margin:1.3rem 0;max-width:none!important}
+.sg{background:var(--sheet);border:1px solid var(--line2);border-top:4px solid var(--c,var(--hbv));border-radius:3px;padding:.9rem 1.05rem .5rem}
+.sg h3{font:450 1.1rem/1.25 var(--f-display)!important;margin:0 0 .5rem!important}
+.sg ul{margin:0;padding-left:1.1rem;font-size:.92rem;line-height:1.55}
+.sg li{margin:.3rem 0}
+.sg.l{--c:var(--liver)} .sg.g{--c:var(--green)} .sg.b{--c:var(--bile)} .sg.v{--c:var(--imm)}
+.refs{list-style:none;padding:0;margin:1rem 0;display:grid;gap:.8rem;font-size:.92rem;line-height:1.55}
+.refs li{padding-left:1.4rem;text-indent:-1.4rem;overflow-wrap:anywhere}
+.foot{margin-top:2.4rem;font:400 .74rem/1.6 var(--f-mono);color:var(--ink2);border-top:1px dashed var(--line2);padding-top:1rem}
+
+/* barra de edição */
+.editbar{position:fixed;right:max(.9rem,env(safe-area-inset-right,0px));bottom:calc(.9rem + env(safe-area-inset-bottom,0px));z-index:50;display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;padding:.5rem;background:var(--sheet);border:1px solid var(--line2);border-radius:6px;box-shadow:0 8px 28px rgb(0 0 0 / .18);max-width:min(36rem,calc(100vw - 1.8rem))}
+.editbar .msg{font:400 .68rem/1.35 var(--f-mono);color:var(--ink2);max-width:15rem}
+.editbar .msg:empty{display:none}
+body.editing [data-ed]{outline:1px dashed var(--line2);outline-offset:3px;border-radius:2px}
+body.editing [data-ed]:hover,body.editing [data-ed]:focus{outline-color:var(--hbv)}
+body.editing [data-ed]:focus{background:var(--hbv-soft)}
+
+/* responsivo */
+@media (max-width:62rem){
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .lx-grid{grid-template-columns:minmax(0,1fr)}
+  .rail .in{position:static;flex-direction:row;align-items:baseline;gap:.9rem;margin-bottom:.4rem}
+  .rail .n{font-size:2.6rem}
+  .rail .tg{writing-mode:horizontal-tb;transform:none;margin:0}
+  .phases{grid-template-columns:repeat(5,minmax(11.5rem,1fr));overflow-x:auto;padding-bottom:.6rem;scroll-snap-type:x proximity}
+  .ph{scroll-snap-align:start}
+  .guide{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:40rem){
+  body{font-size:1rem;padding-bottom:7.5rem}
+  .brand span{display:none}
+  .meter{grid-template-columns:6.4rem minmax(0,1fr) 2.6rem}
+  .editbar{gap:.3rem;padding:.35rem;left:.9rem;right:.9rem}
+  .editbar .btn{flex:1 1 auto;font-size:.62rem;padding:.42rem .4rem;letter-spacing:0}
+  .editbar .msg{max-width:none;flex-basis:100%}
+  .lc h2{max-width:none}
+  .dgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tool{padding:.9rem}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#topo">Hepatites B e C<span>caderno de laudos</span></a>
+    <nav class="pnav" id="pnav" aria-label="Índice dos exames">
+      <a href="#s1">01 Dois vírus</a>
+      <a href="#s2">02 Imunidade</a>
+      <a href="#s3">03 Sorologia</a>
+      <a href="#s4">04 B aguda</a>
+      <a href="#s5">05 B crônica</a>
+      <a href="#s6">06 Tratamento</a>
+      <a href="#s7">07 Câncer</a>
+      <a href="#s8">08 Hepatite C</a>
+      <a href="#s9">09 Fora do fígado</a>
+      <a href="#rev">Revisão</a>
+      <a href="#resumo">Resumo</a>
+      <a href="#refs">Referências</a>
+    </nav>
+    <button class="btn" id="themebtn" type="button" aria-label="Alternar tema claro e escuro">Tema</button>
+  </div>
+</header>
+
+<main id="topo">
+<div class="wrap">
+  <section class="hero" aria-labelledby="h1t">
+    <div>
+      <p class="eyebrow" data-ed>Hepatologia · infectologia · virologia clínica</p>
+      <h1 id="h1t" data-ed>Dois vírus, dois destinos para o <em>hepatócito</em></h1>
+      <p class="sub" data-ed>A hepatite B escreve uma cópia de si no núcleo da célula e fica; a hepatite C vive no citoplasma e pode ser varrida do corpo. Quase tudo o que o slide ensina, da sorologia à cura, nasce dessa diferença.</p>
+      <ul class="tags" aria-label="Assuntos">
+        <li data-ed>cccDNA</li><li data-ed>sorologia do HBV</li><li data-ed>fases da hepatite B crônica</li><li data-ed>nucleos(t)ídeos</li><li data-ed>reativação</li><li data-ed>carcinoma hepatocelular</li><li data-ed>antivirais de ação direta</li><li data-ed>RVS12</li>
+      </ul>
+    </div>
+    <aside class="laudo" aria-label="Laudo de exemplo">
+      <h2 data-ed>Laudo didático · soro</h2>
+      <p class="pac" data-ed>Paciente fictício, 28 anos · ictérico há 5 dias</p>
+      <dl>
+        <div class="row"><dt>HBsAg</dt><dd class="pos">REAGENTE</dd></div>
+        <div class="row"><dt>Anti-HBc IgM</dt><dd class="pos">REAGENTE</dd></div>
+        <div class="row"><dt>Anti-HBs</dt><dd class="neg">NÃO REAGENTE</dd></div>
+        <div class="row"><dt>HBeAg</dt><dd class="pos">REAGENTE</dd></div>
+        <div class="row"><dt>HBV-DNA</dt><dd class="hi">4,2 milhões UI/mL</dd></div>
+        <div class="row"><dt>ALT (TGP)</dt><dd class="hi">1.850 U/L</dd></div>
+      </dl>
+      <p class="interp" data-ed>Replicação viral intensa e destruição imunomediada de hepatócitos: o desenho clássico da hepatite B aguda. O decodificador do exame 03 faz esse raciocínio com qualquer combinação.</p>
+      <span class="stamp">hepatite B aguda</span>
+    </aside>
+  </section>
+
+  <div class="guide">
+    <p data-ed><span class="k">Camadas de leitura</span>Cada exame começa pelo essencial. Os blocos com sinal de mais abrem a camada seguinte (mecanismo molecular, exceções, controvérsias) e alguns guardam uma terceira camada dentro.</p>
+    <p data-ed><span class="k">Notas do slide</span>Os quadros "No slide" resumem o que foi dito. Os quadros tracejados "Conferir" marcam onde o slide simplifica, se contradiz ou difere de diretriz. Nada foi atribuído ao professor além do que está escrito.</p>
+    <p data-ed><span class="k">Interativos e edição</span>Decodificador de sorologia, curva dos marcadores, calculadora de APRI e FIB-4 e revisão em casos. Eles não são editáveis; todo o resto é, pela barra no canto inferior direito.</p>
+  </div>
+</div>
+
+<!-- EXAME 01 -->
+<section class="lx" id="s1" aria-labelledby="s1t">
+  <div class="wrap lx-grid">
+    <aside class="rail"><div class="in"><span class="n">01</span><span class="tg">Virologia</span></div></aside>
+    <div class="lc">
+      <p class="lh" data-ed><span>Exame 01</span><span>Material: genoma e replicação</span><span>Método: comparar HBV e HCV</span></p>
+      <h2 id="s1t" data-ed>Duas formas de existir dentro do hepatócito</h2>
+      <p class="lede" data-ed>O slide abre dizendo que o HBV é um vírus de DNA e que isso define "praticamente todo o comportamento clínico". É uma frase curta com muito dentro. Vamos desembrulhá-la.</p>
+
+      <p data-ed>Um vírus de DNA que chega ao núcleo encontra ali a mesma maquinaria que a célula usa para ler os próprios genes. O DNA viral pode se comportar como um minicromossomo, e enquanto o hepatócito viver o molde continua disponível: sempre que a célula precisar "ler" o vírus, ela lê. O HCV é o oposto. Seu genoma é RNA e se multiplica no citoplasma, sobre membranas do retículo endoplasmático. Não existe nenhuma cópia em DNA que sobreviva: se a replicação para, o RNA é degradado e o vírus deixa de existir naquela célula.</p>
+      <p data-ed>Daí uma consequência que organiza o resto do material. Contra o HCV, basta bloquear a replicação por tempo suficiente e o vírus some (cura). Contra o HBV, os fármacos bloqueiam a replicação, mas o molde nuclear continua guardado, e por isso o objetivo realista é a supressão prolongada, e só raramente a cura.</p>
+
+      <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+        <p data-ed>O slide diz que a integração do HBV ao genoma "ocorre principalmente através do cccDNA". Os livros-texto separam duas coisas diferentes. O cccDNA é um DNA circular que fica livre no núcleo, associado a histonas (um epissomo), e não está integrado. A integração é outro fenômeno: pedaços de DNA viral linear se inserem em quebras do cromossomo da célula. Os dois persistem e os dois importam, mas por razões distintas: o cccDNA é o molde da replicação e a integração é um dos mecanismos de carcinogênese.</p>
+      </div>
+
+      <h3 data-ed>O quadro comparativo do slide, em cartas</h3>
+      <p data-ed>O slide traz uma tabela comparando as duas infecções. Aqui ela virou cartas, uma por característica, com um comentário sobre o que cada linha realmente quer dizer.</p>
+      <div class="duel wide" role="list">
+        <div class="d" role="listitem"><span>Genoma</span><p data-ed><i class="b">HBV</i>DNA parcialmente dupla fita, 3,2 kb, um dos menores genomas de vírus humano.</p><p data-ed><i class="c">HCV</i>RNA fita simples positiva, 9,6 kb, um único quadro de leitura.</p></div>
+        <div class="d" role="listitem"><span>Integração</span><p data-ed><i class="b">HBV</i>Sim: oncogênese insercional.</p><p data-ed><i class="c">HCV</i>Não: replica só no citoplasma.</p></div>
+        <div class="d" role="listitem"><span>Reservatório</span><p data-ed><i class="b">HBV</i>cccDNA nuclear, que dura décadas.</p><p data-ed><i class="c">HCV</i>Nenhum: RNA de vida curta.</p></div>
+        <div class="d" role="listitem"><span>Escape imune</span><p data-ed><i class="b">HBV</i>Excesso de HBsAg; HBx degrada o complexo Smc5/6.</p><p data-ed><i class="c">HCV</i>Mutações rápidas nos epítopos.</p></div>
+        <div class="d" role="listitem"><span>Vacina</span><p data-ed><i class="b">HBV</i>Sim, eficácia acima de 95%.</p><p data-ed><i class="c">HCV</i>Não existe.</p></div>
+        <div class="d" role="listitem"><span>Clearance espontâneo</span><p data-ed><i class="b">HBV</i>Ver o quadro abaixo: o slide traz um número que contradiz outra página.</p><p data-ed><i class="c">HCV</i>Cerca de 25% (15% a 45%).</p></div>
+        <div class="d" role="listitem"><span>Cura com tratamento</span><p data-ed><i class="b">HBV</i>Rara: supressão com análogos; cura funcional.</p><p data-ed><i class="c">HCV</i>Mais de 95% com antivirais de ação direta.</p></div>
+      </div>
+      <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+        <p data-ed>Na carta do clearance, o slide escreve para o HBV "menos de 25% na fase aguda; raro na crônica". Em outra página, o próprio slide diz que mais de 95% dos adultos curam espontaneamente a hepatite B aguda. As duas coisas não podem estar certas. O dado de livro-texto é o segundo: em adultos imunocompetentes, a hepatite B aguda se resolve em mais de 90% a 95% dos casos. É provável que o número da tabela se refira à cura espontânea da infecção crônica ou tenha sido digitado errado. Pergunte ao professor antes de decorar.</p>
+      </div>
+
+      <div class="box" data-kind="clinica" data-label="Na prática clínica">
+        <p data-ed>Ninguém diz que uma hepatite B "curou" só porque a carga viral zerou. O HBsAg pode desaparecer, o HBV-DNA ficar indetectável, e ainda existir cccDNA dentro do núcleo. Por isso a literatura fala em "cura funcional" (HBsAg negativo, DNA indetectável) e distingue de "cura esterilizante" (eliminação de todo o DNA viral), que ainda não é alcançável. Se esse paciente receber rituximabe ou quimioterapia, o vírus pode reativar. É a mesma lógica que dá sentido a tudo o que vem nos exames 05 e 06.</p>
+      </div>
+
+      <details class="deep">
+        <summary data-ed><span class="lv">Aprofunde-se</span>O ciclo do HBV, etapa por etapa, e onde cada fármaco atua</summary>
+        <div class="in">
+          <p data-ed>O HBV é um vírus de DNA que se replica por um intermediário de RNA, com transcrição reversa, e por isso é classificado como um pararretrovírus. Essa característica explica por que os fármacos que funcionam contra ele são análogos de nucleosídeos, os mesmos que existem para a transcriptase reversa do HIV. A sequência abaixo vem de Robbins e Harrison, e é o esqueleto para entender quase tudo.</p>
+          <ol class="chain vert" aria-label="Ciclo do HBV">
+            <li data-ed><span class="s h">1 · Entrada</span><p data-ed>As proteínas do envelope (as de superfície, HBsAg) ligam-se a proteoglicanos de heparan sulfato e depois ao receptor NTCP, um transportador de ácidos biliares da membrana basolateral do hepatócito (Yan et al., 2012). Isso explica o tropismo pelo fígado: o vírus usa uma porta que só o hepatócito tem em quantidade. O bulevirtide, usado na hepatite D, bloqueia exatamente essa porta.</p></li>
+            <li data-ed><span class="s h">2 · Chegada ao núcleo</span><p data-ed>O nucleocapsídeo é transportado até o poro nuclear e libera o genoma. O genoma entregue é o DNA circular relaxado (rcDNA), parcialmente dupla fita, com uma das fitas incompleta.</p></li>
+            <li data-ed><span class="s h">3 · Formação do cccDNA</span><p data-ed>Enzimas de reparo da própria célula completam a fita, removem a proteína ligada à ponta e fecham o círculo covalentemente. O resultado, o cccDNA, se enrola em histonas como um minicromossomo. Nenhuma enzima viral participa dessa etapa, e é por isso que nenhum antiviral atual a bloqueia.</p></li>
+            <li data-ed><span class="s h">4 · Transcrição</span><p data-ed>A RNA polimerase II da célula lê o cccDNA e produz o RNA pré-genômico (pgRNA) e vários RNAs menores, que codificam as proteínas de superfície (HBsAg), a proteína X (HBx), a proteína do core, a polimerase e a forma secretada, o HBeAg.</p></li>
+            <li data-ed><span class="s h">5 · Encapsidação</span><p data-ed>O pgRNA e a polimerase viral são capturados por proteínas do core, que se organizam em um capsídeo.</p></li>
+            <li data-ed><span class="s l">6 · Transcrição reversa</span><p data-ed>Dentro do capsídeo, a polimerase viral copia o pgRNA em DNA, degrada o molde e sintetiza a segunda fita de modo incompleto, formando de novo o rcDNA. Esta é a etapa em que atuam entecavir, tenofovir e lamivudina: eles são incorporados no DNA nascente e interrompem a cadeia.</p></li>
+            <li data-ed><span class="s b">7 · Reciclagem ou saída</span><p data-ed>O capsídeo maduro tem dois destinos. Pode voltar ao núcleo e liberar novo rcDNA, reabastecendo o estoque de cccDNA sem infectar outra célula. Ou pode receber o envelope no retículo e ser secretado como vírion. A reciclagem é a razão de o cccDNA ser mantido mesmo com a célula "fechada" a novas infecções.</p></li>
+            <li data-ed><span class="s v">8 · Partículas subvirais</span><p data-ed>O fígado secreta HBsAg em quantidade muito maior que a de vírions, na forma de esferas e filamentos vazios (1.000 a 10.000 vezes mais). Elas funcionam como isca para anticorpos neutralizantes e, em exposição prolongada, contribuem para a exaustão de linfócitos T.</p></li>
+          </ol>
+          <p data-ed>Resumo para guardar: os análogos atuam na etapa 6, reduzem a produção de novo rcDNA e, com isso, com o tempo, o reabastecimento do cccDNA. Só que o cccDNA que já existe continua transcrevendo HBsAg, e é por isso que o HBsAg cai tão devagar com o tratamento.</p>
+
+          <details class="deep">
+            <summary data-ed><span class="lv">Nível 3</span>HBx, o complexo Smc5/6 e o que o slide chama de "escape imune"</summary>
+            <div class="in">
+              <p data-ed>O complexo Smc5/6 é uma maquinaria da célula que se liga a DNA epissomal e reprime sua transcrição, como uma defesa contra DNA estranho. A proteína HBx recruta uma ligase de ubiquitina (DDB1-CUL4) e leva o Smc5/6 à degradação, o que libera o cccDNA para transcrição (Decorsière et al., 2016). Sem HBx, o vírus fica "silenciado" na célula, e esse é um dos alvos de pesquisa para silenciar o cccDNA.</p>
+              <p data-ed>O slide também cita que o excesso de HBsAg "bloqueia o NF-κB". O que se sabe de forma consolidada é que o HBV é um vírus que dispara pouca resposta inata (às vezes descrito como "stealth") e que diferentes proteínas virais atenuam vias de sinalização em modelos experimentais. Trate o mecanismo específico do slide como uma hipótese de revisões e não como um fato fechado.</p>
+              <p data-ed>Integração: eventualmente o vírus produz DNA linear em vez de rcDNA. Esse DNA linear pode ser inserido em quebras de dupla fita do cromossomo. O DNA integrado não gera novas partículas (perdeu o sítio de início da replicação), mas continua produzindo HBsAg e, às vezes, uma HBx truncada. Em fases em que o cccDNA é pouco ativo, boa parte do HBsAg sérico vem de DNA integrado. Esse detalhe será útil quando discutirmos o qHBsAg.</p>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <details class="deep">
+        <summary data-ed><span class="lv">Aprofunde-se</span>O HCV: um RNA que vira uma poliproteína, e por que o nome dos fármacos termina em previr, asvir e buvir</summary>
+        <div class="in">
+          <p data-ed>O HCV (família Flaviviridae, gênero Hepacivirus) tem um genoma de RNA de fita simples com polaridade positiva, ou seja, pode servir diretamente de mRNA. A célula traduz tudo de uma vez, em uma única poliproteína, que é cortada por proteases (celulares e viral) em dez proteínas: as estruturais (core, E1, E2), o canal p7 e as não estruturais (NS2, NS3, NS4A, NS4B, NS5A, NS5B).</p>
+          <ol class="chain" aria-label="Proteínas do HCV que são alvo de fármacos">
+            <li data-ed><span class="s l">NS3/4A · protease</span></li>
+            <li data-ed><span class="s v">NS5A · replicação e montagem</span></li>
+            <li data-ed><span class="s h">NS5B · RNA polimerase</span></li>
+          </ol>
+          <p data-ed>Cada uma dessas três proteínas é alvo de uma classe de antivirais de ação direta (DAA): os inibidores da protease NS3/4A terminam em "previr" (glecaprevir, voxilaprevir), os inibidores da NS5A em "asvir" (daclatasvir, velpatasvir, pibrentasvir) e os análogos nucleotídicos inibidores da NS5B em "buvir" (sofosbuvir). Quando você vê o nome de um esquema, ele diz imediatamente em que etapa do ciclo atua.</p>
+          <p data-ed>A replicação acontece em estruturas de membrana derivadas do retículo endoplasmático, a "rede membranosa". A NS5B copia a fita positiva em fita negativa, que serve de molde para dezenas de novas fitas positivas. A NS5B não tem atividade de revisão, o que gera cerca de uma mutação por genoma a cada ciclo, e como uma pessoa não tratada produz da ordem de 10 elevado a 12 vírions por dia, cada paciente carrega uma nuvem de variantes (quasispécie). Essa variabilidade é o que a imunidade tenta e não consegue acompanhar.</p>
+          <p data-ed>A entrada depende de CD81, receptor SR-B1, claudina-1 e ocludina. O HCV circula associado a lipoproteínas (partículas lipoviroviais), o que o liga ao metabolismo lipídico: o genótipo 3, por exemplo, causa esteatose diretamente, e a infecção crônica se associa a resistência insulínica.</p>
+
+          <details class="deep">
+            <summary data-ed><span class="lv">Nível 3</span>Sem reservatório, mas ainda assim crônico: como o HCV escapa</summary>
+            <div class="in">
+              <p data-ed>"Sem reservatório" não significa que a infecção seja fácil de eliminar sozinho. Significa que, bloqueada a replicação, nada guarda o vírus. Por isso a cura com DAA é possível. O que torna a infecção natural crônica em 75% dos casos é um conjunto de escapes imunes:</p>
+              <ul class="pts">
+                <li data-ed>A protease NS3/4A cliva MAVS e TRIF, adaptadores essenciais da sinalização de RIG-I e TLR3, e com isso atenua a produção de interferon tipo I logo na célula infectada.</li>
+                <li data-ed>A região hipervariável 1 da E2 muda rapidamente e foge dos anticorpos neutralizantes, o que também explica a ausência de vacina.</li>
+                <li data-ed>Mutações em epítopos de células T CD8 permitem escapar da citotoxicidade; a pressão seletiva do HLA do paciente molda o vírus.</li>
+                <li data-ed>Exposição prolongada ao antígeno leva à exaustão dos linfócitos T, com PD-1, TIM-3 e outros receptores inibitórios (detalhado no exame 02).</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <div class="note"><span class="k">No slide</span>HBV: DNA, integração, cccDNA como "arquivo viral", cura funcional, tratamentos em desenvolvimento (CRISPR/Cas9, RNAi, epigenética, inibidores de capsídeo). HCV: RNA, sem integração, alta taxa de mutação, cura possível.</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAME 02 -->
+<section class="lx" id="s2" aria-labelledby="s2t">
+  <div class="wrap lx-grid">
+    <aside class="rail"><div class="in"><span class="n">02</span><span class="tg">Imunologia</span></div></aside>
+    <div class="lc">
+      <p class="lh" data-ed><span>Exame 02</span><span>Material: resposta imune</span><span>Método: relacionar resposta e desfecho</span></p>
+      <h2 id="s2t" data-ed>Quem cura, quem cronifica, e por que a lesão vem do sistema imune</h2>
+      <p class="lede" data-ed>Os vírus das hepatites B e C não matam o hepatócito diretamente, na maior parte do tempo. Quem mata é o linfócito T que reconhece a célula infectada. Se você guardar só uma ideia deste exame, que seja esta.</p>
+
+      <p data-ed>Pense numa praça onde há muitos furtos e nenhum policial: há crime, mas não há confusão. Quando o policial chega, aparecem tumulto, sirene e feridos, e é isso que resolve o problema. Na hepatite B ocorre algo parecido. Na fase imunotolerante, o vírus se multiplica em quantidade enorme e a TGP é normal, porque o sistema imune não "enxerga" o vírus. A hepatite aguda com TGP em milhares é a polícia chegando: há destruição de hepatócitos infectados, e é essa a destruição que elimina o vírus. A TGP, portanto, mede atividade imune contra o fígado, e não quantidade de vírus.</p>
+      <ol class="chain" aria-label="Da resposta imune ao desfecho">
+        <li data-ed><span class="s h">Vírus detectado</span></li>
+        <li data-ed><span class="s v">Linfócitos T CD4 Th1 e CD8 ativados</span></li>
+        <li data-ed><span class="s b">IFN-γ, IL-2, citotoxicidade</span></li>
+        <li data-ed><span class="s l">Lise de hepatócitos: TGP muito alta, icterícia</span></li>
+        <li data-ed><span class="s g">Eliminação do vírus: cura</span></li>
+      </ol>
+
+      <h3 data-ed>Idade e risco de cronificação na hepatite B</h3>
+      <p data-ed>O slide traz três números que valem decorar, e o mecanismo é o mesmo nos três.</p>
+      <div class="meters wide" role="list" aria-label="Risco de cronificação da hepatite B por idade">
+        <div class="meter" role="listitem"><span>Recém-nascidos</span><span class="bar"><i style="--w:90%"></i></span><b>90%</b></div>
+        <div class="meter" role="listitem"><span>Crianças menores de 5 anos</span><span class="bar"><i style="--w:30%"></i></span><b>30%</b></div>
+        <div class="meter" role="listitem"><span>Adultos</span><span class="bar"><i style="--w:5%"></i></span><b>5%</b></div>
+      </div>
+      <p data-ed>Quanto mais imaturo o sistema imune, menor a inflamação e maior a chance de o vírus ficar. O recém-nascido infectado no parto é quase sempre assintomático: sem resposta inflamatória, o vírus não é eliminado. O adulto que fica ictérico, com TGP acima de 1.000, é o que se cura. É o paradoxo clínico mais cobrado: <span class="hl">quanto mais sintomática a hepatite aguda, maior a chance de cura</span>. A exceção ao paradoxo é a hepatite fulminante (menos de 1% dos casos de hepatite B aguda), em que a resposta é tão intensa que causa falência hepática. A mesma resposta que cura pode matar.</p>
+
+      <div class="box" data-kind="prova" data-label="Cai em prova">
+        <p data-ed>Hepatite aguda sintomática, com icterícia: mais cura. Hepatite aguda assintomática: mais cronificação. Vale para a B e para a C. Por isso, na hepatite C, a imensa maioria dos casos agudos passa despercebida e uma proporção grande evolui para cronicidade.</p>
+      </div>
+
+      <details class="deep">
+        <summary data-ed><span class="lv">Aprofunde-se</span>Por que o recém-nascido tolera o HBV</summary>
+        <div class="in">
+          <p data-ed>Três fatores se somam. Primeiro, o HBeAg é uma proteína pequena e secretada, que atravessa a placenta. Em modelos experimentais, ele pode induzir tolerância em linfócitos T do feto contra antígenos do core, que compartilham sequências com ele, o que reduz a capacidade de reconhecer o vírus depois. Segundo, o sistema imune do neonato é imaturo, com menor produção de citocinas inflamatórias. Terceiro, o fígado é um órgão naturalmente tolerogênico: recebe pelo sistema porta antígenos alimentares e bacterianos o tempo todo, e suas células de Kupffer, as células endoteliais sinusoidais e os linfócitos T reguladores favorecem tolerância em vez de ataque.</p>
+          <p data-ed>É por isso que a vacina e a imunoglobulina nas primeiras horas de vida são tão eficazes: elas impedem que o vírus e o sistema imune imaturo "se acostumem" um com o outro.</p>
+
+          <details class="deep">
+            <summary data-ed><span class="lv">Nível 3</span>Exaustão de linfócitos T: PD-1, TIM-3 e a perda progressiva de funções</summary>
+            <div class="in">
+              <p data-ed>Com estimulação antigênica persistente, os linfócitos T CD8 específicos perdem funções em ordem: primeiro a produção de IL-2 e a capacidade de proliferar, depois TNF, e por fim IFN-γ e citotoxicidade. Ao mesmo tempo, expressam receptores inibitórios, como PD-1, TIM-3, LAG-3 e CTLA-4. Na hepatite B crônica, a enorme quantidade de HBsAg circulante é um dos fatores sugeridos para esse quadro. Na hepatite C, a persistência do vírus por décadas leva ao mesmo fim.</p>
+              <p data-ed>A relevância clínica é dupla. Primeiro, explica por que o paciente "tolera" o vírus mesmo com tantas células específicas: elas estão presentes, porém sem função. Segundo, abre a ideia de que bloquear PD-1 e outros receptores poderia restaurar a função, o que é testado em ensaios clínicos de cura funcional da hepatite B. Há estudos sugerindo que mesmo depois da cura da hepatite C com DAA parte do perfil exausto persiste, o que é uma área ativa de pesquisa.</p>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <h3 data-ed>Clearance espontâneo da hepatite C</h3>
+      <p data-ed>Cerca de 25% (de 15% a 45%) dos infectados eliminam o HCV na fase aguda. Os fatores associados, listados no slide, são sexo feminino, idade jovem, genótipo favorável do IL28B e hepatite aguda sintomática com icterícia. O fio comum é o mesmo: uma resposta Th1 e CD8 vigorosa, com produção de IFN-γ e IL-2, reconhece e destrói as células infectadas.</p>
+      <details class="deep">
+        <summary data-ed><span class="lv">Aprofunde-se</span>IL28B (IFNL3) e a genética do clearance</summary>
+        <div class="in">
+          <p data-ed>Polimorfismos próximos ao gene IFNL3, que codifica o interferon lambda 3 (antigo IL28B), formam o melhor preditor genético conhecido tanto do clearance espontâneo quanto da resposta ao interferon. O alelo "favorável" é o genótipo CC do polimorfismo rs12979860 (Thomas et al., 2009). O mecanismo exato ainda é debatido: o interferon lambda atua em hepatócitos, e variantes de expressão diferente modulariam a "preparação" do fígado para a resposta imune. Na era dos DAA, esse polimorfismo perdeu importância terapêutica, mas continua valendo como exemplo de por que a evolução da infecção aguda varia tanto entre pessoas.</p>
+        </div>
+      </details>
+      <div class="box" data-kind="clinica" data-label="Na prática clínica">
+        <p data-ed>O slide lembra, com a ironia do professor, que a hepatite C aguda é raríssima de diagnosticar porque cerca de 80% dos casos são assintomáticos. Quando o paciente chega, muitas vezes já é crônico. O que se faz com essa informação é elevar a suspeita em exposição recente de risco, como compartilhar seringas, e pedir HCV-RNA mesmo com anti-HCV negativo (exame 08).</p>
+      </div>
+      <div class="note"><span class="k">No slide</span>Intensidade da inflamação e chance de cura, recém-nascidos com cronificação alta, clearance espontâneo da hepatite C (IL28B, Th1, CD8, exaustão com PD-1 e TIM-3, mutação de epítopos).</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAME 03 -->
+<section class="lx" id="s3" aria-labelledby="s3t">
+  <div class="wrap lx-grid">
+    <aside class="rail"><div class="in"><span class="n">03</span><span class="tg">Sorologia</span></div></aside>
+    <div class="lc">
+      <p class="lh" data-ed><span>Exame 03</span><span>Material: soro</span><span>Método: antígeno × anticorpo</span></p>
+      <h2 id="s3t" data-ed>O que cada marcador enxerga, e como ler o laudo inteiro</h2>
+      <p class="lede" data-ed>A sorologia da hepatite B é um laudo escrito em código. Aprender o código se resume a duas perguntas, nessa ordem: houve contato com o vírus? E o vírus ainda está aqui?</p>
+
+      <p data-ed>O princípio que o slide enuncia é a espinha dorsal: antígeno significa presença de estrutura viral, e anticorpo significa resposta contra o vírus. Mas há dois tipos de anticorpo. Os neutralizantes se ligam ao antígeno e o bloqueiam, de modo que, em geral, antígeno e anticorpo correspondente não coexistem por muito tempo. Na hepatite B, os neutralizantes são o anti-HBs (contra o HBsAg) e o anti-HBe (contra o HBeAg). O anti-HBc não é neutralizante, porque o antígeno do core fica dentro do envelope e não está acessível ao anticorpo: ele sinaliza contato, mas não protege.</p>
+
+      <h3 data-ed>Os oito analitos do laudo</h3>
+      <div class="fichas wide">
+        <div class="ficha" data-c="l"><span class="k">HBsAg</span><h5>Antígeno de superfície</h5><p data-ed>Proteína do envelope, presente em vírions e em partículas vazias. Positivo = há vírus B no organismo, sem dizer se está ativo. Positivo por mais de 6 meses = infecção crônica.</p></div>
+        <div class="ficha" data-c="g"><span class="k">Anti-HBs</span><h5>Imunidade</h5><p data-ed>Anticorpo neutralizante contra o HBsAg. Pode vir de vacina ou de resolução natural. Título protetor: 10 mUI/mL ou mais.</p></div>
+        <div class="ficha" data-c="b"><span class="k">HBeAg</span><h5>Antígeno e de replicação</h5><p data-ed>Proteína solúvel derivada da região pré-core/core. Positivo = replicação intensa e alta infectividade. Não é necessário para o vírus se replicar.</p></div>
+        <div class="ficha" data-c="v"><span class="k">Anti-HBe</span><h5>Controle da replicação</h5><p data-ed>Anticorpo contra o HBeAg. Sugere controle da replicação (soroconversão), mas não significa cura: o vírus ainda pode estar no organismo.</p></div>
+        <div class="ficha"><span class="k">Anti-HBc total</span><h5>Contato com o vírus</h5><p data-ed>Marcador de contato prévio ou atual. Fica positivo para sempre. Vacinados não o produzem, porque a vacina não contém core.</p></div>
+        <div class="ficha" data-c="b"><span class="k">Anti-HBc IgM</span><h5>Fase aguda recente</h5><p data-ed>Fração IgM do anticorpo anti-core. Positivo = hepatite B aguda recente. Pode reaparecer em títulos baixos nos flares da hepatite crônica (ver abaixo).</p></div>
+        <div class="ficha" data-c="l"><span class="k">HBV-DNA</span><h5>Carga viral</h5><p data-ed>Teste molecular que mede o vírus circulante. Avalia replicação, atividade virológica e resposta ao tratamento. Baixa abaixo de 2.000 UI/mL, zona cinzenta de 2.000 a 20.000, alta acima de 20.000.</p></div>
+        <div class="ficha" data-c="g"><span class="k">ALT (TGP)</span><h5>Lesão do hepatócito</h5><p data-ed>Enzima citosólica que vaza quando o hepatócito é lesado. Não é marcador do vírus, e sim da resposta imune contra as células infectadas.</p></div>
+      </div>
+
+      <div class="box" data-kind="mecanismo" data-label="Por que não existe HBcAg no soro">
+        <p data-ed>O antígeno do core fica no interior do capsídeo, coberto pelo envelope. Em um soro normal, o HBcAg quase não é detectável. Por isso o laudo traz o anticorpo contra ele (anti-HBc) e não o antígeno. E por isso mesmo quem foi apenas vacinado, com uma vacina que contém só a proteína HBsAg, nunca terá anti-HBc: nunca viu um capsídeo.</p>
+      </div>
+
+      <div class="tool wide" id="dec-tool" aria-labelledby="dect">
+        <div class="tool-h"><h3 id="dect" data-ed>Decodificador de sorologia da hepatite B</h3><span>interativo</span></div>
+        <p style="max-width:44rem" data-ed>Monte o laudo marcador por marcador, ou carregue um perfil pronto. A interpretação mostra o raciocínio e, quando o conjunto é incoerente, diz por quê.</p>
+        <div id="dec" data-dyn></div>
+      </div>
+
+      <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+        <p data-ed>O slide diz que se o anti-HBs está positivo o HBsAg tende a estar ausente, e que "um praticamente exclui o outro". Como regra de bolso funciona, mas não é absoluta. A coexistência existe: na fase de transição da hepatite aguda para a cura, em portadores crônicos com imunocomplexos ou com mutantes de escape do HBsAg, e brevemente após vacinação recente (HBsAg falso-positivo transitório). A mesma ressalva vale para HBeAg e anti-HBe, que coexistem por semanas ao redor da soroconversão. Se você encontrar os dois positivos, repita o exame e peça HBV-DNA.</p>
+      </div>
+
+      <h3 data-ed>Os perfis que você precisa reconhecer de relance</h3>
+      <div class="fichas wide">
+        <div class="ficha" data-c="g"><span class="k">Perfil vacinal</span><h5>Anti-HBs positivo, anti-HBc negativo</h5><p data-ed>Nunca teve contato com o vírus, apenas recebeu a vacina. É o único perfil em que anti-HBs positivo vem sozinho.</p></div>
+        <div class="ficha" data-c="g"><span class="k">Infecção passada resolvida</span><h5>HBsAg negativo, anti-HBs positivo, anti-HBc positivo</h5><p data-ed>Teve contato, eliminou o vírus circulante e desenvolveu imunidade natural. O cccDNA pode persistir em nível mínimo, de modo que ainda há risco de reativação sob imunossupressão grave.</p></div>
+        <div class="ficha" data-c="b"><span class="k">Hepatite B aguda</span><h5>HBsAg positivo, anti-HBc IgM positivo</h5><p data-ed>HBeAg frequentemente positivo e HBV-DNA alto: infecção recente com replicação intensa.</p></div>
+        <div class="ficha" data-c="l"><span class="k">Anti-HBc isolado</span><h5>Só o anti-HBc positivo</h5><p data-ed>HBsAg e anti-HBs negativos. O slide atribui o perfil ao controle por imunidade celular; na verdade há mais de uma explicação (ver o quadro abaixo).</p></div>
+      </div>
+
+      <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+        <p data-ed>O slide explica o anti-HBc isolado pela ausência de resposta humoral, com o controle feito por linfócitos T. É uma das explicações possíveis, não a única. As causas clássicas são quatro. Uma é a janela imunológica da hepatite aguda, quando o HBsAg já sumiu e o anti-HBs ainda não surgiu (aí o IgM costuma estar positivo). Outra é infecção antiga com queda do anti-HBs a níveis indetectáveis, que é a causa mais comum em regiões de alta prevalência. A terceira é infecção oculta (HBsAg negativo com HBV-DNA detectável no fígado ou no soro). A quarta é resultado falso-positivo, que se suspeita quando o título é baixo e não há fator de risco. A conduta prática é pedir HBV-DNA e considerar uma dose de vacina para ver se há resposta anamnéstica.</p>
+      </div>
+
+      <details class="deep">
+        <summary data-ed><span class="lv">Aprofunde-se</span>Infecção oculta pelo HBV e mutantes de escape do HBsAg</summary>
+        <div class="in">
+          <p data-ed>A infecção oculta (OBI, do inglês occult B infection) é definida por HBV-DNA detectável no fígado, e muitas vezes no soro em níveis baixos (em geral abaixo de 200 UI/mL), com HBsAg negativo. Há dois mecanismos principais. Em um deles o cccDNA existe, mas sua transcrição é mantida muito baixa pelo controle imune, e o HBsAg produzido fica abaixo do limite de detecção. No outro, o gene S carrega mutações que alteram a conformação do determinante "a" do HBsAg, e os testes comerciais não o reconhecem. Clinicamente, a OBI importa em transplante de fígado (o enxerto de um doador anti-HBc positivo pode transmitir o vírus), em transfusão e na reativação sob imunossupressão.</p>
+          <p data-ed>Os mutantes de escape do HBsAg, o mais conhecido é o G145R, surgem em crianças vacinadas, em portadores tratados com imunoglobulina e em outros contextos de pressão imune. Eles escapam do anticorpo neutralizante porque a região "a" alterada deixa de ser reconhecida pelo anti-HBs, o que ajuda a explicar casos raros de infecção em vacinados com anti-HBs protetor.</p>
+
+          <details class="deep">
+            <summary data-ed><span class="lv">Nível 3</span>Por que o reforço da vacina resolve o "anti-HBs negativo depois de 10 anos"</summary>
+            <div class="in">
+              <p data-ed>Nas pessoas que completaram a série vacinal, a concentração de anti-HBs cai com os anos, podendo ficar abaixo de 10 mUI/mL. Isso não significa perda da proteção. A memória imunológica (linfócitos B e T de memória específicos) permanece, e em caso de exposição ocorre uma resposta anamnéstica rápida, antes que a doença se instale. O período de incubação longo da hepatite B dá esse tempo.</p>
+              <p data-ed>A conduta descrita no slide é um teste funcional dessa memória: aplicar uma dose de reforço e dosar o anti-HBs cerca de 30 dias depois. Se subiu acima do limiar, a memória está intacta e não é preciso refazer a série; se não subiu, completa-se o esquema. Em imunocompetentes com série completa, a vigilância não é rotina; ela se aplica a profissionais de saúde, pacientes em diálise e imunossuprimidos, em quem a concentração de anticorpos pode ser decisiva.</p>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <h3 data-ed>A sequência no tempo</h3>
+      <p data-ed>As curvas abaixo mostram como cada marcador aparece e some em uma hepatite B aguda que cura e em uma que cronifica. As formas são esquemáticas, no estilo das figuras de Robbins e de Harrison, e não dados medidos. Arraste a semana e veja o estado de cada marcador, em particular o intervalo conhecido como janela imunológica.</p>
+      <div class="tool wide" aria-labelledby="kint">
+        <div class="tool-h"><h3 id="kint" data-ed>Curva dos marcadores</h3><span>interativo</span></div>
+        <div id="kin" class="kin" data-dyn></div>
+      </div>
+
+      <div class="note"><span class="k">No slide</span>Princípio antígeno × anticorpo; HBsAg, HBeAg, anti-HBe, anti-HBs, anti-HBc (total e IgM), HBV-DNA; perfis vacinal, curado, agudo, crônico ativo, portador inativo, anti-HBc isolado; reforço de vacina após 10 anos.</div>
+      <div class="note check"><span class="k">Conferir</span>O slide diz que o anti-HBc IgM indica hepatite aguda recente. Em geral é verdade, mas o IgM pode reaparecer, em título baixo, nos flares de hepatite crônica. Nesses casos, o título costuma ser menor e a história (HBsAg conhecido há mais de 6 meses) ajuda a diferenciar.</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAME 04 -->
+<section class="lx" id="s4" aria-labelledby="s4t">
+  <div class="wrap lx-grid">
+    <aside class="rail"><div class="in"><span class="n">04</span><span class="tg">Hepatite B aguda</span></div></aside>
+    <div class="lc">
+      <p class="lh" data-ed><span>Exame 04</span><span>Material: quadro clínico e soro</span><span>Método: correlacionar</span></p>
+      <h2 id="s4t" data-ed>Hepatite B aguda: do período silencioso à icterícia</h2>
+      <p class="lede" data-ed>Hoje a hepatite B aguda é relativamente rara, sobretudo em vacinados. Os casos que se veem vêm de pessoas nascidas antes da vacinação em massa ou de exposições recentes: acidente com perfurocortante, relação sexual desprotegida, transmissão vertical.</p>
+
+      <h3 data-ed>Por que a incubação é tão longa</h3>
+      <p data-ed>O período de incubação varia de 1 a 4 meses, com média de cerca de 90 dias. O vírus se replica em silêncio dentro dos hepatócitos e dispara pouca resposta inata, o que lhe dá semanas de vantagem. A resposta adaptativa precisa de tempo para ser preparada e chegar ao fígado em quantidade suficiente, e só então aparecem sintomas e TGP alta. O sintoma é consequência da resposta imune, e não do vírus. Por isso, antigamente, a conduta após um acidente com material biológico era acompanhar com sorologia seriada em 0, 1, 3 e 6 meses.</p>
+      <ol class="chain" aria-label="Linha do tempo da hepatite B aguda">
+        <li data-ed><span class="s h">Exposição</span></li>
+        <li data-ed><span class="s">1 a 4 meses de silêncio</span></li>
+        <li data-ed><span class="s b">Pródromo: fadiga, náuseas, anorexia, dor abdominal</span></li>
+        <li data-ed><span class="s l">Icterícia e colúria</span></li>
+        <li data-ed><span class="s g">Resolução: HBsAg some, anti-HBs surge</span></li>
+      </ol>
+
+      <h3 data-ed>Da lesão do hepatócito à icterícia</h3>
+      <p data-ed>A icterícia é o sinal clássico e indica comprometimento funcional. Para entendê-la é preciso lembrar o trajeto da bilirrubina (Guyton e Hall; Robbins). A hemoglobina de hemácias envelhecidas vira heme, depois biliverdina e depois bilirrubina não conjugada, insolúvel em água, transportada ligada à albumina. No hepatócito ela é captada, conjugada com ácido glicurônico pela UGT1A1 e excretada para o canalículo biliar. Na hepatite aguda, o hepatócito inflamado e edemaciado perde parte dessa capacidade de captar e, principalmente, excretar. A bilirrubina conjugada regurgita para o sangue e se deposita em tecidos ricos em elastina, como a esclera, e depois em pele e mucosas.</p>
+      <p data-ed>Esse mesmo mecanismo explica os outros achados. A bilirrubina conjugada é hidrossolúvel e é filtrada pelo rim: surge a colúria (urina cor de chá), muitas vezes antes de a icterícia ser visível. Como menos bilirrubina chega ao intestino, as fezes ficam claras (acolia), e os sais biliares retidos causam prurido. A icterícia costuma indicar quadro mais exuberante, com maior grau de inflamação.</p>
+
+      <div class="box" data-kind="prova" data-label="Cai em prova">
+        <p data-ed>Forma anictérica é a mais comum, principalmente em crianças, e é a que mais cronifica: menos inflamação, menos eliminação do vírus. A icterícia é o sinal de uma resposta imune que está funcionando.</p>
+      </div>
+
+      <h3 data-ed>Transaminases: o que "alta" quer dizer</h3>
+      <p data-ed>Hepatites virais agudas verdadeiras produzem elevação intensa das transaminases, frequentemente acima de 1.000 UI/L e não raro com 1.500 a 3.000. Isso reflete lise de grande número de hepatócitos, e a ALT, enzima citosólica, vaza para o sangue em quantidade proporcional.</p>
+      <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+        <p data-ed>O slide diz que valores de 200 a 500 sugerem outras causas. Como regra de triagem é boa, mas tem exceções nos dois sentidos. Hepatite viral aguda pode ter TGP de 500 a 1.000 (principalmente no início ou na fase de queda). Por outro lado, outras causas também passam de 1.000: lesão hepática por paracetamol, hepatite isquêmica (choque), passagem de cálculo pelo colédoco e hepatite autoimune aguda. Nas hepatopatias alcoólicas, em geral a AST fica abaixo de 300. O número orienta, mas a história decide.</p>
+      </div>
+
+      <h3 data-ed>Diagnóstico laboratorial</h3>
+      <p data-ed>O HBsAg é o primeiro marcador detectável da infecção aguda. O anti-HBc IgM é o principal marcador diagnóstico da fase aguda, porque indica resposta imune recente. Ele é especialmente útil porque, na fase aguda, os outros marcadores podem parecer confusos: o slide lembra que podem coexistir HBsAg, HBeAg, anti-HBe e anti-HBs ao mesmo tempo. Isso é o período de transição, com antígeno ainda sendo eliminado e anticorpo já surgindo. O HBV-DNA fica altíssimo, frequentemente milhões de UI/mL.</p>
+      <p data-ed>Na recuperação, o HBsAg desaparece e o anti-HBs aparece. Quando isso ocorre, considera-se resolvida a infecção aguda. Entre o desaparecimento do HBsAg e o aparecimento do anti-HBs pode haver semanas em que só o anti-HBc (IgM e total) é detectável: é a janela imunológica (veja a curva do exame 03).</p>
+
+      <details class="deep">
+        <summary data-ed><span class="lv">Aprofunde-se</span>Hepatite aguda grave: quando tratar e por que dosar albumina, bilirrubina e TAP</summary>
+        <div class="in">
+          <p data-ed>A maioria dos adultos elimina o vírus sem tratamento. Mas em uma minoria a resposta imune é tão intensa que o fígado deixa de sintetizar e excretar. Nesses casos, o tratamento antiviral com entecavir ou tenofovir é indicado, e o paciente deve ser avaliado para transplante. Os critérios usados pelo PCDT do Ministério da Saúde para hepatite aguda grave incluem INR acima de 1,5, bilirrubina total acima de 3 mg/dL (ou direta acima de 1,5) por mais de 4 semanas, encefalopatia ou ascite.</p>
+          <p data-ed>Por que o slide pede albumina, bilirrubina e TAP (tempo de atividade de protrombina)? Porque cada um mede uma função diferente. A bilirrubina mede captação e excreção. A albumina e os fatores de coagulação medem síntese. A albumina tem meia-vida longa (cerca de 20 dias) e demora a cair; o fator VII tem meia-vida de poucas horas, de modo que o INR sobe cedo na insuficiência hepatocelular. Por isso o INR é o melhor marcador de gravidade e de prognóstico na hepatite aguda. A bilirrubina alta sozinha, com INR normal, indica colestase, e não falência.</p>
+          <p data-ed>Acompanhamento após tratar: o HBV responde rápido e, em cerca de 3 meses, muitos têm HBV-DNA indetectável e transaminases em normalização. Isso não significa cura. A reavaliação costuma ser feita com cerca de 1 ano, observando HBeAg, anti-HBe, HBsAg, anti-HBs e HBV-DNA. A soroconversão desejada é HBeAg negativo com anti-HBe positivo e HBsAg negativo com anti-HBs positivo; com ela, suspender é seguro.</p>
+
+          <details class="deep">
+            <summary data-ed><span class="lv">Nível 3</span>O paciente que perde o HBsAg, mas não faz anti-HBs</summary>
+            <div class="in">
+              <p data-ed>Alguns pacientes eliminam o HBsAg sem desenvolver anti-HBs detectável. Não há vírus circulante, mas a imunidade protetora não ficou plenamente estabelecida, e o cccDNA pode persistir em nível mínimo. Por isso o slide recomenda seguimento com HBsAg seriado, geralmente semestral no início. Em termos práticos, esse paciente fica numa região parecida com a do anti-HBc isolado: se houver imunossupressão grave, pode haver reativação.</p>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <div class="box" data-kind="atencao" data-label="Atenção: flare da hepatite crônica">
+        <p data-ed>O flare é uma exacerbação inflamatória aguda em um paciente com hepatite B crônica: há aumento abrupto da atividade imune contra hepatócitos infectados, com TGP muito alta, icterícia e piora da função hepática. Clinicamente, pode ser indistinguível de uma hepatite aguda. O que ajuda a diferenciar é a história (HBsAg positivo antes?), o HBV-DNA (altíssimo na aguda; no flare, variável), o título de IgM (baixo no flare) e o contexto, como imunossupressão ou suspensão de antiviral. Pode ser desencadeado por imunossupressão, escape viral, morte celular intensa ou uso de imunobiológicos.</p>
+      </div>
+      <div class="note"><span class="k">No slide</span>Incubação, manifestações, icterícia, forma anictérica, transaminases acima de 1.000, HBsAg e anti-HBc IgM, recuperação, tratamento da forma grave, soroconversão, paciente sem anti-HBs, flare.</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAME 05 -->
+<section class="lx" id="s5" aria-labelledby="s5t">
+  <div class="wrap lx-grid">
+    <aside class="rail"><div class="in"><span class="n">05</span><span class="tg">Hepatite B crônica</span></div></aside>
+    <div class="lc">
+      <p class="lh" data-ed><span>Exame 05</span><span>Material: sangue, elastografia</span><span>Método: classificar em fases</span></p>
+      <h2 id="s5t" data-ed>Hepatite B crônica: as fases, o que muda em cada uma e como o fígado adoece</h2>
+      <p class="lede" data-ed>A hepatite B crônica é definida pela persistência do HBsAg por mais de 6 meses, confirmada em dois exames separados por pelo menos esse intervalo. A partir daí a pergunta passa a ser: em que fase está esse paciente?</p>
+
+      <p data-ed>O slide ensina uma forma de pensar que organiza qualquer caso. Primeiro passo: existiu contato com o vírus? O marcador que responde é o anti-HBc, e ele precisa estar positivo em todas as fases da hepatite B crônica; sem ele, nunca houve contato e não existe hepatite B crônica para classificar. Segundo passo: existe presença viral? Aqui o marcador é o HBsAg, que separa as fases com presença viral (1 a 4) da fase de clareamento (5). Depois entram HBeAg, HBV-DNA, TGP e dano estrutural.</p>
+      <ol class="chain" aria-label="Raciocínio para classificar a fase">
+        <li data-ed><span class="s">Anti-HBc positivo?</span></li>
+        <li data-ed><span class="s h">HBsAg presente?</span></li>
+        <li data-ed><span class="s b">HBeAg ou anti-HBe?</span></li>
+        <li data-ed><span class="s l">HBV-DNA alto ou baixo?</span></li>
+        <li data-ed><span class="s v">TGP e fibrose</span></li>
+      </ol>
+
+      <h3 data-ed>As cinco fases do slide</h3>
+      <p data-ed>Os europeus criaram uma classificação em cinco fases para organizar a história natural. Atenção ao aviso do slide: as fases não são obrigatoriamente progressivas. O paciente não precisa passar por todas, nem em ordem.</p>
+      <div class="phases wide" role="list">
+        <div class="ph" data-p="1" role="listitem"><span class="no">Fase 1</span><h5>Imunotolerante</h5>
+          <div class="m"><span>Anti-HBc</span><b class="p">+</b></div><div class="m"><span>HBsAg</span><b class="p">+</b></div><div class="m"><span>HBeAg</span><b class="p">+</b></div><div class="m"><span>HBV-DNA</span><b class="u">muito alto</b></div><div class="m"><span>TGP</span><b class="n">normal</b></div><div class="m"><span>USG/elasto</span><b class="n">normal</b></div></div>
+        <div class="ph" data-p="2" role="listitem"><span class="no">Fase 2</span><h5>Imunoativa</h5>
+          <div class="m"><span>Anti-HBc</span><b class="p">+</b></div><div class="m"><span>HBsAg</span><b class="p">+</b></div><div class="m"><span>HBeAg</span><b class="p">+</b></div><div class="m"><span>HBV-DNA</span><b class="u">muito alto</b></div><div class="m"><span>TGP</span><b class="u">alta</b></div><div class="m"><span>USG/elasto</span><b class="u">alterada</b></div></div>
+        <div class="ph" data-p="3" role="listitem"><span class="no">Fase 3</span><h5>Portador inativo</h5>
+          <div class="m"><span>Anti-HBc</span><b class="p">+</b></div><div class="m"><span>HBsAg</span><b class="p">+</b></div><div class="m"><span>HBeAg</span><b class="n">−</b></div><div class="m"><span>Anti-HBe</span><b class="p">+</b></div><div class="m"><span>HBV-DNA</span><b class="n">baixo</b></div><div class="m"><span>TGP</span><b class="n">normal</b></div><div class="m"><span>USG/elasto</span><b class="n">normal</b></div></div>
+        <div class="ph" data-p="4" role="listitem"><span class="no">Fase 4</span><h5>Reativação, pré-core</h5>
+          <div class="m"><span>Anti-HBc</span><b class="p">+</b></div><div class="m"><span>HBsAg</span><b class="p">+</b></div><div class="m"><span>HBeAg</span><b class="n">−</b></div><div class="m"><span>HBV-DNA</span><b class="u">alto</b></div><div class="m"><span>TGP</span><b class="u">alta</b></div><div class="m"><span>USG/elasto</span><b class="u">alterada</b></div></div>
+        <div class="ph" data-p="5" role="listitem"><span class="no">Fase 5</span><h5>Clareamento viral</h5>
+          <div class="m"><span>Anti-HBc</span><b class="p">+</b></div><div class="m"><span>HBsAg</span><b class="n">−</b></div><div class="m"><span>Anti-HBs</span><b class="u">+ ou −</b></div><div class="m"><span>HBV-DNA</span><b class="n">indetectável</b></div></div>
+      </div>
+
+      <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+        <p data-ed>As diretrizes mais novas mudaram os nomes. A EASL de 2025 abandona "imunotolerante" e "portador inativo", e passa a usar quatro fases baseadas em HBeAg e em hepatite versus infecção: infecção crônica HBeAg positiva (a fase 1), hepatite crônica HBeAg positiva (fase 2), infecção crônica HBeAg negativa (fase 3) e hepatite crônica HBeAg negativa (fase 4). A fase 5 é chamada de fase HBsAg negativa. A razão é que "tolerante" e "inativo" sugerem coisas que não são exatamente verdadeiras: a fase 1 não é de tolerância absoluta e o portador "inativo" ainda precisa de monitoramento. Nas provas da faculdade, é provável que ainda se use a nomenclatura do slide, então vale conhecer as duas.</p>
+      </div>
+
+      <h3 data-ed>O que está acontecendo em cada fase</h3>
+      <div class="pn">
+        <p data-ed><span class="c-hbv">Fase 1, alta replicação sem inflamação.</span> O vírus se replica muito, mas o sistema imune não reage. É o quadro de quem se infectou ao nascer ou na infância pequena: o que o exame 02 explicou, com o HBeAg materno induzindo tolerância. Por isso a TGP é normal e o fígado está preservado, apesar de HBV-DNA altíssimo. É a fase de maior infectividade (alta carga viral), e por isso importa para a transmissão, mas não para o dano hepático imediato.</p>
+        <p data-ed><span class="c-hcv">Fase 2, alta replicação com inflamação.</span> O sistema imune começa a atacar os hepatócitos infectados. A TGP sobe, e a repetição desses surtos produz fibrose. Se a resposta eliminar o HBeAg e gerar anti-HBe, o paciente passa para a fase 3. É a fase em que se trata sempre.</p>
+        <p data-ed><span class="c-green">Fase 3, portador inativo.</span> Surge o anti-HBe, a replicação é controlada, o HBV-DNA fica baixo (abaixo de 2.000 UI/mL) e a TGP é normal. O fígado está preservado. Muitos permanecem nessa fase a vida inteira. O nome engana: o vírus continua no organismo, com baixa replicação, e a fase 3 pode voltar a ser fase 4 ou receber um flare.</p>
+        <p data-ed><span class="c-bile">Fase 4, reativação por mutação pré-core.</span> É uma das fases mais importantes. O paciente tem HBeAg negativo, mas HBV-DNA alto e TGP elevada. O vírus continua se replicando, mas deixou de produzir HBeAg. Veja o mecanismo logo abaixo.</p>
+        <p data-ed><span class="c-imm">Fase 5, clareamento viral funcional.</span> O paciente perdeu o HBsAg da circulação. Não há mais presença viral detectável no sangue. Mas isso não significa eliminação: o vírus continua no hepatócito, como cccDNA e integrações. Há dois tipos. No primeiro, existe anti-HBs, ou seja, o controle foi humoral e o paciente produziu anticorpos neutralizantes. No segundo, não há anti-HBs detectável, e o controle foi principalmente celular: é o anti-HBc isolado do exame 03, cuja importância clínica é o risco de reativação sob imunossupressão.</p>
+      </div>
+
+      <details class="deep">
+        <summary data-ed><span class="lv">Aprofunde-se</span>A mutação pré-core: por que o vírus replica e o HBeAg desaparece</summary>
+        <div class="in">
+          <p data-ed>O HBeAg é produzido a partir do mesmo gene que o core, mas traduzido a partir de um códon de início anterior, na região pré-core. A proteína resultante é processada e secretada como HBeAg. A mutação pré-core mais comum, G1896A, troca um códon por um códon de parada (stop) no final da região pré-core, e a proteína não é produzida. A região do core continua intacta, porque é traduzida a partir de outro códon de início, de modo que o capsídeo se forma, o vírus replica normalmente e o HBeAg deixa de ser detectável.</p>
+          <p data-ed>O mesmo fenótipo pode resultar de mutações no promotor basal do core (A1762T e G1764A), que reduzem a transcrição do RNA pré-core sem prejudicar o pgRNA. Em ambos os casos, o HBeAg negativo é enganoso: o paciente "parece" não replicante, mas na verdade tem alta replicação. Isso é o que o slide chama de HBV mutante pré-core. É mais frequente em infecções por genótipos como o D (comum no Mediterrâneo e presente no Brasil) e explica por que, na hepatite B HBeAg negativa, a dosagem de HBV-DNA é indispensável.</p>
+          <p data-ed>Do ponto de vista imunológico, a perda do HBeAg remove a "isca" tolerogênica, e a resposta contra o core fica mais forte, o que explica a elevação da TGP.</p>
+
+          <details class="deep">
+            <summary data-ed><span class="lv">Nível 3</span>Elastografia: o que ela mede e onde erra</summary>
+            <div class="in">
+              <p data-ed>A elastografia transitória (FibroScan) gera um pulso mecânico na superfície e mede a velocidade com que a onda de cisalhamento atravessa o fígado. Quanto mais rígido o tecido, mais rápida a onda; o resultado vem em quilopascais. O slide conta que ela é o melhor método não invasivo e o mais validado, e isso é correto.</p>
+              <p data-ed>Os erros típicos são: inflamação aguda (um flare de TGP muito alta aumenta a rigidez sem fibrose proporcional, por isso o ideal é medir com TGP abaixo de 5 vezes o limite superior), congestão hepática (insuficiência cardíaca), colestase, obesidade (precisa de sonda XL) e ascite, que impede a medida. Os pontos de corte variam por etiologia: o PCDT de hepatite B usa cerca de 7 kPa para fibrose significativa e 12,5 kPa para cirrose; a EASL de 2025 usa valores um pouco menores (7, 8 e 11 kPa).</p>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <h3 data-ed>Quem tratar, fase por fase</h3>
+      <p data-ed>O slide resume assim. Na fase 1, nem todos inicialmente, e se trata principalmente quando há fatores de risco (idade acima de 35 anos, história familiar de hepatocarcinoma, coinfecção por HIV). Na fase 2, sempre, porque há inflamação hepática ativa. Na fase 3, geralmente não se trata. Na fase 4, sempre, porque há replicação ativa com lesão hepática. Os critérios completos, com os números, estão no exame 06.</p>
+
+      <h3 data-ed>História natural: do HBsAg à cirrose e ao câncer</h3>
+      <ol class="chain" aria-label="Evolução natural da hepatite B crônica">
+        <li data-ed><span class="s h">HBsAg por mais de 6 meses</span></li>
+        <li data-ed><span class="s b">Inflamação persistente</span></li>
+        <li data-ed><span class="s b">Fibrose F1 a F2, ao longo de anos</span></li>
+        <li data-ed><span class="s l">Cirrose, em 10 a 30 anos</span></li>
+        <li data-ed><span class="s v">Carcinoma hepatocelular, 2% a 5% ao ano na cirrose</span></li>
+      </ol>
+      <p data-ed>A fibrose é o depósito progressivo de tecido cicatricial. No início o fígado preserva boa parte da função, e a fibrose é potencialmente regressiva. Quando a fibrose se torna extensa e difusa e forma nódulos de regeneração, instala-se a cirrose, com hipertensão portal e risco de descompensação. Nos dados do slide, sem tratamento, 15% a 40% dos pacientes têm complicações em 20 anos, a descompensação na cirrose ocorre em 3% a 5% ao ano e o carcinoma hepatocelular em 2% a 5% ao ano. Os fatores de progressão listados são idade acima de 40 anos, carga viral persistentemente acima de 20.000 UI/mL, ALT persistentemente elevada, genótipo C, álcool, coinfecções (HDV, HIV, HCV), diabetes e obesidade. O tratamento antiviral reduz em 50% a 70% o risco de cirrose e carcinoma.</p>
+      <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+        <p data-ed>O texto do slide escreve "cirrose: F3-F4". Na escala METAVIR, F3 é fibrose avançada (septal, ainda sem nódulos completos) e só o F4 é cirrose. A tabela do slide sobre APRI e FIB-4 fala corretamente de fibrose avançada em F3 e de cirrose em F4.</p>
+      </div>
+
+      <h3 data-ed>Como o slide classifica a carga viral, e a obesidade e o álcool</h3>
+      <p data-ed>O HBV-DNA mede replicação. As cargas se dividem em baixa (abaixo de 2.000 UI/mL), intermediária ou "zona cinzenta" (de 2.000 a 20.000) e alta (acima de 20.000). A zona cinzenta importa porque o paciente pode não ter carga extremamente alta e já ter inflamação hepática significativa. Do mesmo modo, antigamente o obeso ou alcoolista com hepatite B e carga baixa muitas vezes não era tratado, porque se achava que a inflamação vinha da obesidade ou do álcool. Hoje se sabe que a soma das agressões (hepatite B, álcool, esteato-hepatite, síndrome metabólica) acelera inflamação, fibrose e cirrose, e por isso se trata mais cedo.</p>
+
+      <h3 data-ed>Novos biomarcadores: medir o cccDNA sem biópsia</h3>
+      <p data-ed>O HBV-DNA mede partículas circulantes, e não mede bem o reservatório dentro do fígado. Os novos marcadores tentam estimar indiretamente a atividade do cccDNA.</p>
+      <div class="fichas wide">
+        <div class="ficha" data-c="l"><span class="k">qHBsAg</span><h5>HBsAg quantitativo</h5><p data-ed>Mede quanto HBsAg circula, em UI/mL, em vez de apenas presente ou ausente. Reflete a atividade transcricional do cccDNA. No slide, valores abaixo de 100 UI/mL indicam maior chance de perder o HBsAg com o tratamento.</p></div>
+        <div class="ficha" data-c="b"><span class="k">HBcrAg</span><h5>Antígeno relacionado ao core</h5><p data-ed>Mede em conjunto HBcAg, HBeAg e proteínas derivadas da região pré-core/core. Correlaciona-se bem com a quantidade de cccDNA. No slide, abaixo de 3,0 log U/mL sugere pouco cccDNA e menor risco de reativação.</p></div>
+        <div class="ficha" data-c="v"><span class="k">HBV RNA</span><h5>RNA sérico</h5><p data-ed>Citado no título do slide, mas sem desenvolvimento. É o pgRNA presente em partículas no soro, e reflete a atividade do cccDNA mesmo quando o DNA está suprimido pelo tratamento.</p></div>
+      </div>
+      <details class="deep">
+        <summary data-ed><span class="lv">Aprofunde-se</span>Por que o qHBsAg não é um espelho perfeito do cccDNA</summary>
+        <div class="in">
+          <p data-ed>O HBsAg sérico tem duas origens: o cccDNA e o DNA viral integrado ao genoma da célula. Nas fases com bastante replicação (fases 1 e 2), a maior parte vem do cccDNA, e o qHBsAg segue bem sua atividade. Nas fases HBeAg negativas, com carga viral baixa, uma fração crescente vem de integrações, que produzem HBsAg sem depender de cccDNA e sem responder aos análogos. Por isso, um qHBsAg alto na fase 3 pode refletir integração, e um qHBsAg baixo é mais informativo que um alto. Ainda assim, o conjunto "qHBsAg baixo, HBcrAg baixo e HBV-DNA indetectável" é o que dá mais segurança para pensar em suspender o tratamento (exame 06).</p>
+        </div>
+      </details>
+
+      <div class="note"><span class="k">No slide</span>Definição por mais de 6 meses, cinco fases e como classificá-las em dois passos, quem tratar por fase, flare, evolução natural, elastografia (FibroScan), classificação da carga viral, obesidade e álcool, novos biomarcadores.</div>
+      <div class="note check"><span class="k">Conferir</span>O título do slide cita qHBsAg, HBcrAg e HBV RNA, mas só os dois primeiros têm texto. Na parte do slide sobre fases, o paciente "portador inativo" é descrito sem mencionar o monitoramento periódico, que é recomendado pelas diretrizes.</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAME 06 -->
+<section class="lx" id="s6" aria-labelledby="s6t">
+  <div class="wrap lx-grid">
+    <aside class="rail"><div class="in"><span class="n">06</span><span class="tg">Tratamento da B</span></div></aside>
+    <div class="lc">
+      <p class="lh" data-ed><span>Exame 06</span><span>Material: decisão terapêutica</span><span>Método: critérios, fármacos, duração</span></p>
+      <h2 id="s6t" data-ed>Tratamento da hepatite B: suprimir, proteger e saber a hora de parar</h2>
+      <p class="lede" data-ed>O objetivo realista é a supressão viral sustentada. Com ela, a inflamação cessa, a fibrose estaciona (e pode regredir) e o risco de carcinoma cai. A cura funcional é rara e a cura esterilizante ainda não existe.</p>
+
+      <h3 data-ed>O que os antivirais fazem e o que não fazem</h3>
+      <p data-ed>Tenofovir e entecavir não eliminam o cccDNA, mas reduzem sua atividade. Eles bloqueiam a transcrição reversa (etapa 6 do ciclo, exame 01), e com isso cai a produção de novo rcDNA e, portanto, o reabastecimento do cccDNA. O estoque existente decai lentamente pela renovação dos hepatócitos. O slide cita que, após cerca de 5 anos de tratamento contínuo com tenofovir, o cccDNA pode cair cerca de 40%, e lista as consequências: menos expansão clonal de hepatócitos infectados, menos replicação viral, menos progressão para carcinoma. As integrações virais permanecem, e por isso a cura esterilizante não é alcançada.</p>
+      <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+        <p data-ed>O número de 40% em 5 anos não aparece nos livros-texto que consultei, e a fonte não foi citada no slide. O que a literatura mostra, em biópsias seriadas (por exemplo Werle-Lapostolle et al., 2004, com adefovir), é um declínio lento do cccDNA em anos de tratamento, com grande variação entre pacientes. Use a ideia (declínio lento, nunca eliminação), e não o número, até confirmar a fonte com o professor.</p>
+      </div>
+
+      <h3 data-ed>Quem tratar: os critérios do slide</h3>
+      <p data-ed>Há uma regra absoluta no slide: todos com cirrose e HBV-DNA detectável devem ser tratados imediatamente, independentemente de TGP ou carga viral. Para os demais, o critério muda conforme o HBeAg.</p>
+      <div class="fichas wide">
+        <div class="ficha" data-c="b"><span class="k">HBeAg positivo, sem cirrose</span><h5>Quatro caminhos</h5><p data-ed>TGP acima de 2 vezes o limite superior e HBV-DNA acima de 20.000 UI/mL. Ou idade acima de 35 anos com DNA acima de 20.000. Ou fibrose F2 ou mais (APRI acima de 0,5 ou elastografia). Ou inflamação moderada ou grave na biópsia.</p></div>
+        <div class="ficha" data-c="l"><span class="k">HBeAg negativo, sem cirrose</span><h5>Quatro caminhos</h5><p data-ed>TGP acima de 2 vezes o limite e DNA acima de 2.000 UI/mL. Ou fibrose F2 ou mais. Ou idade acima de 40 anos com história familiar de carcinoma. Ou manifestações extra-hepáticas (poliarterite nodosa, glomerulonefrite).</p></div>
+        <div class="ficha" data-c="g"><span class="k">Situações especiais</span><h5>Gestantes, coinfecções, imunossupressão</h5><p data-ed>HBV-DNA acima de 200.000 em gestante: tenofovir a partir de 28 a 32 semanas. HIV, HCV ou HDV: tratar independentemente de carga ou TGP. HBsAg positivo antes de imunossupressão: profilaxia antiviral, qualquer carga.</p></div>
+      </div>
+      <p data-ed>O slide mostra também as "mudanças recentes": as diretrizes ampliaram muito os critérios. Antigamente só tinham acesso à terapia os pacientes com doença mais avançada ou claramente ativa; agora se trata em quatro situações.</p>
+      <ol class="chain" aria-label="Quatro critérios atuais">
+        <li data-ed><span class="s b">1 · APRI acima de 0,5 (fibrose F2 ou mais, independentemente da carga viral)</span></li>
+        <li data-ed><span class="s l">2 · HBV-DNA acima de 2.000 com ALT elevada</span></li>
+        <li data-ed><span class="s v">3 · HIV, HCV, HDV ou doença renal crônica</span></li>
+        <li data-ed><span class="s g">4 · ALT persistentemente elevada (1,5 vez o limite em 2 dosagens em 6 meses)</span></li>
+      </ol>
+      <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+        <p data-ed>O slide traz mais de um conjunto de limiares, que não coincidem entre si (por exemplo, TGP acima de 2 vezes o limite em uma figura e acima de 1,5 vez em outra, e DNA acima de 20.000 ou de 2.000). Isso reflete que cada diretriz usa números diferentes. Como referência de comparação: a EASL de 2025 indica tratar hepatite crônica (HBeAg positivo ou negativo) com HBV-DNA acima de 2.000 UI/mL e ALT elevada e/ou fibrose significativa, trata a cirrose com DNA detectável e considera cortes de ALT mais baixos (30 U/L em homens e 19 em mulheres) mais preditivos que 40. A proposta de atualização do PCDT brasileiro, em consulta pública, usa justamente esses cortes de ALT, acrescenta APRI acima de 0,5, diabetes e esteatose como indicações e remove a "zona cinzenta" da elastografia. Para a prova, siga o que o professor ensinou; para a prática, use o PCDT vigente.</p>
+      </div>
+      <div class="box" data-kind="prova" data-label="Cai em prova">
+        <p data-ed>Manifestação extra-hepática da hepatite B (glomerulonefrite, poliarterite nodosa): sempre se trata, independentemente da carga viral. Nesses casos, a lesão é por imunocomplexos e não depende da quantidade de vírus.</p>
+      </div>
+
+      <details class="deep">
+        <summary data-ed><span class="lv">Aprofunde-se</span>Tratamento universal: por que se discute, e por que quase ninguém faz</summary>
+        <div class="in">
+          <p data-ed>O slide relata uma discussão em congressos europeus sobre tratar todos os infectados. A lógica é antecipar o benefício: reduzir a expressão do cccDNA, diminuir a expansão clonal de hepatócitos (e, com ela, o carcinoma) e permitir a renovação do fígado com hepatócitos menos infectados. O argumento contrário é o custo: o tratamento é prolongado, caro e muitas vezes contínuo, e nenhum sistema de saúde sustenta facilmente tratar todos os portadores. A EASL de 2025 adotou uma posição intermediária: em princípio, todos os HBsAg positivos com HBV-DNA detectável são candidatos a tratamento, mas sem torná-lo obrigatório.</p>
+          <p data-ed>Há uma razão fisiopatológica adicional: o carcinoma pode surgir sem cirrose e com TGP normal, em pacientes que pela classificação antiga não teriam indicação. A pressão para ampliar os critérios vem justamente desse achado, e é a razão de o slide dizer que os critérios "ampliaram muito".</p>
+        </div>
+      </details>
+
+      <h3 data-ed>Os fármacos de primeira linha</h3>
+      <p data-ed>Os três atuam inibindo a polimerase (transcriptase reversa) do HBV, reduzindo a replicação e a formação de cccDNA. Todos são análogos de nucleosídeos ou nucleotídeos (NA) e precisam ser fosforilados dentro da célula para a forma trifosfato, que compete com o nucleotídeo natural e termina a cadeia de DNA. O quadro do slide, aqui em cartas:</p>
+      <div class="fichas wide">
+        <div class="ficha" data-c="g"><span class="k">Entecavir · 0,5 mg/dia</span><h5>Seguro para o rim e o osso</h5><p data-ed>Resistência muito baixa em quem nunca usou lamivudina. Muito usado em idosos. Problema: resistência cruzada com lamivudina.</p></div>
+        <div class="ficha" data-c="b"><span class="k">Tenofovir disoproxil (TDF) · 300 mg/dia</span><h5>Supressão potente</h5><p data-ed>Resistência praticamente inexistente. Efeitos adversos: nefrotoxicidade e toxicidade óssea; mulheres na pós-menopausa são grupo de maior risco.</p></div>
+        <div class="ficha" data-c="v"><span class="k">Tenofovir alafenamida (TAF) · 25 mg/dia</span><h5>Mesmo vírus, menos toxicidade</h5><p data-ed>Menos toxicidade renal e óssea, com mesma eficácia antiviral. Uso restrito pelo Ministério da Saúde por custo.</p></div>
+      </div>
+      <p data-ed>O slide dá uma regra de escolha baseada em comorbidades: TAF para risco renal ou osteoporose; TDF para carga viral alta; entecavir como alternativa segura; todos são primeira linha. Em pacientes em TDF, é preciso acompanhar a função renal e o fósforo, e as mulheres acima de 45 a 50 anos frequentemente fazem densitometria óssea periódica. O perfil clássico de quem recebe TAF no SUS é o idoso, com osteoporose ou osteopenia, doença renal, exposição prévia ou resistência à lamivudina e que não pode usar nem entecavir nem TDF.</p>
+
+      <details class="deep">
+        <summary data-ed><span class="lv">Aprofunde-se</span>Farmacologia: como cada um funciona e por que o TAF é menos tóxico</summary>
+        <div class="in">
+          <p data-ed>Katzung e Goodman e Gilman descrevem os NA do HBV como pró-fármacos que precisam de fosforilação intracelular. O entecavir é um análogo da guanosina (nucleosídeo); como o seu trifosfato inibe três atividades da polimerase (priming, transcrição reversa do pgRNA e síntese da fita positiva), é bastante potente. O tenofovir é um análogo acíclico de nucleotídeo (monofosfato de adenosina), ou seja, já entra com um fosfato, exigindo apenas duas fosforilações.</p>
+          <p data-ed>O TDF é um éster (disoproxil) que melhora a absorção oral, e é convertido em tenofovir no plasma. O resultado é alta concentração plasmática de tenofovir. Esse tenofovir livre é captado pelas células do túbulo proximal renal, via o transportador de ânions orgânicos OAT1, e eliminado por MRP4. Se acumula, causa lesão mitocondrial no túbulo proximal, com perda de fosfato, glicose e bicarbonato (síndrome de Fanconi), e a hipofosfatemia e a elevação do PTH contribuem para osteopenia.</p>
+          <p data-ed>O TAF é um pró-fármaco do tipo fosforamidato, estável no plasma. Ele entra nos hepatócitos como pró-fármaco e só ali é ativado pela catepsina A, liberando o tenofovir no local onde o vírus está. Assim, atinge concentrações intracelulares maiores com concentrações plasmáticas cerca de 90% menores, o que explica a dose de 25 mg contra 300 mg do TDF e a menor exposição renal e óssea. Em contrapartida, há relatos de ganho de peso e leve alteração de lipídios.</p>
+
+          <details class="deep">
+            <summary data-ed><span class="lv">Nível 3</span>Lamivudina: a história que explica a resistência cruzada do entecavir</summary>
+            <div class="in">
+              <p data-ed>A lamivudina foi o primeiro NA usado no HBV, em monoterapia. Ela é um análogo de citidina com barreira genética baixa: uma única mutação no motivo YMDD da polimerase (rtM204V ou rtM204I) basta para resistência, e a seleção foi tão rápida que cerca de 70% dos pacientes tinham resistência em 5 anos. Essas mutações alteram o sítio ativo, de modo que o análogo não se encaixa mais bem. O entecavir é estruturalmente semelhante e sofre o efeito do mesmo sítio alterado; para resistir a ele, o vírus precisa de mutações adicionais (por exemplo em rtT184, rtS202 ou rtM250) em cima da rtM204V/I. Em quem nunca usou lamivudina, essas mutações extras demoram a surgir e a resistência ao entecavir é muito baixa. Em quem já tem a mutação da lamivudina, falta "só uma etapa", e a resistência pode aparecer rápido.</p>
+              <p data-ed>Por isso o TAF e o TDF, que têm perfil de resistência diferente (praticamente nulo), são as opções para pacientes que carregam essa história. Pacientes dessa época ainda existem.</p>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <h3 data-ed>Quando parar</h3>
+      <div class="phases wide" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+        <div class="ph" data-p="2"><span class="no">HBeAg positivo</span><h5>Tratar até a soroconversão</h5>
+          <p style="font-size:.9rem;line-height:1.5;margin:.2rem 0 0" data-ed>Tratar até HBeAg sumir e anti-HBe surgir, e consolidar por 12 meses depois. Mesmo assim, o risco de reativação após suspender é de 15% a 30%. Na cirrose, o tratamento é indefinido.</p></div>
+        <div class="ph" data-p="4"><span class="no">HBeAg negativo</span><h5>Geralmente indefinido</h5>
+          <p style="font-size:.9rem;line-height:1.5;margin:.2rem 0 0" data-ed>Suspensão considerada com HBV-DNA indetectável por pelo menos 3 anos. Candidatos: qHBsAg abaixo de 100 UI/mL. Depois de parar, monitorar ALT e DNA a cada 1 a 3 meses por 12 meses.</p></div>
+      </div>
+      <p data-ed>O monitoramento após a suspensão, segundo o slide, segue um calendário apertado, porque é nos primeiros meses que a recidiva vira flare.</p>
+      <ol class="chain vert" aria-label="Monitoramento após suspender o antiviral">
+        <li data-ed><span class="s b">Semanas 1 a 12</span><p data-ed>ALT e HBV-DNA a cada 4 semanas.</p></li>
+        <li data-ed><span class="s b">Mês 3 a 6</span><p data-ed>ALT e HBV-DNA a cada 6 a 8 semanas.</p></li>
+        <li data-ed><span class="s b">Mês 6 a 12</span><p data-ed>ALT e HBV-DNA a cada 12 semanas.</p></li>
+        <li data-ed><span class="s g">Cura funcional</span><p data-ed>Perda de HBsAg com anti-HBs acima de 10 mUI/mL: suspensão definitiva do monitoramento intensivo.</p></li>
+      </ol>
+      <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+        <p data-ed>Os pontos de corte de qHBsAg para suspensão variam entre diretrizes. O slide usa menos de 100 UI/mL; a EASL de 2017 citava valores de até 1.000 UI/mL em contextos selecionados, e a EASL de 2025 usa a ideia de "cura parcial" (HBsAg sustentadamente abaixo de 100 UI/mL com DNA indetectável, 24 semanas fora de terapia). Todas concordam em que suspender exige vigilância próxima, porque a recidiva é frequente.</p>
+      </div>
+
+      <h3 data-ed>Monitoramento durante o tratamento</h3>
+      <div class="fichas wide">
+        <div class="ficha"><span class="k">ALT · a cada 3 a 6 meses</span><h5>Resposta bioquímica</h5><p data-ed>Avalia resposta e atividade da doença.</p></div>
+        <div class="ficha" data-c="l"><span class="k">HBV-DNA · a cada 3 a 6 meses</span><h5>Supressão viral</h5><p data-ed>Abaixo de 20 UI/mL é o ideal.</p></div>
+        <div class="ficha" data-c="v"><span class="k">qHBsAg · anualmente</span><h5>Candidatos à suspensão</h5><p data-ed>Abaixo de 100 UI/mL.</p></div>
+        <div class="ficha" data-c="b"><span class="k">Função renal e fósforo · a cada 6 meses</span><h5>Toxicidade do TDF</h5><p data-ed>Nefrotoxicidade e osteopenia.</p></div>
+        <div class="ficha" data-c="g"><span class="k">US de fígado ± AFP · 6 a 12 meses</span><h5>Vigilância do carcinoma</h5><p data-ed>A cada 6 meses na cirrose; a cada 12 a 24 meses se baixo risco.</p></div>
+      </div>
+
+      <h3 data-ed>Reativação do HBV na imunossupressão</h3>
+      <p data-ed>Este é um dos pontos clínicos mais importantes do material e conecta com o exame 03. A mortalidade da reativação fulminante chega a 40%. Os maiores riscos são o rituximabe (anti-CD20), corticoides em dose alta e a quimioterapia para doenças hematológicas.</p>
+      <div class="fichas wide">
+        <div class="ficha" data-c="l"><span class="k">HBsAg positivo</span><h5>Profilaxia universal</h5><p data-ed>Entecavir 0,5 mg ou TDF 300 mg por dia, iniciados cerca de 1 semana antes da imunossupressão e mantidos por 6 a 12 meses depois do término.</p></div>
+        <div class="ficha" data-c="b"><span class="k">HBsAg negativo, anti-HBc positivo</span><h5>Estratificar</h5><p data-ed>Alto risco (rituximabe): profilaxia obrigatória. Baixo risco: monitorar ALT e DNA mensalmente. Anti-HBs abaixo de 10 mUI/mL: maior vulnerabilidade.</p></div>
+        <div class="ficha" data-c="v"><span class="k">Monitoramento</span><h5>Durante e depois</h5><p data-ed>Durante a quimio: mensal (ALT, HBV-DNA, bilirrubina). Pós-quimio, 6 a 12 meses: a cada 1 a 3 meses. HBV-DNA detectável: confirmar e tratar imediatamente.</p></div>
+      </div>
+      <details class="deep">
+        <summary data-ed><span class="lv">Aprofunde-se</span>Por que a reativação é perigosa, e por que parar a imunossupressão não encerra o risco</summary>
+        <div class="in">
+          <p data-ed>A reativação ocorre em duas etapas. Na primeira, com a imunossupressão em curso, o controle imunológico se perde e o HBV volta a replicar a partir do cccDNA, em silêncio, porque não há resposta que cause inflamação. O HBV-DNA sobe e, às vezes, o HBsAg reaparece. Na segunda, quando a imunossupressão é retirada ou quando há reconstituição imune, os linfócitos T voltam a funcionar e encontram um fígado cheio de hepatócitos infectados: o ataque é intenso e produz necrose maciça, com TGP muito alta e risco de falência hepática. Por isso a profilaxia precisa continuar por meses depois do término do imunossupressor.</p>
+          <p data-ed>O rituximabe é o agente de maior risco porque depleta linfócitos B, que produzem o anti-HBs. Em pacientes anti-HBc positivos, mesmo o anti-HBs positivo não protege. Há também uma razão molecular para os corticoides: o genoma do HBV tem um elemento de resposta a glicocorticoides, e a exposição a eles aumenta a transcrição viral.</p>
+          <p data-ed>Diretrizes como a da AGA estratificam o risco em alto (mais de 10% de reativação), que inclui anticorpos que depletam linfócitos B, como o rituximabe, em qualquer paciente anti-HBc positivo, além de antraciclinas e corticoide em dose alta e prolongada em HBsAg positivo; intermediário (1% a 10%), com inibidores de TNF e de outras citocinas e inibidores de tirosina-quinase; e baixo (menos de 1%), com metotrexato, azatioprina e corticoide intra-articular. Os detalhes variam entre diretrizes e serviços; o que o slide manda decorar é: HBsAg positivo, sempre profilaxia.</p>
+        </div>
+      </details>
+
+      <h3 data-ed>Gestação</h3>
+      <p data-ed>O slide indica tenofovir em gestantes com HBV-DNA acima de 200.000 UI/mL a partir de 28 a 32 semanas. A razão da espera é que há tempo suficiente para reduzir a viremia e diminui o tempo de exposição fetal ao medicamento. O raciocínio de fundo é que a maior parte da transmissão vertical ocorre no parto, por exposição ao sangue materno, e quanto maior a viremia da mãe, maior a chance de a vacina e da imunoglobulina falharem no recém-nascido. Reduzir a carga viral antes do parto aumenta a eficácia dessas medidas.</p>
+      <div class="box" data-kind="clinica" data-label="Na prática clínica">
+        <p data-ed>O recém-nascido de mãe HBsAg positiva recebe a vacina e a imunoglobulina anti-HBs (HBIG) nas primeiras horas de vida, idealmente nas primeiras 12 a 24 horas. Esse ponto não está no slide, mas é a medida que mais evita cronificação: lembre dos 90% de risco do exame 02. O tempo de manutenção do tenofovir após o parto varia entre diretrizes; confira o PCDT vigente.</p>
+      </div>
+
+      <h3 data-ed>Tratamentos em desenvolvimento</h3>
+      <p data-ed>O slide mostra quatro estratégias em desenvolvimento, todas com o mesmo objetivo: atingir o reservatório que os análogos não alcançam.</p>
+      <div class="fichas wide">
+        <div class="ficha" data-c="l"><span class="k">CRISPR/Cas9</span><h5>Excisão do cccDNA</h5><p data-ed>Nucleases guiadas por RNA cortam o genoma viral. A dificuldade é entregar a ferramenta a todos os hepatócitos e evitar cortes fora do alvo.</p></div>
+        <div class="ficha" data-c="b"><span class="k">RNAi (siRNA)</span><h5>Degradação de transcritos</h5><p data-ed>Como todos os RNAs do HBV compartilham a extremidade 3', poucos siRNAs derrubam todos os transcritos, reduzindo muito o HBsAg.</p></div>
+        <div class="ficha" data-c="v"><span class="k">Epigenética</span><h5>Silenciar via histonas</h5><p data-ed>Reprimir o minicromossomo com modificações de histonas, sem remover o DNA. Está ligado ao papel de HBx e Smc5/6 (exame 01).</p></div>
+        <div class="ficha" data-c="g"><span class="k">Inibidores de capsídeo</span><h5>Bloquear a montagem</h5><p data-ed>Modificadores da montagem do capsídeo impedem a encapsidação do pgRNA e interferem na entrega do genoma ao núcleo.</p></div>
+      </div>
+
+      <div class="note"><span class="k">No slide</span>Efeito do antiviral sobre o cccDNA, tratamento universal, critérios de tratamento e mudanças recentes, classificação da carga viral, ETV/TDF/TAF, lamivudina, duração, monitoramento, reativação na imunossupressão, gestação, tratamentos em desenvolvimento.</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAME 07 -->
+<section class="lx" id="s7" aria-labelledby="s7t">
+  <div class="wrap lx-grid">
+    <aside class="rail"><div class="in"><span class="n">07</span><span class="tg">Câncer de fígado</span></div></aside>
+    <div class="lc">
+      <p class="lh" data-ed><span>Exame 07</span><span>Material: oncogênese e vigilância</span><span>Método: comparar duas rotas</span></p>
+      <h2 id="s7t" data-ed>Carcinoma hepatocelular: duas rotas para o mesmo destino</h2>
+      <p class="lede" data-ed>Tanto a hepatite B quanto a C podem evoluir para carcinoma hepatocelular (CHC), o principal câncer primário do fígado. Por isso o acompanhamento de um paciente com hepatite viral crônica tem três desfechos possíveis: cura, cronificação ou carcinoma.</p>
+
+      <div class="fichas wide">
+        <div class="ficha" data-c="b"><span class="k">Hepatite B · rota direta</span><h5>Oncogênese insercional</h5><p data-ed>O DNA viral se integra ao genoma do hepatócito e causa instabilidade genética, alterações cromossômicas, ativação de genes proliferativos e clones celulares anormais. Pode induzir câncer mesmo sem grande inflamação e na ausência de cirrose.</p></div>
+        <div class="ficha" data-c="l"><span class="k">Hepatite C · rota indireta</span><h5>Inflamação crônica</h5><p data-ed>O vírus de RNA não se integra. O câncer vem de décadas de necrose, regeneração repetida, fibrose e cirrose. Surge geralmente após 30 a 35 anos de inflamação e raramente sem cirrose.</p></div>
+      </div>
+
+      <ol class="chain" aria-label="Rota do HBV">
+        <li data-ed><span class="s h">Integração e HBx</span></li>
+        <li data-ed><span class="s b">Instabilidade genômica</span></li>
+        <li data-ed><span class="s b">Clones proliferativos</span></li>
+        <li data-ed><span class="s l">CHC, mesmo sem cirrose</span></li>
+      </ol>
+      <ol class="chain" aria-label="Rota do HCV">
+        <li data-ed><span class="s l">Inflamação por décadas</span></li>
+        <li data-ed><span class="s b">Necrose e regeneração</span></li>
+        <li data-ed><span class="s b">Fibrose</span></li>
+        <li data-ed><span class="s v">Cirrose</span></li>
+        <li data-ed><span class="s l">CHC</span></li>
+      </ol>
+      <p data-ed>Os números do slide: sem tratamento, o risco cumulativo de CHC na hepatite B ativa pode chegar a 15% a 40% em 20 anos, às vezes em poucos anos e sem cirrose avançada (o slide chama isso de agressividade). Na hepatite C, o risco em cirróticos fica em torno de 1% a 5% ao ano.</p>
+
+      <div class="box" data-kind="prova" data-label="Cai em prova">
+        <p data-ed>O HBV pode causar CHC sem cirrose; o HCV, quase nunca. Daí a regra de que o paciente com hepatite B de risco é acompanhado mesmo sem cirrose, e o paciente com hepatite C só entra no rastreamento de CHC quando tem fibrose avançada ou cirrose.</p>
+      </div>
+
+      <details class="deep">
+        <summary data-ed><span class="lv">Aprofunde-se</span>Os mecanismos moleculares de cada rota</summary>
+        <div class="in">
+          <p data-ed>Na hepatite B, a integração não é aleatória no efeito: em tumores, são recorrentes as inserções no promotor de TERT (que ativa a telomerase e dá imortalidade à célula), em genes como KMT2B e CCNE1 (ciclina E1, que acelera o ciclo celular). Além disso, a proteína HBx, mesmo truncada, interfere em p53, em vias de reparo do DNA e ativa vias como NF-κB e β-catenina. A exposição a aflatoxina B1 soma-se ao HBV com um sinergismo clássico: a mutação específica TP53 R249S, que é a assinatura da aflatoxina, é muito mais frequente em CHC de regiões endêmicas para hepatite B.</p>
+          <p data-ed>Na hepatite C, a inflamação crônica gera espécies reativas de oxigênio e danos no DNA. Os ciclos de necrose e regeneração aumentam a probabilidade de erros na replicação do DNA, e as células estreladas ativadas (por TGF-β) depositam colágeno e produzem fibrose, um microambiente que favorece os clones malignos. A proteína NS5A, como diz o slide, ativa vias proliferativas, interfere na apoptose e favorece a sobrevivência celular anormal; a proteína do core também está associada à esteatose e à ativação de vias oncogênicas em modelos.</p>
+
+          <details class="deep">
+            <summary data-ed><span class="lv">Nível 3</span>Cura da hepatite C reduz o risco, mas não o zera</summary>
+            <div class="in">
+              <p data-ed>Após a RVS, a inflamação melhora e a fibrose pode regredir parcialmente, e o slide cita que o risco de CHC cai cerca de 70% e o de descompensação cerca de 50%. Esses valores estão em linha com meta-análises (por exemplo, Morgan et al., 2013). Mas no cirrótico a arquitetura do fígado e os clones pré-malignos já estabelecidos persistem: "o cirrótico continua sendo cirrótico". Por isso a vigilância continua, indefinidamente.</p>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <h3 data-ed>Rastreamento do carcinoma na hepatite B</h3>
+      <p data-ed>O slide mostra a regra: ultrassom semestral, com ou sem alfafetoproteína (AFP), em todos com cirrose compensada. Em quem tem alto risco e não tem cirrose (idade acima de 40, história familiar, genótipo C, carga viral alta), a vigilância também é indicada. No quadro de monitoramento, o intervalo é de 6 meses se há cirrose e de 12 a 24 meses se o risco é baixo.</p>
+      <div class="fichas wide">
+        <div class="ficha" data-c="l"><span class="k">Ultrassom</span><h5>Exame de escolha</h5><p data-ed>Barato e sem radiação. Limitação: sensibilidade de cerca de 45% para lesões menores que 2 cm, pior em obesos e em fígados nodulares.</p></div>
+        <div class="ficha" data-c="b"><span class="k">Alfafetoproteína</span><h5>Marcador complementar</h5><p data-ed>Pode ser a primeira alteração de transformação tumoral. Também sobe em flares e na regeneração, por isso é complemento, não substituto.</p></div>
+        <div class="ficha" data-c="g"><span class="k">Não abandonar o seguimento</span><h5>O tumor cresce rápido</h5><p data-ed>Por isso o paciente aparentemente estável não pode abandonar o acompanhamento.</p></div>
+      </div>
+      <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+        <p data-ed>O texto do slide sobre vigilância mistura estadiamento de fibrose com intervalos de forma confusa: fala em "F3: ultrassom a cada 2 anos; F1/F2: acompanhamento semestral; F4/cirrose: ultrassom anual; F5: geralmente não se faz rastreamento". Isso contradiz a figura do próprio slide (cirrose: semestral) e a escala METAVIR, que vai de F0 a F4, sem F5. Provavelmente os "F" são fases de hepatite B, não de fibrose, e a transcrição trocou os rótulos. A regra consolidada nas diretrizes (EASL, AASLD) é: cirrose, ultrassom com ou sem AFP a cada 6 meses; pacientes sem cirrose, vigilância apenas se o risco estimado por escores (por exemplo PAGE-B) for intermediário ou alto. Use a figura, não o texto.</p>
+      </div>
+      <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+        <p data-ed>A frase de que o tumor passa de um "grão de feijão" a um "melão" em 1 ano e meio é uma imagem didática, não um dado. O tempo de duplicação do volume tumoral do CHC é tipicamente de 3 a 6 meses (varia de 1 a 12). A conclusão é a mesma: um intervalo de 6 meses foi escolhido justamente para pegar o tumor antes que ele cresça demais. O dado do ultrassom (cerca de 45% para tumores pequenos) vem de uma meta-análise de Tzartzeva et al. (2018), na qual a combinação com AFP subiu a sensibilidade para cerca de 63%.</p>
+      </div>
+      <div class="note"><span class="k">No slide</span>Rastreamento do CHC na hepatite B, oncogênese insercional, agressividade, hepatite C como carcinogênese por inflamação crônica, NS5A, risco anual de 1% a 5% em cirróticos por HCV.</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAME 08 -->
+<section class="lx" id="s8" aria-labelledby="s8t">
+  <div class="wrap lx-grid">
+    <aside class="rail"><div class="in"><span class="n">08</span><span class="tg">Hepatite C</span></div></aside>
+    <div class="lc">
+      <p class="lh" data-ed><span>Exame 08</span><span>Material: sangue, elastografia</span><span>Método: rastrear, confirmar, estadiar, curar</span></p>
+      <h2 id="s8t" data-ed>Hepatite C: o grande silencioso que tem cura</h2>
+      <p class="lede" data-ed>Quase todo caso agudo passa em branco, e quase todo caso crônico é descoberto por rastreamento. A boa notícia é que, descoberto, tem cura em mais de 95% com comprimidos por 8 a 12 semanas.</p>
+
+      <h3 data-ed>A fase aguda: poucos sintomas, uma janela diagnóstica</h3>
+      <p data-ed>Cerca de 80% dos casos agudos são assintomáticos. Nos 20% com sintomas, o quadro é leve: fadiga, náusea, anorexia, dor discreta no quadrante superior direito. A icterícia é rara (menos de 25%) e, quando presente, é de bom prognóstico, pelo que vimos no exame 02.</p>
+      <p data-ed>O diagnóstico precoce depende de entender a cinética dos marcadores. O HCV-RNA por PCR fica detectável de 1 a 3 semanas depois da exposição. O anti-HCV (ELISA) só fica positivo em 8 a 12 semanas, porque o anticorpo demora a ser produzido. Por isso um paciente com exposição recente, como o compartilhamento de seringas, deve ter HCV-RNA pedido mesmo com anti-HCV negativo. É a "janela de oportunidade" do slide: tratar na fase aguda com antivirais de ação direta tem taxas de cura acima de 98%.</p>
+      <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+        <p data-ed>O slide fala em tratamento da hepatite C aguda por 6 a 8 semanas. A duração varia entre esquemas e diretrizes (o mais comum nas diretrizes internacionais é 8 semanas), e no SUS o tratamento segue o esquema padrão do PCDT. Confirme com o professor antes de decorar o número.</p>
+      </div>
+
+      <h3 data-ed>Quem rastrear</h3>
+      <p data-ed>Todos os adultos acima de 18 anos devem fazer a triagem pelo menos uma vez na vida, e as gestantes devem ser rastreadas a cada gestação. O slide lista as populações prioritárias.</p>
+      <div class="fichas wide">
+        <div class="ficha" data-c="l"><span class="k">Usuários de drogas injetáveis</span><h5>Rastreamento anual</h5><p data-ed>Compartilhar seringas dá altíssimo risco de transmissão sanguínea.</p></div>
+        <div class="ficha" data-c="b"><span class="k">População carcerária</span><h5>10 a 30 vezes mais</h5><p data-ed>Prevalência muito maior que a da população geral: compartilhamento de objetos perfurocortantes, tatuagens sem esterilização, uso de drogas.</p></div>
+        <div class="ficha" data-c="v"><span class="k">Transfusão ou procedimento dentário antigo</span><h5>Antes do início da triagem em bancos de sangue</h5><p data-ed>O slide fala em 1992; no Brasil, a exigência de testar HCV nos bancos de sangue se consolidou em torno de 1993. Antes disso, a esterilização também era menos rigorosa.</p></div>
+        <div class="ficha" data-c="g"><span class="k">Vivendo com HIV</span><h5>Rastreamento anual</h5><p data-ed>Maior risco de coinfecção e transmissão compartilhada.</p></div>
+      </div>
+
+      <h3 data-ed>Da triagem ao estadiamento</h3>
+      <ol class="chain" aria-label="Algoritmo diagnóstico da hepatite C">
+        <li data-ed><span class="s h">01 · Triagem: anti-HCV (sensibilidade de 97% a 98%)</span></li>
+        <li data-ed><span class="s l">02 · Confirmação: HCV-RNA</span></li>
+        <li data-ed><span class="s v">03 · Genótipo</span></li>
+        <li data-ed><span class="s g">04 · Fibrose: APRI, FIB-4, elastografia</span></li>
+      </ol>
+      <p data-ed>Por que dois exames? O anti-HCV é um anticorpo que permanece positivo depois de uma infecção que foi curada, seja espontaneamente ou com tratamento, e não confere imunidade. Ele diz que houve contato. Quem diz que há vírus agora é o HCV-RNA. Anti-HCV positivo com RNA negativo é infecção resolvida e não imunidade (e o paciente pode se reinfectar).</p>
+      <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+        <p data-ed>O slide apresenta o genótipo como o passo 3 do algoritmo, mas o texto ao lado diz que o SUS usa tratamentos pangenotípicos e que, por isso, o genótipo deixou de ser obrigatório na rotina. As duas afirmações não combinam. A segunda é a atual: nos esquemas do PCDT para adultos o genótipo não é exigido.</p>
+      </div>
+
+      <div class="tool wide" aria-labelledby="calct">
+        <div class="tool-h"><h3 id="calct" data-ed>Calculadora de APRI e FIB-4</h3><span>interativo</span></div>
+        <p style="max-width:44rem" data-ed>Os escores do slide estimam fibrose sem biópsia. Informe os valores do paciente e veja o resultado e a faixa de interpretação.</p>
+        <div id="calc" data-dyn></div>
+      </div>
+
+      <p data-ed>O slide explica a diferença entre os dois. O APRI sofre maior influência das transaminases, e por isso reflete atividade inflamatória. O FIB-4 tem peso importante da plaquetopenia (e da idade), e reflete dano estrutural mais avançado. A plaquetopenia na hepatopatia crônica indica hipertensão portal e hiperesplenismo, ou seja, doença estrutural mais avançada. A elastografia, por sua vez, mede a rigidez diretamente.</p>
+      <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+        <p data-ed>A tabela do slide usa APRI acima de 1,0 para fibrose F2 ou mais, FIB-4 acima de 3,25 para fibrose avançada (F3 ou mais) e FibroScan acima de 12,5 kPa para cirrose. Os cortes do APRI variam muito entre documentos. O PCDT de hepatite B usa APRI acima de 0,5 para fibrose significativa (F2 ou mais) e acima de 1,0 para cirrose, e o PCDT de hepatite C usa APRI de 1,0 como corte entre dois esquemas. A OMS cita 1,5 para fibrose significativa e 2,0 para cirrose na hepatite C. Os escores servem para triagem; o diagnóstico de cirrose se confirma com elastografia ou outros critérios.</p>
+      </div>
+      <p data-ed>Para completar o quadro, o escore MELD estima mortalidade e necessidade de transplante, e o Child-Pugh avalia a gravidade funcional da cirrose. O slide lembra que, mesmo após a cura, o cirrótico mantém risco aumentado de CHC e precisa de seguimento contínuo, e que ele tem direito de entrar na fila de transplante.</p>
+
+      <h3 data-ed>Tratamento: antivirais de ação direta e o conceito de cura</h3>
+      <p data-ed>Os DAA modernos curam mais de 95% dos pacientes. O slide enfatiza que o SUS usa esquemas pangenotípicos, ou seja, eficazes contra praticamente todos os genótipos. A cura tem nome: resposta virológica sustentada (RVS).</p>
+      <div class="fichas wide">
+        <div class="ficha" data-c="g"><span class="k">RVS12</span><h5>HCV-RNA indetectável 12 semanas após o fim do tratamento</h5><p data-ed>É a cura funcional. RVS12 é igual a cura. Qualquer exame feito depois de 12 semanas do fim do tratamento também confirma. O paciente que "sumiu" e voltou anos depois com RNA negativo continua curado.</p></div>
+        <div class="ficha" data-c="b"><span class="k">"RVI" no slide</span><h5>Cerca de 1 semana depois do fim</h5><p data-ed>Visa avaliar adesão. RVI abaixo de 100 geralmente indica que o paciente aderiu e provavelmente curará; RVI muito alta (1 milhão de cópias, por exemplo) sugere falha de adesão ou falha terapêutica importante. Pequenas cargas residuais podem ocorrer e ainda assim evoluir para cura.</p></div>
+        <div class="ficha" data-c="l"><span class="k">Recidiva e reinfecção</span><h5>Menos de 1%</h5><p data-ed>A "recaída" após RVS é extremamente rara, e muitos casos provavelmente são reinfecção por novo contato, e não o retorno do vírus antigo.</p></div>
+      </div>
+      <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+        <p data-ed>"RVI" (resposta virológica imediata) não é um termo padrão nas diretrizes. Os termos clássicos são resposta virológica rápida (RVR, na semana 4), resposta ao final do tratamento e RVS12. O conceito do slide, uma medida pouco depois do término para checar adesão, faz sentido clínico, mas vale perguntar ao professor de que exame se trata, para não confundir com a RVR de provas que usam a nomenclatura tradicional.</p>
+      </div>
+      <div class="box" data-kind="clinica" data-label="Na prática clínica (SUS)">
+        <p data-ed>Segundo a Nota Técnica 07/2025 da Secretaria de Estado da Saúde de Santa Catarina, que atualiza os esquemas do PCDT: para quem tem APRI abaixo de 1 e não tem cirrose, sofosbuvir mais daclatasvir por 12 semanas; para APRI de 1 ou mais, ou Child-Pugh A, sofosbuvir/velpatasvir por 12 semanas; para cirrose descompensada (Child-Pugh B ou C), sofosbuvir/velpatasvir por 24 semanas. A ribavirina foi descontinuada para adultos pelo fim da fabricação no país. Confira sempre o PCDT vigente, porque essas regras mudam.</p>
+      </div>
+
+      <details class="deep">
+        <summary data-ed><span class="lv">Aprofunde-se</span>Por que três classes, como cada uma age e por que a cura é possível</summary>
+        <div class="in">
+          <p data-ed>Katzung e Goodman e Gilman descrevem os DAA por alvo, e o sufixo do nome entrega a classe. Os inibidores da NS3/4A (previr) se ligam ao sítio catalítico da protease e impedem a clivagem da poliproteína. Os inibidores da NS5A (asvir) são ativos em concentrações picomolares e interferem tanto na replicação quanto na montagem do vírion, e o mecanismo exato é debatido. O sofosbuvir é um pró-fármaco nucleotídico (um fosforamidato, do tipo "ProTide") ativado dentro do hepatócito para um análogo de uridina trifosfato, que a NS5B incorpora ao RNA nascente e que termina a cadeia. Ele tem alta barreira genética, porque o sítio ativo da polimerase é muito conservado entre genótipos, o que explica a ação pangenotípica.</p>
+          <p data-ed>Por que combinar? Com 10 elevado a 12 vírions por dia e uma polimerase sem revisão, já existem variantes resistentes a qualquer fármaco isolado antes do tratamento. Uma variante resistente a duas classes ao mesmo tempo é improvável, e a combinação elimina esses mutantes. Como não há reservatório (exame 01), basta que a replicação seja suprimida pelo tempo suficiente para que as células infectadas morram ou deixem de ser infectadas, e então não resta molde nenhum.</p>
+
+          <details class="deep">
+            <summary data-ed><span class="lv">Nível 3</span>Cuidado com a hepatite B ao tratar a hepatite C</summary>
+            <div class="in">
+              <p data-ed>Em pacientes com hepatite B concomitante (HBsAg positivo, ou anti-HBc positivo), o tratamento do HCV com DAA pode reativar o HBV, às vezes de forma grave. Uma explicação é que o HCV suprime a replicação do HBV (interferência viral); quando o HCV é eliminado rapidamente, o HBV é liberado. Há alertas de agências reguladoras desde 2016. Por isso, antes de iniciar DAA, deve-se solicitar HBsAg e anti-HBc. HBsAg positivo exige profilaxia ou tratamento antiviral para o HBV; anti-HBc isolado exige monitoramento de ALT. É a mesma lógica do exame 06: o vírus da hepatite B latente reativa quando o controle desaparece.</p>
+              <p data-ed>Outros cuidados: o sofosbuvir associado à amiodarona pode causar bradicardia grave; inibidores de protease são contraindicados em cirrose descompensada (Child-Pugh B e C) por aumento de exposição hepática.</p>
+            </div>
+          </details>
+        </div>
+      </details>
+
+      <h3 data-ed>Depois da cura</h3>
+      <p data-ed>O slide chama atenção para o que a cura não resolve: <span class="hl">o cirrótico continua sendo cirrótico</span>. A inflamação melhora e a fibrose pode regredir parcialmente (um estágio em 30% a 50% dos casos), mas o risco de CHC não zera, cai cerca de 70%; o risco de descompensação cai cerca de 50%. O seguimento é: cirróticos, ultrassom semestral e AFP indefinidamente; não cirróticos, elastografia anual (a cada 2 a 3 anos, segundo o quadro do slide); e avaliar comorbidades extra-hepáticas.</p>
+      <div class="note"><span class="k">No slide</span>Hepatite C aguda silenciosa, diagnóstico (HCV-RNA, anti-HCV), algoritmo diagnóstico, APRI e FIB-4, MELD e Child-Pugh, rastreamento e populações, RVS12, RVI, recidiva, cirrose pós-cura, monitoramento pós-cura.</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAME 09 -->
+<section class="lx" id="s9" aria-labelledby="s9t">
+  <div class="wrap lx-grid">
+    <aside class="rail"><div class="in"><span class="n">09</span><span class="tg">Fora do fígado</span></div></aside>
+    <div class="lc">
+      <p class="lh" data-ed><span>Exame 09</span><span>Material: pele, rim, vasos, sangue</span><span>Método: imunocomplexos e estimulação crônica</span></p>
+      <h2 id="s9t" data-ed>Manifestações extra-hepáticas: quando o problema é o complexo imune</h2>
+      <p class="lede" data-ed>Vírus que ficam muito tempo no organismo estimulam o sistema imune por anos, e parte dos sintomas não vem do fígado, e sim dos complexos antígeno-anticorpo que circulam e se depositam em outros órgãos.</p>
+
+      <div class="fichas wide">
+        <div class="ficha" data-c="b"><span class="k">HBV · rim</span><h5>Glomerulonefrite</h5><p data-ed>Membranosa (a mais comum no slide) e membranoproliferativa, por deposição de imunocomplexos de antígenos do HBV com anticorpo.</p></div>
+        <div class="ficha" data-c="l"><span class="k">HBV · vasos</span><h5>Poliarterite nodosa</h5><p data-ed>Vasculite sistêmica necrosante de vasos de médio calibre. Pode ser fatal.</p></div>
+        <div class="ficha" data-c="v"><span class="k">HBV · outros</span><h5>Miosite e neuropatia periférica</h5><p data-ed>O slide também cita depressão como manifestação extra-hepática.</p></div>
+        <div class="ficha" data-c="l"><span class="k">HCV · sangue e vasos</span><h5>Crioglobulinemia mista</h5><p data-ed>Vasculite com fenômeno de Raynaud e púrpura.</p></div>
+        <div class="ficha" data-c="b"><span class="k">HCV · linfoproliferação</span><h5>Linfoma B não Hodgkin</h5><p data-ed>Tipo zona marginal.</p></div>
+        <div class="ficha" data-c="g"><span class="k">HCV · pele e metabolismo</span><h5>Porfiria cutânea tarda, diabetes, sicca</h5><p data-ed>Fotossensibilidade e bolhas; diabetes tipo 2; síndrome de sicca; doença tireoidiana autoimune.</p></div>
+      </div>
+      <div class="box" data-kind="prova" data-label="Cai em prova">
+        <p data-ed>Resposta ao tratamento: as manifestações extra-hepáticas frequentemente respondem ao antiviral. No HCV, a RVS pode reverter a crioglobulinemia. No HBV, tenofovir e entecavir melhoram glomerulonefrite e poliarterite nodosa. E, como regra do slide, a hepatite B com manifestação extra-hepática se trata sempre, independentemente da carga viral.</p>
+      </div>
+
+      <details class="deep">
+        <summary data-ed><span class="lv">Aprofunde-se</span>Imunocomplexos na hepatite B</summary>
+        <div class="in">
+          <p data-ed>Imunocomplexos de HBsAg com anti-HBs e de HBeAg com anti-HBe circulam durante a infecção. Em crianças, o HBeAg, pequeno e que atravessa a barreira de filtração, forma complexos que se depositam no espaço subepitelial dos glomérulos (glomerulonefrite membranosa). Em adultos o padrão é mais variado: aparecem a glomerulonefrite membranoproliferativa, com depósitos subendoteliais, e também a membranosa. Na poliarterite nodosa, os complexos se depositam nas paredes de artérias de médio calibre, com ativação do complemento e infiltração de neutrófilos que causam necrose fibrinoide e microaneurismas, o que explica febre, perda de peso, livedo, dor abdominal por isquemia mesentérica e mononeurite múltipla. No pródromo da hepatite B aguda, um quadro semelhante à doença do soro (exantema, artralgia, urticária) pode surgir pelos mesmos complexos, geralmente antes da icterícia.</p>
+        </div>
+      </details>
+
+      <details class="deep">
+        <summary data-ed><span class="lv">Aprofunde-se</span>Crioglobulinemia, linfoma, porfiria e diabetes na hepatite C</summary>
+        <div class="in">
+          <p data-ed>A estimulação crônica do linfócito B é o fio condutor. A glicoproteína E2 do HCV se liga ao CD81 na superfície dos linfócitos B e reduz o limiar de ativação, e a exposição ao antígeno por anos favorece a expansão de clones B que produzem uma IgM monoclonal com atividade de fator reumatoide. Na crioglobulinemia mista tipo II, essa IgM monoclonal complexa-se à IgG policlonal (e ao vírus) e precipita no frio. Os complexos se depositam em vasos pequenos e causam vasculite leucocitoclástica, com púrpura palpável nos membros inferiores, artralgia, fraqueza, neuropatia e, nos rins, glomerulonefrite membranoproliferativa; o complemento (C4) costuma estar baixo. A mesma expansão clonal, quando passa a ser autônoma, pode originar um linfoma B de zona marginal, e alguns desses linfomas indolentes regridem com a cura do vírus.</p>
+          <p data-ed>A porfiria cutânea tarda resulta da inibição da uroporfirinogênio descarboxilase no fígado, enzima da via do heme. A hepatite C aumenta o ferro hepático (suprime a hepcidina) e o estresse oxidativo, e ambos inibem a enzima. A uroporfirina acumula no plasma e na pele, absorve luz e gera radicais que lesam a pele: surgem fragilidade, bolhas em áreas expostas ao sol, descamação e prurido, exatamente como o slide descreve. A cura da hepatite C geralmente melhora o quadro cutâneo. O diabetes tipo 2 se associa a resistência insulínica induzida pela infecção (proteína do core, TNF-α e degradação do substrato 1 do receptor de insulina) e à esteatose hepática.</p>
+
+          <details class="deep">
+            <summary data-ed><span class="lv">Nível 3</span>Depressão: o que se sabe e o que o slide simplifica</summary>
+            <div class="in">
+              <p data-ed>O slide cita depressão como manifestação extra-hepática da hepatite B. Na literatura, a associação com depressão e fadiga é mais bem documentada na hepatite C crônica e, historicamente, como efeito adverso do tratamento com interferon, que já não é usado. Na hepatite B, o dado é menos sólido. Para a prova, aceite como o professor disse; para a clínica, lembre que sintomas depressivos devem ser pesquisados e tratados nesses pacientes por si mesmos.</p>
+            </div>
+          </details>
+        </div>
+      </details>
+      <div class="note"><span class="k">No slide</span>Complicações extra-hepáticas do HBV (glomerulonefrite, poliarterite nodosa, miosite, neuropatia) e do HCV (crioglobulinemia mista, linfoma, porfiria cutânea tarda, diabetes, sicca), resposta ao tratamento, depressão e a regra de tratar hepatite B extra-hepática independentemente da carga viral.</div>
+    </div>
+  </div>
+</section>
+
+<!-- REVISÃO -->
+<section class="lx" id="rev" aria-labelledby="revt">
+  <div class="wrap lx-grid">
+    <aside class="rail"><div class="in"><span class="n">R</span><span class="tg">Revisão</span></div></aside>
+    <div class="lc">
+      <p class="lh" data-ed><span>Revisão</span><span>Material: casos clínicos curtos</span><span>Método: raciocínio</span></p>
+      <h2 id="revt" data-ed>Doze casos para testar o raciocínio</h2>
+      <p class="lede" data-ed>Cada pergunta pede o porquê, e não o decoreba. Responda, leia a explicação e, no fim, refaça só as que errou.</p>
+      <div class="quiz" id="quiz" data-dyn></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESUMO -->
+<section class="lx" id="resumo" aria-labelledby="resumot">
+  <div class="wrap lx-grid">
+    <aside class="rail"><div class="in"><span class="n">S</span><span class="tg">Super-resumo</span></div></aside>
+    <div class="lc">
+      <p class="lh" data-ed><span>Resumo</span><span>Material: tudo</span><span>Método: condensar</span></p>
+      <h2 id="resumot" data-ed>Super-resumo para a véspera da prova</h2>
+      <div class="sumgrid wide">
+        <div class="sg"><h3 data-ed>Virologia e imunidade</h3><ul>
+          <li data-ed>HBV: DNA que vira cccDNA epissomal no núcleo; a integração é um fenômeno à parte, ligado ao câncer.</li>
+          <li data-ed>HCV: RNA citoplasmático, sem reservatório: cura possível.</li>
+          <li data-ed>A TGP mede a resposta imune, e não a quantidade de vírus.</li>
+          <li data-ed>Hepatite aguda sintomática cura mais; assintomática cronifica mais.</li>
+          <li data-ed>Cronificação do HBV: 90% no recém-nascido, 30% abaixo de 5 anos, 5% no adulto.</li>
+        </ul></div>
+        <div class="sg l"><h3 data-ed>Sorologia da hepatite B</h3><ul>
+          <li data-ed>HBsAg: vírus presente. Mais de 6 meses: crônica.</li>
+          <li data-ed>Anti-HBs: imunidade (vacina ou cura). Anti-HBc: contato, nunca vem de vacina. IgM: aguda.</li>
+          <li data-ed>HBeAg: replicação alta. Anti-HBe: controle, não cura.</li>
+          <li data-ed>Vacinal: anti-HBs positivo e anti-HBc negativo. Curado: HBsAg negativo, anti-HBs e anti-HBc positivos.</li>
+          <li data-ed>Anti-HBc isolado: janela, infecção antiga, oculta ou falso-positivo; risco de reativação.</li>
+        </ul></div>
+        <div class="sg b"><h3 data-ed>As cinco fases</h3><ul>
+          <li data-ed>1: HBeAg positivo, DNA muito alto, TGP normal; trata se houver fatores de risco.</li>
+          <li data-ed>2: HBeAg positivo, DNA alto, TGP alta; sempre trata.</li>
+          <li data-ed>3: HBeAg negativo, anti-HBe positivo, DNA baixo, TGP normal; geralmente não trata.</li>
+          <li data-ed>4: HBeAg negativo, DNA alto, TGP alta (pré-core); sempre trata.</li>
+          <li data-ed>5: HBsAg negativo; cura funcional, cccDNA persiste.</li>
+        </ul></div>
+        <div class="sg g"><h3 data-ed>Tratamento da hepatite B</h3><ul>
+          <li data-ed>Entecavir, TDF, TAF atuam na transcriptase reversa. Nenhum elimina o cccDNA.</li>
+          <li data-ed>TAF: menos rim e osso, uso restrito. Entecavir: resistência cruzada com lamivudina.</li>
+          <li data-ed>Cirrose com DNA detectável: sempre trata. Manifestação extra-hepática: sempre trata.</li>
+          <li data-ed>HBeAg positivo: até soroconversão mais 12 meses. HBeAg negativo: em geral indefinido.</li>
+          <li data-ed>Gestante com DNA acima de 200.000: tenofovir de 28 a 32 semanas; recém-nascido com vacina e imunoglobulina.</li>
+        </ul></div>
+        <div class="sg v"><h3 data-ed>Reativação e câncer</h3><ul>
+          <li data-ed>HBsAg positivo antes de imunossupressão: profilaxia universal. Anti-HBc positivo com rituximabe: profilaxia obrigatória.</li>
+          <li data-ed>HBV: carcinoma por integração, até sem cirrose. HCV: por inflamação, com cirrose.</li>
+          <li data-ed>US a cada 6 meses na cirrose. US detecta cerca de 45% das lesões menores que 2 cm. AFP complementa.</li>
+        </ul></div>
+        <div class="sg l"><h3 data-ed>Hepatite C</h3><ul>
+          <li data-ed>Anti-HCV mostra contato; HCV-RNA mostra infecção ativa. RNA positivo antes do anticorpo na fase aguda.</li>
+          <li data-ed>Genótipo não é rotina nos esquemas atuais. APRI e FIB-4 estadiam; elastografia confirma.</li>
+          <li data-ed>DAA curam mais de 95%. RVS12 é a cura; recidiva é rara e geralmente é reinfecção.</li>
+          <li data-ed>Cirrótico curado continua com risco de CHC: seguimento por tempo indeterminado.</li>
+        </ul></div>
+        <div class="sg b"><h3 data-ed>Fora do fígado</h3><ul>
+          <li data-ed>HBV: glomerulonefrite membranosa, poliarterite nodosa (imunocomplexos).</li>
+          <li data-ed>HCV: crioglobulinemia mista, linfoma de zona marginal, porfiria cutânea tarda, diabetes tipo 2.</li>
+          <li data-ed>O antiviral costuma melhorar essas manifestações.</li>
+        </ul></div>
+      </div>
+
+      <h3 data-ed>Pontos do slide para conferir com o professor</h3>
+      <p data-ed>Estes são os pontos em que o slide se contradiz, simplifica demais ou difere de diretriz atual. Eles aparecem nas caixas tracejadas ao longo do texto.</p>
+      <ul class="pts">
+        <li data-ed>Cura espontânea da hepatite B aguda: "menos de 25%" na tabela comparativa contra "mais de 95% em adultos" em outra página.</li>
+        <li data-ed>Integração "através do cccDNA": o cccDNA é epissomal; a integração é de DNA linear.</li>
+        <li data-ed>Anti-HBs e HBsAg "praticamente se excluem": regra de bolso com exceções.</li>
+        <li data-ed>Anti-HBc isolado atribuído só à imunidade celular: há ao menos quatro explicações possíveis.</li>
+        <li data-ed>Anti-HBc IgM como marcador de fase aguda: pode reaparecer em flares.</li>
+        <li data-ed>Nomes das cinco fases: as diretrizes recentes (EASL 2025) mudaram a nomenclatura.</li>
+        <li data-ed>Redução de 40% do cccDNA em 5 anos: sem fonte citada.</li>
+        <li data-ed>Limiares de tratamento da hepatite B: variam dentro do próprio slide e diferem de EASL 2025 e do PCDT.</li>
+        <li data-ed>Texto sobre rastreamento do carcinoma mistura F (fibrose) com fases e contradiz a figura; "F5" não existe.</li>
+        <li data-ed>Crescimento do tumor "de feijão a melão em 1 ano e meio": figura de linguagem.</li>
+        <li data-ed>Cortes de APRI: divergem entre HBV, HCV e OMS. "Cirrose: F3-F4" no texto.</li>
+        <li data-ed>"RVI" na hepatite C: não é termo padrão. Tratamento da hepatite C aguda em 6 a 8 semanas. Genótipo "passo 3" contra "deixou de ser obrigatório".</li>
+        <li data-ed>Transaminases entre 200 e 500 "sugerem outras causas": regra com exceções. Transfusão "antes de 1992" no Brasil (consolidou-se em torno de 1993).</li>
+        <li data-ed>Título menciona HBV RNA, mas só qHBsAg e HBcrAg são desenvolvidos.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- REFERÊNCIAS -->
+<section class="lx" id="refs" aria-labelledby="refst">
+  <div class="wrap lx-grid">
+    <aside class="rail"><div class="in"><span class="n">R</span><span class="tg">Referências</span></div></aside>
+    <div class="lc">
+      <p class="lh" data-ed><span>Referências</span><span>ABNT NBR 6023</span><span>Padrão institucional Uniarp-SC</span></p>
+      <h2 id="refst" data-ed>Referências</h2>
+      <ol class="refs" style="list-style:none;padding:0">
+        <li data-ed>BRASIL. Ministério da Saúde. Comissão Nacional de Incorporação de Tecnologias no SUS. <i>Relatório preliminar: Protocolo Clínico e Diretrizes Terapêuticas para Hepatite B e Coinfecções</i> (Consulta Pública nº 98). Brasília, DF: Ministério da Saúde, 2026. Disponível em: https://www.gov.br/conitec/pt-br/midias/consultas/relatorios/2026/relatorio-preliminar-pcdt-hepatite-b-e-coinfeccoes-cp-98.pdf. Acesso em: 12 out. 2026.</li>
+        <li data-ed>BRASIL. Ministério da Saúde. <i>Protocolo Clínico e Diretrizes Terapêuticas para Hepatite C e Coinfecções</i>. Brasília, DF: Ministério da Saúde, 2018.</li>
+        <li data-ed>BRUNTON, L. L.; HILAL-DANDAN, R.; KNOLLMANN, B. C. (org.). <i>Goodman &amp; Gilman: as bases farmacológicas da terapêutica</i>. 13. ed. Porto Alegre: AMGH, 2019.</li>
+        <li data-ed>DECORSIÈRE, A. et al. Hepatitis B virus X protein identifies the Smc5/6 complex as a host restriction factor. <i>Nature</i>, London, v. 531, p. 386-389, 2016.</li>
+        <li data-ed>DIENSTAG, J. L. Hepatitis B virus infection. <i>New England Journal of Medicine</i>, Boston, v. 359, n. 14, p. 1486-1500, 2008.</li>
+        <li data-ed>EUROPEAN ASSOCIATION FOR THE STUDY OF THE LIVER. EASL Clinical Practice Guidelines on the management of hepatitis B virus infection. <i>Journal of Hepatology</i>, Amsterdam, v. 83, n. 2, p. 502-583, 2025.</li>
+        <li data-ed>GOLDMAN, L.; SCHAFER, A. I. (ed.). <i>Goldman-Cecil Medicine</i>. 26. ed. Philadelphia: Elsevier, 2020.</li>
+        <li data-ed>HALL, J. E.; HALL, M. E. <i>Guyton &amp; Hall: tratado de fisiologia médica</i>. 14. ed. Rio de Janeiro: Elsevier, 2021.</li>
+        <li data-ed>KATZUNG, B. G.; VANDERAH, T. W. <i>Farmacologia básica e clínica</i>. 15. ed. Porto Alegre: AMGH, 2022.</li>
+        <li data-ed>KUMAR, V.; ABBAS, A. K.; ASTER, J. C. <i>Robbins &amp; Cotran: patologia, bases patológicas das doenças</i>. 10. ed. Rio de Janeiro: Elsevier, 2023.</li>
+        <li data-ed>LAUER, G. M.; WALKER, B. D. Hepatitis C virus infection. <i>New England Journal of Medicine</i>, Boston, v. 345, n. 1, p. 41-52, 2001.</li>
+        <li data-ed>LOSCALZO, J. et al. (ed.). <i>Harrison's principles of internal medicine</i>. 21. ed. New York: McGraw-Hill, 2022.</li>
+        <li data-ed>MORGAN, R. L. et al. Eradication of hepatitis C virus infection and the development of hepatocellular carcinoma: a meta-analysis of observational studies. <i>Annals of Internal Medicine</i>, Philadelphia, v. 158, n. 5, p. 329-337, 2013.</li>
+        <li data-ed>REDDY, K. R. et al. American Gastroenterological Association Institute guideline on the prevention and treatment of hepatitis B virus reactivation during immunosuppressive drug therapy. <i>Gastroenterology</i>, Philadelphia, v. 148, n. 1, p. 215-219, 2015.</li>
+        <li data-ed>SANTA CATARINA. Secretaria de Estado da Saúde. <i>Nota Técnica nº 07/2025 – DIAF/SAS/SES/SC</i>: atualização dos esquemas terapêuticos do PCDT de hepatite C. Florianópolis: SES/SC, 19 mar. 2025. Disponível em: https://saude.sc.gov.br/index.php/pt/legislacao/legislacao-geral/notas-tecnicas/nota-tecnica-n-07-2025-diaf-sas-ses-sc/download. Acesso em: 12 out. 2026.</li>
+        <li data-ed>STERLING, R. K. et al. Development of a simple noninvasive index to predict significant fibrosis in patients with HIV/HCV coinfection. <i>Hepatology</i>, Baltimore, v. 43, n. 6, p. 1317-1325, 2006.</li>
+        <li data-ed>TERRAULT, N. A. et al. Update on prevention, diagnosis, and treatment of chronic hepatitis B: AASLD 2018 hepatitis B guidance. <i>Hepatology</i>, Baltimore, v. 67, n. 4, p. 1560-1599, 2018.</li>
+        <li data-ed>THOMAS, D. L. et al. Genetic variation in IL28B and spontaneous clearance of hepatitis C virus. <i>Nature</i>, London, v. 461, p. 798-801, 2009.</li>
+        <li data-ed>TZARTZEVA, K. et al. Surveillance imaging and alpha fetoprotein for the early detection of hepatocellular carcinoma in patients with cirrhosis: a meta-analysis. <i>Gastroenterology</i>, Philadelphia, v. 154, n. 6, p. 1706-1718, 2018.</li>
+        <li data-ed>WAI, C. T. et al. A simple noninvasive index can predict both significant fibrosis and cirrhosis in patients with chronic hepatitis C. <i>Hepatology</i>, Baltimore, v. 38, n. 2, p. 518-526, 2003.</li>
+        <li data-ed>WERLE-LAPOSTOLLE, B. et al. Persistence of cccDNA during the natural history of chronic hepatitis B and decline during adefovir dipivoxil therapy. <i>Gastroenterology</i>, Philadelphia, v. 126, n. 7, p. 1750-1758, 2004.</li>
+        <li data-ed>YAN, H. et al. Sodium taurocholate cotransporting polypeptide is a functional receptor for human hepatitis B and D virus. <i>eLife</i>, Cambridge, v. 1, e00049, 2012.</li>
+      </ol>
+      <p class="foot" data-ed>Material de estudo elaborado a partir dos slides de Letícia Duarte (professor Bruno) sobre hepatites C e B. As edições dos livros-texto e os dados de volume e página dos artigos devem ser conferidos com a biblioteca antes de uma entrega formal. Os valores de diretrizes mudam: confirme sempre o PCDT vigente.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<div class="editbar" id="editbar" role="toolbar" aria-label="Edição do documento">
+  <button class="btn" id="eb-toggle" type="button" aria-pressed="false">Ativar edição</button>
+  <button class="btn" id="eb-download" type="button">Baixar cópia editada</button>
+  <button class="btn danger" id="eb-restore" type="button">Restaurar original</button>
+  <span class="msg" id="eb-msg" role="status"></span>
+</div>
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- utilidades ---------- */
+  function $(s, r) { return (r || document).querySelector(s); }
+  function $all(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+  function h(tag, attrs, kids) {
+    var el = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (k === 'text') el.textContent = attrs[k];
+      else if (k === 'style') el.setAttribute('style', attrs[k]);
+      else el.setAttribute(k, attrs[k]);
+    });
+    (kids || []).forEach(function (c) {
+      if (c == null) return;
+      el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+    });
+    return el;
+  }
+  function clear(el) { while (el.firstChild) el.removeChild(el.firstChild); }
+
+  /* armazenamento tolerante a falhas (prévia pode bloquear) */
+  var mem = {};
+  var persistent = true;
+  var store = {
+    get: function (k) {
+      try { var v = window.localStorage.getItem(k); return v === null ? (mem[k] || null) : v; }
+      catch (e) { persistent = false; return mem[k] || null; }
+    },
+    set: function (k, v) {
+      mem[k] = v;
+      try { window.localStorage.setItem(k, v); }
+      catch (e) { persistent = false; }
+    },
+    del: function (k) {
+      delete mem[k];
+      try { window.localStorage.removeItem(k); } catch (e) { persistent = false; }
+    }
+  };
+  (function probe() {
+    try { window.localStorage.setItem('hepatites-probe', '1'); window.localStorage.removeItem('hepatites-probe'); }
+    catch (e) { persistent = false; }
+  })();
+
+  /* ---------- tema ---------- */
+  (function theme() {
+    var root = document.documentElement;
+    var btn = $('#themebtn');
+    if (!btn) return;
+    var saved = store.get('hepatites-tema');
+    if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+    function current() {
+      var t = root.getAttribute('data-theme');
+      if (t) return t;
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    function label() { btn.textContent = current() === 'dark' ? 'Tema claro' : 'Tema escuro'; }
+    btn.addEventListener('click', function () {
+      var next = current() === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      store.set('hepatites-tema', next);
+      label();
+    });
+    label();
+  })();
+
+  /* ---------- navegação: marca a prancha visível ---------- */
+  (function nav() {
+    var nav = $('#pnav');
+    if (!nav || !('IntersectionObserver' in window)) return;
+    var links = $all('a', nav);
+    var map = {};
+    links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        links.forEach(function (a) { a.removeAttribute('aria-current'); });
+        var a = map[en.target.id];
+        if (a) {
+          a.setAttribute('aria-current', 'true');
+          var l = a.offsetLeft - nav.clientWidth / 2 + a.offsetWidth / 2;
+          try { nav.scrollTo({ left: l, behavior: 'smooth' }); } catch (e) { nav.scrollLeft = l; }
+        }
+      });
+    }, { rootMargin: '-25% 0px -65% 0px', threshold: 0 });
+    Object.keys(map).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
+  })();
+
+  
+  /* ---------- decodificador de sorologia ---------- */
+  (function decoder() {
+    var host = $('#dec');
+    if (!host) return;
+    var st = { s: 0, hs: 0, c: 0, m: 0, e: 0, he: 0, dna: 'und', alt: 'nor' };
+    var YN = [[0, 'Não reag.'], [1, 'Reagente']];
+    var groups = [
+      { k: 's', l: 'HBsAg', o: YN }, { k: 'hs', l: 'Anti-HBs', o: YN }, { k: 'c', l: 'Anti-HBc total', o: YN },
+      { k: 'm', l: 'Anti-HBc IgM', o: YN }, { k: 'e', l: 'HBeAg', o: YN }, { k: 'he', l: 'Anti-HBe', o: YN },
+      { k: 'dna', l: 'HBV-DNA (UI/mL)', o: [['und', 'Indet.'], ['low', '< 2 mil'], ['mid', '2 a 20 mil'], ['high', '> 20 mil']] },
+      { k: 'alt', l: 'ALT (TGP)', o: [['nor', 'Normal'], ['up', 'Elevada'], ['hi', '> 1.000']] }
+    ];
+    var presets = [
+      ['Sem contato', { s: 0, hs: 0, c: 0, m: 0, e: 0, he: 0, dna: 'und', alt: 'nor' }],
+      ['Vacinado', { s: 0, hs: 1, c: 0, m: 0, e: 0, he: 0, dna: 'und', alt: 'nor' }],
+      ['Aguda', { s: 1, hs: 0, c: 1, m: 1, e: 1, he: 0, dna: 'high', alt: 'hi' }],
+      ['Fase 1', { s: 1, hs: 0, c: 1, m: 0, e: 1, he: 0, dna: 'high', alt: 'nor' }],
+      ['Fase 2', { s: 1, hs: 0, c: 1, m: 0, e: 1, he: 0, dna: 'high', alt: 'up' }],
+      ['Fase 3', { s: 1, hs: 0, c: 1, m: 0, e: 0, he: 1, dna: 'low', alt: 'nor' }],
+      ['Fase 4', { s: 1, hs: 0, c: 1, m: 0, e: 0, he: 1, dna: 'high', alt: 'up' }],
+      ['Curado', { s: 0, hs: 1, c: 1, m: 0, e: 0, he: 0, dna: 'und', alt: 'nor' }],
+      ['Anti-HBc isolado', { s: 0, hs: 0, c: 1, m: 0, e: 0, he: 0, dna: 'und', alt: 'nor' }]
+    ];
+
+    function trace(x) {
+      var t = [];
+      t.push(x.s ? 'HBsAg reagente: há vírus B no organismo.' : 'HBsAg não reagente: sem vírus circulante detectável.');
+      t.push(x.c ? 'Anti-HBc total reagente: houve contato com o vírus, passado ou atual. A vacina nunca produz esse marcador.' : 'Anti-HBc total não reagente: sem contato prévio com o vírus.');
+      if (x.m) t.push('Anti-HBc IgM reagente: resposta imune recente (aguda), ou flare em portador crônico.');
+      t.push(x.hs ? 'Anti-HBs reagente: anticorpo neutralizante presente, por vacina ou por cura.' : 'Anti-HBs não reagente: sem anticorpo neutralizante detectável.');
+      if (x.e) t.push('HBeAg reagente: replicação viral intensa.');
+      if (x.he) t.push('Anti-HBe reagente: replicação controlada (soroconversão), o que não é cura.');
+      return t;
+    }
+
+    function read(x) {
+      var odd = [], R;
+      if (x.m && !x.c) odd.push('IgM reagente com anti-HBc total não reagente é incoerente: o total engloba o IgM.');
+      if (x.e && !x.s) odd.push('HBeAg reagente sem HBsAg é incomum: pense em erro de laboratório ou em mutante de escape do HBsAg. Repita o exame.');
+      if (x.he && !x.c) odd.push('Anti-HBe reagente sem anti-HBc é incoerente: o anti-HBe só surge após infecção.');
+      if (odd.length) return { t: 'odd', title: 'Perfil incoerente', paras: odd, next: 'Repetir a coleta, confirmar a identificação da amostra e pedir HBV-DNA. Se persistir, discutir com o laboratório.' };
+      var none = !x.s && !x.hs && !x.c && !x.e && !x.he && !x.m;
+      if (none) {
+        if (x.dna !== 'und') return { t: 'odd', title: 'HBV-DNA detectável sem nenhum marcador sorológico', paras: ['Possível infecção muito precoce, antes de HBsAg e de anticorpos, ou resultado discordante.'], next: 'Repetir sorologia e HBV-DNA em 2 a 4 semanas.' };
+        return { t: 'safe', title: 'Suscetível: sem contato e sem imunidade', paras: ['Todos os marcadores são negativos. Esta pessoa nunca teve contato com o HBV e não tem anticorpo protetor.'], next: 'Vacinar (esquema completo) e conferir o anti-HBs 1 a 2 meses depois, se for de grupo de risco.' };
+      }
+      if (!x.s) {
+        if (x.c && x.m) return { t: 'acute', title: 'Janela imunológica da hepatite B aguda', paras: ['O HBsAg já desapareceu e o anti-HBs ainda não surgiu. Neste intervalo, só o anti-HBc IgM revela a infecção. É a razão de se pedir IgM em hepatite aguda com HBsAg negativo.'], next: 'Pedir HBV-DNA, acompanhar TGP e INR e repetir o anti-HBs em algumas semanas.' };
+        if (x.hs && !x.c) return { t: 'safe', title: 'Imunidade vacinal', paras: ['O anti-HBs está positivo e o anti-HBc é negativo: houve vacina, e não infecção. A vacina contém só HBsAg, por isso não produz anti-HBc.'], next: 'Nenhuma conduta, se o título for de 10 mUI/mL ou mais.' };
+        if (x.hs && x.c) return { t: 'safe', title: 'Infecção passada resolvida', paras: ['Houve contato, o vírus circulante foi eliminado e o paciente tem imunidade natural.', 'Atenção: o cccDNA pode persistir em quantidade mínima. Sob imunossupressão intensa (rituximabe, quimioterapia), pode haver reativação, mesmo com anti-HBs positivo.'], next: 'Se for imunossuprimir, estratificar o risco e considerar profilaxia ou monitorar ALT e HBV-DNA.' };
+        if (x.c && !x.hs) {
+          if (x.dna !== 'und') return { t: 'risk', title: 'Infecção oculta pelo HBV', paras: ['HBsAg negativo com HBV-DNA detectável: o vírus replica em nível baixo e o HBsAg está abaixo do limite de detecção ou é um mutante não reconhecido.'], next: 'Tratar como portador para fins de reativação; discutir com o hepatologista.' };
+          return { t: 'risk', title: 'Anti-HBc isolado', paras: ['Só o anti-HBc é reagente. As explicações são quatro: janela imunológica, infecção antiga com perda do anti-HBs, infecção oculta ou falso-positivo. O slide destaca a explicação pelo controle por imunidade celular.', 'A importância clínica é o risco de reativação se houver imunossupressão grave, pois o único mecanismo de controle era a imunidade celular.'], next: 'Pedir HBV-DNA. Considerar uma dose de vacina para ver se há resposta anamnéstica. Se for receber rituximabe ou quimioterapia, definir profilaxia.' };
+        }
+      }
+      if (x.s) {
+        if (x.m) {
+          if (x.alt === 'nor') return { t: 'acute', title: 'IgM reagente com TGP normal', paras: ['Pode ser início muito precoce da hepatite aguda (antes do pico da TGP), recuperação tardia ou um IgM em baixo título de portador crônico.'], next: 'Repetir TGP e HBV-DNA em 1 a 2 semanas e pesquisar história de HBsAg anterior.' };
+          return { t: 'acute', title: 'Hepatite B aguda', paras: ['HBsAg e anti-HBc IgM reagentes com TGP alta: infecção recente com replicação intensa e ataque imune aos hepatócitos. O HBeAg é frequentemente positivo e o HBV-DNA fica na casa de milhões de UI/mL.', x.alt === 'hi' ? 'TGP acima de 1.000 é típica de hepatite viral aguda verdadeira. Se o paciente já era portador, o mesmo perfil pode ser um flare.' : 'TGP elevada, mas abaixo de 1.000: ainda compatível, sobretudo no início ou na fase de queda.'], next: 'Avaliar gravidade com INR, bilirrubina e albumina. A maioria cura sem tratamento; hepatite grave exige antiviral e avaliação de transplante.' };
+        }
+        if (!x.c) return { t: 'odd', title: 'HBsAg isolado', paras: ['HBsAg reagente sem anti-HBc: fase muito precoce (o antígeno aparece antes do anticorpo), falso-positivo ou HBsAg transitório após vacina recente.'], next: 'Repetir em 2 a 4 semanas e pedir HBV-DNA e anti-HBc.' };
+        if (x.hs) return { t: 'odd', title: 'HBsAg e anti-HBs ao mesmo tempo', paras: ['A regra de bolso é que um exclui o outro, mas há exceções: transição da fase aguda para a cura, imunocomplexos na hepatite crônica, mutantes de escape do HBsAg e vacinação recente.'], next: 'Repetir, pedir HBV-DNA e avaliar o contexto (tempo de infecção, vacina, tratamento).' };
+        // crônica
+        if (x.e) {
+          if ((x.dna === 'high' || x.dna === 'mid') && x.alt === 'nor') {
+            if (x.dna === 'high') return { t: 'chronic', title: 'Fase 1: hepatite B crônica imunotolerante', paras: ['HBeAg positivo, HBV-DNA muito alto e TGP normal: o vírus replica muito e o sistema imune não reage, então não há dano hepático importante. É a fase típica de quem se infectou ao nascer.'], next: 'Nem todos tratam. Tratar se houver fatores de risco (idade acima de 35 anos, história familiar de carcinoma, HIV) ou fibrose. Caso contrário, monitorar TGP e fibrose.' };
+            return { t: 'chronic', title: 'HBeAg positivo com DNA intermediário e TGP normal', paras: ['Perfil de transição: DNA abaixo do esperado para a fase 1 sem TGP elevada. Pode estar saindo da tolerância.'], next: 'Monitorar a cada 3 meses (TGP, HBV-DNA) e avaliar fibrose por elastografia.' };
+          }
+          if ((x.dna === 'high' || x.dna === 'mid') && x.alt !== 'nor') return { t: 'chronic', title: 'Fase 2: hepatite B crônica imunoativa', paras: ['HBeAg positivo, HBV-DNA alto e TGP alta: o sistema imune começou a atacar os hepatócitos infectados.', x.alt === 'hi' ? 'TGP acima de 1.000 em portador crônico sugere flare, e pode anteceder a soroconversão do HBeAg.' : 'Ciclos de inflamação e reparo levam à fibrose.'], next: 'Sempre tratar. Avaliar fibrose e dosar INR e bilirrubina se a TGP for muito alta.' };
+          return { t: 'odd', title: 'HBeAg reagente com HBV-DNA baixo ou indetectável', paras: ['Em paciente sem tratamento, é discordante. Em quem usa análogo, é esperado: o DNA foi suprimido e o HBeAg ainda não soroconverteu.'], next: 'Confirmar o contexto terapêutico e repetir o DNA com outro ensaio.' };
+        }
+        if (x.dna === 'high') {
+          if (x.alt === 'nor') return { t: 'chronic', title: 'HBeAg negativo com DNA alto e TGP normal', paras: ['Isto não é portador inativo: a replicação é alta apesar da ausência de HBeAg, o que sugere mutante pré-core em fase ainda sem TGP elevada.'], next: 'Repetir TGP seriada, avaliar fibrose por elastografia e considerar tratamento se houver fibrose ou fatores de risco.' };
+          return { t: 'chronic', title: 'Fase 4: hepatite B crônica HBeAg negativa (mutante pré-core)', paras: ['HBeAg negativo, mas HBV-DNA alto e TGP elevada: o vírus continua replicando, apesar de o antígeno não ser detectado, porque a mutação impede a produção do HBeAg sem impedir a replicação.', 'O paciente parece "não replicante", mas não é.'], next: 'Sempre tratar, com antiviral de longa duração. Avaliar fibrose.' };
+        }
+        if (x.dna === 'mid') return { t: 'chronic', title: 'Zona cinzenta (DNA entre 2.000 e 20.000)', paras: [x.alt === 'nor' ? 'Replicação intermediária com TGP normal: ainda não é critério de tratamento por si só.' : 'Replicação intermediária com TGP elevada: o paciente pode ter inflamação hepática significativa apesar de a carga não ser extrema.'], next: x.alt === 'nor' ? 'Monitorar a cada 3 meses e avaliar fibrose por elastografia.' : 'Avaliar fibrose por elastografia ou APRI e considerar tratamento; investigar outras causas de TGP alta.' };
+        if (x.alt === 'nor') return { t: 'chronic', title: x.he ? 'Fase 3: portador inativo' : 'Provável fase 3 (portador inativo)', paras: [x.he ? 'HBeAg negativo, anti-HBe positivo, HBV-DNA baixo e TGP normal: o paciente controlou a replicação e o fígado está preservado. Muitos permanecem nesta fase a vida inteira.' : 'HBeAg negativo, HBV-DNA baixo e TGP normal sugerem fase 3, embora o anti-HBe não esteja positivo no laudo.', 'O vírus continua no organismo, com baixa replicação.'], next: 'Em geral não trata. Monitorar TGP e HBV-DNA periodicamente (a cada 6 a 12 meses), porque pode reativar.' };
+        return { t: 'odd', title: 'DNA baixo com TGP elevada', paras: ['A lesão hepática não parece explicada pela replicação viral. Pense em esteato-hepatite (obesidade, álcool), coinfecção (HCV, HDV), medicamentos e outras hepatopatias.', 'O slide lembra que a soma de agressões acelera a fibrose, e por isso hoje se trata mais cedo.'], next: 'Investigar outras causas e avaliar fibrose. Se a TGP permanecer elevada (1,5 vez o limite em 2 dosagens em 6 meses), há critério de tratamento.' };
+      }
+      return { t: 'odd', title: 'Perfil não classificado', paras: ['A combinação escolhida não se encaixa em um perfil clássico. Revise os marcadores.'], next: 'Repetir exames e discutir o caso.' };
+    }
+
+    function build() {
+      clear(host);
+      var pr = h('div', { 'class': 'presets', role: 'group', 'aria-label': 'Perfis prontos' });
+      presets.forEach(function (p) {
+        var b = h('button', { type: 'button', 'class': 'btn', text: p[0] });
+        b.addEventListener('click', function () { st = JSON.parse(JSON.stringify(p[1])); build(); });
+        pr.appendChild(b);
+      });
+      host.appendChild(pr);
+      var grid = h('div', { 'class': 'dgrid' });
+      groups.forEach(function (g) {
+        var seg = h('div', { 'class': 'seg', role: 'group', 'aria-label': g.l });
+        g.o.forEach(function (o) {
+          var on = st[g.k] === o[0];
+          var b = h('button', { type: 'button', 'aria-pressed': String(on), text: o[1] });
+          if (o[0] === 1) b.className = 'pos';
+          b.addEventListener('click', function () { st[g.k] = o[0]; build(); });
+          seg.appendChild(b);
+        });
+        grid.appendChild(h('div', { 'class': 'mk' }, [h('span', { text: g.l }), seg]));
+      });
+      host.appendChild(grid);
+      R = read(st);
+      var out = h('div', { 'class': 'dout', 'data-t': R.t, 'aria-live': 'polite' });
+      out.appendChild(h('p', { 'class': 'k', text: 'Interpretação' }));
+      out.appendChild(h('h4', { text: R.title }));
+      R.paras.forEach(function (t) { out.appendChild(h('p', { text: t })); });
+      var tr = h('ul', { 'class': 'pts', style: 'font-size:.9rem' });
+      trace(st).forEach(function (t) { tr.appendChild(h('li', { text: t })); });
+      out.appendChild(h('p', { style: 'font:500 .62rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);margin:.8rem 0 .2rem', text: 'Leitura marcador a marcador' }));
+      out.appendChild(tr);
+      out.appendChild(h('div', { 'class': 'nx' }, [h('i', { text: 'Próximo passo' }), h('p', { text: R.next })]));
+      host.appendChild(out);
+    }
+    var R;
+    build();
+  })();
+
+  /* ---------- curva dos marcadores ---------- */
+  (function kinetics() {
+    var host = $('#kin');
+    if (!host) return;
+    var NS = 'http://www.w3.org/2000/svg';
+    function s(tag, attrs, text) {
+      var e = document.createElementNS(NS, tag);
+      Object.keys(attrs || {}).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+      if (text != null) e.textContent = text;
+      return e;
+    }
+    var M = [
+      { id: 'dna', n: 'HBV-DNA', c: 'var(--liver)', thr: .12 },
+      { id: 'hbsag', n: 'HBsAg', c: 'var(--hbv)', thr: .12 },
+      { id: 'hbeag', n: 'HBeAg', c: 'var(--bile)', thr: .12 },
+      { id: 'igm', n: 'Anti-HBc IgM', c: 'var(--imm)', thr: .12 },
+      { id: 'hbc', n: 'Anti-HBc total', c: 'var(--ink2)', thr: .12, dash: '2 3' },
+      { id: 'alt', n: 'ALT elevada', c: 'var(--green)', thr: .25 },
+      { id: 'ahbe', n: 'Anti-HBe', c: 'var(--bile)', thr: .12, dash: '6 3' },
+      { id: 'ahbs', n: 'Anti-HBs', c: 'var(--hbv)', thr: .12, dash: '6 3' }
+    ];
+    var K = {
+      acute: {
+        title: 'Hepatite aguda que cura',
+        dna: [[0, 0], [3, .05], [6, .55], [9, .95], [12, .8], [16, .35], [20, .12], [24, .03], [28, 0], [52, 0]],
+        hbsag: [[0, 0], [4, .05], [6, .4], [10, .9], [14, .8], [18, .5], [22, .2], [25, .05], [27, 0], [52, 0]],
+        hbeag: [[0, 0], [5, .1], [7, .5], [10, .85], [14, .55], [18, .15], [21, 0], [52, 0]],
+        igm: [[0, 0], [9, .05], [11, .4], [15, .9], [20, .8], [28, .4], [36, .12], [44, .03], [48, 0], [52, 0]],
+        hbc: [[0, 0], [9, .05], [11, .4], [14, .8], [20, .95], [52, .95]],
+        alt: [[0, 0], [8, .05], [11, .35], [14, .9], [17, .65], [21, .3], [26, .1], [32, .05], [40, 0], [52, 0]],
+        ahbe: [[0, 0], [18, 0], [21, .3], [26, .6], [52, .7]],
+        ahbs: [[0, 0], [26, .05], [28, .3], [34, .6], [52, .9]]
+      },
+      chronic: {
+        title: 'Evolução para cronicidade (HBeAg positivo)',
+        dna: [[0, 0], [3, .05], [8, .8], [12, .95], [52, .9]],
+        hbsag: [[0, 0], [4, .05], [8, .7], [12, .95], [52, .95]],
+        hbeag: [[0, 0], [5, .1], [8, .7], [12, .9], [52, .9]],
+        igm: [[0, 0], [10, .05], [14, .3], [20, .25], [30, .1], [52, .05]],
+        hbc: [[0, 0], [10, .05], [14, .5], [20, .9], [52, .95]],
+        alt: [[0, 0], [10, .1], [20, .3], [30, .15], [52, .1]],
+        ahbe: [[0, 0], [52, 0]],
+        ahbs: [[0, 0], [52, 0]]
+      }
+    };
+    var sc = 'acute', wk = 14;
+    function val(arr, w) {
+      for (var i = 1; i < arr.length; i++) {
+        if (w <= arr[i][0]) {
+          var a = arr[i - 1], b = arr[i], t = (w - a[0]) / (b[0] - a[0] || 1);
+          return a[1] + (b[1] - a[1]) * (1 - Math.cos(Math.PI * t)) / 2;
+        }
+      }
+      return arr[arr.length - 1][1];
+    }
+    var W = 720, H = 330, L = 44, R = 14, T = 16, B = 44;
+    function X(w) { return L + w / 52 * (W - L - R); }
+    function Y(v) { return H - B - v * (H - T - B); }
+
+    function msg(on) {
+      if (sc === 'acute') {
+        if (wk < 4) return 'Incubação inicial: o vírus se replica em silêncio. Ainda não há marcador detectável por sorologia.';
+        if (!on.hbsag && !on.ahbs && on.igm) return 'Janela imunológica: o HBsAg já desapareceu e o anti-HBs ainda não surgiu. Só o anti-HBc IgM (e o total) revelam a infecção. É por isso que, em hepatite aguda com HBsAg negativo, se pede o IgM.';
+        if (on.hbsag && !on.igm) return 'Início da infecção: HBsAg e HBV-DNA aparecem antes dos anticorpos. A TGP ainda pode estar normal e não há sintomas.';
+        if (on.hbsag && on.alt) return 'Fase sintomática: HBsAg, HBeAg, IgM e TGP em pico, e HBV-DNA já em queda. A destruição imune dos hepatócitos infectados é o que gera os sintomas e a icterícia.';
+        if (on.hbsag) return 'HBsAg ainda presente com marcadores de resposta imune. Se persistir além de 6 meses, será hepatite crônica.';
+        if (on.ahbs) return 'Recuperação: HBsAg ausente e anti-HBs presente. Há imunidade natural. O anti-HBc total permanece positivo por toda a vida.';
+        return '';
+      }
+      if (wk < 4) return 'Incubação inicial, igual à aguda: ainda sem marcadores.';
+      if (wk < 26) return 'No início é indistinguível da hepatite aguda: HBsAg, HBeAg e HBV-DNA altos, com IgM em título baixo. A diferença é que o HBsAg não cai.';
+      return 'Mais de 6 meses com HBsAg positivo: por definição, hepatite B crônica. Não há anti-HBs nem anti-HBe, e o HBV-DNA continua alto: é a fase imunotolerante ou imunoativa.';
+    }
+
+    function draw() {
+      var data = K[sc];
+      clear(host);
+      var bt = h('div', { 'class': 'presets', role: 'group', 'aria-label': 'Cenário' });
+      [['acute', 'Hepatite aguda que cura'], ['chronic', 'Evolução para cronicidade']].forEach(function (x) {
+        var b = h('button', { type: 'button', 'class': 'btn' + (sc === x[0] ? ' on' : ''), text: x[1] });
+        b.addEventListener('click', function () { sc = x[0]; wk = x[0] === 'acute' ? 14 : 30; draw(); });
+        bt.appendChild(b);
+      });
+      host.appendChild(bt);
+      var svg = s('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Curvas esquemáticas dos marcadores da hepatite B ao longo de 52 semanas' });
+      for (var g = 0; g <= 52; g += 4) {
+        svg.appendChild(s('line', { x1: X(g), x2: X(g), y1: T, y2: H - B, style: 'stroke:var(--line);stroke-width:1' }));
+        svg.appendChild(s('text', { x: X(g), y: H - B + 16, 'text-anchor': 'middle', style: 'font:400 10px var(--f-mono);fill:var(--ink2)' }, String(g)));
+      }
+      svg.appendChild(s('text', { x: (L + W - R) / 2, y: H - 8, 'text-anchor': 'middle', style: 'font:500 10px var(--f-mono);fill:var(--ink2);letter-spacing:.1em' }, 'SEMANAS APÓS A EXPOSIÇÃO'));
+      svg.appendChild(s('text', { x: 12, y: (T + H - B) / 2, 'text-anchor': 'middle', transform: 'rotate(-90 12 ' + (T + H - B) / 2 + ')', style: 'font:500 10px var(--f-mono);fill:var(--ink2);letter-spacing:.1em' }, 'NÍVEL RELATIVO'));
+      if (sc === 'chronic') {
+        svg.appendChild(s('line', { x1: X(26), x2: X(26), y1: T, y2: H - B, style: 'stroke:var(--liver);stroke-width:1.2;stroke-dasharray:5 4' }));
+        svg.appendChild(s('text', { x: X(26) + 5, y: T + 12, style: 'font:500 10px var(--f-mono);fill:var(--liver)' }, '6 meses: HBsAg ainda positivo = crônica'));
+      } else {
+        svg.appendChild(s('rect', { x: X(23.6), y: T, width: X(26.6) - X(23.6), height: H - B - T, style: 'fill:var(--bile);opacity:.16' }));
+        svg.appendChild(s('text', { x: X(25.1), y: T + 12, 'text-anchor': 'middle', style: 'font:500 10px var(--f-mono);fill:var(--bile)' }, 'janela'));
+      }
+      M.forEach(function (m) {
+        var pts = [];
+        for (var w = 0; w <= 52; w += .5) pts.push((w === 0 ? 'M' : 'L') + X(w).toFixed(1) + ' ' + Y(val(data[m.id], w)).toFixed(1));
+        var p = s('path', { d: pts.join(' '), style: 'fill:none;stroke:' + m.c + ';stroke-width:2.2;stroke-linejoin:round' + (m.dash ? ';stroke-dasharray:' + m.dash : '') });
+        svg.appendChild(p);
+      });
+      svg.appendChild(s('line', { x1: X(wk), x2: X(wk), y1: T, y2: H - B, style: 'stroke:var(--ink);stroke-width:1.6' }));
+      svg.appendChild(s('circle', { cx: X(wk), cy: H - B, r: 4, style: 'fill:var(--ink)' }));
+      host.appendChild(svg);
+
+      var ctl = h('div', { 'class': 'kctl' });
+      var lab = h('label', { 'for': 'kwk' }, [h('span', { text: 'Semana após a exposição' }), h('output', { id: 'kwko', 'for': 'kwk', text: 'semana ' + wk })]);
+      var inp = h('input', { id: 'kwk', type: 'range', min: '0', max: '52', step: '1', value: String(wk) });
+      inp.addEventListener('input', function () { wk = parseInt(inp.value, 10); upd(); });
+      ctl.appendChild(lab); ctl.appendChild(inp);
+      host.appendChild(ctl);
+      var list = h('ul', { 'class': 'klist', id: 'klist', 'aria-live': 'polite' });
+      host.appendChild(list);
+      host.appendChild(h('p', { 'class': 'kmsg', id: 'kmsg', 'aria-live': 'polite' }));
+      host.appendChild(h('p', { style: 'margin:.8rem 0 0;font:400 .72rem/1.5 var(--f-mono);color:var(--ink2)', text: 'Curvas esquemáticas, no estilo das figuras dos livros-texto. O tempo e a altura de cada curva variam muito entre pacientes. Linha cheia: antígenos, DNA e TGP. Linha tracejada: anticorpos.' }));
+      upd();
+    }
+    function upd() {
+      var data = K[sc], on = {};
+      M.forEach(function (m) { on[m.id] = val(data[m.id], wk) >= m.thr; });
+      var cur = $('#kwk');
+      if (cur) cur.value = String(wk);
+      var o = $('#kwko'); if (o) o.textContent = 'semana ' + wk;
+      var ln = $('#kwk'); 
+      var lines = $all('svg line', host);
+      var list = $('#klist'); clear(list);
+      M.forEach(function (m) {
+        var li = h('li', { 'data-on': on[m.id] ? '1' : '0', style: '--c:' + m.c }, [h('i'), h('span', { text: m.n + (on[m.id] ? ': presente' : ': ausente') })]);
+        list.appendChild(li);
+      });
+      $('#kmsg').textContent = msg(on);
+      // reposiciona cursor
+      var svg = $('svg', host);
+      var all = $all('line', svg);
+      var cursor = all[all.length - 1], dot = $('circle', svg);
+      if (cursor) { cursor.setAttribute('x1', X(wk)); cursor.setAttribute('x2', X(wk)); }
+      if (dot) dot.setAttribute('cx', X(wk));
+    }
+    draw();
+  })();
+
+  /* ---------- calculadora de APRI e FIB-4 ---------- */
+  (function calc() {
+    var host = $('#calc');
+    if (!host) return;
+    var f = [
+      ['ast', 'AST (TGO), U/L', 60], ['lsn', 'Limite superior da AST, U/L', 40], ['alt', 'ALT (TGP), U/L', 70],
+      ['plq', 'Plaquetas, mil/mm³', 180], ['age', 'Idade, anos', 45]
+    ];
+    var grid = h('div', { 'class': 'cgrid' });
+    f.forEach(function (x) {
+      var inp = h('input', { id: 'c-' + x[0], type: 'number', inputmode: 'decimal', min: '0', step: 'any', value: String(x[2]) });
+      inp.addEventListener('input', up);
+      grid.appendChild(h('label', { 'for': 'c-' + x[0] }, [h('span', { text: x[1] }), inp]));
+    });
+    var res = h('div', { 'class': 'cres', 'aria-live': 'polite' });
+    host.appendChild(grid); host.appendChild(res);
+    host.appendChild(h('p', { style: 'margin:.8rem 0 0;font:400 .72rem/1.5 var(--f-mono);color:var(--ink2)', text: 'APRI = (AST / limite superior da AST) / plaquetas × 100. FIB-4 = (idade × AST) / (plaquetas × raiz quadrada da ALT). Escores de triagem: confirme com elastografia e clínica.' }));
+    function num(id) { var v = parseFloat($('#c-' + id).value); return isFinite(v) ? v : NaN; }
+    function fmt(v) { return v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+    function up() {
+      clear(res);
+      var ast = num('ast'), lsn = num('lsn'), alt = num('alt'), plq = num('plq'), age = num('age');
+      var apri = (ast / lsn) / plq * 100, fib = (age * ast) / (plq * Math.sqrt(alt));
+      var ok1 = isFinite(apri) && plq > 0 && lsn > 0, ok2 = isFinite(fib) && plq > 0 && alt > 0;
+      var a = ok1 ? (apri < .5 ? 'Abaixo de 0,5: fibrose significativa pouco provável.' : (apri <= 1 ? 'Entre 0,5 e 1,0: sugere fibrose F2 ou mais (corte do PCDT de hepatite B). No PCDT de hepatite C, abaixo de 1 define o esquema sem cirrose.' : 'Acima de 1,0: no slide (hepatite C), fibrose F2 ou mais; no PCDT de hepatite B, sugere cirrose. Confirmar por elastografia.')) : 'Preencha os valores.';
+      var b = ok2 ? (fib < 1.45 ? 'Abaixo de 1,45: baixa probabilidade de fibrose avançada.' : (fib <= 3.25 ? 'Entre 1,45 e 3,25: faixa indeterminada; indicar elastografia.' : 'Acima de 3,25: fibrose avançada (F3 ou mais) provável.')) : 'Preencha os valores.';
+      res.appendChild(h('div', null, [h('span', { 'class': 'l', text: 'APRI' }), h('div', { 'class': 'v', text: ok1 ? fmt(apri) : '—' }), h('p', { text: a })]));
+      res.appendChild(h('div', null, [h('span', { 'class': 'l', text: 'FIB-4' }), h('div', { 'class': 'v', text: ok2 ? fmt(fib) : '—' }), h('p', { text: b })]));
+    }
+    up();
+  })();
+
+  /* ---------- revisão em casos ---------- */
+  (function quiz() {
+    var root = $('#quiz');
+    if (!root) return;
+    var Q = [
+      { pl: '01', cs: 'Dois pacientes de 30 anos usaram antivirais e ficaram com carga viral indetectável: um por hepatite C, outro por hepatite B crônica.', q: 'Por que só o primeiro pode ser considerado curado?',
+        o: ['O HCV não tem reservatório: com a replicação suprimida por 12 semanas, não resta molde. No HBV, o cccDNA nuclear persiste.', 'O HBV é um vírus de RNA e o HCV de DNA, e o DNA é mais fácil de eliminar.', 'Os fármacos contra o HBV não chegam ao fígado.', 'A hepatite B tem sempre carga viral oscilante.'], c: 0,
+        e: 'O HCV é um vírus de RNA, replica no citoplasma e não deixa cópia de DNA. O HBV forma o cccDNA no núcleo, um minicromossomo que os análogos não eliminam. Por isso se fala em cura funcional (HBsAg negativo) na hepatite B e em RVS12 (cura) na hepatite C.' },
+      { pl: '02', cs: 'Recém-nascido de mãe HBsAg positiva, sem profilaxia, assintomático ao longo dos meses.', q: 'Por que o risco de cronificação nesse caso é de cerca de 90%?',
+        o: ['Porque o vírus é mais virulento em recém-nascidos.', 'Porque o sistema imune imaturo e o HBeAg materno induzem tolerância: sem inflamação, o vírus não é eliminado.', 'Porque os recém-nascidos não têm fígado funcionante.', 'Porque a vacina não funciona em recém-nascidos.'], c: 1,
+        e: 'A hepatite B não mata o hepatócito diretamente; quem o lesiona é a resposta imune, e é essa resposta que elimina o vírus. No recém-nascido ela é fraca e tolerogênica, e o HBeAg que cruza a placenta contribui para a tolerância. A vacina e a imunoglobulina nas primeiras horas são justamente o que interrompe esse caminho.' },
+      { pl: '04', cs: 'Mulher de 25 anos, ictérica, com colúria, TGP de 2.100 U/L, HBsAg positivo e anti-HBc IgM positivo.', q: 'O que a TGP tão alta indica sobre o prognóstico?',
+        o: ['Mau prognóstico: significa carga viral altíssima.', 'Nada, a TGP não tem relação com a resposta imune.', 'Provável resposta imune citotóxica vigorosa contra hepatócitos infectados, o que favorece a eliminação do vírus.', 'Que ela é portadora crônica há anos.'], c: 2,
+        e: 'A TGP mede lise de hepatócitos, e na hepatite aguda é consequência do ataque dos linfócitos T. Resposta forte significa maior chance de cura (em adultos, mais de 95% eliminam o vírus). A exceção é a hepatite fulminante, por isso se acompanha INR e encefalopatia.' },
+      { pl: '03', cs: 'Estudante de medicina, vacinado há 3 anos. HBsAg negativo, anti-HBs 150 mUI/mL e anti-HBc negativo.', q: 'Como interpretar?',
+        o: ['Infecção passada resolvida.', 'Infecção oculta.', 'Hepatite B aguda em janela.', 'Imunidade vacinal: nunca houve contato com o vírus.'], c: 3,
+        e: 'Anti-HBs positivo e anti-HBc negativo é o perfil vacinal, porque a vacina contém só HBsAg e não induz anti-HBc. Quem curou uma infecção natural tem anti-HBc positivo junto com o anti-HBs.' },
+      { pl: '06', cs: 'Homem de 58 anos com linfoma, vai iniciar R-CHOP (inclui rituximabe). HBsAg negativo, anti-HBs negativo, anti-HBc total positivo.', q: 'Qual a conduta mais adequada?',
+        o: ['Nenhuma: HBsAg negativo exclui reativação.', 'Apenas vacinar.', 'Alto risco de reativação pelo rituximabe: pedir HBV-DNA e iniciar profilaxia com entecavir ou tenofovir antes e por meses após a imunossupressão.', 'Tratar só se a TGP subir.'], c: 2,
+        e: 'O cccDNA persiste mesmo com HBsAg negativo. O rituximabe depleta células B e é um dos maiores riscos para reativação, que pode ser fulminante (mortalidade de até 40%). A profilaxia mantém o vírus suprimido enquanto o controle imune está ausente e depois, durante a recuperação.' },
+      { pl: '05', cs: 'Paciente de 40 anos, HBeAg negativo, anti-HBe positivo, HBV-DNA de 1.200.000 UI/mL e TGP de 120 U/L.', q: 'Qual a fase e por que o HBeAg é negativo?',
+        o: ['Fase 3 (portador inativo): HBeAg negativo significa baixa replicação.', 'Fase 4: mutação pré-core impede a produção do HBeAg, mas o vírus replica e causa lesão. Trata-se.', 'Fase 5: clareamento viral.', 'Fase 1: imunotolerante.'], c: 1,
+        e: 'HBeAg negativo com HBV-DNA alto e TGP elevada é a hepatite crônica HBeAg negativa (fase 4). Uma mutação no pré-core (ou no promotor basal do core) impede a síntese do HBeAg sem impedir a replicação. Na fase 3 o DNA é baixo e a TGP é normal.' },
+      { pl: '05', cs: 'Homem de 22 anos, HBeAg positivo, HBV-DNA de 800 milhões UI/mL, TGP normal, elastografia normal, sem história familiar, nascido de mãe portadora.', q: 'Qual a explicação do quadro e a conduta inicial?',
+        o: ['Fase 1 (imunotolerante): alta replicação sem ataque imune. Em geral monitorar, e tratar se houver fatores de risco.', 'Fase 2: tratar sempre.', 'Hepatite aguda.', 'Cura funcional.'], c: 0,
+        e: 'A transmissão vertical causa tolerância imune, e o vírus replica sem inflamação. O dano ao fígado depende da resposta imune, e não da carga viral. Por isso a decisão depende de idade (acima de 35 anos), história familiar de carcinoma, fibrose, coinfecção e evolução da TGP.' },
+      { pl: '06', cs: 'Paciente em tenofovir disoproxil há 3 anos. Agora com creatinina em elevação, fósforo baixo, glicosúria com glicemia normal e dor óssea.', q: 'Qual o diagnóstico mais provável e a alternativa terapêutica?',
+        o: ['Diabetes tipo 2; trocar por insulina.', 'Tubulopatia proximal por TDF (tipo Fanconi) com perda de fosfato e osteopenia; trocar por TAF ou entecavir (se sem exposição à lamivudina).', 'Hepatite aguda; suspender todo o tratamento.', 'Toxicidade hepática do tenofovir; aumentar a dose.'], c: 1,
+        e: 'O TDF gera tenofovir plasmático alto, captado pelo túbulo proximal via OAT1. A lesão mitocondrial causa perda de fosfato, glicose e bicarbonato, e a osteopenia decorre da hipofosfatemia. O TAF tem menor exposição plasmática. O entecavir é seguro para o rim, mas tem resistência cruzada com lamivudina.' },
+      { pl: '08', cs: 'Homem com hepatite C crônica e cirrose compensada obteve RVS12 com DAA.', q: 'Qual a orientação de seguimento?',
+        o: ['Alta definitiva: a cura elimina o risco de carcinoma.', 'Ultrassom a cada 6 meses com ou sem AFP, por tempo indefinido: a cirrose continua e o risco de CHC cai, mas não zera.', 'Repetir o HCV-RNA todo mês.', 'Biópsia hepática anual.'], c: 1,
+        e: 'Após a cura, a inflamação melhora e a fibrose pode regredir parcialmente, mas o cirrótico continua cirrótico. O risco de CHC cai cerca de 70% e o de descompensação cerca de 50%, sem chegar a zero.' },
+      { pl: '08', cs: 'Usuário de drogas injetáveis compartilhou seringa há 3 semanas. Agora tem fadiga e TGP de 800 U/L. Anti-HCV negativo.', q: 'Qual exame pedir e por quê?',
+        o: ['Repetir o anti-HCV em 5 anos.', 'HCV-RNA por PCR, porque o RNA fica detectável em 1 a 3 semanas, e o anticorpo só em 8 a 12 semanas.', 'Genotipagem do HCV.', 'Nenhum, o anti-HCV negativo exclui a infecção.'], c: 1,
+        e: 'Na fase aguda, o anticorpo ainda não foi produzido. Uma janela diagnóstica que se aproveita pedindo HCV-RNA em exposição recente de risco. O tratamento na fase aguda com DAA cura mais de 98%.' },
+      { pl: '09', cs: 'Mulher de 55 anos, anti-HCV positivo, com púrpura palpável em pernas, artralgia, fenômeno de Raynaud e C4 baixo.', q: 'Qual o diagnóstico e o mecanismo?',
+        o: ['Poliarterite nodosa por HBV.', 'Crioglobulinemia mista: o HCV estimula clones B (via CD81) que produzem IgM com atividade de fator reumatoide, formando imunocomplexos que precipitam no frio e causam vasculite.', 'Porfiria cutânea tarda.', 'Lúpus eritematoso sistêmico induzido por HCV.'], c: 1,
+        e: 'A crioglobulinemia mista é a manifestação extra-hepática clássica da hepatite C. O tratamento é o do vírus, e a RVS pode reverter o quadro. A porfiria produz bolhas em áreas expostas ao sol, e a poliarterite nodosa está ligada ao HBV.' },
+      { pl: '08', cs: 'Paciente com hepatite C crônica e HBsAg positivo (hepatite B não tratada) vai iniciar DAA.', q: 'Qual o cuidado principal?',
+        o: ['Nenhum, os DAA não têm relação com o HBV.', 'Risco de reativação do HBV pela supressão rápida do HCV: tratar ou fazer profilaxia do HBV e monitorar TGP e HBV-DNA.', 'Usar interferon.', 'Adiar o tratamento por 5 anos.'], c: 1,
+        e: 'O HCV pode suprimir a replicação do HBV por interferência. Quando o HCV é eliminado rapidamente pelos DAA, o HBV pode reativar, às vezes de forma grave. É a razão de dosar HBsAg e anti-HBc antes de qualquer tratamento da hepatite C.' }
+    ];
+    var state;
+    function start(idxs) { state = { list: idxs, pos: 0, right: 0, miss: [] }; render(); }
+    function render() {
+      clear(root);
+      if (state.pos >= state.list.length) return result();
+      var qi = state.list[state.pos], q = Q[qi];
+      root.appendChild(h('div', { 'class': 'qtop' }, [h('span', { text: 'Caso ' + (state.pos + 1) + ' de ' + state.list.length }), h('span', { text: 'Acertos: ' + state.right })]));
+      var bar = h('div', { 'class': 'qbar' }, [h('i')]);
+      root.appendChild(bar);
+      bar.firstChild.style.width = (state.pos / state.list.length * 100) + '%';
+      root.appendChild(h('p', { 'class': 'qcase', text: q.cs }));
+      root.appendChild(h('p', { 'class': 'qq', text: q.q }));
+      var opts = h('div', { 'class': 'qopts', role: 'group', 'aria-label': 'Alternativas' });
+      var btns = q.o.map(function (t, k) {
+        var b = h('button', { type: 'button', 'class': 'qopt', text: t });
+        b.addEventListener('click', function () { pick(k); });
+        opts.appendChild(b); return b;
+      });
+      root.appendChild(opts);
+      var slot = h('div', { 'aria-live': 'polite' });
+      root.appendChild(slot);
+      state.btns = btns; state.slot = slot; state.q = q; state.qi = qi;
+    }
+    function pick(k) {
+      var q = state.q;
+      state.btns.forEach(function (b, i) {
+        b.disabled = true;
+        if (i === q.c) b.classList.add('right');
+        else if (i === k) b.classList.add('wrong');
+      });
+      if (k === q.c) state.right++; else state.miss.push(state.qi);
+      state.slot.appendChild(h('p', { 'class': 'qexp', text: (k === q.c ? 'Certo. ' : 'Não foi essa. ') + q.e + ' (Exame ' + q.pl + ')' }));
+      var nav = h('div', { 'class': 'qnav', style: 'margin-top:.8rem' });
+      var last = state.pos === state.list.length - 1;
+      var nb = h('button', { type: 'button', 'class': 'btn on', text: last ? 'Ver resultado' : 'Próximo caso' });
+      nb.addEventListener('click', function () { state.pos++; render(); });
+      nav.appendChild(nb);
+      state.slot.appendChild(nav);
+      nb.focus({ preventScroll: true });
+    }
+    function result() {
+      var n = state.list.length, ok = state.right;
+      var box = h('div', { 'class': 'qres' });
+      box.appendChild(h('p', { 'class': 'qq', text: 'Você acertou ' + ok + ' de ' + n + '.' }));
+      if (state.miss.length) {
+        box.appendChild(h('p', { text: 'Para rever, estes casos:' }));
+        var ul = h('ul');
+        state.miss.forEach(function (i) { ul.appendChild(h('li', { text: Q[i].q + ' (Exame ' + Q[i].pl + ')' })); });
+        box.appendChild(ul);
+      } else {
+        box.appendChild(h('p', { text: 'Sem erros. Agora explique cada caso em voz alta, como se fosse para um colega: é aí que aparece qualquer lacuna.' }));
+      }
+      var nav = h('div', { 'class': 'qnav' });
+      if (state.miss.length) {
+        var rb = h('button', { type: 'button', 'class': 'btn on', text: 'Refazer só os que errei' });
+        var missed = state.miss.slice();
+        rb.addEventListener('click', function () { start(missed); });
+        nav.appendChild(rb);
+      }
+      var all = h('button', { type: 'button', 'class': 'btn', text: 'Recomeçar tudo' });
+      all.addEventListener('click', function () { start(Q.map(function (_, i) { return i; })); });
+      nav.appendChild(all);
+      box.appendChild(nav);
+      root.appendChild(box);
+    }
+    start(Q.map(function (_, i) { return i; }));
+  })();
+
+  /* ---------- edição, autosave, cópia e restauração ---------- */
+  (function editor() {
+    var bar = $('#editbar');
+    if (!bar) return;
+    var tg = $('#eb-toggle'), dl = $('#eb-download'), rs = $('#eb-restore'), msg = $('#eb-msg');
+    var KEY = 'hepatites-uniarp:edicoes:v1';
+    var els = $all('[data-ed]').filter(function (e) { return !e.closest('[data-dyn]'); });
+    var originals = els.map(function (e) { return e.innerHTML; });
+    var editing = false, timer = null, confirmTimer = null, confirming = false;
+
+    function clean(html) {
+      var d = document.createElement('div');
+      d.innerHTML = html;
+      $all('script,style,iframe,object,embed,link', d).forEach(function (n) { n.remove(); });
+      $all('*', d).forEach(function (n) {
+        Array.prototype.slice.call(n.attributes).forEach(function (a) {
+          if (/^on/i.test(a.name) || (/^(href|src)$/i.test(a.name) && /^\s*javascript:/i.test(a.value))) n.removeAttribute(a.name);
+        });
+      });
+      // sem negrito: remove marcações de ênfase forte que o navegador possa inserir
+      $all('b,strong', d).forEach(function (n) { while (n.firstChild) n.parentNode.insertBefore(n.firstChild, n); n.remove(); });
+      return d.innerHTML;
+    }
+    function collect() {
+      var o = {};
+      els.forEach(function (e, i) { if (e.innerHTML !== originals[i]) o[i] = e.innerHTML; });
+      return o;
+    }
+    function say(t) { msg.textContent = t; }
+    function save(auto) {
+      var o = collect();
+      var n = Object.keys(o).length;
+      if (!n) { store.del(KEY); if (!auto) say('Nenhuma alteração para salvar.'); return; }
+      store.set(KEY, JSON.stringify(o));
+      var hh = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      say((auto ? 'Salvo automaticamente às ' : 'Salvo às ') + hh + (persistent ? '.' : ' (apenas nesta sessão; o navegador bloqueou o armazenamento).'));
+    }
+    function applySaved() {
+      var raw = store.get(KEY);
+      if (!raw) return 0;
+      try {
+        var o = JSON.parse(raw), n = 0;
+        Object.keys(o).forEach(function (k) { var e = els[+k]; if (e && typeof o[k] === 'string') { e.innerHTML = clean(o[k]); n++; } });
+        return n;
+      } catch (e) { return 0; }
+    }
+    function setEditing(on) {
+      editing = on;
+      document.body.classList.toggle('editing', on);
+      els.forEach(function (e) {
+        if (on) { e.setAttribute('contenteditable', 'true'); e.setAttribute('spellcheck', 'true'); }
+        else { e.removeAttribute('contenteditable'); e.removeAttribute('spellcheck'); }
+      });
+      tg.setAttribute('aria-pressed', String(on));
+      tg.textContent = on ? 'Salvar e sair da edição' : 'Ativar edição';
+      clearInterval(timer);
+      if (on) {
+        timer = setInterval(function () { save(true); }, 15000);
+        say('Edição ativa. Salva sozinho a cada 15 segundos. ' + (persistent ? 'Na prévia do Claude.ai o armazenamento pode não persistir: use Baixar cópia editada.' : 'O armazenamento do navegador está bloqueado aqui; use Baixar cópia editada para não perder o trabalho.'));
+      }
+    }
+    tg.addEventListener('click', function () {
+      if (editing) { save(false); setEditing(false); }
+      else setEditing(true);
+    });
+    document.addEventListener('visibilitychange', function () { if (editing && document.hidden) save(true); });
+    window.addEventListener('pagehide', function () { if (editing) save(true); });
+
+    // sem negrito e sem colar formatação
+    document.addEventListener('keydown', function (e) {
+      if (!editing || !e.target.closest || !e.target.closest('[data-ed]')) return;
+      if ((e.ctrlKey || e.metaKey) && /^[biu]$/i.test(e.key)) e.preventDefault();
+      if (e.key === 'Enter') { e.preventDefault(); document.execCommand('insertLineBreak'); }
+    });
+    document.addEventListener('paste', function (e) {
+      if (!editing || !e.target.closest || !e.target.closest('[data-ed]')) return;
+      e.preventDefault();
+      var t = (e.clipboardData || window.clipboardData).getData('text/plain');
+      document.execCommand('insertText', false, t);
+    });
+
+    dl.addEventListener('click', function () {
+      if (editing) save(true);
+      var root = document.documentElement.cloneNode(true);
+      var b = root.querySelector('body');
+      if (b) b.classList.remove('editing');
+      $all('[contenteditable]', root).forEach(function (n) { n.removeAttribute('contenteditable'); n.removeAttribute('spellcheck'); });
+      $all('[data-dyn]', root).forEach(function (n) { n.innerHTML = ''; });
+      $all('.node.on', root).forEach(function (n) { n.classList.remove('on'); });
+      root.removeAttribute('data-theme');
+      var eb = root.querySelector('#eb-toggle'); if (eb) { eb.setAttribute('aria-pressed', 'false'); eb.textContent = 'Ativar edição'; }
+      var em = root.querySelector('#eb-msg'); if (em) em.textContent = '';
+      var xd = root.querySelector('#xdrugs'); if (xd) xd.setAttribute('aria-pressed', 'true');
+      var xf = root.querySelector('#xfig'); if (xf) xf.setAttribute('data-drugs', 'on');
+      var rd = root.querySelector('#rday'); if (rd) rd.setAttribute('value', '10');
+      var html = '<!DOCTYPE html>\n' + root.outerHTML;
+      try {
+        var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = 'hepatites-editado.html';
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+        say('Cópia gerada. Se o arquivo não apareceu (a prévia do Claude.ai bloqueia downloads), abra o .html original no navegador e baixe de lá.');
+      } catch (err) {
+        say('Não foi possível gerar o arquivo neste ambiente. Abra o .html no navegador e tente de novo.');
+      }
+    });
+
+    rs.addEventListener('click', function () {
+      if (!confirming) {
+        confirming = true;
+        rs.textContent = 'Confirmar restauração';
+        say('Isso apaga todas as edições salvas e volta ao texto original. Clique de novo para confirmar.');
+        confirmTimer = setTimeout(function () { confirming = false; rs.textContent = 'Restaurar original'; say(''); }, 5000);
+        return;
+      }
+      clearTimeout(confirmTimer); confirming = false;
+      rs.textContent = 'Restaurar original';
+      els.forEach(function (e, i) { e.innerHTML = originals[i]; });
+      store.del(KEY);
+      say('Texto original restaurado e edições salvas apagadas.');
+    });
+
+    var n = applySaved();
+    if (n) say(n + (n === 1 ? ' trecho editado foi' : ' trechos editados foram') + ' recuperado' + (n === 1 ? '' : 's') + ' do armazenamento do navegador.');
+  })();
+})();
+</script>
+
+</body>
+</html>

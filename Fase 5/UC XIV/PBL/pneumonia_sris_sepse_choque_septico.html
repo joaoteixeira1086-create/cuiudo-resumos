@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pneumonias, SRIS, Sepse e Choque Séptico — Guia de Estudo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070b14;
+  --bg-alt:#0b111f;
+  --panel:#0e1526;
+  --panel-2:#111a2e;
+  --border:#1e293f;
+  --border-soft:#182238;
+  --text:#e7ecf6;
+  --text-dim:#9fb0cc;
+  --text-mute:#6b7c9c;
+
+  --cyan:#3fd1e0;
+  --red:#f0556b;
+  --amber:#f2b054;
+  --green:#4fd18b;
+  --violet:#a78bfa;
+  --orange:#f2925a;
+  --teal:#38c9b9;
+  --lime:#c3e05a;
+
+  --radius:14px;
+  --radius-sm:8px;
+  --font-title:'Merriweather', serif;
+  --font-body:'DM Sans', sans-serif;
+  --font-mono:'DM Mono', monospace;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:
+    radial-gradient(ellipse 1200px 700px at 15% -10%, rgba(63,209,224,0.06), transparent 60%),
+    radial-gradient(ellipse 900px 600px at 100% 10%, rgba(167,139,250,0.05), transparent 55%),
+    var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:rgba(63,209,224,0.25);}
+a{color:inherit;text-decoration:none;}
+
+/* ---------- SIDEBAR ---------- */
+#sb{
+  position:fixed;
+  top:0;left:0;bottom:0;
+  width:280px;
+  background:linear-gradient(180deg, var(--bg-alt), var(--bg));
+  border-right:1px solid var(--border-soft);
+  padding:28px 20px 20px;
+  overflow-y:auto;
+  z-index:100;
+}
+#sb .brand{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.12em;
+  color:var(--text-mute);
+  margin-bottom:6px;
+}
+#sb .brand-title{
+  font-family:var(--font-title);
+  font-size:19px;
+  font-weight:700;
+  color:var(--text);
+  line-height:1.3;
+  margin-bottom:22px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--border-soft);
+}
+#sb nav{display:flex;flex-direction:column;gap:2px;}
+#sb nav .grp-label{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  letter-spacing:.1em;
+  color:var(--text-mute);
+  margin:16px 0 6px 10px;
+}
+#sb nav a{
+  font-size:13.5px;
+  color:var(--text-dim);
+  padding:7px 10px;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  transition:background .15s, color .15s;
+}
+#sb nav a .dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--text-mute);
+  flex-shrink:0;
+}
+#sb nav a:hover{background:var(--panel-2);color:var(--text);}
+#sb nav a.active{background:var(--panel-2);color:var(--text);}
+
+#sb-toggle{
+  display:none;
+  position:fixed;
+  top:14px;left:14px;
+  z-index:200;
+  background:var(--panel);
+  border:1px solid var(--border);
+  color:var(--text);
+  width:38px;height:38px;
+  border-radius:8px;
+  font-size:18px;
+}
+
+/* ---------- MAIN ---------- */
+main{
+  margin-left:280px;
+  padding:0 0 80px;
+}
+.wrap{max-width:920px;margin:0 auto;padding:0 44px;}
+
+/* ---------- HERO ---------- */
+.hero{
+  padding:64px 44px 46px;
+  border-bottom:1px solid var(--border-soft);
+  background:linear-gradient(180deg, rgba(63,209,224,0.04), transparent 70%);
+}
+.hero .cat{
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.1em;
+  color:var(--cyan);
+  margin-bottom:14px;
+}
+.hero h1{
+  font-family:var(--font-title);
+  font-weight:900;
+  font-size:44px;
+  line-height:1.15;
+  margin:0 0 18px;
+  max-width:760px;
+}
+.hero p.lead{
+  font-size:16.5px;
+  color:var(--text-dim);
+  max-width:680px;
+  margin:0 0 22px;
+}
+.hero .tags{display:flex;flex-wrap:wrap;gap:8px;}
+.tag{
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  padding:5px 11px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  color:var(--text-dim);
+}
+
+/* ---------- SECTIONS ---------- */
+section.sec{
+  padding:56px 44px;
+  border-bottom:1px solid var(--border-soft);
+}
+.sec-head{display:flex;gap:18px;align-items:baseline;margin-bottom:8px;}
+.sec-num{
+  font-family:var(--font-mono);
+  font-size:14px;
+  color:var(--text-mute);
+}
+.sec-head h2{
+  font-family:var(--font-title);
+  font-weight:700;
+  font-size:29px;
+  margin:0;
+}
+.sec-sub{
+  color:var(--text-dim);
+  font-size:15px;
+  max-width:700px;
+  margin:6px 0 30px;
+  padding-bottom:24px;
+  border-bottom:1px solid var(--border-soft);
+}
+h3.sub-h{
+  font-family:var(--font-title);
+  font-weight:700;
+  font-size:21px;
+  margin:38px 0 12px;
+  color:var(--text);
+}
+h4.sub-h4{
+  font-family:var(--font-body);
+  font-weight:700;
+  font-size:15.5px;
+  margin:22px 0 8px;
+  color:var(--text);
+  letter-spacing:.01em;
+}
+p{margin:0 0 14px;color:var(--text);}
+.sec p{color:#d6deee;}
+ul.plain, ol.plain{margin:0 0 14px;padding-left:22px;color:#d6deee;}
+ul.plain li, ol.plain li{margin-bottom:6px;}
+
+/* ---------- CARDS ---------- */
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-top:3px solid var(--cyan);
+  border-radius:var(--radius);
+  padding:20px 22px;
+  margin:16px 0;
+}
+.card h5{
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin:0 0 10px;
+  color:var(--text-dim);
+}
+.card p:last-child{margin-bottom:0;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:16px 0;}
+@media (max-width:760px){.grid2,.grid3{grid-template-columns:1fr;}}
+
+.c-cyan{border-top-color:var(--cyan);}
+.c-red{border-top-color:var(--red);}
+.c-amber{border-top-color:var(--amber);}
+.c-green{border-top-color:var(--green);}
+.c-violet{border-top-color:var(--violet);}
+.c-orange{border-top-color:var(--orange);}
+.c-teal{border-top-color:var(--teal);}
+.c-lime{border-top-color:var(--lime);}
+
+/* ---------- ALERTS ---------- */
+.alert{
+  border:1px solid;
+  border-radius:var(--radius-sm);
+  padding:16px 18px;
+  margin:18px 0;
+  background:transparent;
+}
+.alert .lbl{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.1em;
+  margin-bottom:6px;
+  display:block;
+}
+.alert p:last-child{margin-bottom:0;}
+.alert-atencao{border-color:rgba(242,176,84,0.5);}
+.alert-atencao .lbl{color:var(--amber);}
+.alert-clinica{border-color:rgba(63,209,224,0.5);}
+.alert-clinica .lbl{color:var(--cyan);}
+.alert-prova{border-color:rgba(79,209,139,0.5);}
+.alert-prova .lbl{color:var(--green);}
+.alert-pegadinha{border-color:rgba(240,85,107,0.5);}
+.alert-pegadinha .lbl{color:var(--red);}
+.alert-importante{border-color:rgba(167,139,250,0.5);}
+.alert-importante .lbl{color:var(--violet);}
+
+/* ---------- FLOWCHART ---------- */
+.flow{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:0;
+  margin:20px 0;
+}
+.flow .fbox{
+  background:var(--panel-2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:11px 16px;
+  font-size:13.5px;
+  color:var(--text);
+  font-family:var(--font-mono);
+  text-align:center;
+}
+.flow .farrow{
+  color:var(--text-mute);
+  padding:0 10px;
+  font-size:16px;
+}
+.flow.vert{flex-direction:column;align-items:flex-start;}
+.flow.vert .farrow{padding:4px 0 4px 14px;}
+
+/* ---------- TABLE ---------- */
+.tblwrap{overflow-x:auto;margin:18px 0;border:1px solid var(--border);border-radius:var(--radius-sm);}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px;}
+thead th{
+  background:var(--panel-2);
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  color:var(--text-dim);
+  text-align:left;
+  padding:11px 14px;
+  border-bottom:1px solid var(--border);
+}
+tbody td{
+  padding:11px 14px;
+  border-bottom:1px solid var(--border-soft);
+  color:#d6deee;
+  vertical-align:top;
+}
+tbody tr:last-child td{border-bottom:none;}
+tbody td:first-child{color:var(--text);font-weight:500;}
+tbody tr:hover{background:rgba(255,255,255,0.02);}
+
+/* ---------- DETAILS / APROFUNDE-SE ---------- */
+details.deep{
+  margin:14px 0;
+  border:1px dashed var(--border);
+  border-radius:var(--radius-sm);
+  padding:0 16px;
+  background:rgba(255,255,255,0.015);
+}
+details.deep summary{
+  cursor:pointer;
+  padding:13px 0;
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.06em;
+  color:var(--violet);
+  list-style:none;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+details.deep summary::-webkit-details-marker{display:none;}
+details.deep summary::before{content:"▸";transition:transform .15s;}
+details.deep[open] summary::before{transform:rotate(90deg);}
+details.deep .deep-body{padding:0 0 16px;}
+details.deep.lvl2{border-color:rgba(167,139,250,0.25);margin:12px 0 12px 6px;}
+details.deep.lvl2 summary{color:var(--orange);}
+
+/* ---------- BADGES / TAGS inline ---------- */
+.badge{
+  display:inline-block;
+  font-family:var(--font-mono);
+  font-size:11px;
+  padding:2px 9px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  color:var(--text-dim);
+  margin-right:6px;
+}
+
+/* ---------- SUPER RESUMO ---------- */
+.superresumo{
+  background:linear-gradient(160deg, rgba(63,209,224,0.05), rgba(167,139,250,0.03));
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:6px;
+}
+.superresumo-inner{
+  background:var(--bg-alt);
+  border-radius:calc(var(--radius) - 4px);
+  padding:28px 30px;
+}
+.superresumo h3{margin-top:0;}
+.sr-item{
+  border-left:2px solid var(--border);
+  padding:4px 0 4px 16px;
+  margin-bottom:14px;
+}
+.sr-item .sr-t{font-family:var(--font-mono);font-size:12px;color:var(--cyan);margin-bottom:3px;}
+
+/* ---------- FOOTER / REFS ---------- */
+.refs{padding:56px 44px 40px;}
+.refs ol{padding-left:20px;color:var(--text-dim);font-size:13.5px;}
+.refs li{margin-bottom:10px;}
+
+/* ---------- EDIT TOOLBAR ---------- */
+#edit-toolbar{
+  position:fixed;
+  bottom:20px;right:20px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:8px;
+  display:flex;
+  gap:6px;
+  z-index:500;
+  box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+#edit-toolbar button{
+  background:var(--panel-2);
+  border:1px solid var(--border);
+  color:var(--text-dim);
+  font-family:var(--font-mono);
+  font-size:11px;
+  padding:9px 13px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:all .15s;
+}
+#edit-toolbar button:hover{color:var(--text);border-color:var(--cyan);}
+#edit-toolbar button.on{background:var(--cyan);color:#04222b;border-color:var(--cyan);}
+#edit-status{
+  font-family:var(--font-mono);
+  font-size:10px;
+  color:var(--text-mute);
+  align-self:center;
+  padding:0 4px;
+}
+.editable-hl[contenteditable="true"]{
+  outline:1px dashed rgba(63,209,224,0.4);
+  outline-offset:3px;
+  border-radius:3px;
+}
+.editable-hl[contenteditable="true"]:focus{
+  outline:1px solid var(--cyan);
+  background:rgba(63,209,224,0.05);
+}
+
+@media (max-width:960px){
+  #sb{transform:translateX(-100%);transition:transform .2s;width:270px;}
+  #sb.open{transform:translateX(0);}
+  #sb-toggle{display:block;}
+  main{margin-left:0;}
+  .hero{padding:80px 24px 36px;}
+  .hero h1{font-size:32px;}
+  section.sec{padding:40px 24px;}
+  .refs{padding:40px 24px;}
+}
+</style>
+</head>
+<body>
+
+<button id="sb-toggle" onclick="document.getElementById('sb').classList.toggle('open')">☰</button>
+
+<nav id="sb">
+  <div class="brand">UC XIII · UC CLÍNICA MÉDICA</div>
+  <div class="brand-title">Infecções Respiratórias e Resposta Inflamatória Sistêmica</div>
+  <nav>
+    <a href="#hero"><span class="dot" style="background:var(--cyan)"></span>Abertura</a>
+
+    <div class="grp-label">01 · SRIS</div>
+    <a href="#sris"><span class="dot" style="background:var(--amber)"></span>Definição e critérios</a>
+
+    <div class="grp-label">02 · PNEUMONIAS</div>
+    <a href="#pac-fisio"><span class="dot" style="background:var(--teal)"></span>Fisiopatologia</a>
+    <a href="#pac-quadro"><span class="dot" style="background:var(--teal)"></span>Quadro clínico</a>
+    <a href="#pac-diag"><span class="dot" style="background:var(--teal)"></span>Diagnóstico e CURB</a>
+    <a href="#pac-trat"><span class="dot" style="background:var(--teal)"></span>Tratamento</a>
+    <a href="#pav"><span class="dot" style="background:var(--orange)"></span>PAH e PAV</a>
+
+    <div class="grp-label">03 · SEPSE</div>
+    <a href="#sepse-def"><span class="dot" style="background:var(--red)"></span>Definição Sepse-3</a>
+    <a href="#sepse-fisio"><span class="dot" style="background:var(--red)"></span>Fisiopatologia</a>
+    <a href="#sepse-orgaos"><span class="dot" style="background:var(--red)"></span>Disfunção por sistema</a>
+    <a href="#sepse-diag"><span class="dot" style="background:var(--red)"></span>Diagnóstico</a>
+
+    <div class="grp-label">04 · CHOQUE SÉPTICO</div>
+    <a href="#choque-fisio"><span class="dot" style="background:var(--violet)"></span>Fisiopatologia</a>
+    <a href="#choque-manejo"><span class="dot" style="background:var(--violet)"></span>Manejo hemodinâmico</a>
+
+    <div class="grp-label">05 · ILAS</div>
+    <a href="#ilas"><span class="dot" style="background:var(--green)"></span>Pacotes 1h/3h/6h</a>
+
+    <div class="grp-label">FECHAMENTO</div>
+    <a href="#superresumo"><span class="dot" style="background:var(--lime)"></span>Super-resumo</a>
+    <a href="#referencias"><span class="dot" style="background:var(--text-mute)"></span>Referências</a>
+  </nav>
+</nav>
+
+<main>
+<div id="hero" class="hero">
+  <div class="cat">UC XIII · Dor, Infecção e Homeostase — Clínica Médica</div>
+  <h1>Pneumonias, SRIS, Sepse e Choque Séptico</h1>
+  <p class="lead">Do estímulo inflamatório inicial à falência circulatória: como uma infecção pulmonar pode evoluir para disfunção de múltiplos órgãos, e por que reconhecer essa cascata precocemente — dentro da primeira hora — é a intervenção que mais salva vidas em toda a Medicina de urgência.</p>
+  <div class="tags">
+    <span class="tag">PAC vs pneumonia hospitalar</span>
+    <span class="tag">CURB-65</span>
+    <span class="tag">SRIS</span>
+    <span class="tag">Sepse-3 / qSOFA / SOFA</span>
+    <span class="tag">Choque séptico</span>
+    <span class="tag">Protocolo ILAS</span>
+    <span class="tag">Disfunção multiorgânica</span>
+  </div>
+</div>
+
+<section id="sris" class="sec">
+  <div class="sec-head"><span class="sec-num">01</span><h2>Síndrome da Resposta Inflamatória Sistêmica (SRIS)</h2></div>
+  <p class="sec-sub">Antes de falar de sepse, é preciso entender o que é uma resposta inflamatória generalizada — porque a sepse nada mais é do que essa resposta perdendo o controle diante de uma infecção.</p>
+
+  <p>Pense na inflamação como um sistema de alarme local. Quando você tem uma infecção de pele, um abscesso, uma apendicite, o organismo monta uma resposta inflamatória circunscrita àquele sítio: vasodilatação local, aumento de permeabilidade vascular, recrutamento de neutrófilos, calor, rubor, dor e edema. É a inflamação fazendo exatamente o que deveria fazer, contida no lugar certo.</p>
+
+  <p>A Síndrome da Resposta Inflamatória Sistêmica descreve o momento em que esse alarme deixa de ser local e passa a ser sistêmico: citocinas pró-inflamatórias como TNF-alfa, IL-1 e IL-6 extravasam para a circulação em quantidade suficiente para provocar efeitos em todo o corpo, não apenas no foco original. O paciente passa a apresentar taquicardia, taquipneia, febre ou hipotermia e alteração do número de leucócitos mesmo estando a certa distância do foco inflamatório.</p>
+
+  <div class="card c-amber">
+    <h5>Critérios diagnósticos clássicos de SRIS</h5>
+    <p>Definem-se pela presença de pelo menos dois dos quatro critérios abaixo:</p>
+    <ul class="plain">
+      <li>Temperatura corporal maior que 38 graus Celsius ou menor que 36 graus Celsius;</li>
+      <li>Frequência cardíaca maior que 90 batimentos por minuto;</li>
+      <li>Frequência respiratória maior que 20 incursões por minuto, ou PaCO2 menor que 32 mmHg (indicando hiperventilação compensatória);</li>
+      <li>Contagem de leucócitos maior que 12.000/mm³, menor que 4.000/mm³, ou mais de 10% de formas jovens (bastonetes) no diferencial.</li>
+    </ul>
+  </div>
+
+  <p>Repare que nenhum desses quatro critérios menciona infecção. Isso é proposital: a SRIS é um conceito puramente fisiológico, não etiológico. Ela pode ser desencadeada por uma infecção (nesse caso, quando SRIS mais infecção documentada ou presumida coexistem, o quadro recebe historicamente o nome de sepse), mas também por pancreatite aguda, grandes queimados, politrauma, embolia pulmonar maciça, isquemia mesentérica, ou mesmo uma cirurgia de grande porte. O corpo não diferencia a origem do estímulo: ele apenas monta a mesma cascata de mediadores inflamatórios sempre que há lesão tecidual extensa o suficiente.</p>
+
+  <details class="deep">
+    <summary>Aprofunde-se: por que os critérios de SRIS caíram em desuso na definição de sepse</summary>
+    <div class="deep-body">
+      <p>O Consenso Internacional de Sepse de 2016 (Sepse-3, publicado no JAMA por Singer e colaboradores) abandonou formalmente os critérios de SRIS como base diagnóstica de sepse, e a razão é estatística e fisiopatológica ao mesmo tempo. Estudos observacionais em grandes coortes de UTI mostraram que os critérios de SRIS têm sensibilidade elevada, mas especificidade baixa: cerca de um em cada oito pacientes internados em UTI com infecção e disfunção orgânica não preenchia critérios de SRIS, e por outro lado, praticamente qualquer paciente internado (uma pneumonia comunitária simples, uma virose, um pós-operatório de rotina) pode preencher dois critérios de SRIS sem estar sequer perto de ter uma disfunção orgânica ameaçadora à vida.</p>
+      <p>Ou seja: SRIS captura inflamação, não necessariamente disfunção orgânica com risco de morte, que é o que realmente importa identificar precocemente. Por isso a definição atual de sepse trocou o eixo central de "há inflamação sistêmica" para "há disfunção orgânica causada por resposta desregulada do hospedeiro à infecção", usando o escore SOFA como ferramenta objetiva dessa disfunção. Isso não torna a SRIS inútil clinicamente — ela continua sendo um sinal de alerta precoce, especialmente em pronto-socorro, mas deixou de ser critério diagnóstico formal de sepse.</p>
+    </div>
+  </details>
+
+  <div class="alert alert-pegadinha">
+    <span class="lbl">PEGADINHA CLÁSSICA DE PROVA</span>
+    <p>SRIS não é sinônimo de infecção, e infecção sem disfunção orgânica não é sepse. Um paciente pode ter SRIS por pancreatite estéril, grande queimadura ou politrauma sem qualquer bactéria envolvida. E um paciente pode ter uma infecção documentada, preencher critérios de SRIS, mas se não houver disfunção orgânica associada (aumento do SOFA), ele tem uma infecção comum, não sepse pela definição atual.</p>
+  </div>
+</section>
+
+<section id="pac-fisio" class="sec">
+  <div class="sec-head"><span class="sec-num">02</span><h2>Pneumonia Adquirida na Comunidade</h2></div>
+  <p class="sec-sub">A porta de entrada mais comum para a sepse de origem respiratória. Entender como o parênquima pulmonar normal se transforma em um foco consolidado de infecção é a base para compreender tudo o que vem depois: a hipoxemia, a resposta inflamatória sistêmica e, nos casos graves, a evolução para sepse.</p>
+
+  <h3 class="sub-h">Definição e vias de acometimento</h3>
+  <p>Pneumonia é a inflamação aguda do parênquima pulmonar — alvéolos, ductos alveolares e, muitas vezes, o interstício adjacente — causada por um agente infeccioso, na ausência de exposição hospitalar recente. Por definição, a Pneumonia Adquirida na Comunidade (PAC) é aquela que se manifesta fora do ambiente hospitalar ou nas primeiras 48 horas de uma internação, o que a diferencia radicalmente da pneumonia hospitalar, cujos agentes etiológicos e perfil de resistência antimicrobiana são completamente distintos, como você verá adiante.</p>
+
+  <p>O pulmão dispõe de múltiplas barreiras de defesa contra a colonização por microrganismos: o reflexo de tosse, o aparelho mucociliar do epitélio respiratório (com seus cílios batendo continuamente em direção à orofaringe), a arquitetura anatômica das vias aéreas que filtra partículas maiores nas vias superiores, e, no nível alveolar, os macrófagos alveolares residentes, que fagocitam continuamente partículas e microrganismos que conseguem alcançar essa região. A pneumonia se instala quando esse sistema de defesa é vencido — seja por um inóculo bacteriano muito grande, por um patógeno particularmente virulento, ou por uma falha na defesa do hospedeiro (imunossupressão, tabagismo, idade avançada, comorbidades pulmonares prévias).</p>
+
+  <div class="flow">
+    <div class="fbox">Inóculo microbiano alcança alvéolo</div><span class="farrow">→</span>
+    <div class="fbox">Vence defesas mucociliares/macrofágicas</div><span class="farrow">→</span>
+    <div class="fbox">Multiplicação bacteriana local</div><span class="farrow">→</span>
+    <div class="fbox">Resposta inflamatória alveolar</div><span class="farrow">→</span>
+    <div class="fbox">Consolidação e hipoxemia</div>
+  </div>
+
+  <h4 class="sub-h4">As quatro fases clássicas da pneumonia lobar (fisiopatologia clássica pneumocócica)</h4>
+  <p>O exemplo didático mais clássico de fisiopatologia pneumônica — e o que mais cai em prova — é o da pneumonia pneumocócica lobar, que evolui em quatro estágios histopatológicos sequenciais, descritos classicamente por Robbins:</p>
+
+  <div class="grid2">
+    <div class="card c-teal">
+      <h5>1. Congestão (primeiras 24h)</h5>
+      <p>Os capilares alveolares ficam ingurgitados de sangue, e há exsudato intra-alveolar seroso rico em bactérias. Macroscopicamente o pulmão está pesado, vermelho e edemaciado.</p>
+    </div>
+    <div class="card c-red">
+      <h5>2. Hepatização vermelha</h5>
+      <p>Os alvéolos se preenchem de exsudato composto por hemácias extravasadas, neutrófilos e fibrina. O parênquima adquire consistência firme, semelhante à do fígado — daí o nome — e perde a arejação normal.</p>
+    </div>
+    <div class="card c-amber">
+      <h5>3. Hepatização cinzenta</h5>
+      <p>As hemácias se degradam progressivamente, restando um exsudato fibrinopurulento rico em neutrófilos. O pulmão fica seco, firme e acinzentado ao corte.</p>
+    </div>
+    <div class="card c-green">
+      <h5>4. Resolução</h5>
+      <p>Enzimas proteolíticas liberadas pelos neutrófilos digerem o exsudato, que é progressivamente removido por tosse expectorada, reabsorção linfática e fagocitose por macrófagos, restaurando a arquitetura alveolar normal — desde que não haja organização fibrosa residual.</p>
+    </div>
+  </div>
+
+  <details class="deep">
+    <summary>Aprofunde-se: por que a hipoxemia ocorre mesmo com o alvéolo cheio de exsudato purulento</summary>
+    <div class="deep-body">
+      <p>A explicação fisiológica está na relação ventilação-perfusão (V/Q). Um alvéolo consolidado, cheio de exsudato, deixa de ser ventilado adequadamente — o ar não consegue trocar gases eficientemente naquela unidade — mas a perfusão sanguínea capilar ao redor desse alvéolo, na fase aguda, permanece relativamente preservada ou até aumentada pela vasodilatação inflamatória local. Isso cria uma unidade de shunt funcional: sangue venoso passa pelo capilar pulmonar sem ser adequadamente oxigenado, porque o alvéolo ao lado está cheio de exsudato e não de ar. Esse sangue "shuntado" se mistura ao sangue arterializado proveniente de áreas pulmonares saudáveis, diluindo a saturação de oxigênio arterial sistêmica.</p>
+      <p>É por isso que a hipoxemia da pneumonia lobar clássica responde mal à suplementação isolada de oxigênio em concentrações baixas a moderadas quando o shunt é extenso — diferente da hipoxemia por hipoventilação pura, que responde bem a qualquer aumento de FiO2. Esse é um ponto conceitual importante para diferenciar mecanismos de hipoxemia em provas de fisiologia respiratória.</p>
+    </div>
+  </details>
+
+  <h3 class="sub-h">Epidemiologia e etiologia</h3>
+  <p>A PAC é uma das principais causas de internação hospitalar por doença infecciosa no mundo e uma causa importante de mortalidade, especialmente em extremos de idade. A etiologia varia conforme a gravidade do quadro e o cenário de tratamento (ambulatorial, enfermaria ou UTI), mas de forma geral:</p>
+
+  <div class="tblwrap">
+  <table>
+    <thead><tr><th>Agente</th><th>Perfil epidemiológico</th><th>Observação clínica</th></tr></thead>
+    <tbody>
+      <tr><td>Streptococcus pneumoniae</td><td>Agente mais comum em todos os cenários de gravidade, inclusive PAC grave</td><td>Pneumonia lobar clássica; risco aumentado em asplenia e idosos</td></tr>
+      <tr><td>Mycoplasma pneumoniae</td><td>Comum em adultos jovens, surtos em ambientes fechados</td><td>Quadro atípico, arrastado, tosse seca proeminente</td></tr>
+      <tr><td>Chlamydophila pneumoniae</td><td>Adultos jovens a meia-idade</td><td>Também classificada como atípica</td></tr>
+      <tr><td>Haemophilus influenzae</td><td>DPOC, tabagistas</td><td>Frequente em pacientes com doença pulmonar estrutural prévia</td></tr>
+      <tr><td>Legionella pneumophila</td><td>Exposição a sistemas de água contaminada, ar-condicionado</td><td>Quadro grave, pode cursar com sintomas gastrointestinais e neurológicos, hiponatremia</td></tr>
+      <tr><td>Vírus respiratórios (influenza, VSR, SARS-CoV-2)</td><td>Sazonalidade, surtos comunitários</td><td>Podem predispor a pneumonia bacteriana secundária</td></tr>
+      <tr><td>Staphylococcus aureus</td><td>Pós-influenza, usuários de drogas endovenosas</td><td>Pode causar pneumonia necrosante grave</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="alert alert-clinica">
+    <span class="lbl">CLÍNICA</span>
+    <p>A dicotomia clássica "típica versus atípica" (pneumococo com início súbito, febre alta e expectoração purulenta versus Mycoplasma com início insidioso, tosse seca e sintomas extrapulmonares) tem valor didático, mas na prática clínica atual tem baixa acurácia para prever o agente etiológico isoladamente — a decisão terapêutica empírica se baseia principalmente na gravidade do quadro e nos fatores de risco do paciente, não no padrão clínico "típico versus atípico".</p>
+  </div>
+</section>
+
+<section id="pac-quadro" class="sec">
+  <div class="sec-head"><span class="sec-num">03</span><h2>Quadro clínico e diagnóstico diferencial da PAC</h2></div>
+  <p class="sec-sub">Traduzindo a fisiopatologia em sinais e sintomas que você reconhece à beira do leito.</p>
+
+  <h3 class="sub-h">Manifestações clínicas</h3>
+  <p>O quadro clássico combina sintomas respiratórios e sistêmicos, refletindo diretamente a fisiopatologia que acabamos de descrever: febre e calafrios (resposta a pirógenos endógenos liberados na resposta inflamatória), tosse produtiva com expectoração purulenta ou hemoptoica (drenagem do exsudato alveolar pelas vias aéreas), dor torácica pleurítica (quando há acometimento da pleura adjacente ao foco de consolidação, gerando dor que piora com a inspiração profunda e a tosse), dispneia e taquipneia (consequência direta do shunt funcional e da redução da complacência pulmonar em áreas consolidadas).</p>
+
+  <p>No exame físico, a propedêutica pulmonar de uma condensação clássica revela: frêmito toracovocal aumentado sobre a área consolidada (porque o tecido consolidado, mais denso, transmite melhor as vibrações vocais do que o parênquima aerado normal), macicez ou submacicez à percussão (o ar substituído por líquido e células reduz a ressonância), murmúrio vesicular diminuído ou abolido na área afetada, e surgimento de ruídos adventícios como estertores crepitantes finos (pelo descolamento de paredes alveolares úmidas durante a inspiração) e, quando há brônquio pérvio circundado por consolidação, o som brônquico se transmite de forma anômala até a parede torácica, gerando broncofonia, pectorilóquia fônica e egofonia.</p>
+
+  <div class="card c-teal">
+    <h5>Por que ocorre cada achado semiológico — correlação direta</h5>
+    <ul class="plain">
+      <li>Frêmito toracovocal aumentado: tecido consolidado conduz melhor as vibrações sonoras do que o ar.</li>
+      <li>Macicez à percussão: substituição do ar alveolar por exsudato denso reduz a ressonância do órgão percutido.</li>
+      <li>Estertores crepitantes: abertura súbita de pequenas vias aéreas e alvéolos colabados ou repletos de líquido durante a inspiração.</li>
+      <li>Egofonia (voz em "e" que soa como "a"): o tecido consolidado filtra seletivamente certas frequências sonoras da voz transmitida.</li>
+    </ul>
+  </div>
+
+  <h3 class="sub-h">Diagnóstico diferencial</h3>
+  <p>Diante de um paciente com febre, tosse e dispneia, o raciocínio diagnóstico precisa necessariamente excluir ou considerar outras causas de infiltrado pulmonar e de síndrome consumptiva respiratória:</p>
+
+  <ol class="plain">
+    <li><em>Tromboembolismo pulmonar</em> — considere especialmente se houver fatores de risco para trombose venosa, dor pleurítica sem febre alta proeminente, ou hipoxemia desproporcional ao infiltrado radiológico;</li>
+    <li><em>Insuficiência cardíaca descompensada com edema agudo de pulmão</em> — dispneia e estertores podem confundir, mas tipicamente bilaterais, sem febre, com história cardiovascular prévia e resposta a diuréticos;</li>
+    <li><em>Exacerbação infecciosa de DPOC ou asma</em> — sibilos predominantes, história de doença obstrutiva prévia, radiografia sem consolidação focal característica;</li>
+    <li><em>Tuberculose pulmonar</em> — quadro mais arrastado, sudorese noturna, perda ponderal, acometimento tipicamente de lobos superiores;</li>
+    <li><em>Neoplasia pulmonar com pneumonia obstrutiva</em> — considerar em pneumonias recorrentes no mesmo segmento pulmonar, especialmente em tabagistas;</li>
+    <li><em>Pneumonite química ou de aspiração</em> — contexto de broncoaspiração, sem necessariamente febre alta inicial.</li>
+  </ol>
+</section>
+
+<section id="pac-diag" class="sec">
+  <div class="sec-head"><span class="sec-num">04</span><h2>Diagnóstico, gravidade e escore CURB-65</h2></div>
+  <p class="sec-sub">Diagnosticar pneumonia é relativamente simples. O verdadeiro desafio clínico — e o que realmente muda a conduta — é estratificar corretamente a gravidade para decidir onde tratar o paciente.</p>
+
+  <h3 class="sub-h">Confirmação diagnóstica</h3>
+  <p>O diagnóstico de PAC combina quadro clínico compatível com a demonstração de um infiltrado pulmonar novo à radiografia de tórax, que continua sendo o exame de imagem inicial padrão-ouro na prática clínica pela disponibilidade, custo e rapidez. A tomografia de tórax é reservada para casos de dúvida diagnóstica, suspeita de complicação (derrame pleural complicado, abscesso) ou quando a radiografia é normal, mas a suspeita clínica permanece alta.</p>
+
+  <div class="grid2">
+    <div class="card c-cyan">
+      <h5>Exames laboratoriais de apoio</h5>
+      <p>Hemograma completo (leucocitose com desvio à esquerda), proteína C reativa e procalcitonina (marcadores de resposta inflamatória e auxílio na diferenciação de etiologia bacteriana), função renal e eletrólitos (avaliação de gravidade e ajuste de dose de antimicrobianos), gasometria arterial em casos graves (avaliação de troca gasosa).</p>
+    </div>
+    <div class="card c-cyan">
+      <h5>Investigação etiológica</h5>
+      <p>Hemoculturas e cultura de escarro são recomendadas principalmente em pacientes internados com quadro grave, antes do início do antimicrobiano. Antígeno urinário para pneumococo e Legionella deve ser considerado em casos graves. Em ambulatório com quadro leve, a investigação etiológica extensa raramente muda a conduta empírica inicial.</p>
+    </div>
+  </div>
+
+  <h3 class="sub-h">Escore CURB-65: a ferramenta que decide o destino do paciente</h3>
+  <p>O CURB-65 é um escore de estratificação de gravidade e de mortalidade validado para PAC, extremamente utilizado na prática de pronto-socorro justamente por sua simplicidade — pode ser calculado à beira do leito sem necessidade de exames sofisticados. Cada letra representa um critério, valendo um ponto quando presente:</p>
+
+  <div class="card c-orange">
+    <h5>Componentes do CURB-65 (1 ponto cada)</h5>
+    <ul class="plain">
+      <li><em>C</em> — Confusão mental aguda (nova desorientação em relação a tempo, espaço ou pessoa);</li>
+      <li><em>U</em> — Ureia sérica maior que 43 mg/dL (ou acima de 7 mmol/L), refletindo repercussão sistêmica e possível hipoperfusão renal;</li>
+      <li><em>R</em> — Frequência respiratória maior ou igual a 30 incursões por minuto;</li>
+      <li><em>B</em> — Pressão arterial <em>B</em>aixa: sistólica menor que 90 mmHg ou diastólica menor ou igual a 60 mmHg;</li>
+      <li><em>65</em> — Idade maior ou igual a 65 anos.</li>
+    </ul>
+  </div>
+
+  <div class="tblwrap">
+  <table>
+    <thead><tr><th>Pontuação</th><th>Mortalidade estimada em 30 dias</th><th>Conduta recomendada</th></tr></thead>
+    <tbody>
+      <tr><td>0 a 1 ponto</td><td>Baixa (cerca de 1,5%)</td><td>Tratamento ambulatorial</td></tr>
+      <tr><td>2 pontos</td><td>Intermediária (cerca de 9%)</td><td>Considerar internação em enfermaria ou observação supervisionada</td></tr>
+      <tr><td>3 pontos ou mais</td><td>Alta (acima de 15 a 22%)</td><td>Internação hospitalar; considerar UTI se 4 a 5 pontos</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <details class="deep">
+    <summary>Aprofunde-se: CURB versus CRB-65 e limitações do escore</summary>
+    <div class="deep-body">
+      <p>Em ambiente ambulatorial, onde a dosagem de ureia sérica não está prontamente disponível, utiliza-se a versão simplificada CRB-65, que dispensa o critério de ureia e mantém confusão mental, frequência respiratória, pressão arterial e idade. Um CRB-65 igual a zero permite considerar tratamento ambulatorial com relativa segurança; qualquer pontuação acima disso justifica reavaliação para encaminhamento hospitalar.</p>
+      <p>É importante entender as limitações do escore: o CURB-65 foi validado primariamente como preditor de mortalidade, não como ferramenta única e definitiva para decidir necessidade de internação. Fatores como hipoxemia significativa, instabilidade de comorbidades, incapacidade de manter hidratação e medicação oral, ausência de suporte social adequado e critérios adicionais de gravidade da ATS/IDSA (American Thoracic Society / Infectious Diseases Society of America) para necessidade de UTI devem sempre complementar o julgamento clínico, e não substituí-lo.</p>
+    </div>
+  </details>
+
+  <div class="alert alert-prova">
+    <span class="lbl">PONTO DE PROVA</span>
+    <p>Saiba diferenciar CURB-65 (usado predominantemente em ambiente hospitalar, com dosagem de ureia) do CRB-65 (usado em ambiente ambulatorial ou atenção primária, sem necessidade de exame laboratorial). Ambos compartilham a mesma lógica de pontuação para os demais quatro critérios.</p>
+  </div>
+</section>
+
+<section id="pac-trat" class="sec">
+  <div class="sec-head"><span class="sec-num">05</span><h2>Tratamento e profilaxia da PAC</h2></div>
+  <p class="sec-sub">O tratamento antimicrobiano é sempre empírico inicialmente, guiado pela gravidade e pelos fatores de risco do paciente, e ajustado posteriormente conforme resultado de culturas quando disponíveis.</p>
+
+  <div class="grid2">
+    <div class="card c-green">
+      <h5>Tratamento ambulatorial (sem comorbidades)</h5>
+      <p>Amoxicilina em dose plena é a primeira escolha na maioria das diretrizes atuais para pacientes previamente hígidos, cobrindo o principal agente, o pneumococo. Macrolídeo (azitromicina ou claritromicina) ou doxiciclina são alternativas quando há suspeita de agente atípico ou alergia a betalactâmico.</p>
+    </div>
+    <div class="card c-green">
+      <h5>Ambulatorial com comorbidades</h5>
+      <p>Associação de betalactâmico com macrolídeo, ou uso isolado de uma fluoroquinolona respiratória (levofloxacino ou moxifloxacino), que amplia a cobertura para agentes atípicos e Gram-negativos com maior espectro.</p>
+    </div>
+    <div class="card c-amber">
+      <h5>Internação em enfermaria</h5>
+      <p>Betalactâmico endovenoso (ceftriaxona ou ampicilina-sulbactam) associado a macrolídeo, ou monoterapia com fluoroquinolona respiratória endovenosa.</p>
+    </div>
+    <div class="card c-red">
+      <h5>Internação em UTI / PAC grave</h5>
+      <p>Betalactâmico de espectro ampliado (ceftriaxona ou ampicilina-sulbactam) associado obrigatoriamente a macrolídeo ou fluoroquinolona respiratória, pela evidência de redução de mortalidade com terapia combinada. Se houver fatores de risco para Pseudomonas aeruginosa (bronquiectasias, uso recente e repetido de antimicrobianos, DPOC grave), ampliar cobertura com piperacilina-tazobactam, cefepima ou carbapenêmico. Se houver risco para Staphylococcus aureus resistente à meticilina (infecção pós-influenza grave, cavitação, uso de drogas endovenosas), associar vancomicina ou linezolida.</p>
+    </div>
+  </div>
+
+  <h3 class="sub-h">Profilaxia</h3>
+  <p>A prevenção primária da PAC é uma das intervenções de saúde pública mais custo-efetivas em Medicina, baseada fundamentalmente em imunização:</p>
+  <ul class="plain">
+    <li>Vacina pneumocócica (conjugada e/ou polissacarídica, conforme faixa etária e comorbidades, seguindo calendário do Ministério da Saúde) reduz incidência de doença pneumocócica invasiva;</li>
+    <li>Vacina anual contra influenza reduz não apenas a pneumonia viral primária, mas também a pneumonia bacteriana secundária pós-influenza, que tende a ser particularmente grave;</li>
+    <li>Cessação do tabagismo, controle de comorbidades pulmonares crônicas e cuidados com disfagia em idosos (prevenção de broncoaspiração) completam as medidas de prevenção.</li>
+  </ul>
+</section>
+
+<section id="pav" class="sec">
+  <div class="sec-head"><span class="sec-num">06</span><h2>Pneumonia Hospitalar e Pneumonia Associada à Ventilação Mecânica</h2></div>
+  <p class="sec-sub">Mesma doença de base — infecção do parênquima pulmonar — mas um universo microbiológico completamente diferente, que exige raciocínio terapêutico distinto.</p>
+
+  <p>A Pneumonia Adquirida no Hospital (PAH, ou hospital-acquired pneumonia) é definida como aquela que se instala após 48 horas de internação hospitalar, sem estar incubada no momento da admissão. Quando o paciente está sob ventilação mecânica invasiva há mais de 48 horas e desenvolve pneumonia, o quadro recebe o nome específico de Pneumonia Associada à Ventilação Mecânica (PAV), considerada por muitos autores como um subtipo particularmente grave de PAH.</p>
+
+  <div class="alert alert-importante">
+    <span class="lbl">POR QUE ESSA DISTINÇÃO É CLINICAMENTE VITAL</span>
+    <p>O ambiente hospitalar seleciona uma flora bacteriana completamente diferente da flora comunitária: bactérias multirresistentes, adaptadas à pressão seletiva de antimicrobianos de amplo espectro amplamente utilizados naquele serviço. Tratar uma pneumonia hospitalar com o esquema empírico de uma PAC é um erro potencialmente fatal, porque o esquema simplesmente não cobre os agentes mais prováveis.</p>
+  </div>
+
+  <div class="tblwrap">
+  <table>
+    <thead><tr><th>Característica</th><th>PAC</th><th>PAH / PAV</th></tr></thead>
+    <tbody>
+      <tr><td>Tempo de instalação</td><td>Fora do hospital ou até 48h de internação</td><td>Após 48h de internação (PAV: após 48h de ventilação invasiva)</td></tr>
+      <tr><td>Principais agentes</td><td>S. pneumoniae, atípicos, H. influenzae</td><td>Bacilos Gram-negativos multirresistentes (Pseudomonas aeruginosa, Klebsiella pneumoniae produtora de ESBL/carbapenemase, Acinetobacter baumannii), Staphylococcus aureus resistente à meticilina (MRSA)</td></tr>
+      <tr><td>Padrão de resistência</td><td>Geralmente sensível a esquemas de primeira linha</td><td>Frequentemente multirresistente, exigindo antibiograma direcionado</td></tr>
+      <tr><td>Antibioticoterapia empírica inicial</td><td>Amoxicilina ou betalactâmico + macrolídeo</td><td>Cobertura ampliada anti-Pseudomonas (piperacilina-tazobactam, cefepima ou carbapenêmico) frequentemente associada a cobertura para MRSA (vancomicina/linezolida), guiada pelo mapa microbiológico local do serviço</td></tr>
+      <tr><td>Mortalidade</td><td>Variável conforme CURB-65, geralmente menor</td><td>Substancialmente maior, especialmente na PAV</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <details class="deep">
+    <summary>Aprofunde-se: fisiopatologia da PAV e medidas de prevenção do "bundle" de ventilação</summary>
+    <div class="deep-body">
+      <p>O tubo orotraqueal, ao atravessar a laringe, anula parcialmente as barreiras naturais de defesa das vias aéreas superiores (reflexo de tosse eficaz, fechamento glótico) e cria uma via direta para microaspiração de secreções orofaríngeas colonizadas por flora hospitalar ao redor do balonete do tubo, além de servir como superfície para formação de biofilme bacteriano na própria luz do tubo. Some-se a isso a posição frequentemente supina do paciente crítico, que favorece o refluxo e a aspiração de conteúdo gástrico colonizado.</p>
+      <p>As medidas de prevenção compõem o chamado "bundle de prevenção de PAV", amplamente adotado em UTIs: elevação da cabeceira do leito entre 30 e 45 graus (reduz refluxo e microaspiração), interrupção diária da sedação com teste de respiração espontânea (reduz tempo de ventilação mecânica, o principal fator de risco cumulativo), higiene oral com clorexidina, manutenção da pressão do balonete do tubo endotraqueal em níveis adequados para evitar microaspiração ao redor dele, e profilaxia de úlcera de estresse e de trombose venosa profunda como parte do cuidado integral do paciente crítico.</p>
+    </div>
+  </details>
+</section>
+
+<section id="sepse-def" class="sec">
+  <div class="sec-head"><span class="sec-num">07</span><h2>Sepse: definição atual e o conceito de disfunção orgânica</h2></div>
+  <p class="sec-sub">O ponto de virada conceitual mais importante da Medicina de urgência na última década: sepse deixou de ser "infecção mais inflamação" e passou a ser "infecção que gera dano a órgãos-alvo".</p>
+
+  <p>Segundo o Terceiro Consenso Internacional de Definições para Sepse e Choque Séptico (Sepse-3, 2016), sepse é definida como uma disfunção orgânica ameaçadora à vida, causada por uma resposta desregulada do hospedeiro a uma infecção. Duas palavras dessa definição merecem destaque absoluto: "desregulada" e "disfunção orgânica ameaçadora à vida".</p>
+
+  <p>"Desregulada" porque a resposta inflamatória normal à infecção é proporcional, contida e autolimitada — ela combate o patógeno e depois se resolve. Na sepse, esse equilíbrio se rompe: há liberação maciça e descontrolada de mediadores pró-inflamatórios que extrapolam a necessidade de combater o patógeno local e passam a lesar o próprio hospedeiro, atingindo órgãos completamente distantes do foco infeccioso original. E "disfunção orgânica ameaçadora à vida" porque é exatamente esse dano colateral aos órgãos — não a infecção em si — que determina o risco de morte do paciente.</p>
+
+  <div class="card c-red">
+    <h5>Operacionalização diagnóstica: o escore SOFA</h5>
+    <p>Para tornar essa definição mensurável na prática clínica, o Sepse-3 estabeleceu que a disfunção orgânica deve ser identificada por um aumento agudo de 2 pontos ou mais no escore SOFA (Sequential Organ Failure Assessment) em relação ao basal do paciente, na vigência de uma infecção suspeita ou confirmada. O SOFA avalia seis sistemas: respiratório (relação PaO2/FiO2), coagulação (contagem de plaquetas), hepático (bilirrubina), cardiovascular (necessidade de vasopressor e nível pressórico), sistema nervoso central (escala de coma de Glasgow) e renal (creatinina e débito urinário), pontuando cada um de 0 a 4.</p>
+  </div>
+
+  <h3 class="sub-h">qSOFA: a ferramenta de triagem rápida à beira do leito</h3>
+  <p>Como o cálculo completo do SOFA exige exames laboratoriais nem sempre disponíveis de imediato (gasometria, bilirrubina, plaquetas), o consenso propôs uma ferramenta simplificada de triagem para uso fora da UTI — em enfermaria e pronto-socorro — chamada qSOFA (quick SOFA), que utiliza apenas parâmetros clínicos obtidos à beira do leito, sem necessidade de exames:</p>
+
+  <div class="card c-orange">
+    <h5>Critérios do qSOFA (1 ponto cada)</h5>
+    <ul class="plain">
+      <li>Frequência respiratória maior ou igual a 22 incursões por minuto;</li>
+      <li>Alteração do nível de consciência (Glasgow menor que 15);</li>
+      <li>Pressão arterial sistólica menor ou igual a 100 mmHg.</li>
+    </ul>
+    <p>Um qSOFA maior ou igual a 2 identifica pacientes com maior risco de desfecho desfavorável e deve disparar investigação imediata de disfunção orgânica (SOFA completo) e ativação do protocolo institucional de sepse.</p>
+  </div>
+
+  <div class="alert alert-pegadinha">
+    <span class="lbl">PEGADINHA CLÁSSICA</span>
+    <p>O qSOFA é uma ferramenta de triagem e estratificação de risco, não um critério diagnóstico de sepse. O diagnóstico formal de sepse exige o SOFA completo mostrando aumento de 2 pontos ou mais associado à infecção. Um qSOFA negativo (menor que 2) não exclui sepse — ele apenas indica menor probabilidade pré-teste, e a suspeita clínica sempre deve prevalecer sobre o escore isoladamente. Esse é um dos pontos mais cobrados em provas de residência.</p>
+  </div>
+</section>
+
+<section id="sepse-fisio" class="sec">
+  <div class="sec-head"><span class="sec-num">08</span><h2>Fisiopatologia da sepse: da imunidade inata ao colapso da homeostase</h2></div>
+  <p class="sec-sub">Aqui está o coração fisiopatológico de toda a unidade. Compreender essa cascata é o que permite entender, de forma lógica e não decorada, cada disfunção orgânica que vem a seguir.</p>
+
+  <h3 class="sub-h">A fase inicial: reconhecimento do patógeno e ativação da imunidade inata</h3>
+  <p>Tudo começa com o reconhecimento de padrões moleculares associados a patógenos (PAMPs — pathogen-associated molecular patterns), como o lipopolissacarídeo (LPS) da parede de bactérias Gram-negativas, o ácido lipoteicoico de Gram-positivas, ou material genético microbiano, por receptores de reconhecimento padrão presentes em células do sistema imune inato, principalmente os receptores toll-like (TLRs) — o TLR4, por exemplo, é o principal receptor de LPS em macrófagos e monócitos.</p>
+
+  <p>Esse reconhecimento ativa vias de sinalização intracelular que culminam na translocação nuclear do fator de transcrição NF-kB, o grande maestro da resposta inflamatória, que induz a transcrição maciça de genes de citocinas pró-inflamatórias: fator de necrose tumoral alfa (TNF-alfa), interleucina 1 beta (IL-1β) e interleucina 6 (IL-6) são as protagonistas dessa fase inicial, chamada de tempestade de citocinas quando ocorre de forma descontrolada e sistêmica.</p>
+
+  <div class="flow vert">
+    <div class="fbox">PAMPs bacterianos (LPS, ácido lipoteicoico)</div>
+    <span class="farrow">↓ reconhecidos por</span>
+    <div class="fbox">Receptores Toll-like (TLR4 principalmente) em macrófagos/monócitos</div>
+    <span class="farrow">↓ ativa</span>
+    <div class="fbox">Translocação nuclear de NF-kB</div>
+    <span class="farrow">↓ transcreve</span>
+    <div class="fbox">TNF-alfa, IL-1β, IL-6 (tempestade de citocinas)</div>
+    <span class="farrow">↓ gera</span>
+    <div class="fbox">Vasodilatação sistêmica, aumento de permeabilidade vascular, ativação da coagulação, disfunção endotelial generalizada</div>
+  </div>
+
+  <h3 class="sub-h">Os três pilares da fisiopatologia sistêmica da sepse</h3>
+
+  <div class="grid3">
+    <div class="card c-violet">
+      <h5>1. Disfunção endotelial e vasoplegia</h5>
+      <p>As citocinas induzem a enzima óxido nítrico sintase induzível (iNOS) em células endoteliais e musculares lisas vasculares, produzindo quantidades massivas de óxido nítrico, um potente vasodilatador. O resultado é vasodilatação sistêmica descontrolada — vasoplegia — que reduz a resistência vascular sistêmica e é a base fisiopatológica do choque distributivo característico da sepse.</p>
+    </div>
+    <div class="card c-violet">
+      <h5>2. Aumento de permeabilidade capilar</h5>
+      <p>O dano ao glicocálice endotelial e a abertura de junções interendoteliais, mediados pelas mesmas citocinas inflamatórias, permitem extravasamento de plasma para o interstício. Isso reduz o volume intravascular efetivo, contribuindo tanto para hipotensão quanto para edema tecidual generalizado, incluindo edema pulmonar não cardiogênico.</p>
+    </div>
+    <div class="card c-violet">
+      <h5>3. Ativação da cascata de coagulação</h5>
+      <p>A inflamação sistêmica ativa a via do fator tecidual, gerando trombina em excesso, enquanto simultaneamente há consumo e disfunção dos mecanismos naturais anticoagulantes (proteína C, antitrombina). O resultado é a formação de microtrombos disseminados nos capilares, que pioram ainda mais a perfusão tecidual — a base da coagulação intravascular disseminada (CIVD), uma das complicações mais temidas da sepse.</p>
+    </div>
+  </div>
+
+  <details class="deep">
+    <summary>Aprofunde-se: por que a sepse é hoje entendida como uma doença bifásica (hiperinflamação seguida de imunoparalisia)</summary>
+    <div class="deep-body">
+      <p>A visão fisiopatológica contemporânea da sepse não a entende mais apenas como um estado de hiperinflamação pura. Após a fase inicial pró-inflamatória (SIRS-like), segue-se tipicamente uma fase compensatória anti-inflamatória, mediada por citocinas como IL-10 e TGF-beta, além de apoptose maciça de linfócitos T e células dendríticas — fenômeno chamado de imunoparalisia ou síndrome da resposta anti-inflamatória compensatória (CARS). Essa fase explica por que pacientes que sobrevivem à fase hiperaguda da sepse permanecem, por dias a semanas, com risco elevado de infecções secundárias oportunistas e reativação de infecções latentes (como citomegalovírus), mesmo após controle do foco infeccioso original. Esse entendimento bifásico é fundamental para explicar a mortalidade tardia da sepse, que ocorre muito além da fase aguda de ressuscitação hemodinâmica.</p>
+    </div>
+  </details>
+
+  <div class="alert alert-clinica">
+    <span class="lbl">POR QUE ISSO IMPORTA CLINICAMENTE</span>
+    <p>Cada uma dessas três alterações fisiopatológicas explica diretamente uma intervenção terapêutica do protocolo ILAS que você verá adiante: a vasoplegia justifica o uso de vasopressores (noradrenalina) para restaurar o tônus vascular; o extravasamento capilar justifica a reposição volêmica agressiva inicial para repor o volume intravascular perdido para o interstício; e a coagulopatia justifica a vigilância laboratorial de plaquetas e coagulograma como parte da monitorização de gravidade.</p>
+  </div>
+</section>
+
+<section id="sepse-orgaos" class="sec">
+  <div class="sec-head"><span class="sec-num">09</span><h2>Disfunção de múltiplos órgãos: as consequências sistêmicas da sepse</h2></div>
+  <p class="sec-sub">Se a fisiopatologia que você acabou de estudar (vasoplegia, extravasamento capilar e microtrombose) ocorre de forma generalizada em todo o corpo, é lógico concluir que nenhum órgão fica de fora. Vamos percorrer sistema por sistema, sempre conectando o mecanismo fisiopatológico central à manifestação clínica e laboratorial específica daquele órgão.</p>
+
+  <h3 class="sub-h">Sistema cardiovascular</h3>
+  <p>A vasoplegia mediada por óxido nítrico reduz a resistência vascular sistêmica, e o organismo tenta compensar aumentando o débito cardíaco (fase hiperdinâmica inicial do choque séptico, com extremidades quentes). Contudo, as mesmas citocinas inflamatórias (particularmente TNF-alfa) exercem um efeito depressor miocárdico direto, reduzindo a contratilidade e a fração de ejeção — fenômeno conhecido como cardiomiopatia séptica, tipicamente reversível em dias a semanas em sobreviventes. Além disso, o extravasamento capilar reduz a pré-carga efetiva. A combinação de vasoplegia, depressão miocárdica e hipovolemia relativa gera hipotensão refratária, a marca registrada do choque séptico.</p>
+
+  <h3 class="sub-h">Sistema respiratório</h3>
+  <p>O dano ao endotélio capilar pulmonar e ao epitélio alveolar, mediado pela mesma tempestade de citocinas, associado ao recrutamento maciço de neutrófilos ativados para o interstício pulmonar, pode evoluir para a Síndrome do Desconforto Respiratório Agudo (SDRA) — um edema pulmonar não cardiogênico por aumento de permeabilidade, caracterizado por hipoxemia grave refratária, infiltrado bilateral à radiografia e redução da complacência pulmonar (pulmão "rígido"), exigindo frequentemente ventilação mecânica com estratégia protetora (baixo volume corrente).</p>
+
+  <h3 class="sub-h">Sistema renal</h3>
+  <p>A lesão renal aguda na sepse é multifatorial: hipoperfusão renal pela vasoplegia sistêmica e pela redistribuição preferencial do fluxo sanguíneo para órgãos nobres, lesão tubular direta por mediadores inflamatórios e microtrombose de capilares glomerulares, além de nefrotoxicidade de alguns antimicrobianos utilizados no tratamento. Manifesta-se por elevação de creatinina, redução do débito urinário e é um dos componentes centrais do escore SOFA, refletindo diretamente a gravidade da hipoperfusão sistêmica.</p>
+
+  <h3 class="sub-h">Sistema nervoso central</h3>
+  <p>A encefalopatia séptica resulta da disfunção da barreira hematoencefálica (também sujeita ao mesmo aumento de permeabilidade mediado por citocinas), alterações no fluxo sanguíneo cerebral e efeito direto de mediadores inflamatórios sobre a função neuronal e sináptica. Manifesta-se clinicamente por delirium, confusão mental aguda e rebaixamento do nível de consciência — por isso a alteração do estado mental é um dos três critérios do qSOFA, sendo frequentemente um dos primeiros sinais clínicos perceptíveis de sepse, especialmente em idosos.</p>
+
+  <h3 class="sub-h">Sistema hematológico</h3>
+  <p>Como descrito na fisiopatologia central, a ativação descontrolada da via do fator tecidual associada ao consumo de fatores anticoagulantes naturais pode evoluir para coagulação intravascular disseminada, caracterizada por trombocitopenia progressiva, prolongamento de TP e TTPA, queda de fibrinogênio e elevação de D-dímero, refletindo consumo simultâneo de plaquetas e fatores de coagulação, com risco paradoxal tanto de trombose microvascular quanto de sangramento clinicamente significativo.</p>
+
+  <h3 class="sub-h">Sistema hepático</h3>
+  <p>O fígado sofre tanto pela hipoperfusão esplâncnica quanto pelo efeito direto das citocinas sobre hepatócitos e células de Kupffer, resultando em colestase séptica (elevação de bilirrubinas, principalmente à custa da fração direta) e, em casos graves, disfunção sintética hepática com coagulopatia adicional (queda de fatores de coagulação produzidos pelo fígado) — motivo pelo qual a bilirrubina compõe um dos seis domínios do escore SOFA.</p>
+
+  <h3 class="sub-h">Sistema gastrointestinal</h3>
+  <p>A hipoperfusão esplâncnica, priorizada pela centralização circulatória do choque, compromete a integridade da mucosa intestinal, favorecendo translocação bacteriana (passagem de bactérias e endotoxinas da luz intestinal para a circulação sistêmica), o que perpetua e amplifica a resposta inflamatória sistêmica em um ciclo vicioso. Isso também justifica o risco aumentado de úlceras de estresse em pacientes críticos, sendo indicação formal de profilaxia farmacológica.</p>
+
+  <div class="tblwrap">
+  <table>
+    <thead><tr><th>Sistema</th><th>Mecanismo predominante</th><th>Marcador/achado no SOFA</th></tr></thead>
+    <tbody>
+      <tr><td>Cardiovascular</td><td>Vasoplegia + depressão miocárdica direta</td><td>Necessidade de vasopressor e nível de PAM</td></tr>
+      <tr><td>Respiratório</td><td>Aumento de permeabilidade capilar pulmonar (SDRA)</td><td>Relação PaO2/FiO2</td></tr>
+      <tr><td>Renal</td><td>Hipoperfusão + lesão tubular + microtrombose</td><td>Creatinina e débito urinário</td></tr>
+      <tr><td>Neurológico</td><td>Disfunção de barreira hematoencefálica</td><td>Escala de coma de Glasgow</td></tr>
+      <tr><td>Hematológico</td><td>Coagulação intravascular disseminada</td><td>Contagem de plaquetas</td></tr>
+      <tr><td>Hepático</td><td>Hipoperfusão + efeito direto de citocinas</td><td>Bilirrubina total</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="alert alert-prova">
+    <span class="lbl">PONTO DE PROVA</span>
+    <p>Perceba que os seis domínios do escore SOFA não são arbitrários: eles correspondem exatamente aos seis sistemas mais sensíveis à cascata fisiopatológica comum da sepse (vasoplegia, extravasamento capilar e microtrombose). Entender essa lógica permite reconstruir o SOFA de memória em qualquer prova, em vez de simplesmente decorá-lo.</p>
+  </div>
+</section>
+
+<section id="sepse-diag" class="sec">
+  <div class="sec-head"><span class="sec-num">10</span><h2>Diagnóstico diferencial, epidemiologia e complicações da sepse</h2></div>
+  <p class="sec-sub">Fechando o raciocínio sobre sepse antes de avançarmos para sua forma mais grave, o choque séptico.</p>
+
+  <h3 class="sub-h">Diagnóstico diferencial</h3>
+  <p>Antes de rotular um paciente hipotenso e taquicárdico como séptico, é fundamental excluir outras causas de choque e de disfunção orgânica aguda que podem mimetizar o quadro:</p>
+  <ul class="plain">
+    <li>Choque hipovolêmico puro (hemorragia digestiva, trauma) — ausência de foco infeccioso, história compatível com perda volêmica;</li>
+    <li>Choque cardiogênico (infarto agudo do miocárdio extenso, arritmia grave) — extremidades frias, sinais de congestão, ecocardiograma com disfunção ventricular importante sem foco infeccioso;</li>
+    <li>Choque obstrutivo (tamponamento cardíaco, pneumotórax hipertensivo, tromboembolismo pulmonar maciço) — contexto clínico específico, turgência jugular, achados de imagem característicos;</li>
+    <li>Crise adrenal aguda — hiponatremia, hipercalemia, história de uso crônico de corticoide ou insuficiência adrenal prévia;</li>
+    <li>Anafilaxia — história de exposição a alérgeno, urticária, angioedema, broncoespasmo associado.</li>
+  </ul>
+
+  <h3 class="sub-h">Epidemiologia</h3>
+  <p>A sepse é uma das principais causas de mortalidade hospitalar em todo o mundo, com incidência estimada em dezenas de milhões de casos anuais globalmente e mortalidade hospitalar que, apesar dos avanços terapêuticos e protocolos como o ILAS, ainda permanece elevada, especialmente no choque séptico. No Brasil, estudos multicêntricos coordenados pelo Instituto Latino-Americano de Sepse mostram consistentemente que a adesão a pacotes de tratamento precoce (o pacote de 1 hora que você verá a seguir) está diretamente associada à redução de mortalidade — cada hora de atraso no início da antibioticoterapia adequada em choque séptico aumenta a mortalidade de forma mensurável.</p>
+
+  <div class="alert alert-importante">
+    <span class="lbl">IMPORTANTE PARA O RACIOCÍNIO CLÍNICO</span>
+    <p>Sepse é, antes de tudo, um diagnóstico de reconhecimento clínico precoce, e não um diagnóstico de exclusão que se faz depois de uma bateria extensa de exames. O tempo entre a suspeita clínica e o início da antibioticoterapia é a variável que mais impacta a sobrevida — por isso protocolos institucionais como o ILAS priorizam ação imediata diante da suspeita, em paralelo à investigação diagnóstica, e não sequencialmente após ela.</p>
+  </div>
+</section>
+
+<section id="choque-fisio" class="sec">
+  <div class="sec-head"><span class="sec-num">11</span><h2>Choque séptico: quando a vasoplegia vence a compensação cardiovascular</h2></div>
+  <p class="sec-sub">O choque séptico não é uma entidade separada da sepse — é o subtipo mais grave dela, definido por critérios hemodinâmicos e metabólicos objetivos.</p>
+
+  <h3 class="sub-h">Definição formal (Sepse-3)</h3>
+  <p>O choque séptico é definido como um subconjunto da sepse em que anormalidades circulatórias, celulares e metabólicas subjacentes são profundas o suficiente para aumentar substancialmente a mortalidade. Clinicamente, ele é identificado pela necessidade de vasopressor para manter pressão arterial média (PAM) maior ou igual a 65 mmHg, associada a lactato sérico maior que 2 mmol/L, na ausência de hipovolemia — isto é, mesmo após ressuscitação volêmica adequada. Essa combinação identifica pacientes com mortalidade hospitalar em torno de 40%, substancialmente maior do que a sepse sem choque.</p>
+
+  <div class="card c-violet">
+    <h5>Por que o lactato entra na definição</h5>
+    <p>O lactato sérico elevado não reflete apenas hipoperfusão tecidual macroscópica (embora seja um componente importante): na sepse, parte da hiperlactatemia decorre também de disfunção mitocondrial induzida pelas citocinas inflamatórias, que compromete a fosforilação oxidativa mesmo em tecidos adequadamente perfundidos, forçando a célula a depender de glicólise anaeróbia mesmo na presença de oxigênio disponível — fenômeno às vezes chamado de disóxia. Por isso o lactato funciona como um marcador sensível de sofrimento celular sistêmico, e não apenas de choque hipovolêmico clássico, e sua depuração seriada (queda do lactato ao longo do tempo) é um dos melhores indicadores prognósticos de resposta à ressuscitação.</p>
+  </div>
+
+  <h3 class="sub-h">As fases hemodinâmicas do choque séptico</h3>
+  <div class="grid2">
+    <div class="card c-orange">
+      <h5>Fase hiperdinâmica (quente)</h5>
+      <p>Fase inicial, caracterizada por vasodilatação periférica predominante: extremidades quentes e bem perfundidas, pulsos amplos, débito cardíaco normal ou aumentado (taquicardia compensatória), mas resistência vascular sistêmica baixa. É a apresentação clássica mais frequentemente descrita, e sua identificação precoce é crucial pois ainda há maior janela de resposta à ressuscitação volêmica e vasopressora.</p>
+    </div>
+    <div class="card c-red">
+      <h5>Fase hipodinâmica (fria)</h5>
+      <p>Fase mais tardia e grave, na qual se somam a depressão miocárdica direta pelas citocinas e a hipovolemia relativa progressiva pelo extravasamento capilar continuado, resultando em queda do débito cardíaco: extremidades frias, tempo de enchimento capilar lentificado, livedo reticular, pulsos finos. Reflete falência circulatória mais avançada e está associada a pior prognóstico.</p>
+    </div>
+  </div>
+
+  <details class="deep">
+    <summary>Aprofunde-se: por que alguns pacientes sépticos nunca desenvolvem a fase "quente" clássica</summary>
+    <div class="deep-body">
+      <p>É um equívoco didático comum assumir que todo choque séptico necessariamente passa por uma fase hiperdinâmica evidente antes de evoluir para a fase fria. Pacientes idosos, com reserva cardiovascular reduzida, cardiopatia estrutural prévia ou uso de betabloqueadores podem ser incapazes de montar a resposta compensatória taquicárdica e hiperdinâmica esperada, apresentando-se já com extremidades frias e débito cardíaco reduzido desde o início do quadro. Isso reforça, na prática clínica, que a ausência de extremidades quentes não exclui choque séptico, e que o diagnóstico deve sempre se apoiar no conjunto de critérios (hipotensão refratária a volume + necessidade de vasopressor + lactato elevado + foco infeccioso), e não em um único achado semiológico isolado.</p>
+    </div>
+  </details>
+</section>
+
+<section id="choque-manejo" class="sec">
+  <div class="sec-head"><span class="sec-num">12</span><h2>Manejo hemodinâmico do choque séptico</h2></div>
+  <p class="sec-sub">A lógica terapêutica aqui é uma continuação direta da fisiopatologia: se o problema é vasoplegia mais hipovolemia relativa mais possível depressão miocárdica, a terapia precisa atacar exatamente essas três frentes.</p>
+
+  <div class="grid3">
+    <div class="card c-cyan">
+      <h5>1. Reposição volêmica</h5>
+      <p>Cristaloides balanceados (Ringer lactato ou solução salina balanceada) em bolus de 30 mL/kg nas primeiras 3 horas, ajustados conforme resposta hemodinâmica e sinais de sobrecarga volêmica. Corrige a hipovolemia relativa gerada pelo extravasamento capilar.</p>
+    </div>
+    <div class="card c-cyan">
+      <h5>2. Vasopressor</h5>
+      <p>Noradrenalina é o vasopressor de primeira escolha, atuando predominantemente sobre receptores alfa-1 adrenérgicos para restaurar o tônus vascular perdido na vasoplegia, elevando a resistência vascular sistêmica e, consequentemente, a pressão arterial média. Vasopressina pode ser associada como segunda linha para reduzir a dose necessária de catecolamina.</p>
+    </div>
+    <div class="card c-cyan">
+      <h5>3. Suporte inotrópico</h5>
+      <p>Dobutamina pode ser considerada quando há evidência de disfunção miocárdica associada (baixo débito cardíaco persistente apesar de volemia e pós-carga adequadas), atuando sobre receptores beta-1 para aumentar a contratilidade cardíaca.</p>
+    </div>
+  </div>
+
+  <div class="alert alert-clinica">
+    <span class="lbl">META HEMODINÂMICA</span>
+    <p>A meta de pressão arterial média maior ou igual a 65 mmHg não é arbitrária: corresponde, na maioria dos pacientes, ao limiar aproximado de autorregulação da perfusão de órgãos nobres (cérebro, coração, rins). Abaixo desse valor, a perfusão desses órgãos passa a depender diretamente da pressão de perfusão sistêmica, e não mais dos mecanismos de autorregulação local, aumentando drasticamente o risco de isquemia de órgão-alvo.</p>
+  </div>
+</section>
+
+<section id="ilas" class="sec">
+  <div class="sec-head"><span class="sec-num">13</span><h2>Protocolo ILAS: os pacotes de tempo que salvam vidas</h2></div>
+  <p class="sec-sub">O Instituto Latino-Americano de Sepse estruturou a resposta assistencial à sepse em pacotes cronológicos (bundles), traduzindo décadas de evidência científica em uma sequência de ações objetivas e mensuráveis, para que nenhum minuto seja perdido entre a suspeita clínica e a intervenção efetiva.</p>
+
+  <h3 class="sub-h">Pacote da primeira hora (Hour-1 Bundle)</h3>
+  <p>A partir do momento do reconhecimento da sepse ou choque séptico (o chamado "tempo zero"), as seguintes ações devem ser iniciadas simultaneamente, dentro da primeira hora:</p>
+
+  <div class="flow vert">
+    <div class="fbox">1. Dosar lactato sérico (repetir se inicial &gt; 2 mmol/L)</div>
+    <span class="farrow">executar em paralelo</span>
+    <div class="fbox">2. Coletar hemoculturas antes da antibioticoterapia (sem atrasar o antibiótico caso a coleta não seja imediata)</div>
+    <span class="farrow">executar em paralelo</span>
+    <div class="fbox">3. Administrar antibioticoterapia de amplo espectro</div>
+    <span class="farrow">executar em paralelo</span>
+    <div class="fbox">4. Iniciar reposição volêmica: 30 mL/kg de cristaloide para hipotensão ou lactato ≥ 4 mmol/L</div>
+    <span class="farrow">executar em paralelo</span>
+    <div class="fbox">5. Iniciar vasopressor (noradrenalina) se hipotensão persistir durante ou após a reposição volêmica, para manter PAM ≥ 65 mmHg</div>
+  </div>
+
+  <div class="alert alert-importante">
+    <span class="lbl">O PONTO MAIS IMPORTANTE DE TODA ESSA SEÇÃO</span>
+    <p>Todas essas cinco ações devem ser iniciadas simultaneamente, não sequencialmente. Não se espera o resultado do lactato para colher hemocultura, não se espera a hemocultura para iniciar antibiótico, e não se espera terminar a reposição volêmica para considerar vasopressor se a hipotensão for grave o suficiente. Cada hora de atraso na administração do antimicrobiano adequado no choque séptico está associada a aumento mensurável e progressivo da mortalidade, segundo os estudos que fundamentaram esse protocolo.</p>
+  </div>
+
+  <h3 class="sub-h">Antibioticoterapia empírica na sepse de origem pulmonar</h3>
+  <p>Quando o foco suspeito é pulmonar (como nos casos de PAC grave evoluindo para sepse discutidos nas seções anteriores), a escolha empírica deve seguir exatamente a lógica de cobertura discutida na seção de tratamento da PAC grave: betalactâmico de espectro ampliado associado a macrolídeo ou fluoroquinolona respiratória, ampliando para cobertura antipseudomonas e anti-MRSA conforme fatores de risco do paciente e epidemiologia local — sempre coletada a amostra para cultura antes da primeira dose, sem que isso atrase o início do antimicrobiano além do recomendado.</p>
+
+  <details class="deep">
+    <summary>Aprofunde-se: reposição volêmica guiada por parâmetros dinâmicos e o risco de volume excessivo</summary>
+    <div class="deep-body">
+      <p>Embora os 30 mL/kg iniciais sejam a recomendação padrão do pacote de 1 hora, a reposição volêmica além desse volume inicial idealmente deve ser guiada por parâmetros dinâmicos de responsividade a fluido (variação de pressão de pulso, elevação passiva das pernas, variação do diâmetro da veia cava inferior ao ultrassom), e não administrada de forma indiscriminada. Isso porque o mesmo extravasamento capilar que motiva a reposição volêmica também significa que grande parte do volume infundido rapidamente sai do espaço intravascular para o interstício, podendo agravar o edema pulmonar não cardiogênico (SDRA) e o edema tecidual generalizado se a reposição for excessiva e não monitorizada. O equilíbrio entre "repor o suficiente para restaurar perfusão" e "não sobrecarregar de volume um paciente com capilares permeáveis" é um dos maiores desafios práticos do manejo do choque séptico, e justifica a reavaliação contínua da resposta a cada bolus administrado.</p>
+    </div>
+  </details>
+
+  <h3 class="sub-h">Pacote das três e seis horas (reavaliação)</h3>
+  <p>Além da primeira hora, o protocolo ILAS preconiza reavaliação estruturada: repetir a dosagem de lactato dentro de 2 a 4 horas após o valor inicial elevado, para documentar clearance (queda do lactato como indicador de resposta terapêutica adequada); reavaliar o estado volêmico e a perfusão tecidual através de exame físico direcionado, sinais vitais seriados e, quando disponível, parâmetros hemodinâmicos adicionais; e documentar formalmente essa reavaliação no prontuário, characterizando resposta ou não resposta ao tratamento inicial para orientar escalonamento terapêutico (ajuste de vasopressor, consideração de suporte inotrópico, avaliação de necessidade de UTI).</p>
+
+  <div class="alert alert-prova">
+    <span class="lbl">PONTO DE PROVA</span>
+    <p>Memorize os cinco elementos do pacote de 1 hora na ordem lógica fisiopatológica: medir lactato (avaliar gravidade), colher culturas (antes do antibiótico, mas sem atrasá-lo), administrar antibiótico (atacar a causa), repor volume (corrigir hipovolemia relativa) e considerar vasopressor (corrigir vasoplegia refratária). Essa sequência aparece com enorme frequência em provas de residência e é a espinha dorsal de qualquer questão sobre manejo inicial de sepse.</p>
+  </div>
+</section>
+
+<section id="superresumo" class="sec">
+  <div class="sec-head"><span class="sec-num">14</span><h2>Super-resumo para revisão rápida</h2></div>
+  <p class="sec-sub">Condensação de alto impacto para revisão de véspera de prova ou de tutoria — não substitui o estudo completo acima, mas fixa os pontos que mais decidem uma questão.</p>
+
+  <div class="superresumo">
+    <div class="superresumo-inner">
+      <h3>Os pontos que você não pode esquecer</h3>
+
+      <div class="sr-item">
+        <div class="sr-t">SRIS</div>
+        <p>2 ou mais de: temperatura fora de 36 a 38°C, FC &gt; 90, FR &gt; 20 (ou PaCO2 &lt; 32), leucócitos fora de 4.000 a 12.000 ou &gt; 10% bastões. Não implica infecção nem disfunção orgânica.</p>
+      </div>
+
+      <div class="sr-item">
+        <div class="sr-t">CURB-65</div>
+        <p>Confusão, Ureia &gt; 43, FR ≥ 30, PA baixa (&lt; 90x60), idade ≥ 65. Cada item vale 1 ponto; 0-1 = ambulatorial, 2 = considerar internação, ≥ 3 = internar (UTI se 4-5).</p>
+      </div>
+
+      <div class="sr-item">
+        <div class="sr-t">PAC versus PAH/PAV</div>
+        <p>PAC = fora do hospital ou até 48h de internação, agentes comunitários (pneumococo). PAH = após 48h; PAV = após 48h de VM. Ambas exigem cobertura para multirresistentes (Pseudomonas, MRSA).</p>
+      </div>
+
+      <div class="sr-item">
+        <div class="sr-t">Sepse (Sepse-3)</div>
+        <p>Infecção + disfunção orgânica ameaçadora à vida = aumento ≥ 2 pontos no SOFA. qSOFA (FR ≥ 22, PAS ≤ 100, alteração de consciência) é triagem, não diagnóstico.</p>
+      </div>
+
+      <div class="sr-item">
+        <div class="sr-t">Choque séptico</div>
+        <p>Sepse + necessidade de vasopressor para PAM ≥ 65 mmHg + lactato &gt; 2 mmol/L apesar de volume adequado. Mortalidade em torno de 40%.</p>
+      </div>
+
+      <div class="sr-item">
+        <div class="sr-t">Fisiopatologia central</div>
+        <p>PAMPs → TLR4 → NF-kB → TNF-alfa/IL-1/IL-6 → vasoplegia (óxido nítrico) + extravasamento capilar + ativação da coagulação (CIVD) → falência de múltiplos órgãos.</p>
+      </div>
+
+      <div class="sr-item">
+        <div class="sr-t">Pacote de 1 hora (ILAS)</div>
+        <p>Simultaneamente: lactato, hemoculturas, antibiótico de amplo espectro, cristaloide 30 mL/kg se hipotensão/lactato ≥ 4, vasopressor (noradrenalina) se PAM não atingir a meta.</p>
+      </div>
+
+      <div class="sr-item">
+        <div class="sr-t">Disfunção multiorgânica</div>
+        <p>Cardiovascular (vasoplegia + depressão miocárdica), respiratório (SDRA), renal (LRA multifatorial), SNC (encefalopatia séptica), hematológico (CIVD), hepático (colestase séptica) — todos consequência direta da mesma tríade fisiopatológica.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="refs" id="referencias">
+  <div class="sec-head" style="margin-bottom:20px;"><span class="sec-num">15</span><h2>Referências</h2></div>
+  <ol>
+    <li>KUMAR, Vinay; ABBAS, Abul K.; ASTER, Jon C. Robbins &amp; Cotran: patologia — bases patológicas das doenças. 10. ed. Rio de Janeiro: Guanabara Koogan, 2023.</li>
+    <li>HALL, John E. Guyton &amp; Hall: tratado de fisiologia médica. 14. ed. Rio de Janeiro: Guanabara Koogan, 2021.</li>
+    <li>KASPER, Dennis L. et al. (Ed.). Harrison: medicina interna. 21. ed. Porto Alegre: AMGH, 2023.</li>
+    <li>BRUNTON, Laurence L.; KNOLLMANN, Björn C. (Ed.). Goodman &amp; Gilman: as bases farmacológicas da terapêutica. 14. ed. Porto Alegre: AMGH, 2023.</li>
+    <li>SINGER, Mervyn et al. The Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3). JAMA, v. 315, n. 8, p. 801-810, 2016.</li>
+    <li>EVANS, Laura et al. Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2021. Critical Care Medicine, v. 49, n. 11, p. e1063-e1143, 2021.</li>
+    <li>INSTITUTO LATINO-AMERICANO DE SEPSE (ILAS). Protocolo de tratamento de sepse. São Paulo: ILAS, 2023. Disponível em: https://www.ilas.org.br. Acesso em: 2026.</li>
+    <li>METLAY, Joshua P. et al. Diagnosis and Treatment of Adults with Community-Acquired Pneumonia: an Official Clinical Practice Guideline of the American Thoracic Society and Infectious Diseases Society of America. American Journal of Respiratory and Critical Care Medicine, v. 200, n. 7, p. e45-e67, 2019.</li>
+    <li>KALIL, Andre C. et al. Management of Adults With Hospital-acquired and Ventilator-associated Pneumonia: Clinical Practice Guidelines by the Infectious Diseases Society of America and the American Thoracic Society. Clinical Infectious Diseases, v. 63, n. 5, p. e61-e111, 2016.</li>
+    <li>LIM, W. S. et al. Defining community acquired pneumonia severity on presentation to hospital: an international derivation and validation study. Thorax, v. 58, n. 5, p. 377-382, 2003.</li>
+    <li>PORTO, Celmo Celeno. Semiologia médica. 8. ed. Rio de Janeiro: Guanabara Koogan, 2019.</li>
+    <li>KATZUNG, Bertram G.; TREVOR, Anthony J. Farmacologia básica e clínica. 15. ed. Porto Alegre: AMGH, 2022.</li>
+  </ol>
+</div>
+
+</main>
+
+<div id="edit-toolbar">
+  <span id="edit-status"></span>
+  <button id="btn-edit" onclick="toggleEdit()">Ativar edição</button>
+  <button id="btn-download" onclick="downloadCopy()">Baixar cópia editada</button>
+  <button id="btn-restore" onclick="restoreOriginal()">Restaurar original</button>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = "studyguide_pneumonia_sepse_choque_srias_v1";
+  var editing = false;
+  var mainEl = document.querySelector('main');
+  var statusEl = document.getElementById('edit-status');
+  var btnEdit = document.getElementById('btn-edit');
+  var autosaveTimer = null;
+  var isArtifactPreview = (function(){
+    try{
+      return window.self !== window.top;
+    }catch(e){ return true; }
+  })();
+
+  function getEditableTargets(){
+    return mainEl.querySelectorAll('p, li, h1, h2, h3, h4, h5, td, .sr-t, .tag, .lead, .card p, .alert p, .fbox');
+  }
+
+  function toggleEdit(){
+    editing = !editing;
+    var targets = getEditableTargets();
+    targets.forEach(function(el){
+      el.setAttribute('contenteditable', editing ? 'true' : 'false');
+      el.classList.toggle('editable-hl', editing);
+    });
+    btnEdit.textContent = editing ? 'Salvar e sair' : 'Ativar edição';
+    btnEdit.classList.toggle('on', editing);
+    if(editing){
+      statusEl.textContent = isArtifactPreview ? 'edição ativa (sem autosave aqui)' : 'edição ativa';
+      if(!isArtifactPreview){
+        autosaveTimer = setInterval(saveToStorage, 15000);
+      }
+    } else {
+      if(autosaveTimer){ clearInterval(autosaveTimer); autosaveTimer = null; }
+      saveToStorage();
+      statusEl.textContent = 'salvo';
+      setTimeout(function(){ statusEl.textContent=''; }, 2500);
+    }
+  }
+
+  function saveToStorage(){
+    try{
+      localStorage.setItem(STORAGE_KEY, mainEl.innerHTML);
+      if(editing){
+        statusEl.textContent = 'autosave ' + new Date().toLocaleTimeString();
+        setTimeout(function(){ if(editing) statusEl.textContent=''; }, 2000);
+      }
+    }catch(e){
+      statusEl.textContent = 'erro ao salvar (localStorage indisponível)';
+    }
+  }
+
+  function loadFromStorage(){
+    try{
+      var saved = localStorage.getItem(STORAGE_KEY);
+      if(saved){ mainEl.innerHTML = saved; }
+    }catch(e){ /* ignore */ }
+  }
+
+  function restoreOriginal(){
+    if(!confirm('Isso vai apagar suas edições salvas neste navegador e voltar ao texto original. Deseja continuar?')) return;
+    try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+    location.reload();
+  }
+
+  function downloadCopy(){
+    var docClone = document.documentElement.cloneNode(true);
+    var toolbar = docClone.querySelector('#edit-toolbar');
+    if(toolbar) toolbar.remove();
+    docClone.querySelectorAll('[contenteditable]').forEach(function(el){
+      el.removeAttribute('contenteditable');
+      el.classList.remove('editable-hl');
+    });
+    var htmlStr = '<!DOCTYPE html>\n' + docClone.outerHTML;
+    var blob = new Blob([htmlStr], {type: 'text/html'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'pneumonia-sris-sepse-choque-septico-editado.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+  }
+
+  window.toggleEdit = toggleEdit;
+  window.downloadCopy = downloadCopy;
+  window.restoreOriginal = restoreOriginal;
+
+  if(isArtifactPreview){
+    statusEl.textContent = 'pré-visualização: baixe o arquivo p/ autosave funcionar';
+    setTimeout(function(){ if(!editing) statusEl.textContent=''; }, 4500);
+  }
+
+  loadFromStorage();
+
+  // Sidebar active link highlight on scroll
+  var sections = document.querySelectorAll('section.sec, #hero');
+  var links = document.querySelectorAll('#sb nav a');
+  function onScroll(){
+    var pos = window.scrollY + 140;
+    var current = '';
+    sections.forEach(function(sec){
+      if(sec.offsetTop <= pos) current = sec.id;
+    });
+    links.forEach(function(l){
+      l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+
+  // Close mobile sidebar on link click
+  links.forEach(function(l){
+    l.addEventListener('click', function(){
+      document.getElementById('sb').classList.remove('open');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

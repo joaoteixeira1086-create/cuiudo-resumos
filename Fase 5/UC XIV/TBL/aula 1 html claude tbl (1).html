@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IVAS e Pneumonia Adquirida na Comunidade — UCXIV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#080b10;
+    --bg-1:#0d1117;
+    --bg-2:#121a24;
+    --bg-card:#111823;
+    --border:#1e2a38;
+    --border-soft:#18212c;
+    --text-hi:#e7edf5;
+    --text-mid:#a9b8c9;
+    --text-low:#5f7186;
+
+    --cyan:#38d3e8;
+    --red:#f2685f;
+    --amber:#e8b94a;
+    --green:#4fce8e;
+    --violet:#a48af0;
+    --orange:#f0955a;
+    --teal:#3fc9ac;
+    --lime:#b3d95a;
+
+    --font-title:'Merriweather', Georgia, serif;
+    --font-body:'DM Sans', -apple-system, sans-serif;
+    --font-mono:'DM Mono', 'Courier New', monospace;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--bg-0);
+    color:var(--text-hi);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.65;
+  }
+  ::selection{ background:rgba(56,211,232,.25); color:var(--text-hi); }
+
+  h1,h2,h3,h4{ font-family:var(--font-title); font-weight:700; margin:0; color:var(--text-hi); }
+  p{ margin:0 0 1rem 0; color:var(--text-mid); }
+  p:last-child{ margin-bottom:0; }
+  em{ color:var(--text-hi); font-style:italic; }
+  a{ color:inherit; }
+
+  /* ---------- SIDEBAR ---------- */
+  #sb{
+    position:fixed; top:0; left:0; bottom:0; width:280px;
+    background:var(--bg-1); border-right:1px solid var(--border-soft);
+    overflow-y:auto; padding:1.75rem 0 2rem 0; z-index:50;
+  }
+  #sb .sb-brand{ padding:0 1.5rem 1.25rem 1.5rem; border-bottom:1px solid var(--border-soft); margin-bottom:1rem; }
+  #sb .sb-tag{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.08em; color:var(--cyan); }
+  #sb .sb-title{ font-family:var(--font-title); font-size:1.15rem; line-height:1.3; margin-top:.4rem; color:var(--text-hi); }
+  #sb .sb-sub{ font-family:var(--font-mono); font-size:.7rem; color:var(--text-low); margin-top:.5rem; }
+  #sb nav{ display:flex; flex-direction:column; padding:0 .6rem; }
+  #sb nav a{
+    display:flex; align-items:center; gap:.6rem;
+    text-decoration:none; color:var(--text-mid);
+    font-size:.85rem; padding:.5rem .9rem; border-radius:6px;
+    transition:background .15s, color .15s;
+  }
+  #sb nav a:hover{ background:var(--bg-2); color:var(--text-hi); }
+  #sb nav a .dot{ width:7px; height:7px; border-radius:50%; flex:none; background:var(--dot,#556); }
+  #sb nav .grp-label{ font-family:var(--font-mono); font-size:.65rem; letter-spacing:.08em; color:var(--text-low); text-transform:uppercase; padding:.9rem .9rem .3rem .9rem; }
+
+  #sb-toggle{ display:none; }
+
+  /* ---------- MAIN ---------- */
+  main{ margin-left:280px; max-width:920px; padding:0 2.5rem 6rem 2.5rem; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:4rem 0 3rem 0; border-bottom:1px solid var(--border-soft); margin-bottom:2.5rem;
+  }
+  .hero .eyebrow{ font-family:var(--font-mono); font-size:.72rem; letter-spacing:.1em; color:var(--cyan); text-transform:uppercase; }
+  .hero h1{ font-size:2.4rem; line-height:1.2; margin-top:.9rem; }
+  .hero .desc{ font-size:1.05rem; color:var(--text-mid); margin-top:1.1rem; max-width:640px; }
+  .hero .tags{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.4rem; }
+  .tag{
+    font-family:var(--font-mono); font-size:.72rem; padding:.3rem .7rem;
+    border:1px solid var(--border); border-radius:999px; color:var(--text-mid);
+  }
+
+  /* ---------- SECTION SCAFFOLD ---------- */
+  .content-section{ padding-top:3rem; scroll-margin-top:1.5rem; }
+  .sec-head{ display:flex; gap:1.2rem; align-items:baseline; margin-bottom:.6rem; }
+  .sec-num{ font-family:var(--font-title); font-size:2.6rem; font-weight:900; color:var(--accent); opacity:.35; line-height:1; }
+  .sec-title{ font-size:1.55rem; }
+  .sec-sub{ color:var(--text-mid); margin:.6rem 0 1.4rem 0; max-width:680px; font-size:.98rem; }
+  .sec-rule{ display:flex; align-items:center; gap:.8rem; margin-bottom:1.8rem; }
+  .sec-rule .tagline{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.08em; color:var(--accent); text-transform:uppercase; white-space:nowrap; }
+  .sec-rule .line{ height:1px; flex:1; background:linear-gradient(to right, var(--accent), transparent); opacity:.5; }
+
+  /* ---------- CARDS ---------- */
+  .card{
+    background:var(--bg-card); border:1px solid var(--border);
+    border-top:3px solid var(--accent);
+    border-radius:10px; padding:1.3rem 1.5rem; margin-bottom:1.1rem;
+  }
+  .card h4{ font-size:1rem; color:var(--text-hi); margin-bottom:.6rem; font-family:var(--font-body); font-weight:700; }
+  .card .k{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.06em; color:var(--accent); text-transform:uppercase; display:block; margin-bottom:.4rem; }
+  .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:1.1rem; }
+  .grid-3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.1rem; }
+  ul.plain, ol.plain{ margin:0; padding-left:1.15rem; color:var(--text-mid); }
+  ul.plain li, ol.plain li{ margin-bottom:.4rem; }
+  ul.plain li::marker{ color:var(--accent); }
+
+  /* ---------- ALERTS ---------- */
+  .alert{
+    border:1px solid var(--accent); background:transparent; border-radius:8px;
+    padding:1rem 1.3rem; margin:1.2rem 0;
+  }
+  .alert .k{ font-family:var(--font-mono); font-size:.68rem; letter-spacing:.08em; color:var(--accent); text-transform:uppercase; display:block; margin-bottom:.45rem; }
+  .alert p{ color:var(--text-mid); }
+  .alert.atencao{ --accent:var(--amber); }
+  .alert.clinica{ --accent:var(--cyan); }
+  .alert.prova{ --accent:var(--violet); }
+  .alert.pegadinha{ --accent:var(--red); }
+  .alert.importante{ --accent:var(--green); }
+
+  /* ---------- FLOWCHART ---------- */
+  .flow{ display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; margin:1.4rem 0; }
+  .flow .box{
+    font-family:var(--font-mono); font-size:.78rem; color:var(--text-hi);
+    background:var(--bg-2); border:1px solid var(--accent); border-radius:8px;
+    padding:.65rem 1rem; text-align:center; flex:1 1 140px;
+  }
+  .flow .arrow{ color:var(--accent); font-size:1.1rem; flex:none; }
+  .flow.vert{ flex-direction:column; align-items:stretch; }
+  .flow.vert .arrow{ align-self:center; }
+
+  /* ---------- DETAILS / APROFUNDE-SE ---------- */
+  details.deep{
+    border:1px dashed var(--border); border-left:3px solid var(--accent);
+    border-radius:8px; padding:.9rem 1.2rem; margin:1.2rem 0; background:rgba(255,255,255,.012);
+  }
+  details.deep summary{
+    cursor:pointer; list-style:none; display:flex; align-items:center; gap:.6rem;
+    font-family:var(--font-mono); font-size:.78rem; letter-spacing:.03em; color:var(--accent);
+    text-transform:uppercase;
+  }
+  details.deep summary::-webkit-details-marker{ display:none; }
+  details.deep summary::before{ content:"▸"; transition:transform .15s; }
+  details.deep[open] summary::before{ transform:rotate(90deg); }
+  details.deep .deep-body{ margin-top:.9rem; padding-top:.9rem; border-top:1px solid var(--border-soft); }
+  details.deep .deep-body p{ color:var(--text-mid); }
+
+  /* ---------- SUPER RESUMO ---------- */
+  .super{
+    margin-top:4rem; padding:2.5rem; border-radius:14px;
+    background:linear-gradient(160deg, rgba(56,211,232,.06), rgba(164,138,240,.05) 50%, rgba(242,104,95,.05));
+    border:1px solid var(--border);
+  }
+  .super .eyebrow{ font-family:var(--font-mono); font-size:.72rem; letter-spacing:.1em; color:var(--lime); text-transform:uppercase; }
+  .super h2{ font-size:1.7rem; margin-top:.6rem; }
+  .super .grid-2{ margin-top:1.6rem; }
+
+  /* ---------- REFERENCES ---------- */
+  .refs{ margin-top:3.5rem; padding-top:2rem; border-top:1px solid var(--border-soft); }
+  .refs h2{ font-size:1.2rem; margin-bottom:1.2rem; }
+  .refs p{ font-size:.86rem; color:var(--text-low); margin-bottom:.9rem; line-height:1.55; }
+
+  /* ---------- TOOLBAR ---------- */
+  #toolbar{
+    position:fixed; right:1.3rem; bottom:1.3rem; z-index:100;
+    display:flex; flex-direction:column; gap:.5rem;
+    background:var(--bg-1); border:1px solid var(--border);
+    border-radius:12px; padding:.7rem; box-shadow:0 8px 30px rgba(0,0,0,.4);
+  }
+  #toolbar button{
+    font-family:var(--font-mono); font-size:.7rem; letter-spacing:.02em;
+    background:var(--bg-2); color:var(--text-mid); border:1px solid var(--border);
+    border-radius:7px; padding:.55rem .8rem; cursor:pointer; text-align:left;
+    transition:border-color .15s, color .15s;
+  }
+  #toolbar button:hover{ color:var(--text-hi); border-color:var(--cyan); }
+  #toolbar button.active{ color:var(--bg-0); background:var(--cyan); border-color:var(--cyan); }
+  #toolbar .tb-status{ font-family:var(--font-mono); font-size:.62rem; color:var(--text-low); padding:0 .2rem; }
+
+  #editable-content[contenteditable="true"]{ outline:1px dashed var(--border); outline-offset:8px; }
+  #editable-content[contenteditable="true"] *:focus{ outline:1px solid var(--cyan); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:980px){
+    .grid-2, .grid-3{ grid-template-columns:1fr; }
+  }
+  @media (max-width:900px){
+    #sb{
+      position:fixed; top:0; left:0; right:0; bottom:auto; height:auto; max-height:100vh;
+      width:100%; transform:translateY(-100%); transition:transform .2s ease;
+      border-right:none; border-bottom:1px solid var(--border-soft);
+    }
+    #sb.open{ transform:translateY(0); overflow-y:auto; }
+    #sb-toggle{
+      display:flex; position:fixed; top:1rem; left:1rem; z-index:60;
+      width:44px; height:44px; border-radius:10px; align-items:center; justify-content:center;
+      background:var(--bg-1); border:1px solid var(--border); color:var(--text-hi); cursor:pointer;
+      font-family:var(--font-mono); font-size:1.1rem;
+    }
+    main{ margin-left:0; padding:5rem 1.2rem 6rem 1.2rem; }
+    .hero h1{ font-size:1.8rem; }
+    .sec-num{ font-size:2rem; }
+    #toolbar{ right:.7rem; bottom:.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<button id="sb-toggle" aria-label="Abrir índice">☰</button>
+
+<nav id="sb">
+  <div class="sb-brand">
+    <div class="sb-tag">UCXIV — FEBRE, INFLAMAÇÃO E INFECÇÃO</div>
+    <div class="sb-title">IVAS &amp; Pneumonia Adquirida na Comunidade</div>
+    <div class="sb-sub">AULA 1 · PROF. ANDREW · TBL</div>
+  </div>
+  <nav>
+    <div class="grp-label">Vias aéreas superiores</div>
+    <a href="#s01"><span class="dot" style="--dot:var(--cyan)"></span>01 — Panorama das IRA</a>
+    <a href="#s02"><span class="dot" style="--dot:var(--amber)"></span>02 — Síndrome Gripal e SRAG</a>
+    <div class="grp-label">COVID-19</div>
+    <a href="#s03"><span class="dot" style="--dot:var(--red)"></span>03 — Fisiopatologia e gravidade</a>
+    <a href="#s04"><span class="dot" style="--dot:var(--green)"></span>04 — Tratamento farmacológico</a>
+    <div class="grp-label">Influenza</div>
+    <a href="#s05"><span class="dot" style="--dot:var(--orange)"></span>05 — Virologia e curso clínico</a>
+    <a href="#s06"><span class="dot" style="--dot:var(--green)"></span>06 — Tratamento e profilaxia</a>
+    <a href="#s07"><span class="dot" style="--dot:var(--lime)"></span>07 — Vacinação</a>
+    <div class="grp-label">Pneumonia (PAC)</div>
+    <a href="#s08"><span class="dot" style="--dot:var(--cyan)"></span>08 — Definição e etiologia</a>
+    <a href="#s09"><span class="dot" style="--dot:var(--violet)"></span>09 — Patogênese</a>
+    <a href="#s10"><span class="dot" style="--dot:var(--orange)"></span>10 — Clínica e exame físico</a>
+    <a href="#s11"><span class="dot" style="--dot:var(--teal)"></span>11 — Diagnóstico e imagem</a>
+    <a href="#s12"><span class="dot" style="--dot:var(--red)"></span>12 — CURB-65 e antibióticos</a>
+    <a href="#s13"><span class="dot" style="--dot:var(--green)"></span>13 — Tratamento sintomático</a>
+    <div class="grp-label">Vigilância</div>
+    <a href="#s14"><span class="dot" style="--dot:var(--amber)"></span>14 — Notificação e afastamento</a>
+    <a href="#s15"><span class="dot" style="--dot:var(--teal)"></span>15 — CID-10</a>
+    <div class="grp-label">Revisão</div>
+    <a href="#super"><span class="dot" style="--dot:var(--lime)"></span>Super-resumo</a>
+    <a href="#refs"><span class="dot" style="--dot:#556"></span>Referências</a>
+  </nav>
+</nav>
+
+<main>
+<div id="editable-content">
+
+  <header class="hero">
+    <div class="eyebrow">UCXIV · Febre, Inflamação e Infecção</div>
+    <h1>Infecções das Vias Aéreas Superiores e Pneumonia Adquirida na Comunidade</h1>
+    <p class="desc">Aprofundamento da Aula 1 do Prof. Andrew (TBL), cobrindo síndrome gripal, COVID-19, influenza, pneumonia adquirida na comunidade e a interface com vigilância epidemiológica. Cada tópico do slide é o ponto de partida — aqui você encontra o mecanismo, a fisiopatologia e o raciocínio clínico por trás de cada definição e conduta.</p>
+    <div class="tags">
+      <span class="tag">Síndrome Gripal</span>
+      <span class="tag">SRAG</span>
+      <span class="tag">COVID-19</span>
+      <span class="tag">Influenza A/B</span>
+      <span class="tag">PAC</span>
+      <span class="tag">CURB-65</span>
+      <span class="tag">Vacinação</span>
+      <span class="tag">CID-10</span>
+    </div>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- 01 -->
+  <!-- ============================================================ -->
+  <section class="content-section" id="s01" style="--accent:var(--cyan)">
+    <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">Infecções Respiratórias Agudas: Panorama e Vigilância Sentinela</h2></div>
+    <p class="sec-sub">Por que um único quadro clínico — tosse, coriza, febre — pode ser causado por sete ou oito vírus diferentes, e por que isso obriga o sistema de saúde a vigiar, e não apenas tratar.</p>
+    <div class="sec-rule"><span class="tagline">Conceito</span><span class="line"></span></div>
+
+    <p>O professor apresenta um círculo de agentes — vírus influenza, SARS-CoV-2, vírus sincicial respiratório (VSR), rinovírus, adenovírus, parainfluenza (1 a 4) e metapneumovírus, entre outros — todos capazes de produzir a mesma síndrome clínica. Isso não é coincidência biológica: todos esses vírus compartilham o mesmo alvo anatômico, o epitélio respiratório ciliado e as células caliciformes da mucosa nasofaríngea e brônquica, e todos disparam essencialmente a mesma cascata de resposta inata (interferons tipo I, recrutamento de células natural killer, produção de muco reativo). O resultado clínico — coriza, congestão, tosse, mal-estar — é a <em>resposta do hospedeiro</em> mais do que uma assinatura específica do patógeno. É exatamente por isso que a slide afirma que a confirmação etiológica depende de diagnóstico laboratorial: a clínica sozinha não diferencia influenza de rinovírus de SARS-CoV-2 na maioria dos casos leves.</p>
+
+    <details class="deep">
+      <summary>Aprofunde-se — por que cada vírus tem um tropismo diferente dentro da via aérea</summary>
+      <div class="deep-body">
+        <p>Apesar de todos infectarem o epitélio respiratório, cada família viral usa um receptor de superfície diferente, e isso explica por que alguns causam predominantemente doença de vias aéreas superiores e outros conseguem descer até o parênquima pulmonar com mais frequência.</p>
+        <p>O SARS-CoV-2 usa a enzima conversora de angiotensina 2 (ECA2) como receptor, auxiliado pela protease transmembrana TMPRSS2 que cliva a proteína spike e permite a fusão de membranas. A ECA2 está presente tanto no epitélio nasal quanto nos pneumócitos tipo II alveolares, o que explica por que a COVID-19 consegue, em uma fração dos casos, progredir de um quadro de vias aéreas superiores para uma pneumonite viral verdadeira.</p>
+        <p>O vírus influenza reconhece resíduos de ácido siálico ligados à galactose por ligação α2,6, o padrão predominante no epitélio humano da via aérea superior — por isso a transmissão entre humanos é eficiente. Cepas aviárias reconhecem preferencialmente a ligação α2,3, mais comum no epitélio respiratório inferior humano e no trato gastrointestinal de aves, o que explica por que vírus aviários (como H5N1) raramente se transmitem entre humanos, mas quando infectam, tendem a causar doença mais grave e mais profunda no pulmão.</p>
+        <p>Já o rinovírus, o campeão do resfriado comum, usa preferencialmente a molécula de adesão intercelular ICAM-1, mais expressa no epitélio nasal, e sua replicação é otimizada a 33-35°C — a temperatura da mucosa nasal, mais baixa que a temperatura corporal central — o que explica sua limitação quase exclusiva às vias aéreas superiores.</p>
+      </div>
+    </details>
+
+    <div class="sec-rule"><span class="tagline">Vigilância sentinela</span><span class="line"></span></div>
+    <p>A vigilância sentinela de síndrome gripal não existe apenas para contar casos: ela sustenta a formulação anual da vacina (ao identificar quais subtipos circulam e quais mutações antigênicas estão se acumulando), estuda a sazonalidade regional do país continental que é o Brasil, isola amostras virais para envio ao Centro Colaborador de Influenza (referência da OMS nas Américas), acompanha a patogenicidade e virulência do vírus circulante a cada estação — informação que orienta a conduta terapêutica — e, talvez o objetivo mais crítico do ponto de vista de saúde pública, identifica precocemente situações atípicas que sinalizem o surgimento de um novo subtipo com potencial pandêmico.</p>
+
+    <div class="grid-2">
+      <div class="card">
+        <span class="k">Método</span>
+        <h4>RT-PCR</h4>
+        <p>Amplifica o material genético viral (RNA, com transcrição reversa prévia). Altíssima sensibilidade e especificidade, permite tipagem e subtipagem do vírus influenza, essencial para vigilância genômica. É o método usado nas três amostras aleatórias colhidas em um surto.</p>
+      </div>
+      <div class="card">
+        <span class="k">Método</span>
+        <h4>Teste rápido de antígeno</h4>
+        <p>Detecta proteínas virais estruturais diretamente, sem amplificação. Mais rápido e barato, porém menos sensível — útil para triagem clínica individual e para testar 100% dos casos de um surto quanto a COVID-19, mas não substitui o RT-PCR para fins de vigilância genômica fina.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 02 -->
+  <!-- ============================================================ -->
+  <section class="content-section" id="s02" style="--accent:var(--amber)">
+    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Síndrome Gripal (SG) e Síndrome Respiratória Aguda Grave (SRAG)</h2></div>
+    <p class="sec-sub">As definições de caso não são burocracia: são o filtro que decide quem é testado, quem é notificado e quem é observado de perto.</p>
+    <div class="sec-rule"><span class="tagline">Definição de caso</span><span class="line"></span></div>
+
+    <div class="card">
+      <span class="k">Síndrome Gripal</span>
+      <h4>Indivíduo com infecção respiratória de início nos últimos 10 dias</h4>
+      <p>Critério clínico: presença de pelo menos dois sintomas, sendo obrigatoriamente ao menos um sintoma respiratório — tosse, coriza, dor de garganta ou congestão nasal. Os sintomas gerais que completam o quadro são febre, cefaleia, mialgia (dor no corpo) ou calafrios.</p>
+    </div>
+
+    <p>Repare no detalhe que costuma pegar o aluno desatento: <em>a febre não é obrigatória</em> para caracterizar síndrome gripal. Isso tem lastro fisiológico. A febre é gerada por citocinas pirogênicas — IL-1, IL-6 e TNF-alfa — liberadas por macrófagos e monócitos ativados, que atingem o hipotálamo anterior e estimulam a síntese local de prostaglandina E2, a qual eleva o ponto de ajuste do centro termorregulador. Esse mecanismo depende de um eixo imune-hipotalâmico funcionante e vigoroso. Idosos frágeis, lactentes muito pequenos, pacientes imunossuprimidos ou em uso crônico de antitérmicos e anti-inflamatórios podem simplesmente não montar essa resposta com a mesma intensidade — e ainda assim estarem gravemente infectados. Exigir febre para a definição de caso excluiria exatamente os pacientes mais vulneráveis e mais atípicos, motivo pelo qual a definição de vigilância prioriza a combinação de sintomas respiratórios com qualquer sintoma geral, sem tornar a febre um critério mandatório.</p>
+
+    <div class="alert clinica">
+      <span class="k">Correlação clínica</span>
+      <p>Um idoso institucionalizado com tosse nova, mialgia leve e sem febre registrada preenche critério de síndrome gripal. Não descarte a hipótese só porque o termômetro marcou 36,8°C.</p>
+    </div>
+
+    <div class="sec-rule"><span class="tagline">Surto em ambiente fechado</span><span class="line"></span></div>
+    <p>Três ou mais casos de síndrome gripal em até 7 dias, em ambiente fechado ou restrito (uma instituição de longa permanência, um quartel, uma creche), configura surto. A conduta é padronizada: comunicar a vigilância local, registrar no Sinan-Net com CID J06, testar 100% dos casos para COVID-19 por teste rápido de antígeno e coletar três amostras aleatórias para influenza por RT-PCR. Uma única amostra positiva já confirma o surto — os demais casos podem então ser definidos por vínculo clínico-epidemiológico, sem necessidade de testar todo mundo individualmente. Essa lógica poupa recursos laboratoriais sem perder a capacidade de resposta: uma vez identificado o agente circulante no ambiente, presume-se que os casos com quadro clínico compatível e nexo temporal/espacial compartilham a mesma etiologia.</p>
+
+    <div class="sec-rule"><span class="tagline">SRAG</span><span class="line"></span></div>
+    <div class="card">
+      <span class="k">Definição</span>
+      <h4>Indivíduo hospitalizado com Síndrome Gripal que apresente ao menos um sinal de agravamento</h4>
+      <p>Dispneia, taquipneia e/ou SpO₂ ≤ 94% em ar ambiente; OU óbito por SRAG independentemente de hospitalização. Em menores de 2 anos, os sinais de agravamento incluem batimento de asas nasais, apneia, cianose, tiragem intercostal/subcostal, recusa alimentar, irritabilidade e letargia.</p>
+    </div>
+
+    <p>Por que a definição pediátrica é tão diferente da definição do adulto? A criança pequena tem uma caixa torácica muito mais complacente (as costelas ainda são cartilaginosas) e uma musculatura acessória menos desenvolvida. Quando o trabalho respiratório aumenta, em vez de simplesmente respirar mais rápido de forma sustentável como um adulto, a caixa torácica do lactente literalmente se retrai a cada inspiração — daí a tiragem intercostal e subcostal, um sinal mecânico direto de que a pressão negativa intratorácica gerada para vencer a resistência das vias aéreas está sendo transmitida à parede torácica complacente. O batimento de asas nasais é um mecanismo compensatório para reduzir a resistência da via aérea superior, e a apneia, cianose, recusa alimentar, irritabilidade e letargia são sinais indiretos de hipoxemia e de fadiga do sistema nervoso central e da musculatura respiratória imatura — sinais que substituem, no lactente, a queixa verbal de dispneia que um adulto conseguiria relatar.</p>
+
+    <div class="flow">
+      <div class="box">Síndrome Gripal</div>
+      <div class="arrow">→</div>
+      <div class="box">Hospitalização</div>
+      <div class="arrow">→</div>
+      <div class="box">≥ 1 sinal de agravamento</div>
+      <div class="arrow">→</div>
+      <div class="box" style="border-color:var(--red)">SRAG</div>
+    </div>
+
+    <div class="alert pegadinha">
+      <span class="k">Pegadinha</span>
+      <p>SRAG não exige hospitalização quando o desfecho é óbito — um óbito com quadro compatível com SRAG é notificável mesmo que o paciente nunca tenha sido internado.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 03 -->
+  <!-- ============================================================ -->
+  <section class="content-section" id="s03" style="--accent:var(--red)">
+    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">COVID-19 (SARS-CoV-2): Fisiopatologia, Classificação de Gravidade e Fatores de Risco</h2></div>
+    <p class="sec-sub">A escada de gravidade da COVID-19 não é arbitrária — cada degrau corresponde a um grau crescente de comprometimento alveolar e de disfunção da troca gasosa.</p>
+    <div class="sec-rule"><span class="tagline">Classificação de gravidade</span><span class="line"></span></div>
+
+    <div class="grid-2">
+      <div class="card">
+        <span class="k">Assintomático</span>
+        <h4>Teste positivo, sem sintomas</h4>
+        <p>Replicação viral presente e detectável, mas sem tradução clínica — seja por resposta imune inata eficiente, seja por baixa carga viral no momento da coleta.</p>
+      </div>
+      <div class="card">
+        <span class="k">Leve</span>
+        <h4>Sintomas sistêmicos, sem acometimento do trato respiratório inferior</h4>
+        <p>Febre, tosse, dor de garganta, mal-estar, cefaleia, mialgia, náusea, vômito, diarreia, anosmia, ageusia — mas sem dispneia e sem alteração de imagem torácica. A doença permanece confinada às vias aéreas superiores e à resposta sistêmica inicial.</p>
+      </div>
+      <div class="card">
+        <span class="k">Moderado</span>
+        <h4>Evidência de doença em trato respiratório inferior, SpO₂ ≥ 94%</h4>
+        <p>O exame clínico ou a imagem já mostram acometimento pulmonar (estertores, infiltrado), mas a oxigenação ainda está preservada — a área de parênquima comprometida ainda não é suficiente para gerar shunt significativo.</p>
+      </div>
+      <div class="card" style="--accent:var(--red)">
+        <span class="k">SRAG</span>
+        <h4>Hospitalizado + sinal de agravamento, ou óbito</h4>
+        <p>Dispneia, taquipneia e/ou SpO₂ ≤ 94% em ar ambiente — o comprometimento alveolar já é extenso o suficiente para produzir hipoxemia clinicamente relevante mesmo em repouso.</p>
+      </div>
+    </div>
+
+    <details class="deep">
+      <summary>Aprofunde-se — o eixo ECA2/angiotensina e a lesão alveolar difusa</summary>
+      <div class="deep-body">
+        <p>A ECA2 não é apenas a porta de entrada do vírus: ela é, fisiologicamente, uma enzima protetora do sistema renina-angiotensina-aldosterona. Ela converte angiotensina II — um peptídeo vasoconstritor, pró-inflamatório e pró-fibrótico — em angiotensina 1-7, que tem efeito vasodilatador, anti-inflamatório e antioxidante através do receptor Mas.</p>
+        <p>Quando o SARS-CoV-2 se liga à ECA2 para entrar na célula, ele promove a internalização e a degradação dessa enzima na superfície celular. O resultado líquido é uma queda da ECA2 disponível e um desequilíbrio a favor da angiotensina II não contrabalançada. Esse desequilíbrio ajuda a explicar por que os casos graves de COVID-19 associam-se a vasoconstrição pulmonar, aumento da permeabilidade capilar, ativação do sistema de coagulação (estado pró-trombótico, explicando a maior incidência de tromboembolismo venoso e microtrombos pulmonares) e, no limite, síndrome do desconforto respiratório agudo (SDRA), com dano alveolar difuso, membrana hialina e colapso da complacência pulmonar.</p>
+        <p>Esse mesmo mecanismo explica por que hipertensos e diabéticos — grupos que já têm alguma disfunção endotelial basal e alterações na expressão de ECA2 em tecidos vasculares — aparecem consistentemente entre os fatores de risco para evolução grave.</p>
+      </div>
+    </details>
+
+    <div class="sec-rule"><span class="tagline">Fatores de risco</span><span class="line"></span></div>
+    <ul class="plain">
+      <li>Idade ≥ 60 anos, com risco crescente conforme a idade avança — reflexo da imunossenescência, isto é, do declínio progressivo tanto da imunidade inata (menor produção de interferon tipo I) quanto da adaptativa (repertório de linfócitos T naive reduzido) que ocorre com o envelhecimento.</li>
+      <li>Comorbidades: diabetes, hipertensão, doença cardíaca, doença pulmonar crônica, doença vascular, demência, transtornos mentais, doença renal crônica, imunossupressão (incluindo HIV), obesidade e câncer — todas condições que, por vias distintas, comprometem a reserva funcional respiratória, cardiovascular ou imunológica.</li>
+      <li>Gestação (ou gestação recente) em mulheres acima de 35 anos, obesas, com condições crônicas de saúde ou transtornos específicos da gravidez, como diabetes gestacional e pré-eclâmpsia/eclâmpsia — a gestação por si só já reduz a capacidade residual funcional pulmonar (o útero gravídico eleva o diafragma) e induz um estado imunológico modulado para tolerar o feto, o que pode comprometer a resposta antiviral.</li>
+      <li>Tabagismo — o epitélio ciliado danificado pela fumaça tem clearance mucociliar prejudicado e, adicionalmente, alguns estudos mostram maior expressão de ECA2 no epitélio brônquico de fumantes.</li>
+      <li>Não vacinados contra a COVID-19.</li>
+    </ul>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 04 -->
+  <!-- ============================================================ -->
+  <section class="content-section" id="s04" style="--accent:var(--green)">
+    <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">Tratamento Farmacológico da COVID-19</h2></div>
+    <p class="sec-sub">Na maioria dos casos, o manejo é sintomático — mas existe uma janela terapêutica estreita em que um antiviral oral muda o curso da doença nos pacientes certos.</p>
+    <div class="sec-rule"><span class="tagline">Casos leves</span><span class="line"></span></div>
+    <p>O manejo dos sintomas em casos leves se resume a analgésicos e antipiréticos — o suporte descrito em detalhe na seção 13, comum a todas as viroses respiratórias desta aula.</p>
+
+    <div class="sec-rule"><span class="tagline">Alto risco de progressão</span><span class="line"></span></div>
+    <div class="card">
+      <span class="k">Indicação</span>
+      <h4>Nirmatrelvir + Ritonavir (NMV/r)</h4>
+      <p>Indicado para imunocomprometidos com idade ≥ 18 anos e para pessoas com idade ≥ 65 anos, desde que: diagnóstico confirmado de COVID-19 (por TR-Ag ou biologia molecular), sintomas leves a moderados (não graves) e ausência de necessidade de oxigênio suplementar. Deve ser administrado em até 5 dias do início dos sintomas.</p>
+    </div>
+
+    <p>O nirmatrelvir é um inibidor da protease principal do SARS-CoV-2 (a 3CL-protease, também chamada Mpro). Essa enzima viral é responsável por clivar as poliproteínas virais recém-traduzidas em proteínas não-estruturais individuais e funcionais, uma etapa indispensável para a montagem de novas partículas virais competentes. Ao bloquear essa protease, o nirmatrelvir interrompe a maturação viral e a formação de vírions infecciosos.</p>
+
+    <p>O ritonavir, isoladamente, não tem atividade relevante contra o SARS-CoV-2. Sua função aqui é puramente farmacocinética: ele é um potente inibidor da enzima hepática CYP3A4, responsável por metabolizar o nirmatrelvir. Ao bloquear essa via de degradação, o ritonavir eleva e prolonga os níveis plasmáticos do nirmatrelvir — o mesmo princípio de "boosting" farmacológico já consagrado nos inibidores de protease usados no tratamento do HIV.</p>
+
+    <div class="grid-2">
+      <div class="card">
+        <span class="k">Posologia</span>
+        <h4>NMV/r — esquema padrão</h4>
+        <p>2 comprimidos de 150 mg de nirmatrelvir (300 mg) + 1 comprimido de ritonavir de 100 mg, por via oral, de 12 em 12 horas, durante 5 dias.</p>
+      </div>
+      <div class="card">
+        <span class="k">Por que a janela de 5 dias</span>
+        <h4>Fase viral × fase inflamatória</h4>
+        <p>A replicação viral é dominante nos primeiros dias da infecção; a partir da primeira semana, o quadro grave passa a ser impulsionado majoritariamente pela resposta inflamatória do hospedeiro, contra a qual um antiviral tem pouco impacto. Por isso, quanto mais precoce a administração dentro da fase de replicação viral ativa, maior o benefício esperado.</p>
+      </div>
+    </div>
+
+    <div class="alert atencao">
+      <span class="k">Atenção</span>
+      <p>O ritonavir é um inibidor potente do CYP3A4 e interage com um número extenso de medicamentos metabolizados por essa via — sempre revisar a lista de medicamentos em uso antes de prescrever.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 05 -->
+  <!-- ============================================================ -->
+  <section class="content-section" id="s05" style="--accent:var(--orange)">
+    <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">Influenza: Virologia, Fisiopatologia e Curso Clínico</h2></div>
+    <p class="sec-sub">Um vírus que muda de roupa todo ano (drift) e, ocasionalmente, troca de identidade inteira (shift) — e é essa diferença que separa a epidemia sazonal da pandemia.</p>
+    <div class="sec-rule"><span class="tagline">Influenza sazonal</span><span class="line"></span></div>
+
+    <div class="grid-2">
+      <div class="card">
+        <span class="k">Incubação</span>
+        <h4>1 a 4 dias, em média 2 dias</h4>
+        <p>Período relativamente curto, compatível com um vírus de replicação rápida e alta taxa de transmissão em ambientes fechados.</p>
+      </div>
+      <div class="card">
+        <span class="k">Transmissibilidade</span>
+        <h4>Começa 24h antes dos sintomas</h4>
+        <p>Pico de excreção viral entre 24 e 72 horas do início da doença, declinando a níveis não detectáveis por volta do 5º dia — motivo pelo qual isolar apenas sintomáticos não interrompe totalmente a cadeia de transmissão, já que a excreção pré-sintomática existe.</p>
+      </div>
+    </div>
+
+    <p>Os sintomas — febre, coriza, tosse seca, dor de garganta, dores musculares e articulares, cefaleia, fadiga e prostração — refletem tanto o efeito citopático direto do vírus sobre o epitélio respiratório quanto a ação sistêmica das citocinas pró-inflamatórias liberadas durante a resposta imune inata (a mesma cascata de IL-1, IL-6 e TNF-alfa discutida na seção 2). Vômitos e diarreia são mais comuns em crianças do que em adultos, possivelmente pela maior expressão de receptores virais e pela resposta imune ainda imatura do tecido linfoide associado ao intestino nessa faixa etária. A evolução é de início súbito — ao contrário do resfriado comum, que costuma ser mais insidioso — com resolução espontânea em aproximadamente 7 dias, embora tosse, mal-estar e fadiga possam persistir por semanas, um reflexo do tempo necessário para a regeneração do epitélio ciliado lesado.</p>
+
+    <details class="deep">
+      <summary>Aprofunde-se — drift antigênico versus shift antigênico</summary>
+      <div class="deep-body">
+        <p>O vírus influenza A carrega duas glicoproteínas de superfície fundamentais: a hemaglutinina (H), responsável pela ligação ao receptor de ácido siálico da célula hospedeira, e a neuraminidase (N), responsável por clivar esse mesmo ácido siálico na hora da liberação de novos vírions. São essas duas proteínas que dão nome aos subtipos (H1N1, H3N2, H5N1, e assim por diante).</p>
+        <p>O <em>drift antigênico</em> é o acúmulo gradual de mutações pontuais nos genes que codificam H e N, gerado pela baixa fidelidade da RNA-polimerase viral. Pequenas mudanças na estrutura dessas proteínas permitem que o vírus escape parcialmente dos anticorpos neutralizantes gerados por infecções ou vacinações anteriores — é por isso que a vacina precisa ser reformulada todos os anos, e é por isso que uma pessoa pode pegar gripe repetidas vezes ao longo da vida.</p>
+        <p>O <em>shift antigênico</em> é um fenômeno completamente diferente: ocorre quando duas cepas distintas do vírus influenza A infectam simultaneamente a mesma célula (frequentemente em suínos, que expressam tanto receptores α2,3 quanto α2,6 e por isso funcionam como "vaso de mistura") e trocam segmentos inteiros do genoma segmentado, gerando um vírus com uma combinação de H e N completamente nova. Como a população humana não tem memória imunológica prévia contra essa nova combinação, o potencial pandêmico é enorme — foi exatamente esse mecanismo que originou a pandemia de H1N1 de 2009. O vírus influenza B, por não ter reservatórios animais relevantes e não sofrer shift documentado, nunca gerou pandemias.</p>
+      </div>
+    </details>
+
+    <div class="sec-rule"><span class="tagline">Influenza A × Influenza B</span><span class="line"></span></div>
+    <div class="grid-2">
+      <div class="card">
+        <span class="k">Influenza A</span>
+        <h4>Múltiplos subtipos, reservatório animal</h4>
+        <p>Subtipos classificados por H e N (H1N1, H3N2, H5N1...). Reservatório em humanos, aves, suínos e outros mamíferos. Potencial pandêmico pela variação antigênica (drift e shift). Geralmente associada a maior morbimortalidade, predominando nas epidemias sazonais mais graves.</p>
+      </div>
+      <div class="card">
+        <span class="k">Influenza B</span>
+        <h4>Duas linhagens, reservatório predominantemente humano</h4>
+        <p>Linhagens Victoria e Yamagata (esta sem detecção confirmada desde março de 2020). Sem shift antigênico documentado, portanto sem potencial pandêmico. Causa doença clinicamente semelhante à influenza A, por vezes mais comum em crianças.</p>
+      </div>
+    </div>
+
+    <div class="sec-rule"><span class="tagline">Complicações</span><span class="line"></span></div>
+    <p>Idosos, crianças menores de 5 anos e indivíduos com doença crônica de base concentram o risco de complicação. A principal delas é a pneumonia — que pode ser <em>secundária</em>, bacteriana ou por outro vírus, ou <em>primária pelo próprio influenza</em>, esta última predominando em pessoas com doenças cardiovasculares (especialmente doença reumática com estenose mitral) e em gestantes.</p>
+
+    <div class="flow vert">
+      <div class="box">Influenza lesa o epitélio ciliado respiratório</div>
+      <div class="arrow">↓</div>
+      <div class="box">Clearance mucociliar prejudicado + exposição de receptores basais (ex.: PAFr)</div>
+      <div class="arrow">↓</div>
+      <div class="box" style="border-color:var(--red)">Superinfecção bacteriana secundária (S. pneumoniae, S. aureus)</div>
+    </div>
+
+    <p>Já a pneumonite primária por influenza tem uma explicação hemodinâmica clássica na estenose mitral: a congestão pulmonar crônica basal desses pacientes cria um ambiente favorável à replicação viral direta no parênquima, sem necessidade de uma segunda infecção bacteriana. Outras complicações incluem sinusite, otite e desidratação; e, no agravamento de condições crônicas, miocardite, encefalite, miosite/rabdomiólise (lesão muscular direta ou imunomediada, refletida em elevação de CPK), falência de múltiplos órgãos e sepse.</p>
+
+    <div class="sec-rule"><span class="tagline">Sinais de agravamento</span><span class="line"></span></div>
+    <div class="grid-2">
+      <div class="card">
+        <span class="k">Qualquer idade</span>
+        <ul class="plain">
+          <li>Dispneia ou taquipneia (FR ≥ 20 irpm) ou hipoxemia (SpO₂ ≤ 94%)</li>
+          <li>Persistência ou aumento da febre por mais de 3 dias, ou retorno após 48h de período afebril — um padrão bifásico que sugere pneumonite primária ou infecção bacteriana secundária</li>
+          <li>Alteração do sensório (confusão, sonolência, letargia)</li>
+          <li>Hipotensão arterial (PAS &lt; 90 ou PAD &lt; 60 mmHg)</li>
+          <li>Diurese &lt; 400 mL em 24h</li>
+          <li>Desidratação; exacerbação de comorbidades (DPOC, cardiopatia)</li>
+          <li>Miosite comprovada (CPK ≥ 2-3x o valor basal); creatinina &gt; 2,0 mg/dL</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="k">Menores de 2 anos</span>
+        <ul class="plain">
+          <li>Batimento de asas nasais; apneia; cianose</li>
+          <li>Tiragem intercostal ou subcostal</li>
+          <li>Recusa alimentar; irritabilidade; letargia</li>
+          <li>Taquipneia: ≥ 70 irpm em menores de 1 ano; ≥ 50 irpm em maiores de 1 ano</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alert prova">
+      <span class="k">Ponto de prova</span>
+      <p>Febre que retorna após 48h afebril em paciente com influenza é sinal de agravamento — pense em pneumonite primária pelo próprio vírus ou infecção bacteriana secundária sobreposta.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 06 -->
+  <!-- ============================================================ -->
+  <section class="content-section" id="s06" style="--accent:var(--green)">
+    <div class="sec-head"><span class="sec-num">06</span><h2 class="sec-title">Tratamento e Quimioprofilaxia da Influenza</h2></div>
+    <p class="sec-sub">O oseltamivir não mata a célula já infectada — ele impede que ela contamine as vizinhas. Essa diferença é o motivo de toda a discussão sobre janela terapêutica.</p>
+    <div class="sec-rule"><span class="tagline">Mecanismo de ação</span><span class="line"></span></div>
+
+    <p>O fosfato de oseltamivir é um inibidor da neuraminidase, ativo contra os dois tipos de vírus influenza, A e B. A neuraminidase viral tem a função de clivar as ligações de ácido siálico entre os vírions recém-formados e a membrana da célula hospedeira, um passo indispensável para que as novas partículas virais se soltem da célula onde foram produzidas e consigam infectar células vizinhas. Ao inibir essa enzima, o oseltamivir não impede a replicação dentro da célula já infectada, mas impede a liberação de partículas virais infecciosas para o meio extracelular — em outras palavras, ele contém a disseminação célula a célula, sem reverter a infecção já estabelecida.</p>
+
+    <div class="alert importante">
+      <span class="k">Importante</span>
+      <p>Justamente por esse mecanismo, o benefício do oseltamivir é tempo-dependente: quanto mais cedo administrado em relação ao início dos sintomas — idealmente nas primeiras 48 horas, período que coincide com o pico de replicação viral — maior a redução esperada na duração e na gravidade da doença.</p>
+    </div>
+
+    <div class="sec-rule"><span class="tagline">Indicações de tratamento</span><span class="line"></span></div>
+    <p>O tratamento antiviral prioriza grupos com maior risco de complicação: gestantes em qualquer idade gestacional; puérperas até 2 semanas após o parto (incluindo aborto ou perda fetal); adultos ≥ 60 anos e crianças &lt; 5 anos; população indígena aldeada ou com dificuldade de acesso; menores de 19 anos em uso prolongado de AAS (pelo risco de síndrome de Reye — uma encefalopatia hepática associada à combinação de infecção viral e uso de salicilatos em crianças); e indivíduos com pneumopatias (incluindo asma), tuberculose de qualquer forma, cardiovasculopatias (exceto HAS isolada), nefropatias, hepatopatias, doenças hematológicas (incluindo anemia falciforme), distúrbios metabólicos (incluindo diabetes mellitus), transtornos neurológicos e do desenvolvimento que comprometam a função respiratória ou aumentem o risco de aspiração, disfunção cognitiva, lesão medular, epilepsia, paralisia cerebral, síndrome de Down, AVE ou doenças neuromusculares, imunossupressão (por medicamento, neoplasia ou HIV/aids) e obesidade (IMC ≥ 40 em adultos).</p>
+
+    <div class="sec-rule"><span class="tagline">Posologia — tratamento (5 dias)</span><span class="line"></span></div>
+    <div class="grid-3">
+      <div class="card"><span class="k">Adulto</span><h4>75 mg</h4><p>12/12h, por 5 dias.</p></div>
+      <div class="card"><span class="k">Criança &gt; 1 ano</span><h4>Por faixa de peso</h4><p>≤15 kg: 30 mg · &gt;15–23 kg: 45 mg · &gt;23–40 kg: 60 mg · &gt;40 kg: 75 mg — todos de 12/12h.</p></div>
+      <div class="card"><span class="k">Criança &lt; 1 ano</span><h4>Por peso corporal</h4><p>0–8 meses: 3 mg/kg · 9–11 meses: 3,5 mg/kg — 12/12h.</p></div>
+    </div>
+    <div class="card">
+      <span class="k">Gestante — por idade gestacional</span>
+      <h4>Ajuste por trimestre</h4>
+      <p>&lt; 38 semanas: 1 mg/kg/dose · 38 a 40 semanas: 1,5 mg/kg/dose · &gt; 40 semanas: 3 mg/kg/dose — todas de 12/12h, por 5 dias.</p>
+    </div>
+
+    <div class="sec-rule"><span class="tagline">Ajuste renal</span><span class="line"></span></div>
+    <div class="grid-2">
+      <div class="card"><span class="k">ClCr 30–60 mL/min</span><h4>30 mg de 12/12h</h4></div>
+      <div class="card"><span class="k">ClCr 10–30 mL/min</span><h4>30 mg uma vez ao dia</h4></div>
+      <div class="card"><span class="k">Hemodiálise</span><h4>30 mg após cada sessão</h4><p>Máximo de três doses.</p></div>
+      <div class="card"><span class="k">Diálise peritoneal</span><h4>Dose única de 30 mg</h4></div>
+    </div>
+    <p>O ajuste renal é necessário porque o oseltamivir é eliminado predominantemente por via renal, na forma do metabólito ativo oseltamivir carboxilato — na insuficiência renal, o acúmulo do fármaco aumentaria o risco de efeitos adversos sem benefício terapêutico adicional.</p>
+
+    <div class="sec-rule"><span class="tagline">Quimioprofilaxia</span><span class="line"></span></div>
+    <p>Início em até 72 horas após o contato, na dose de 75 mg/dia por via oral durante 10 dias no adulto (esquema análogo por peso na criança). Em instituições, recomenda-se manter a profilaxia por no mínimo 2 semanas e até pelo menos 7 dias após a identificação do último caso. Não é recomendada para menores de 3 meses, exceto em situações consideradas críticas — reflexo da escassez de dados de segurança nessa faixa etária tão jovem, ponderada contra o risco de um surto institucional.</p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 07 -->
+  <!-- ============================================================ -->
+  <section class="content-section" id="s07" style="--accent:var(--lime)">
+    <div class="sec-head"><span class="sec-num">07</span><h2 class="sec-title">Vacinação: Influenza e Vacina Pneumocócica Conjugada 20-valente</h2></div>
+    <p class="sec-sub">Duas vacinas, dois princípios imunológicos diferentes — uma atualizada anualmente para acompanhar o drift antigênico, outra desenhada para "enganar" o sistema imune imaturo do lactente.</p>
+    <div class="sec-rule"><span class="tagline">Campanha de influenza 2026</span><span class="line"></span></div>
+
+    <div class="card">
+      <span class="k">Estratégia</span>
+      <h4>Período de 28 de março a 30 de maio de 2026 · Dia D em 28 de março</h4>
+      <p>Vacina trivalente com as cepas A/Missouri/11/2025 (H1N1)pdm09, A/Singapore/GP20238/2024 (H3N2) e B/Austria/1359417/2021 (linhagem Victoria) — a composição é revisada todo ano pela OMS a partir dos dados de vigilância sentinela discutidos na seção 1, justamente para acompanhar o drift antigênico descrito na seção 5.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <span class="k">Alergia ao ovo</span>
+        <h4>Depende da gravidade da reação prévia</h4>
+        <p>História apenas de urticária: vacinar normalmente. Anafilaxia grave, angioedema ou broncoespasmo prévios: vacinar em ambiente com suporte para urgência e emergência, sob supervisão médica — precaução decorrente de a maioria das vacinas influenza ser produzida em substrato de ovo embrionado, contendo traços residuais de ovoalbumina.</p>
+      </div>
+      <div class="card">
+        <span class="k">Doação de sangue</span>
+        <h4>Aguardar 48 horas após a vacinação</h4>
+        <p>Período de segurança padrão para permitir a resolução de qualquer reação sistêmica transitória à vacina antes da doação.</p>
+      </div>
+    </div>
+
+    <div class="sec-rule"><span class="tagline">VPC20 — Vacina Pneumocócica Conjugada 20-valente</span><span class="line"></span></div>
+    <p>A VPC20 protege contra doenças causadas por 20 sorotipos de <em>Streptococcus pneumoniae</em>, prevenindo principalmente a doença pneumocócica invasiva (meningite e sepse), a pneumonia pneumocócica e a otite média aguda. Além da proteção individual, reduz a colonização nasofaríngea pelos sorotipos vacinais e, com isso, a transmissão — gerando proteção indireta da comunidade (imunidade de rebanho). É importante frisar que a proteção é dirigida apenas aos sorotipos incluídos na vacina: ela não previne todas as causas de pneumonia, meningite, sepse ou otite.</p>
+
+    <details class="deep">
+      <summary>Aprofunde-se — por que conjugar o polissacarídeo a uma proteína carreadora</summary>
+      <div class="deep-body">
+        <p>O polissacarídeo capsular do pneumococo, sozinho, é o que se chama de antígeno T-independente: ele ativa diretamente os linfócitos B por ligação cruzada de múltiplos receptores de antígeno na superfície da célula B, sem necessidade de apresentação via MHC de classe II e sem ajuda de linfócitos T CD4+. O problema é que essa via T-independente gera uma resposta de baixa qualidade — predominantemente IgM, sem maturação de afinidade eficiente, sem troca de classe (class switching) robusta para IgG, e sem formação de células B de memória duradoura. Pior ainda: lactentes e crianças pequenas praticamente não respondem a antígenos T-independentes, porque seu sistema imune ainda não tem um compartimento de células B da zona marginal esplênica plenamente maduro.</p>
+        <p>A solução de engenharia por trás das vacinas conjugadas é ligar quimicamente o polissacarídeo a uma proteína carreadora. Agora, quando a célula B específica para o polissacarídeo internaliza o complexo, ela processa e apresenta peptídeos da proteína carreadora via MHC de classe II para um linfócito T CD4+ específico para essa proteína. Esse linfócito T fornece "ajuda" — sinalização via CD40L e citocinas — que permite à célula B entrar em um centro germinativo, sofrer maturação de afinidade, trocar de classe para IgG1 e IgG3 (subclasses particularmente eficientes contra bactérias encapsuladas por ativarem bem o complemento e os receptores Fc de fagócitos) e diferenciar-se tanto em plasmócitos de vida longa quanto em células B de memória. É esse mecanismo — descrito no diagrama da aula, com a "ajuda da célula T" ao centro — que permite que lactentes montem uma resposta protetora robusta e duradoura contra um antígeno que, na forma não conjugada, eles mal reconheceriam.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 08 -->
+  <!-- ============================================================ -->
+  <section class="content-section" id="s08" style="--accent:var(--cyan)">
+    <div class="sec-head"><span class="sec-num">08</span><h2 class="sec-title">Pneumonia Adquirida na Comunidade (PAC): Definição e Etiologia</h2></div>
+    <p class="sec-sub">A troca de "vias aéreas" por "parênquima pulmonar" no nome da doença já diz tudo sobre a diferença de gravidade potencial em relação à síndrome gripal comum.</p>
+    <div class="sec-rule"><span class="tagline">Definição</span><span class="line"></span></div>
+
+    <div class="card">
+      <span class="k">Conceito</span>
+      <h4>Infecção aguda do parênquima pulmonar (alvéolos e/ou interstício)</h4>
+      <p>Secundária a microrganismos inoculados fora do ambiente hospitalar. Na prática, pacientes que iniciam quadro pneumônico até 48 horas de hospitalização ainda são classificados como PAC — o raciocínio é que o período de incubação da maioria dos agentes torna implausível que uma infecção manifestada nesse intervalo tão curto tenha sido adquirida dentro do próprio hospital.</p>
+    </div>
+
+    <div class="sec-rule"><span class="tagline">Principais agentes etiológicos</span><span class="line"></span></div>
+    <div class="grid-3">
+      <div class="card">
+        <span class="k">Viral</span>
+        <h4>Rinovírus, influenza, coronavírus</h4>
+        <p>Os mesmos vírus discutidos nas seções anteriores podem, eles próprios, causar pneumonia viral primária, além de predisporem à superinfecção bacteriana.</p>
+      </div>
+      <div class="card">
+        <span class="k">Bactérias típicas</span>
+        <h4><em>S. pneumoniae</em>, <em>H. influenzae</em>, <em>M. catarrhalis</em></h4>
+        <p>O <em>Streptococcus pneumoniae</em> é isoladamente o agente mais frequente da PAC em todas as faixas etárias — cerca de 35% dos microrganismos identificados.</p>
+      </div>
+      <div class="card">
+        <span class="k">Bactérias atípicas</span>
+        <h4><em>Mycoplasma</em>, <em>Chlamydia</em>, <em>Legionella</em></h4>
+        <p>Carecem de parede celular clássica (o caso do <em>Mycoplasma</em>) ou têm ciclo de vida intracelular obrigatório (<em>Chlamydia</em>, <em>Legionella</em>) — por isso não respondem a beta-lactâmicos, que atuam justamente na síntese da parede celular bacteriana. Essa é a razão farmacológica por trás da associação de macrolídeo ou doxiciclina ao esquema antibiótico, discutida na seção 12.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 09 -->
+  <!-- ============================================================ -->
+  <section class="content-section" id="s09" style="--accent:var(--violet)">
+    <div class="sec-head"><span class="sec-num">09</span><h2 class="sec-title">Patogênese da PAC: Da Chegada do Patógeno ao Exsudato Alveolar</h2></div>
+    <p class="sec-sub">Cada sinal e sintoma da pneumonia — a tosse, a expectoração, a dispneia, o estertor, a febre — tem uma etapa específica desta cascata inflamatória como sua causa direta.</p>
+    <div class="sec-rule"><span class="tagline">As cinco etapas</span><span class="line"></span></div>
+
+    <div class="flow vert">
+      <div class="box">Etapa 1 — Chegada do patógeno ao espaço alveolar (inalação ou microaspiração)</div>
+      <div class="arrow">↓</div>
+      <div class="box">Etapa 2 — Multiplicação descontrolada do patógeno</div>
+      <div class="arrow">↓</div>
+      <div class="box">Etapa 3 — Produção local de citocinas pelos macrófagos alveolares</div>
+      <div class="arrow">↓</div>
+      <div class="box">Etapa 4 — Recrutamento de neutrófilos e liberação sistêmica de citocinas</div>
+      <div class="arrow">↓</div>
+      <div class="box" style="border-color:var(--red)">Etapa 5 — Formação de exsudato alveolar</div>
+    </div>
+
+    <p>O patógeno alcança os alvéolos por inalação de gotículas/aerossóis ou, mais frequentemente na prática clínica, por microaspiração de secreção da orofaringe colonizada — todos nós microaspiramos pequenas quantidades de saliva durante o sono, e a pneumonia surge quando essa microaspiração carrega um inóculo bacteriano que supera as defesas locais. No caminho, o patógeno interage com a microbiota pulmonar residente, uma comunidade de baixa biomassa que normalmente compete por nutrientes e nichos, dificultando a colonização por um agente invasor.</p>
+
+    <p>Quando as defesas de primeira linha — o clearance mucociliar, a IgA secretora, os macrófagos alveolares residentes — são sobrepujadas, o patógeno se multiplica sem controle. Essa multiplicação ativa maciçamente os macrófagos alveolares, que reconhecem padrões moleculares associados a patógenos (PAMPs, como o peptidoglicano ou o lipopolissacarídeo bacteriano) através de receptores de reconhecimento padrão como os receptores Toll-like. A ativação macrofágica dispara a liberação local de citocinas — IL-1, IL-6, TNF-alfa — e quimiocinas como a IL-8, que recrutam neutrófilos circulantes para o espaço alveolar por quimiotaxia, aumentando a permeabilidade do endotélio capilar pulmonar.</p>
+
+    <p>O resultado final é a formação de um exsudato alveolar rico em neutrófilos, fibrina, hemácias extravasadas, patógenos e debris celulares, que literalmente preenche o espaço alveolar antes ocupado por ar. Esse exsudato é o correlato fisiopatológico direto da consolidação vista na radiografia, da macicez à percussão e do frêmito toracovocal aumentado ao exame físico (o som se transmite melhor através de um meio sólido/líquido do que através de ar). A tosse e a expectoração são reflexos de irritação de receptores de estiramento e tosse na via aérea e da tentativa de eliminar esse exsudato; a dispneia e a hipoxemia decorrem do desequilíbrio ventilação-perfusão (alvéolos perfundidos, mas cheios de exsudato em vez de ar, funcionando como um shunt); e os estertores finos em final de inspiração correspondem à abertura súbita de pequenas vias aéreas e alvéolos previamente colabados ou preenchidos por líquido.</p>
+
+    <p>A disseminação sistêmica dessas mesmas citocinas explica a síndrome sistêmica que acompanha a pneumonia: febre (pela via hipotalâmica já descrita na seção 2), fadiga, taquicardia e leucocitose — esta última por liberação de neutrófilos maduros do pool de reserva medular e por desmarginação de neutrófilos já circulantes, antes de qualquer aumento real na produção medular.</p>
+
+    <details class="deep">
+      <summary>Aprofunde-se — o modelo do microbioma pulmonar disbiótico</summary>
+      <div class="deep-body">
+        <p>O modelo clássico de pneumonia pressupõe um único patógeno invasor que rompe as defesas do hospedeiro. O modelo atual, no entanto, também reconhece que o pulmão hospeda uma microbiota residente de baixa biomassa (diferentemente do que se acreditava décadas atrás, quando o pulmão saudável era considerado estéril). Nesse modelo mais recente, a PAC também pode resultar de disbiose — uma perda de diversidade da microbiota residente com proliferação descontrolada de microrganismos que já estavam presentes, sem necessidade de um único patógeno "invasor" bem definido. Esse conceito ajuda a explicar por que uma fração significativa dos casos de PAC permanece sem um agente etiológico único identificado em cultura, e reforça que fatores do hospedeiro (uso recente de antibióticos, tabagismo, doença estrutural pulmonar) que alteram esse equilíbrio microbiano são, eles próprios, fatores de risco relevantes.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 10 -->
+  <!-- ============================================================ -->
+  <section class="content-section" id="s10" style="--accent:var(--orange)">
+    <div class="sec-head"><span class="sec-num">10</span><h2 class="sec-title">Quadro Clínico, Exame Físico e Fatores de Risco para Patógenos Específicos</h2></div>
+    <p class="sec-sub">O idoso que não tem febre, não tem tosse e não tem leucocitose pode, ainda assim, estar com uma pneumonia grave — e é exatamente esse paciente que mais engana.</p>
+    <div class="sec-rule"><span class="tagline">Sinais e sintomas</span><span class="line"></span></div>
+
+    <p>A maior parte dos pacientes apresenta a tríade tosse, expectoração amarelada e sensação de dispneia. Febre persistente, mialgia, sudorese noturna e confusão mental são sintomas que, quando presentes, aumentam a probabilidade diagnóstica de PAC. O diagnóstico diferencial inclui tuberculose, exacerbações de DPOC e asma, câncer de pulmão, bronquiectasias e embolia pulmonar — todas condições capazes de produzir tosse, dispneia e, em graus variados, infiltrado radiográfico, exigindo correlação clínico-radiológica cuidadosa.</p>
+
+    <div class="sec-rule"><span class="tagline">Exame físico</span><span class="line"></span></div>
+    <div class="grid-2">
+      <div class="card">
+        <span class="k">Sinais vitais</span>
+        <h4>FC &gt; 100 bpm · FR &gt; 25 irpm · SpO₂ &lt; 90%</h4>
+        <p>Taquicardia e taquipneia refletem tanto a resposta sistêmica inflamatória quanto o esforço compensatório à hipoxemia; a dessaturação reflete o shunt fisiológico gerado pelo exsudato alveolar.</p>
+      </div>
+      <div class="card">
+        <span class="k">Aparelho respiratório</span>
+        <h4>Inspeção → Palpação → Percussão → Ausculta</h4>
+        <p>Taquipneia com uso de musculatura acessória; diminuição da expansibilidade com frêmito toracovocal aumentado (o pulmão consolidado transmite melhor a vibração); macicez à percussão (substituição do ar por tecido/líquido reduz a ressonância); estertores finos em final de inspiração.</p>
+      </div>
+    </div>
+
+    <div class="alert pegadinha">
+      <span class="k">Pegadinha</span>
+      <p>Em idosos, a apresentação pode ser atípica: ausência de febre, tosse ou expectoração, e leucograma normal — mas com queda inexplicada do estado geral e declínio cognitivo agudo. A imunossenescência embota a resposta febril e leucocitária clássica; não descarte PAC só porque "os sinais clássicos não bateram".</p>
+    </div>
+
+    <div class="sec-rule"><span class="tagline">Fatores de risco para patógenos específicos</span><span class="line"></span></div>
+    <div class="grid-3">
+      <div class="card">
+        <span class="k">Pneumococo resistente à penicilina</span>
+        <ul class="plain">
+          <li>Idade &gt; 65 anos</li>
+          <li>Uso de beta-lactâmico nos últimos 3 meses</li>
+          <li>Etilismo</li>
+          <li>Imunossupressão</li>
+          <li>Exposição a crianças em creches</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="k">Gram-negativos</span>
+        <ul class="plain">
+          <li>Institucionalizados</li>
+          <li>Doença cardiopulmonar de base</li>
+          <li>Comorbidades múltiplas</li>
+          <li>Antibiótico de largo espectro por &gt; 7 dias</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="k"><em>Pseudomonas aeruginosa</em></span>
+        <ul class="plain">
+          <li>DPOC grave e bronquiectasias</li>
+          <li>Corticoide crônico &gt; 10 mg/dia</li>
+          <li>Desnutrição grave</li>
+          <li>Antibiótico de largo espectro por &gt; 7 dias</li>
+        </ul>
+      </div>
+    </div>
+    <p>O uso recente de antibiótico de largo espectro aparece como fator de risco tanto para gram-negativos quanto para Pseudomonas por um mecanismo comum: a pressão seletiva do antibiótico elimina a flora sensível e favorece a sobrevivência e a colonização por organismos naturalmente mais resistentes. A bronquiectasia e a DPOC grave, por sua vez, criam um nicho estrutural crônico — vias aéreas dilatadas e mal higienizadas — que favorece a colonização persistente por Pseudomonas.</p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 11 -->
+  <!-- ============================================================ -->
+  <section class="content-section" id="s11" style="--accent:var(--teal)">
+    <div class="sec-head"><span class="sec-num">11</span><h2 class="sec-title">Diagnóstico: Exames Complementares e Padrões Radiológicos</h2></div>
+    <p class="sec-sub">A radiografia de tórax não é opcional em nenhum paciente com suspeita de PAC — e o padrão radiológico já entrega pistas sobre qual agente procurar.</p>
+    <div class="sec-rule"><span class="tagline">Exames complementares</span><span class="line"></span></div>
+
+    <div class="grid-2">
+      <div class="card"><span class="k">Radiografia de tórax</span><h4>Indicada para todos os pacientes</h4><p>Confirma o diagnóstico e detecta complicações, como derrame pleural.</p></div>
+      <div class="card"><span class="k">Tomografia de tórax</span><h4>Pneumonia complicada ou dúvida diagnóstica</h4><p>Maior sensibilidade para detectar consolidações pequenas, abscessos ou padrões atípicos.</p></div>
+      <div class="card"><span class="k">Exames gerais</span><h4>Hemograma, ureia, creatinina, Na, K, glicemia</h4><p>Especialmente relevantes em pacientes que ficarão internados — a ureia, em particular, entra diretamente no cálculo do CURB-65.</p></div>
+      <div class="card"><span class="k">Gasometria</span><h4>Se sinais de desconforto respiratório</h4><p>Quantifica a hipoxemia e detecta retenção de CO₂ e distúrbio ácido-base associado.</p></div>
+      <div class="card"><span class="k">Função hepática, coagulograma, lactato</span><h4>Casos graves</h4><p>Avaliam disfunção orgânica e hipoperfusão tecidual (o lactato é marcador indireto de metabolismo anaeróbico por perfusão inadequada, como na sepse).</p></div>
+    </div>
+
+    <div class="sec-rule"><span class="tagline">Padrões radiológicos</span><span class="line"></span></div>
+    <div class="grid-2">
+      <div class="card">
+        <span class="k">Pneumonia lobar</span>
+        <h4>Consolidação densa e homogênea, confinada a um lobo</h4>
+        <p>Padrão clássico do <em>Streptococcus pneumoniae</em>, o patógeno mais frequente da PAC em todas as faixas etárias (cerca de 35% dos casos identificados). O exsudato preenche uniformemente os alvéolos de um segmento ou lobo inteiro, respeitando limites anatômicos definidos pelas cissuras.</p>
+      </div>
+      <div class="card">
+        <span class="k">Pneumonia atípica</span>
+        <h4>Infiltrado intersticial bilateral e difuso</h4>
+        <p>Padrão característico de infecção por <em>Mycoplasma pneumoniae</em>. Diferente do padrão lobar, aqui o agente lesa preferencialmente o interstício e o epitélio bronquiolar, em vez de provocar exsudação alveolar franca — daí o termo clássico de "pneumonia atípica" ou "pneumonia ambulante" (walking pneumonia), muitas vezes com quadro clínico mais brando do que a extensão radiográfica sugeriria.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 12 -->
+  <!-- ============================================================ -->
+  <section class="content-section" id="s12" style="--accent:var(--red)">
+    <div class="sec-head"><span class="sec-num">12</span><h2 class="sec-title">Estratificação de Gravidade (CURB-65) e Antibioticoterapia Empírica</h2></div>
+    <p class="sec-sub">O CURB-65 traduz em número o que a fisiologia já está dizendo: confusão, azotemia, taquipneia, hipotensão e idade avançada são, cada um à sua maneira, sinais de reserva fisiológica esgotada.</p>
+    <div class="sec-rule"><span class="tagline">CURB-65</span><span class="line"></span></div>
+
+    <div class="grid-3">
+      <div class="card"><span class="k">C</span><h4>Confusão mental</h4><p>Alteração aguda do estado de consciência — pode refletir hipoperfusão cerebral, hipoxemia ou encefalopatia associada à sepse.</p></div>
+      <div class="card"><span class="k">U</span><h4>Ureia &gt; 50 mg/dL</h4><p>Azotemia significativa, refletindo desidratação, hipoperfusão renal sistêmica ou franca disfunção renal associada à gravidade do quadro.</p></div>
+      <div class="card"><span class="k">R</span><h4>Respiração &gt; 30 irpm</h4><p>Taquipneia grave, sinal direto de comprometimento respiratório importante.</p></div>
+      <div class="card"><span class="k">B</span><h4>Blood pressure baixa</h4><p>PAS &lt; 90 mmHg ou PAD &lt; 60 mmHg — sinal de instabilidade hemodinâmica, possível choque iminente.</p></div>
+      <div class="card"><span class="k">65</span><h4>Idade &gt; 65 anos</h4><p>Reserva fisiológica reduzida, imunossenescência e maior prevalência de comorbidades associadas.</p></div>
+    </div>
+
+    <div class="alert atencao">
+      <span class="k">Atenção</span>
+      <p>O escore orienta a conduta — ajuda a decidir entre tratamento ambulatorial, internação em enfermaria ou terapia intensiva — mas não é mandatório. É preciso considerar sempre a clínica global do paciente e suas condições sociais (mora sozinho? tem suporte para retornar se piorar? consegue manter hidratação e adesão ao tratamento em casa?).</p>
+    </div>
+
+    <div class="sec-rule"><span class="tagline">Antibioticoterapia empírica — na maioria das vezes, é empírica</span><span class="line"></span></div>
+    <p>As três classes centrais no tratamento da PAC são os macrolídeos (azitromicina, claritromicina), os beta-lactâmicos (penicilinas, cefalosporinas) e as quinolonas respiratórias (levofloxacina, moxifloxacina).</p>
+
+    <div class="grid-2">
+      <div class="card">
+        <span class="k">Baixo risco</span>
+        <h4>Adultos ambulatoriais &lt; 65 anos, sem comorbidades ou tabagismo, sem antibiótico nos últimos 3 meses</h4>
+        <p>ATS/IDSA recomenda monoterapia com amoxicilina; se houver impossibilidade de usar penicilinas, monoterapia com macrolídeo ou doxiciclina, desde que a resistência local do pneumococo a macrolídeos seja &lt; 25%. O UpToDate, por sua vez, sugere amoxicilina associada a um macrolídeo ou doxiciclina como preferencial, pelo potencial benefício de morbidade frente à baixa desvantagem de um tratamento combinado nesse perfil de risco.</p>
+      </div>
+      <div class="card" style="--accent:var(--amber)">
+        <span class="k">Maior risco</span>
+        <h4>Idade ≥ 65, tabagismo ativo, comorbidades relevantes ou uso de antibiótico nos últimos 3 meses</h4>
+        <p>ATS/IDSA recomenda terapia combinada com beta-lactâmico associado a macrolídeo ou doxiciclina, ou monoterapia com fluoroquinolona respiratória — sem preferência declarada entre os dois esquemas. O UpToDate sugere especificamente amoxicilina-clavulanato associada a macrolídeo ou doxiciclina, pela atividade confiável do clavulanato contra <em>S. pneumoniae</em> e pelo perfil geral de efeitos adversos favorável.</p>
+      </div>
+    </div>
+
+    <p>Por que associar um macrolídeo ou doxiciclina mesmo quando já se usa um beta-lactâmico? Porque os beta-lactâmicos atuam inibindo a síntese da parede celular bacteriana — e, como visto na seção 8, os agentes atípicos (<em>Mycoplasma</em>, <em>Chlamydia</em>, <em>Legionella</em>) não têm parede celular clássica ou têm ciclo intracelular obrigatório, tornando-os naturalmente resistentes a essa classe. Macrolídeos e tetraciclinas (doxiciclina) atuam inibindo a síntese proteica bacteriana ao nível ribossomal, um mecanismo que independe da parede celular e que penetra bem no meio intracelular — cobrindo exatamente a lacuna deixada pelo beta-lactâmico.</p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 13 -->
+  <!-- ============================================================ -->
+  <section class="content-section" id="s13" style="--accent:var(--green)">
+    <div class="sec-head"><span class="sec-num">13</span><h2 class="sec-title">Tratamento Sintomático: Antipiréticos, Analgésicos, Antieméticos e Procinéticos</h2></div>
+    <p class="sec-sub">Cada fármaco sintomático desta aula age em um ponto diferente da cascata do ácido araquidônico ou da via serotoninérgica/dopaminérgica do vômito — entender o alvo explica tanto o efeito quanto o efeito colateral.</p>
+    <div class="sec-rule"><span class="tagline">Antipiréticos e analgésicos</span><span class="line"></span></div>
+
+    <div class="grid-2">
+      <div class="card">
+        <span class="k">Paracetamol (acetaminofeno)</span>
+        <h4>Ação predominantemente central</h4>
+        <p>Inibe a síntese de prostaglandinas com efeito predominante no sistema nervoso central, o que lhe confere boa ação antipirética e analgésica com efeito anti-inflamatório periférico praticamente desprezível — por isso não é classificado como anti-inflamatório. Em dose usual: 500 mg a 1 g, VO, a cada 4-6 horas conforme a apresentação. Atenção farmacológica: em superdosagem, o metabólito NAPQI se acumula quando as reservas hepáticas de glutationa se esgotam, gerando necrose hepatocelular — a base racional para nunca ultrapassar a dose máxima diária.</p>
+      </div>
+      <div class="card">
+        <span class="k">Dipirona (metamizol)</span>
+        <h4>Analgésico e antipirético potente</h4>
+        <p>Inibe a síntese de prostaglandinas por ação central e periférica, com efeito anti-inflamatório mais discreto que os AINEs clássicos. Uso oral: 500 mg-1 g, 4x/dia. Uso injetável: 2-5 mL/dia (dose máxima 10 mL/dia), diluído em SF 0,9%, SG 5% ou Ringer lactato, em infusão lenta. Vigiar sinais de reação idiossincrática hematológica (agranulocitose), rara mas descrita.</p>
+      </div>
+      <div class="card">
+        <span class="k">Ibuprofeno</span>
+        <h4>Anti-inflamatório não esteroidal clássico</h4>
+        <p>Inibe de forma não seletiva a ciclo-oxigenase (COX-1 e COX-2), reduzindo a síntese de prostaglandinas tanto no sistema nervoso central (efeito antipirético e analgésico) quanto na periferia (efeito anti-inflamatório verdadeiro). A inibição da COX-1 também reduz prostaglandinas protetoras da mucosa gástrica e prostaglandinas vasodilatadoras renais — a base racional dos efeitos adversos gastrointestinais e renais dos AINEs.</p>
+      </div>
+      <div class="card">
+        <span class="k">Nimesulida</span>
+        <h4>Inibidor preferencial da COX-2</h4>
+        <p>Ao poupar relativamente mais a COX-1, tende a reduzir alguns efeitos adversos gastrointestinais em comparação aos AINEs não seletivos, mas carrega atenção quanto a hepatotoxicidade, motivo de restrições de uso em diversos países. Comprimido: 50-100 mg, 2x/dia (máximo 400 mg/dia).</p>
+      </div>
+    </div>
+
+    <div class="sec-rule"><span class="tagline">Antieméticos e procinéticos</span><span class="line"></span></div>
+    <div class="grid-2">
+      <div class="card">
+        <span class="k">Bromoprida</span>
+        <h4>Antagonista dopaminérgico D2</h4>
+        <p>Bloqueia receptores D2 na zona de gatilho quimiorreceptora (área postrema, região do bulbo fora da barreira hematoencefálica, o que a torna sensível a estímulos químicos circulantes) e favorece a motilidade gástrica ao facilitar a liberação de acetilcolina no plexo entérico — daí seu duplo efeito antiemético e procinético. Contraindicada em menores de 1 ano, pelo maior risco de reações extrapiramidais nessa faixa etária, em que a barreira hematoencefálica ainda é mais permeável ao fármaco.</p>
+      </div>
+      <div class="card">
+        <span class="k">Ondansetrona</span>
+        <h4>Antagonista seletivo do receptor 5-HT3</h4>
+        <p>Bloqueia o receptor de serotonina 5-HT3 tanto centralmente (área postrema) quanto perifericamente, nas terminações vagais aferentes do trato gastrointestinal — onde células enterocromafins liberam serotonina em resposta a agressões (infecção, quimioterapia, distensão), disparando o reflexo do vômito. Por agir de forma mais seletiva no gatilho serotoninérgico, tem excelente eficácia antiemética, mas, ao contrário da bromoprida, praticamente nenhum efeito procinético sobre o esvaziamento gástrico.</p>
+      </div>
+    </div>
+
+    <div class="alert clinica">
+      <span class="k">Correlação clínica</span>
+      <p>Ao escolher entre bromoprida e ondansetrona, pense no que você precisa: se o paciente tem náusea com componente de estase gástrica, a ação procinética da bromoprida agrega valor; se o objetivo é apenas suprimir o reflexo emético de forma potente, a ondansetrona costuma ser mais eficaz e com perfil de efeitos adversos mais limpo.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 14 -->
+  <!-- ============================================================ -->
+  <section class="content-section" id="s14" style="--accent:var(--amber)">
+    <div class="sec-head"><span class="sec-num">14</span><h2 class="sec-title">Vigilância Epidemiológica, Notificação Compulsória e Critérios de Afastamento</h2></div>
+    <p class="sec-sub">Nem todo caso suspeito é notificado, e nem todo caso notificado precisa de quarentena — a lógica por trás de cada regra é sempre poupar recursos de vigilância sem perder sensibilidade para o que realmente importa.</p>
+    <div class="sec-rule"><span class="tagline">Notificação</span><span class="line"></span></div>
+
+    <div class="grid-2">
+      <div class="card">
+        <span class="k">Síndrome gripal por COVID-19</span>
+        <h4>Notificação compulsória imediata (até 24h)</h4>
+        <p>Somente para casos confirmados por critério laboratorial ou clínico-epidemiológico. Casos apenas suspeitos e infecções assintomáticas com teste positivo não são de notificação compulsória — o sistema de vigilância prioriza dados de maior valor preditivo em vez de tentar capturar cada teste positivo isolado.</p>
+      </div>
+      <div class="card">
+        <span class="k">SRAG</span>
+        <h4>Notificar em até 24h no Sivep-Gripe</h4>
+        <p>Todos os casos hospitalizados e todos os óbitos que atendam à definição de SRAG, independentemente do agente etiológico — porque o desfecho grave, por si só, já justifica a vigilância, seja qual for a causa.</p>
+      </div>
+    </div>
+
+    <div class="sec-rule"><span class="tagline">Critérios de afastamento</span><span class="line"></span></div>
+    <div class="grid-2">
+      <div class="card">
+        <span class="k">SG não imunossuprimido</span>
+        <h4>5 dias a partir do início dos sintomas</h4>
+        <p>Suspensão: sem febre por ≥ 24h (sem uso de antitérmico) e melhora dos sintomas respiratórios. Após o retorno, manter medidas adicionais (máscara, precauções) até o 10º dia.</p>
+      </div>
+      <div class="card">
+        <span class="k">Assintomático com teste positivo (COVID-19)</span>
+        <h4>5 dias a partir da data do teste</h4>
+        <p>Não necessita de critérios clínicos adicionais para suspensão — já que nunca desenvolveu sintomas a serem monitorados. Medidas adicionais até o 10º dia.</p>
+      </div>
+      <div class="card">
+        <span class="k">SG imunocomprometido</span>
+        <h4>10 dias a partir do início dos sintomas</h4>
+        <p>Suspensão: sem febre por ≥ 48h e melhora respiratória. O prazo é o dobro do paciente imunocompetente porque a resposta imune adaptativa mais lenta ou deficiente prolonga a eliminação viral. Pode-se considerar RT-PCR para decidir a suspensão, com medidas adicionais até o 20º dia.</p>
+      </div>
+      <div class="card">
+        <span class="k">SRAG por SARS-CoV-2</span>
+        <h4>20 dias a partir do início dos sintomas</h4>
+        <p>Suspensão: sem febre por ≥ 24h e melhora respiratória. Geralmente aplicável a casos hospitalizados, refletindo maior carga viral e maior tempo de eliminação nos quadros graves.</p>
+      </div>
+    </div>
+    <div class="card">
+      <span class="k">Contato assintomático</span>
+      <h4>Sem afastamento e sem quarentena</h4>
+      <p>Manter precauções (uso de máscara, evitar situações de risco, monitorar sintomas) por 10 dias — reflexo de uma estratégia atual baseada em risco individual, e não em quarentena generalizada de todo contato.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 15 -->
+  <!-- ============================================================ -->
+  <section class="content-section" id="s15" style="--accent:var(--teal)">
+    <div class="sec-head"><span class="sec-num">15</span><h2 class="sec-title">Classificação Internacional de Doenças (CID-10) Aplicada</h2></div>
+    <p class="sec-sub">Codificar corretamente não é burocracia isolada: é o que alimenta as próprias estatísticas de vigilância discutidas nesta aula.</p>
+    <div class="sec-rule"><span class="tagline">Códigos relevantes</span><span class="line"></span></div>
+
+    <div class="grid-3">
+      <div class="card"><span class="k">J00</span><h4>Resfriado comum</h4></div>
+      <div class="card"><span class="k">J03</span><h4>Amigdalite aguda</h4></div>
+      <div class="card"><span class="k">J06</span><h4>IVAS inespecífica</h4><p>Usado, por exemplo, no registro de surto de síndrome gripal em ambiente fechado.</p></div>
+      <div class="card"><span class="k">J06.9</span><h4>Infecção aguda das vias aéreas superiores, não especificada</h4></div>
+      <div class="card"><span class="k">J11</span><h4>Influenza (gripe não especificada)</h4></div>
+      <div class="card"><span class="k">J12.9</span><h4>Pneumonia viral não especificada</h4></div>
+      <div class="card"><span class="k">J15.9</span><h4>Pneumonia bacteriana não especificada</h4></div>
+      <div class="card"><span class="k">J18</span><h4>Pneumonia por microrganismo não especificado</h4></div>
+      <div class="card" style="--accent:var(--violet)"><span class="k">B34.2</span><h4>Infecções por coronavírus de localização não especificada</h4></div>
+    </div>
+    <p>Repare que a maioria destes é um código "não especificado" — sempre que o agente etiológico é confirmado laboratorialmente (por exemplo, RT-PCR positivo para influenza A/H3N2), a boa prática é usar, quando disponível, um código mais específico em vez do código genérico, já que a granularidade da codificação impacta diretamente a qualidade dos dados epidemiológicos que alimentam a vigilância sentinela discutida na seção 1.</p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SUPER-RESUMO -->
+  <!-- ============================================================ -->
+  <section class="super" id="super">
+    <div class="eyebrow">Revisão rápida</div>
+    <h2>Super-resumo — o que não pode faltar na hora da prova</h2>
+
+    <div class="grid-2">
+      <div class="card" style="--accent:var(--amber)">
+        <span class="k">Definições-chave</span>
+        <ul class="plain">
+          <li>SG: ≤10 dias de sintomas, ≥2 sintomas com ao menos 1 respiratório. Febre <em>não</em> é obrigatória.</li>
+          <li>Surto: ≥3 casos de SG em 7 dias em ambiente fechado.</li>
+          <li>SRAG: SG hospitalizada + dispneia/taquipneia/SpO₂≤94%, ou óbito por SRAG independente de internação.</li>
+        </ul>
+      </div>
+      <div class="card" style="--accent:var(--red)">
+        <span class="k">Escada de gravidade COVID-19</span>
+        <ul class="plain">
+          <li>Assintomático → Leve (sem dispneia/imagem alterada) → Moderado (acometimento inferior, SpO₂≥94%) → SRAG.</li>
+          <li>NMV/r: até 5 dias de sintomas, ≥65 anos ou imunocomprometido ≥18 anos, sem O₂ suplementar.</li>
+        </ul>
+      </div>
+      <div class="card" style="--accent:var(--orange)">
+        <span class="k">Influenza</span>
+        <ul class="plain">
+          <li>Incubação 1-4 dias (média 2); transmissível 24h antes dos sintomas até ~5º dia.</li>
+          <li>Influenza A: múltiplos subtipos, reservatório animal, potencial pandêmico (shift). Influenza B: 2 linhagens, só humano, sem pandemia.</li>
+          <li>Oseltamivir: inibidor de neuraminidase, ideal até 48h do início dos sintomas.</li>
+          <li>Febre bifásica (retorno após 48h afebril) = sinal de agravamento.</li>
+        </ul>
+      </div>
+      <div class="card" style="--accent:var(--cyan)">
+        <span class="k">PAC</span>
+        <ul class="plain">
+          <li><em>S. pneumoniae</em> é o agente mais comum (~35%) — padrão lobar na radiografia.</li>
+          <li><em>Mycoplasma</em> = padrão intersticial bilateral, "pneumonia atípica".</li>
+          <li>Radiografia de tórax indicada para todo paciente com suspeita de PAC.</li>
+          <li>Idoso pode não ter febre/leucocitose — atenção ao declínio funcional/cognitivo.</li>
+        </ul>
+      </div>
+      <div class="card" style="--accent:var(--violet)">
+        <span class="k">CURB-65</span>
+        <ul class="plain">
+          <li>Confusão · Ureia &gt;50 · Respiração &gt;30 · PA baixa · idade &gt;65.</li>
+          <li>Orienta, não substitui, o julgamento clínico e social.</li>
+          <li>Baixo risco: amoxicilina (± macrolídeo/doxiciclina). Alto risco: beta-lactâmico + macrolídeo/doxiciclina OU fluoroquinolona respiratória.</li>
+        </ul>
+      </div>
+      <div class="card" style="--accent:var(--green)">
+        <span class="k">Vacinas</span>
+        <ul class="plain">
+          <li>Influenza: trivalente, atualizada anualmente por drift antigênico.</li>
+          <li>VPC20: conjugada, vacina T-dependente — funciona em lactentes justamente por acionar ajuda de células T, ao contrário do polissacarídeo puro.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alert pegadinha" style="margin-top:1.6rem">
+      <span class="k">Pegadinhas mais cobradas</span>
+      <p>(1) Febre não é obrigatória para SG. (2) SRAG pode ser notificado por óbito sem hospitalização. (3) Idoso com PAC pode não ter febre nem leucocitose. (4) Oseltamivir não "mata" a célula infectada, só impede a liberação de novos vírions — por isso a janela precoce importa. (5) Assintomático com teste positivo para COVID-19 não entra na notificação compulsória de síndrome gripal.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- REFERÊNCIAS -->
+  <!-- ============================================================ -->
+  <section class="refs" id="refs">
+    <h2>Referências</h2>
+    <p>BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde e Ambiente. Departamento de Vigilância das Doenças Transmissíveis. <em>Estratégia de vacinação contra a influenza nas regiões Nordeste, Centro-Oeste, Sul e Sudeste – 2026.</em> 1. ed. Brasília: Ministério da Saúde, 2026.</p>
+    <p>BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde e Ambiente. <em>Guia de vigilância integrada da COVID-19, influenza e outros vírus respiratórios de importância em saúde pública.</em> Brasília: Ministério da Saúde, 2024.</p>
+    <p>BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde e Ambiente. Departamento de Doenças Transmissíveis. <em>Nota Técnica nº 5/2026-CGCOVID/DEDT/SVSA/MS.</em> Brasília: Ministério da Saúde, 20 mar. 2026.</p>
+    <p>BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde e Ambiente. <em>Nota Técnica nº 11/2026-CGCOVID/DEDT/SVSA/MS,</em> de 12 de agosto de 2026.</p>
+    <p>BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde e Ambiente. <em>Nota Técnica nº 24/2026-DPNI/SVSA/MS,</em> de 24 de março de 2026.</p>
+    <p>BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde e Ambiente. <em>Nota Técnica nº 64/2026-DPNI/SVSA/MS,</em> de 25 de junho de 2026.</p>
+    <p>Nota Técnica Conjunta nº 002/2025 - DIVE/LACEN/SUV/SES/SC.</p>
+    <p>CARDOSO, Alexandre P.; RABELLO, Eucir; MELLO, Fernanda Carvalho de Q.; et al. <em>Diagnóstico e tratamento em pneumologia.</em> 2. ed. Barueri: Manole, 2021.</p>
+    <p>DUNCAN, Bruce B.; SCHMIDT, Maria I.; GIUGLIANI, Elsa R J.; et al. <em>Medicina ambulatorial: condutas de atenção primária baseadas em evidências.</em> 5. ed. Porto Alegre: ArtMed, 2022.</p>
+    <p>KASPER, Dennis L. et al. (Ed.). <em>Medicina Interna de Harrison.</em> 21. ed. Porto Alegre: AMGH, 2023.</p>
+    <p>KUMAR, Vinay; ABBAS, Abul K.; ASTER, Jon C. <em>Robbins &amp; Cotran: patologia — bases patológicas das doenças.</em> 10. ed. Rio de Janeiro: Elsevier, 2023.</p>
+    <p>KATZUNG, Bertram G.; VANDERAH, Todd W. <em>Farmacologia básica e clínica.</em> 15. ed. Porto Alegre: AMGH, 2023.</p>
+    <p>HALL, John E. <em>Guyton &amp; Hall: tratado de fisiologia médica.</em> 14. ed. Rio de Janeiro: Elsevier, 2021.</p>
+    <p>REISNER, Howard M. <em>Patologia: uma abordagem por estudos de casos.</em> Porto Alegre: Lange, 2016.</p>
+    <p>STEFANI, S. D.; BARROS, E. <em>Clínica médica: consulta rápida.</em> 5. ed. Porto Alegre: Artmed, 2020.</p>
+    <p>WARREN, Levinson. <em>Microbiologia médica e imunologia.</em> Porto Alegre: Grupo A, 2016.</p>
+  </section>
+
+</div><!-- /editable-content -->
+</main>
+
+<div id="toolbar">
+  <button id="btnEdit" type="button">Ativar edição</button>
+  <button id="btnDownload" type="button">Baixar cópia editada</button>
+  <button id="btnRestore" type="button">Restaurar original</button>
+  <span class="tb-status" id="tbStatus">Pronto</span>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'aula1_ivas_pac_uniarp_v1';
+  var content = document.getElementById('editable-content');
+  var btnEdit = document.getElementById('btnEdit');
+  var btnDownload = document.getElementById('btnDownload');
+  var btnRestore = document.getElementById('btnRestore');
+  var status = document.getElementById('tbStatus');
+  var editing = false;
+  var autosaveTimer = null;
+  var storageAvailable = true;
+
+  function testStorage(){
+    try{
+      window.localStorage.setItem('__test__','1');
+      window.localStorage.removeItem('__test__');
+      return true;
+    }catch(e){ return false; }
+  }
+  storageAvailable = testStorage();
+
+  function setStatus(msg){ status.textContent = msg; }
+
+  function loadSaved(){
+    if(!storageAvailable) return;
+    try{
+      var saved = window.localStorage.getItem(STORAGE_KEY);
+      if(saved){ content.innerHTML = saved; setStatus('Edição anterior restaurada'); }
+    }catch(e){}
+  }
+
+  function saveNow(){
+    if(!storageAvailable){ setStatus('Autosave indisponível neste ambiente'); return; }
+    try{
+      window.localStorage.setItem(STORAGE_KEY, content.innerHTML);
+      var now = new Date();
+      setStatus('Salvo às ' + now.toLocaleTimeString());
+    }catch(e){ setStatus('Falha ao salvar'); }
+  }
+
+  function toggleEdit(){
+    editing = !editing;
+    content.setAttribute('contenteditable', editing ? 'true' : 'false');
+    btnEdit.textContent = editing ? 'Salvar e sair da edição' : 'Ativar edição';
+    btnEdit.classList.toggle('active', editing);
+    if(editing){
+      setStatus(storageAvailable ? 'Editando — autosave a cada 15s' : 'Editando — autosave indisponível neste preview');
+      autosaveTimer = setInterval(saveNow, 15000);
+    } else {
+      clearInterval(autosaveTimer);
+      saveNow();
+    }
+  }
+
+  function downloadCopy(){
+    var doc = document.documentElement.cloneNode(true);
+    var toolbarClone = doc.querySelector('#toolbar');
+    if(toolbarClone){ toolbarClone.parentNode.removeChild(toolbarClone); }
+    var html = '<!DOCTYPE html>\n' + doc.outerHTML;
+    var blob = new Blob([html], {type:'text/html;charset=utf-8'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'aula1_ivas_pac_editado.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+    setStatus('Cópia baixada');
+  }
+
+  function restoreOriginal(){
+    var ok = window.confirm('Isso vai apagar as edições salvas neste navegador e restaurar o conteúdo original. Continuar?');
+    if(!ok) return;
+    if(storageAvailable){
+      try{ window.localStorage.removeItem(STORAGE_KEY); }catch(e){}
+    }
+    location.reload();
+  }
+
+  btnEdit.addEventListener('click', toggleEdit);
+  btnDownload.addEventListener('click', downloadCopy);
+  btnRestore.addEventListener('click', restoreOriginal);
+
+  var sbToggle = document.getElementById('sb-toggle');
+  var sb = document.getElementById('sb');
+  if(sbToggle){
+    sbToggle.addEventListener('click', function(){ sb.classList.toggle('open'); });
+    sb.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){ sb.classList.remove('open'); });
+    });
+  }
+
+  window.addEventListener('DOMContentLoaded', loadSaved);
+  if(document.readyState !== 'loading'){ loadSaved(); }
+})();
+</script>
+
+</body>
+</html>

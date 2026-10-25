@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tuberculose &amp; HIV/AIDS — Vigilância, Fisiopatologia e Abordagem Clínica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080b10;
+    --bg-elev:#0e131c;
+    --bg-card:#111826;
+    --border:rgba(255,255,255,.08);
+    --border-soft:rgba(255,255,255,.05);
+    --text:#e7ecf3;
+    --text-dim:#94a1b8;
+    --text-faint:#5c6880;
+    --font-display:'Cormorant Garamond', serif;
+    --font-body:'Inter', system-ui, sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+
+    --c-tb:#22c1d6;      /* Tuberculose - ciano */
+    --c-hiv:#a78bfa;     /* HIV/AIDS - violeta */
+    --c-notif:#eab308;   /* Notificação - âmbar */
+    --c-febre:#f0663e;   /* Febre - laranja/vermelho */
+    --c-social:#4ade80;  /* Vulnerabilidade social - verde */
+    --c-tdo:#f472b6;     /* Quimioprofilaxia/TDO - rosa */
+    --c-danger:#ef4444;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -5%, rgba(34,193,214,.07), transparent 60%),
+      radial-gradient(ellipse 900px 600px at 90% 10%, rgba(167,139,250,.06), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:var(--font-display); font-weight:600; color:#fff; letter-spacing:.2px; margin:0;}
+  em{color:inherit; font-style:italic; opacity:.95;}
+  a{color:inherit;}
+  p{margin:0 0 1em 0;}
+  ::selection{background:rgba(34,193,214,.25);}
+
+  /* ---------- Sidebar ---------- */
+  #sb{
+    position:fixed; top:0; left:0; bottom:0; width:270px;
+    background:var(--bg-elev);
+    border-right:1px solid var(--border);
+    padding:28px 22px;
+    overflow-y:auto;
+    z-index:40;
+  }
+  #sb .brand-tag{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--text-faint); margin-bottom:6px;
+  }
+  #sb .brand-title{
+    font-family:var(--font-display); font-size:1.55rem; color:#fff; line-height:1.15; margin-bottom:4px;
+  }
+  #sb .brand-sub{ font-size:12.5px; color:var(--text-dim); margin-bottom:26px;}
+  #sb nav{display:flex; flex-direction:column; gap:2px;}
+  #sb nav a{
+    display:flex; align-items:center; gap:10px;
+    font-size:13.5px; color:var(--text-dim); text-decoration:none;
+    padding:8px 10px; border-radius:8px; transition:.15s;
+  }
+  #sb nav a:hover{background:rgba(255,255,255,.04); color:#fff;}
+  #sb nav a .dot{width:7px; height:7px; border-radius:50%; flex-shrink:0;}
+  #sb .sb-foot{margin-top:28px; padding-top:16px; border-top:1px solid var(--border-soft); font-family:var(--font-mono); font-size:10.5px; color:var(--text-faint); line-height:1.6;}
+  #sb-toggle{display:none;}
+
+  /* ---------- Main ---------- */
+  #main{margin-left:270px; padding:0 0 120px 0;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:64px 60px 48px 60px;
+    border-bottom:1px solid var(--border-soft);
+    background:linear-gradient(180deg, rgba(255,255,255,.02), transparent);
+  }
+  .hero .eyebrow{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--c-tb); margin-bottom:18px; display:flex; align-items:center; gap:10px;
+  }
+  .hero .eyebrow::after{content:''; flex:1; height:1px; background:linear-gradient(90deg, var(--c-tb), transparent);}
+  .hero h1{font-size:3rem; line-height:1.08; max-width:820px; margin-bottom:18px;}
+  .hero h1 .accent{ background:linear-gradient(90deg, var(--c-tb), var(--c-hiv)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .hero p.lede{font-size:1.08rem; color:var(--text-dim); max-width:680px; margin-bottom:26px;}
+  .tagrow{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.03em;
+    padding:5px 12px; border-radius:20px; border:1px solid var(--border);
+    color:var(--text-dim);
+  }
+
+  /* ---------- Section shell ---------- */
+  .section{padding:56px 60px; border-bottom:1px solid var(--border-soft);}
+  .sec-head{display:flex; align-items:flex-start; gap:22px; margin-bottom:8px;}
+  .sec-num{font-family:var(--font-display); font-size:2.6rem; font-weight:600; color:var(--accent, var(--c-tb)); opacity:.5; line-height:1;}
+  .sec-headtext h2{font-size:2.1rem; color:#fff; margin-bottom:6px;}
+  .sec-headtext .sec-sub{color:var(--text-dim); font-size:.98rem; max-width:680px;}
+  .sec-tagline{
+    display:flex; align-items:center; gap:12px; margin:26px 0 26px 0;
+  }
+  .sec-tagline .chip{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--accent, var(--c-tb)); border:1px solid var(--accent, var(--c-tb)); padding:4px 10px; border-radius:6px; flex-shrink:0;
+  }
+  .sec-tagline .rule{flex:1; height:1px; background:linear-gradient(90deg, var(--accent, var(--c-tb)), transparent);}
+  .prose{max-width:760px; color:var(--text); font-size:1rem;}
+  .prose p{margin-bottom:1em;}
+  .prose .hl{color:var(--accent, var(--c-tb));}
+
+  /* ---------- Cards ---------- */
+  .grid{display:grid; gap:16px; margin:22px 0;}
+  .grid-2{grid-template-columns:repeat(2, 1fr);}
+  .grid-3{grid-template-columns:repeat(3, 1fr);}
+  .card{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-top:3px solid var(--accent, var(--c-tb));
+    border-radius:10px;
+    padding:20px 22px;
+  }
+  .card h4{font-size:1.15rem; color:#fff; margin-bottom:8px;}
+  .card .card-label{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent, var(--c-tb)); margin-bottom:8px; display:block;}
+  .card p{font-size:.93rem; color:var(--text-dim); margin-bottom:.6em;}
+  .card p:last-child{margin-bottom:0;}
+  .card ul{margin:0; padding-left:18px; color:var(--text-dim); font-size:.92rem;}
+  .card li{margin-bottom:5px;}
+
+  /* ---------- Alerts (outline style) ---------- */
+  .alert{
+    border:1px solid var(--a-color, var(--c-notif));
+    background:transparent;
+    border-radius:10px;
+    padding:16px 20px;
+    margin:20px 0;
+  }
+  .alert .alert-tag{
+    font-family:var(--font-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--a-color, var(--c-notif)); margin-bottom:6px; display:block;
+  }
+  .alert p{font-size:.94rem; color:var(--text); margin-bottom:0;}
+  .alert.atencao{--a-color:var(--c-notif);}
+  .alert.clinica{--a-color:var(--c-tb);}
+  .alert.prova{--a-color:var(--c-hiv);}
+  .alert.pegadinha{--a-color:var(--c-danger);}
+  .alert.importante{--a-color:var(--c-social);}
+
+  /* ---------- Details / expandable ---------- */
+  details.deep{
+    margin:18px 0; border:1px solid var(--border); border-radius:10px; overflow:hidden;
+    background:rgba(255,255,255,.015);
+  }
+  details.deep > summary{
+    list-style:none; cursor:pointer; padding:14px 20px;
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--accent, var(--c-tb));
+  }
+  details.deep > summary::-webkit-details-marker{display:none;}
+  details.deep > summary::before{content:'+'; font-family:var(--font-body); font-size:16px; width:18px; text-align:center;}
+  details.deep[open] > summary::before{content:'–';}
+  details.deep .deep-body{padding:4px 22px 20px 22px; color:var(--text-dim); font-size:.95rem;}
+  details.deep .deep-body p{margin-bottom:.9em;}
+  details.deep2{margin:14px 0 4px 0; border:1px dashed var(--border); border-radius:8px;}
+  details.deep2 > summary{padding:10px 16px; font-size:11px; color:var(--text-dim);}
+  details.deep2 .deep-body{padding:2px 18px 16px 18px;}
+
+  /* ---------- Flowchart ---------- */
+  .flow{display:flex; flex-wrap:wrap; align-items:center; gap:0; margin:24px 0;}
+  .flow .fnode{
+    background:var(--bg-card); border:1px solid var(--accent, var(--c-tb));
+    border-radius:9px; padding:12px 16px; font-size:.85rem; color:var(--text); text-align:center; max-width:180px;
+  }
+  .flow .fnode .fn-label{font-family:var(--font-mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent, var(--c-tb)); display:block; margin-bottom:4px;}
+  .flow .farrow{color:var(--accent, var(--c-tb)); font-size:1.3rem; padding:0 10px; opacity:.7;}
+
+  /* ---------- Compare pair (replaces tables) ---------- */
+  .compare{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:22px 0;}
+  .compare .col{background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:18px 20px;}
+  .compare .col.left{border-top:3px solid var(--c-tb);}
+  .compare .col.right{border-top:3px solid var(--c-hiv);}
+  .compare h5{font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; margin-bottom:10px;}
+  .compare .col.left h5{color:var(--c-tb);}
+  .compare .col.right h5{color:var(--c-hiv);}
+  .compare p, .compare li{font-size:.9rem; color:var(--text-dim);}
+  .compare ul{padding-left:18px; margin:0;}
+  .compare li{margin-bottom:6px;}
+
+  /* ---------- Super resumo ---------- */
+  .superresumo{background:linear-gradient(180deg, rgba(255,255,255,.03), transparent); }
+  .superresumo .grid{margin-top:28px;}
+
+  /* ---------- References ---------- */
+  .refs{padding:56px 60px 100px 60px;}
+  .refs ol{padding-left:22px; color:var(--text-dim); font-size:.92rem;}
+  .refs li{margin-bottom:14px;}
+  .refs em{color:var(--text);}
+
+  /* ---------- Toolbar ---------- */
+  #toolbar{
+    position:fixed; bottom:22px; right:22px; z-index:100;
+    background:var(--bg-elev); border:1px solid var(--border); border-radius:14px;
+    padding:10px; display:flex; gap:8px; align-items:center;
+    box-shadow:0 10px 40px rgba(0,0,0,.5);
+  }
+  #toolbar button{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.03em;
+    background:var(--bg-card); color:var(--text); border:1px solid var(--border);
+    padding:9px 13px; border-radius:9px; cursor:pointer; transition:.15s;
+    display:flex; align-items:center; gap:6px;
+  }
+  #toolbar button:hover{border-color:var(--c-tb); color:#fff;}
+  #toolbar button.on{background:var(--c-tb); color:#04121a; border-color:var(--c-tb);}
+  #toolbar .status{font-family:var(--font-mono); font-size:9.5px; color:var(--text-faint); padding:0 4px; max-width:110px;}
+  [contenteditable="true"]{outline:1px dashed rgba(34,193,214,.35); outline-offset:3px; border-radius:3px;}
+  [contenteditable="true"]:focus{outline:1px solid var(--c-tb);}
+
+  @media (max-width: 980px){
+    #sb{transform:translateX(-100%); transition:transform .2s; width:78vw; max-width:300px;}
+    #sb.open{transform:translateX(0);}
+    #main{margin-left:0;}
+    .hero, .section, .refs{padding:40px 22px;}
+    .grid-2, .grid-3, .compare{grid-template-columns:1fr;}
+    .hero h1{font-size:2.1rem;}
+    #sb-toggle{
+      display:flex; position:fixed; top:16px; left:16px; z-index:50;
+      width:42px; height:42px; border-radius:10px; align-items:center; justify-content:center;
+      background:var(--bg-elev); border:1px solid var(--border); color:var(--text); cursor:pointer;
+    }
+    #toolbar{right:12px; bottom:12px; flex-wrap:wrap; max-width:200px;}
+  }
+</style>
+</head>
+<body>
+
+<button id="sb-toggle" onclick="document.getElementById('sb').classList.toggle('open')">☰</button>
+
+<nav id="sb">
+  <div class="brand-tag">PBL · Infectologia / Saúde Coletiva</div>
+  <div class="brand-title">TB &amp; HIV/AIDS</div>
+  <div class="brand-sub">Fisiopatologia, vigilância e abordagem clínica</div>
+  <nav>
+    <a href="#s1"><span class="dot" style="background:var(--c-tb)"></span>01 · Tuberculose</a>
+    <a href="#s2"><span class="dot" style="background:var(--c-hiv)"></span>02 · HIV/AIDS</a>
+    <a href="#s3"><span class="dot" style="background:var(--c-notif)"></span>03 · Notificação compulsória</a>
+    <a href="#s4"><span class="dot" style="background:var(--c-febre)"></span>04 · Febre em TB/HIV</a>
+    <a href="#s5"><span class="dot" style="background:var(--c-social)"></span>05 · Vulnerabilidade social</a>
+    <a href="#s6"><span class="dot" style="background:var(--c-tdo)"></span>06 · Quimioprofilaxia &amp; TDO</a>
+    <a href="#sresumo"><span class="dot" style="background:#fff"></span>Super-resumo</a>
+    <a href="#refs"><span class="dot" style="background:var(--text-faint)"></span>Referências</a>
+  </nav>
+  <div class="sb-foot">Uniarp-SC · Material de apoio ao PBL<br>Clique nos itens acima para navegar</div>
+</nav>
+
+<div id="main">
+
+  <section class="hero">
+    <div class="eyebrow">Módulo PBL · Infectologia e Vigilância em Saúde</div>
+    <h1>Tuberculose e HIV/AIDS: <span class="accent">da molécula ao território</span></h1>
+    <p class="lede">Duas doenças infecciosas que caminham juntas na história da medicina brasileira — uma bactéria de multiplicação lenta e um retrovírus de mutação rápida, ambas moldadas pela biologia do hospedeiro e pelas condições sociais em que ele vive. Vamos entender o mecanismo, a clínica, a vigilância epidemiológica e a estratégia de controle de cada uma.</p>
+    <div class="tagrow">
+      <span class="tag">Mycobacterium tuberculosis</span>
+      <span class="tag">HIV-1 / HIV-2</span>
+      <span class="tag">Notificação compulsória</span>
+      <span class="tag">SINAN</span>
+      <span class="tag">Determinantes sociais</span>
+      <span class="tag">TDO / Quimioprofilaxia</span>
+    </div>
+  </section>
+
+  <!-- ============ SEÇÃO 1 — TUBERCULOSE ============ -->
+  <section class="section" id="s1" style="--accent:var(--c-tb)">
+    <div class="sec-head">
+      <div class="sec-num">01</div>
+      <div class="sec-headtext">
+        <h2>Tuberculose</h2>
+        <div class="sec-sub">Etiologia, fisiopatologia do granuloma, semiologia, diagnóstico laboratorial, tratamento e abordagem clínica.</div>
+      </div>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Etiologia</span><span class="rule"></span></div>
+    <div class="prose">
+      <p>A tuberculose é causada pelo <em>Mycobacterium tuberculosis</em>, o bacilo de Koch — um bacilo álcool-ácido resistente (BAAR), aeróbio estrito, de multiplicação extremamente lenta (tempo de geração de 15 a 20 horas, contra 20 minutos de uma <em>E. coli</em>). Essa lentidão não é um detalhe curioso: ela explica por que o tratamento precisa durar meses e não dias, e por que a cultura em meio de Löwenstein-Jensen leva de 2 a 8 semanas para crescer.</p>
+      <p>A parede celular desse bacilo é a chave de quase tudo que você vai estudar sobre ele. Ela é riquíssima em ácidos micólicos, lipídeos de cadeia longa que tornam a parede extremamente hidrofóbica. Essa hidrofobicidade é responsável pela resistência à descoloração por álcool-ácido após a coloração pela fucsina no método de Ziehl-Neelsen — daí o nome <span class="hl">BAAR</span> — e também explica por que o bacilo sobrevive tanto tempo dentro do macrófago: a parede dificulta a ação de enzimas lisossomais e de espécies reativas de oxigênio.</p>
+    </div>
+
+    <details class="deep">
+      <summary>Aprofunde-se: estrutura da parede celular e virulência</summary>
+      <div class="deep-body">
+        <p>A parede do <em>M. tuberculosis</em> tem uma arquitetura em camadas: peptideoglicano ligado covalentemente a arabinogalactano, que por sua vez está esterificado a ácidos micólicos — o complexo mAGP (micolil-arabinogalactano-peptideoglicano). Sobre essa estrutura repousam lipídeos livres como o cord factor (trealose dimicolato), responsável pelo padrão de crescimento em cordas e por parte da toxicidade tecidual, e o lipoarabinomanano (LAM), uma molécula com papel imunomodulador central: ela inibe a fusão fagossomo-lisossomo e modula a resposta de citocinas do macrófago.</p>
+        <details class="deep2">
+          <summary>Por que o etambutol funciona justamente aqui</summary>
+          <div class="deep-body"><p>O etambutol inibe a arabinosil transferase, enzima que polimeriza os resíduos de arabinose do arabinogalactano. Sem arabinogalactano organizado, os ácidos micólicos não conseguem se ancorar corretamente à parede, que fica desestruturada e mais permeável — um mecanismo elegante de como bloquear uma única etapa biossintética compromete toda a arquitetura de proteção do bacilo.</p></div>
+        </details>
+      </div>
+    </details>
+
+    <div class="sec-tagline"><span class="chip">Transmissão</span><span class="rule"></span></div>
+    <div class="prose">
+      <p>A transmissão é exclusivamente por via aérea. O doente com tuberculose pulmonar cavitária e baciloscopia positiva — o chamado caso bacilífero — expele, ao tossir, falar ou espirrar, gotículas de Flügge que se desidratam rapidamente no ar, restando os núcleos de Wells: partículas com menos de 5 micrômetros que permanecem em suspensão por horas e alcançam diretamente os alvéolos, sem serem retidas pelo trato respiratório superior. É por isso que ambientes fechados, mal ventilados e com aglomeração de pessoas — cenário típico de vulnerabilidade social, como veremos na seção 5 — multiplicam o risco de transmissão.</p>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Fisiopatologia</span><span class="rule"></span></div>
+    <div class="prose">
+      <p>Aqui está o coração da disciplina: entender por que a tuberculose se comporta como uma doença que pode ficar "dormente" por décadas e depois reativar. Siga a lógica em etapas.</p>
+    </div>
+
+    <div class="flow">
+      <div class="fnode"><span class="fn-label">1</span>Inalação do bacilo até o alvéolo</div><div class="farrow">→</div>
+      <div class="fnode"><span class="fn-label">2</span>Fagocitose por macrófago alveolar</div><div class="farrow">→</div>
+      <div class="fnode"><span class="fn-label">3</span>Sobrevivência e multiplicação intracelular</div><div class="farrow">→</div>
+      <div class="fnode"><span class="fn-label">4</span>Resposta Th1 e formação do granuloma</div><div class="farrow">→</div>
+      <div class="fnode"><span class="fn-label">5</span>Necrose caseosa / contenção ou progressão</div>
+    </div>
+
+    <div class="prose">
+      <p>Repare que a etapa 3 é decisiva: o macrófago fagocita o bacilo, mas o <em>M. tuberculosis</em> secreta proteínas (como a ESAT-6, via sistema de secreção ESX-1) que rompem o fagossomo e inibem sua fusão com o lisossomo. Ou seja, o próprio bacilo sabota o mecanismo de destruição do hospedeiro. Ele fica, então, replicando dentro de uma célula que deveria destruí-lo — uma relação parasita-hospedeiro que só é freada quando a imunidade celular específica entra em cena, cerca de 2 a 8 semanas depois, com o desenvolvimento da hipersensibilidade do tipo IV.</p>
+      <p>Linfócitos T CD4+ diferenciados em Th1 reconhecem antígenos micobacterianos apresentados por MHC de classe II e liberam <span class="hl">interferon-gama (IFN-γ)</span>, que ativa os macrófagos, aumentando sua capacidade microbicida (produção de óxido nítrico, espécies reativas de oxigênio). Ao redor dos macrófagos infectados, formam-se camadas de células epitelioides, células gigantes multinucleadas de Langhans e um manto de linfócitos — essa organização é o granuloma, também chamado de folículo de Koster. No centro dele ocorre a necrose caseosa: um tipo de necrose que preserva a arquitetura geral em um material amorfo, esbranquiçado, semelhante a queijo (daí "caseosa"), resultado da ação de enzimas lisossomais liberadas e da hipóxia central.</p>
+      <p>O conjunto formado pelo foco parenquimatoso pulmonar (nódulo de Ghon) mais o linfonodo hilar satélite comprometido constitui o <span class="hl">complexo primário de Ghon</span>; quando esse complexo calcifica e se torna visível radiologicamente, chama-se complexo de Ranke. Na grande maioria dos indivíduos imunocompetentes, o granuloma consegue conter a infecção nesse ponto — os bacilos ficam viáveis, porém latentes, dentro do granuloma fibrosado e calcificado. Essa é a chamada infecção latente pela tuberculose (ILTB): a pessoa está infectada, mas não está doente, não tem sintomas e não transmite a doença.</p>
+    </div>
+
+    <div class="alert atencao">
+      <span class="alert-tag">Atenção</span>
+      <p>Infecção latente não é sinônimo de doença. Cerca de 90% das pessoas infectadas nunca desenvolverão tuberculose ativa ao longo da vida — o risco de adoecimento é maior justamente nos primeiros 2 anos após a infecção e em situações de imunodepressão.</p>
+    </div>
+
+    <details class="deep">
+      <summary>Aprofunde-se: reativação, TB pós-primária e disseminação</summary>
+      <div class="deep-body">
+        <p>Quando a vigilância imunológica falha — por infecção pelo HIV, uso de corticosteroides ou imunobiológicos (especialmente anti-TNF-α), diabetes mellitus, desnutrição, insuficiência renal crônica, silicose ou simplesmente pela imunossenescência do idoso — os bacilos que estavam contidos no granuloma retomam a multiplicação. Isso é a reativação endógena, responsável pela maioria dos casos de tuberculose do adulto (a chamada tuberculose pós-primária, ou secundária).</p>
+        <p>Essa forma tem uma localização característica: os segmentos apicais e posteriores dos lobos superiores. A explicação é hemodinâmica e não aleatória — nessas regiões a razão ventilação/perfusão é mais alta (mais oxigênio disponível, o que favorece o bacilo aeróbio estrito) e o fluxo linfático é mais lento, reduzindo a eliminação de bacilos e de debris antigênicos.</p>
+        <p>Na reativação, a necrose caseosa liquefaz — perde sua consistência sólida, provavelmente por ação enzimática intensa — e drena para um brônquio, formando uma cavidade. Dentro dessa cavidade, ricamente oxigenada e comunicante com a via aérea, o bacilo se multiplica de forma extracelular e maciça, o que tem duas consequências clínicas centrais: (1) o paciente passa a eliminar grandes quantidades de bacilos ao tossir — torna-se bacilífero, a principal fonte de transmissão da doença na comunidade; e (2) cria-se o ambiente ideal para a seleção de mutantes resistentes, já que a alta carga bacilar aumenta a chance estatística de mutações espontâneas de resistência a cada fármaco — base racional do porquê o tratamento sempre combina múltiplos fármacos simultaneamente.</p>
+        <details class="deep2">
+          <summary>E quando o granuloma não contém a infecção primária?</summary>
+          <div class="deep-body"><p>Em lactentes, desnutridos graves ou imunossuprimidos importantes, a primoinfecção pode progredir diretamente sem período de latência — é a tuberculose primária progressiva, que pode disseminar por via hematogênica gerando a forma miliar (múltiplos pequenos focos, como grãos de milho, espalhados por pulmões, fígado, baço, medula óssea e meninges) ou por via linfática e por contiguidade, comprometendo pleura, pericárdio e linfonodos mediastinais com efeito de massa.</p></div>
+        </details>
+      </div>
+    </details>
+
+    <div class="sec-tagline"><span class="chip">Sinais e sintomas</span><span class="rule"></span></div>
+    <div class="grid grid-3">
+      <div class="card">
+        <span class="card-label">Sintomas cardinais</span>
+        <ul>
+          <li>Tosse persistente por 3 semanas ou mais (critério do sintomático respiratório)</li>
+          <li>Expectoração mucopurulenta, por vezes hemoptoica</li>
+          <li>Febre vespertina, geralmente baixa</li>
+          <li>Sudorese noturna profusa</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="card-label">Sintomas constitucionais</span>
+        <ul>
+          <li>Emagrecimento progressivo</li>
+          <li>Astenia e fadiga</li>
+          <li>Inapetência</li>
+          <li>Dor torácica ventilatório-dependente (se acometimento pleural)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="card-label">Formas extrapulmonares</span>
+        <ul>
+          <li>Pleural (derrame exsudativo linfocitário)</li>
+          <li>Ganglionar (escrofulose)</li>
+          <li>Meníngea (basal, subaguda)</li>
+          <li>Óssea — mal de Pott (espondilite)</li>
+          <li>Geniturinária</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Diagnóstico</span><span class="rule"></span></div>
+    <div class="prose">
+      <p>O ponto de partida é sempre a suspeita clínica no sintomático respiratório. A partir daí, o Ministério da Saúde recomenda a seguinte sequência de investigação, hoje centrada no teste rápido molecular:</p>
+    </div>
+    <div class="grid grid-2">
+      <div class="card">
+        <span class="card-label">TRM-TB (GeneXpert MTB/RIF)</span>
+        <p>Teste molecular por PCR em tempo real, primeira linha atual no Brasil. Detecta o DNA do <em>M. tuberculosis</em> e, simultaneamente, mutações associadas à resistência à rifampicina, em cerca de 2 horas. Alta sensibilidade em amostras com baciloscopia positiva; sensibilidade um pouco menor em paucibacilares.</p>
+      </div>
+      <div class="card">
+        <span class="card-label">Baciloscopia direta (Ziehl-Neelsen)</span>
+        <p>Exame rápido e barato, pesquisa de BAAR em duas amostras de escarro. Baixo custo, mas sensibilidade limitada — exige carga bacilar relativamente alta para positivar, e não distingue espécies de micobactérias.</p>
+      </div>
+      <div class="card">
+        <span class="card-label">Cultura para micobactérias</span>
+        <p>Padrão-ouro de sensibilidade. Permite identificação da espécie e teste de sensibilidade a fármacos (fundamental diante de suspeita de resistência). Desvantagem: demora de semanas pelo crescimento lento do bacilo.</p>
+      </div>
+      <div class="card">
+        <span class="card-label">Radiografia de tórax</span>
+        <p>Cavitações em lobos superiores na forma pós-primária; padrão miliar (micronodular difuso) na forma disseminada; derrame pleural na forma pleural. Nunca fecha diagnóstico sozinha — é sempre complementar.</p>
+      </div>
+      <div class="card">
+        <span class="card-label">Prova tuberculínica (PPD)</span>
+        <p>Injeção intradérmica de derivado proteico purificado; mede hipersensibilidade tipo IV prévia. Útil para rastreio de infecção latente, não distingue infecção de doença ativa nem de vacinação prévia pela BCG.</p>
+      </div>
+      <div class="card">
+        <span class="card-label">IGRA</span>
+        <p>Ensaios de liberação de interferon-gama (ex.: QuantiFERON-TB). Mede resposta imune específica in vitro, sem interferência da vacina BCG — vantagem sobre o PPD em populações vacinadas.</p>
+      </div>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Diagnóstico diferencial</span><span class="rule"></span></div>
+    <div class="prose">
+      <p>Diante de um paciente com tosse crônica, febre e emagrecimento, pense sempre em pneumonias bacterianas atípicas de resolução lenta, micoses pulmonares endêmicas no Brasil (paracoccidioidomicose, histoplasmose — sobretudo se houver contato com cavernas ou galinheiros), neoplasia pulmonar (especialmente em tabagistas de longa data), sarcoidose (granulomas não caseosos, acometimento hilar bilateral simétrico) e bronquiectasias infectadas. A distinção definitiva quase sempre depende da bacteriologia e, quando necessário, da histopatologia.</p>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Tratamento</span><span class="rule"></span></div>
+    <div class="prose">
+      <p>O esquema básico brasileiro é o RHZE, em comprimidos de dose fixa combinada, dividido em duas fases:</p>
+    </div>
+    <div class="flow">
+      <div class="fnode"><span class="fn-label">Fase intensiva · 2 meses</span>Rifampicina + Isoniazida + Pirazinamida + Etambutol (RHZE)</div>
+      <div class="farrow">→</div>
+      <div class="fnode"><span class="fn-label">Fase de manutenção · 4 meses</span>Rifampicina + Isoniazida (RH)</div>
+    </div>
+    <div class="grid grid-2">
+      <div class="card">
+        <span class="card-label">Rifampicina</span>
+        <p>Inibe a RNA polimerase DNA-dependente bacteriana, bloqueando a transcrição. Bactericida potente, atua sobre bacilos em multiplicação ativa e em fase de latência. Induz o citocromo P450 — atenção às interações medicamentosas.</p>
+      </div>
+      <div class="card">
+        <span class="card-label">Isoniazida</span>
+        <p>Pró-fármaco ativado pela catalase-peroxidase bacteriana (KatG); o metabólito ativo inibe a enzima InhA, bloqueando a síntese de ácidos micólicos. Bactericida mais potente contra bacilos em rápida multiplicação. Pode causar neuropatia periférica por depleção de piridoxina (vitamina B6) — por isso a suplementação em gestantes, etilistas e desnutridos.</p>
+      </div>
+      <div class="card">
+        <span class="card-label">Pirazinamida</span>
+        <p>Pró-fármaco convertido em ácido pirazinoico pela pirazinamidase bacteriana; atua preferencialmente em pH ácido, como o encontrado dentro do fagolisossomo do macrófago — por isso é especialmente eficaz contra bacilos semi-dormentes em ambiente intracelular.</p>
+      </div>
+      <div class="card">
+        <span class="card-label">Etambutol</span>
+        <p>Inibe a arabinosil transferase, comprometendo a síntese do arabinogalactano da parede celular. Seu principal efeito adverso é a neurite óptica retrobulbar, com alteração da visão de cores — motivo de acompanhamento oftalmológico em uso prolongado.</p>
+      </div>
+    </div>
+    <div class="alert prova">
+      <span class="alert-tag">Prova</span>
+      <p>A hepatotoxicidade é o efeito adverso compartilhado mais temido do esquema RHZ (rifampicina, isoniazida e pirazinamida são hepatotóxicas), exigindo monitorização clínica e, se necessário, de transaminases em pacientes de risco.</p>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Abordagem clínica</span><span class="rule"></span></div>
+    <div class="prose">
+      <p>Todo caso confirmado de tuberculose exige: notificação compulsória (seção 3), investigação e exame dos contactantes domiciliares, oferta de teste anti-HIV para todo paciente — dada a forte associação bidirecional entre as duas doenças — e, sempre que possível, tratamento diretamente observado (seção 6) para garantir a adesão e prevenir o surgimento de cepas multirresistentes.</p>
+    </div>
+  </section>
+
+  <!-- ============ SEÇÃO 2 — HIV/AIDS ============ -->
+  <section class="section" id="s2" style="--accent:var(--c-hiv)">
+    <div class="sec-head">
+      <div class="sec-num">02</div>
+      <div class="sec-headtext">
+        <h2>HIV/AIDS</h2>
+        <div class="sec-sub">O retrovírus, seu ciclo replicativo, a história natural da doença e a terapia antirretroviral.</div>
+      </div>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Etiologia</span><span class="rule"></span></div>
+    <div class="prose">
+      <p>O vírus da imunodeficiência humana pertence à família <em>Retroviridae</em>, gênero <em>Lentivirus</em>. Existem dois tipos: o HIV-1, responsável pela quase totalidade da pandemia global, e o HIV-2, restrito principalmente à África Ocidental e associado a progressão mais lenta para AIDS. Seu genoma é RNA de fita simples, e ele carrega consigo, dentro do capsídeo, as enzimas de que precisa para se replicar dentro da célula do hospedeiro: transcriptase reversa, integrase e protease — três enzimas que são, não por acaso, os três grandes alvos farmacológicos da terapia antirretroviral.</p>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Fisiopatologia: ciclo replicativo</span><span class="rule"></span></div>
+    <div class="prose">
+      <p>Entender o ciclo replicativo é entender toda a farmacologia do HIV, porque cada classe de antirretroviral bloqueia uma etapa específica.</p>
+    </div>
+    <div class="flow">
+      <div class="fnode"><span class="fn-label">1</span>Ligação: gp120 ao CD4 + correceptor (CCR5/CXCR4)</div><div class="farrow">→</div>
+      <div class="fnode"><span class="fn-label">2</span>Fusão de membranas via gp41</div><div class="farrow">→</div>
+      <div class="fnode"><span class="fn-label">3</span>Transcrição reversa: RNA → DNA proviral</div><div class="farrow">→</div>
+      <div class="fnode"><span class="fn-label">4</span>Integração ao genoma do hospedeiro</div><div class="farrow">→</div>
+      <div class="fnode"><span class="fn-label">5</span>Transcrição, tradução e clivagem por protease</div><div class="farrow">→</div>
+      <div class="fnode"><span class="fn-label">6</span>Brotamento de novas partículas virais</div>
+    </div>
+    <div class="prose">
+      <p>Vamos abrir cada etapa. A glicoproteína de superfície gp120 reconhece o receptor CD4, presente em linfócitos T auxiliares, monócitos, macrófagos e células dendríticas. Mas o CD4 sozinho não basta: é preciso um correceptor de quimiocina. Cepas com tropismo por CCR5 (cepas R5) predominam na transmissão inicial e infectam preferencialmente macrófagos; ao longo da infecção crônica, podem surgir cepas com tropismo por CXCR4 (cepas X4), que infectam linfócitos T e estão associadas a progressão mais rápida da doença — essa é, inclusive, a base biológica por trás do antagonista de CCR5 maraviroque e da resistência natural ao HIV observada em indivíduos homozigotos para a mutação CCR5-delta32.</p>
+      <p>Após a fusão, o RNA viral é transcrito em DNA complementar pela transcriptase reversa — uma enzima notoriamente pouco fiel, sem mecanismo de revisão (proofreading). Esse erro constante de cópia é, paradoxalmente, uma das razões da enorme dificuldade em erradicar o vírus: gera uma nuvem de variantes genéticas (quasispecies) dentro do mesmo hospedeiro, favorecendo o escape imunológico e a seleção de resistência a antirretrovirais sob pressão terapêutica inadequada.</p>
+      <p>A etapa que realmente torna a cura impossível com as ferramentas atuais é a integração: a integrase viral insere o DNA proviral no genoma da célula hospedeira, de forma permanente. Em linfócitos T CD4+ de memória de vida longa, esse DNA proviral pode permanecer transcricionalmente silencioso por anos — é o reservatório latente. A terapia antirretroviral suprime a replicação ativa, mas não consegue "limpar" esse reservatório, motivo pelo qual a interrupção do tratamento quase sempre é seguida de rebote viral.</p>
+    </div>
+
+    <details class="deep">
+      <summary>Aprofunde-se: depleção de CD4+ e ativação imune crônica</summary>
+      <div class="deep-body">
+        <p>A queda de linfócitos T CD4+ não decorre apenas da destruição direta das células infectadas pelo vírus (efeito citopático). Uma parcela substancial da depleção ocorre por morte de células CD4+ não infectadas, por um mecanismo de piroptose inflamatória: fragmentos incompletos de DNA viral em células que tentam, sem sucesso, completar a infecção ativam sensores intracelulares (como o inflamassoma AIM2), desencadeando uma forma de morte celular altamente inflamatória — essa é uma das explicações para a intensa ativação imune crônica observada mesmo em fases assintomáticas da infecção.</p>
+        <p>Essa ativação imune crônica, por sua vez, leva à exaustão progressiva de linfócitos T (aumento de marcadores inibitórios como PD-1), à fibrose dos centros germinativos dos linfonodos e a uma disfunção imunológica que vai muito além da simples contagem de CD4 — parte da razão pela qual a TARV precoce, mesmo em CD4 elevado, reduz a morbimortalidade por eventos não relacionados à AIDS (cardiovasculares, renais, neoplásicos).</p>
+      </div>
+    </details>
+
+    <div class="sec-tagline"><span class="chip">História natural / fases clínicas</span><span class="rule"></span></div>
+    <div class="grid grid-3">
+      <div class="card">
+        <span class="card-label">Infecção aguda</span>
+        <h4 style="font-size:1rem">Síndrome retroviral aguda</h4>
+        <p>2 a 4 semanas após a exposição. Quadro mononucleose-like: febre alta, linfadenopatia, faringite, exantema maculopapular, mialgia. Pico de viremia elevadíssimo e queda transitória de CD4.</p>
+      </div>
+      <div class="card">
+        <span class="card-label">Latência clínica</span>
+        <h4 style="font-size:1rem">Fase crônica assintomática</h4>
+        <p>Dura em média de 8 a 10 anos sem tratamento. Replicação viral contínua nos tecidos linfoides, apesar da aparente calma clínica. Queda gradual de CD4 (em torno de 50 a 100 células/mm³ por ano).</p>
+      </div>
+      <div class="card">
+        <span class="card-label">AIDS</span>
+        <h4 style="font-size:1rem">Síndrome da imunodeficiência adquirida</h4>
+        <p>CD4 abaixo de 200 células/mm³ ou presença de doenças oportunistas definidoras: pneumocistose, neurotoxoplasmose, candidíase esofágica, tuberculose extrapulmonar, sarcoma de Kaposi, retinite por CMV, criptococose meníngea, entre outras.</p>
+      </div>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Diagnóstico</span><span class="rule"></span></div>
+    <div class="prose">
+      <p>O fluxograma brasileiro de diagnóstico geralmente se inicia com um teste rápido (imunocromatografia) na própria consulta. Um resultado reagente é confirmado por um segundo teste rápido de fabricante diferente ou por métodos laboratoriais: o imunoensaio de 4ª geração detecta simultaneamente antígeno p24 e anticorpos anti-HIV, reduzindo significativamente a chamada janela imunológica (o intervalo entre a infecção e a soroconversão detectável). Testes moleculares de carga viral (RT-PCR quantitativo) confirmam a infecção em situações específicas e, sobretudo, servem para monitorar a resposta terapêutica. A contagem de linfócitos T CD4+ complementa o estadiamento imunológico e orienta a profilaxia de infecções oportunistas.</p>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Diagnóstico diferencial</span><span class="rule"></span></div>
+    <div class="prose">
+      <p>A síndrome retroviral aguda mimetiza outras síndromes mononucleose-like — mononucleose infecciosa por vírus Epstein-Barr, infecção primária por citomegalovírus e toxoplasmose aguda são os principais diagnósticos diferenciais nesse momento inicial. Em fases mais avançadas, é preciso diferenciar de outras causas de imunodeficiência secundária (uso crônico de imunossupressores, neoplasias hematológicas, imunodeficiências primárias no adulto jovem, embora muito mais raras).</p>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Tratamento</span><span class="rule"></span></div>
+    <div class="prose">
+      <p>Desde 2013 a Organização Mundial da Saúde recomenda a estratégia "treat all": toda pessoa vivendo com HIV deve iniciar terapia antirretroviral (TARV) independentemente da contagem de CD4, o quanto antes após o diagnóstico. O esquema preferencial no Brasil combina dois inibidores de transcriptase reversa análogos de nucleosídeo (tenofovir + lamivudina) com um inibidor de integrase (dolutegravir) — um esquema potente, com boa tolerabilidade e alta barreira genética à resistência.</p>
+    </div>
+    <div class="grid grid-2">
+      <div class="card">
+        <span class="card-label">ITRN</span>
+        <p>Inibidores da transcriptase reversa análogos de nucleosídeo/nucleotídeo. Competem com os nucleotídeos naturais e, ao serem incorporados à cadeia de DNA em formação, interrompem seu alongamento (terminadores de cadeia). Ex.: tenofovir, lamivudina.</p>
+      </div>
+      <div class="card">
+        <span class="card-label">ITRNN</span>
+        <p>Inibidores não-análogos. Ligam-se a um sítio alostérico da transcriptase reversa, alterando sua conformação e inativando-a diretamente, sem precisar ser incorporados ao DNA.</p>
+      </div>
+      <div class="card">
+        <span class="card-label">Inibidores de protease</span>
+        <p>Bloqueiam a protease viral, impedindo a clivagem das poliproteínas Gag-Pol em proteínas estruturais e enzimáticas funcionais — o vírus produzido fica imaturo e não infeccioso. Geralmente potencializados com baixa dose de ritonavir, que inibe o CYP3A4 e aumenta a meia-vida do fármaco principal.</p>
+      </div>
+      <div class="card">
+        <span class="card-label">Inibidores de integrase</span>
+        <p>Bloqueiam a inserção do DNA proviral no genoma da célula hospedeira. Classe atualmente preferencial por sua alta potência, rapidez de supressão viral e excelente perfil de tolerabilidade. Ex.: dolutegravir.</p>
+      </div>
+    </div>
+    <div class="alert importante">
+      <span class="alert-tag">Importante</span>
+      <p>O conceito de "Indetectável = Intransmissível" (I=I) resume a meta terapêutica atual: uma pessoa em TARV com carga viral indetectável de forma sustentada não transmite o HIV por via sexual — um dado com enorme impacto na saúde pública e no combate ao estigma.</p>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Abordagem clínica</span><span class="rule"></span></div>
+    <div class="prose">
+      <p>Além do início precoce da TARV, a abordagem inclui aconselhamento pré e pós-teste, prevenção combinada (profilaxia pré-exposição — PrEP — e profilaxia pós-exposição — PEP), rastreio ativo de coinfecções (tuberculose, sífilis, hepatites virais) e suporte psicossocial diante do impacto do diagnóstico e do estigma social ainda associado à doença.</p>
+    </div>
+  </section>
+
+  <!-- ============ SEÇÃO 3 — NOTIFICAÇÃO COMPULSÓRIA ============ -->
+  <section class="section" id="s3" style="--accent:var(--c-notif)">
+    <div class="sec-head">
+      <div class="sec-num">03</div>
+      <div class="sec-headtext">
+        <h2>Notificação compulsória</h2>
+        <div class="sec-sub">Critérios legais, periodicidade e a lista nacional de doenças e agravos.</div>
+      </div>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Base legal e critérios</span><span class="rule"></span></div>
+    <div class="prose">
+      <p>A notificação compulsória é a comunicação obrigatória à autoridade de saúde da ocorrência (suspeita ou confirmada) de determinada doença, agravo ou evento de saúde pública, realizada por profissionais de saúde ou por qualquer cidadão, no exercício de sua profissão, bem como por responsáveis por serviços e estabelecimentos públicos e privados. No Brasil, essa obrigatoriedade tem base na Lei nº 6.259/1975 e no Decreto nº 78.231/1976, que estruturam o sistema nacional de vigilância epidemiológica, e é regulamentada e periodicamente atualizada pela Portaria de Consolidação nº 4/2017 (Anexo V) do Ministério da Saúde. O registro dos casos é feito no SINAN — Sistema de Informação de Agravos de Notificação, ferramenta central para o monitoramento epidemiológico do país.</p>
+      <p>O critério que define se uma doença entra nessa lista não é apenas a gravidade individual do caso, mas o seu potencial de impacto coletivo: doenças transmissíveis com risco de disseminação, doenças com potencial de causar surtos ou epidemias, agravos de relevância para políticas públicas (violências, intoxicações exógenas) e eventos inusitados que fujam do padrão epidemiológico esperado.</p>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Periodicidade da notificação</span><span class="rule"></span></div>
+    <div class="compare">
+      <div class="col left">
+        <h5>Notificação imediata (até 24h)</h5>
+        <p>Reservada a doenças de alto potencial epidêmico, risco de disseminação rápida ou relevância internacional — exige resposta ágil dos serviços de vigilância.</p>
+        <ul>
+          <li>Sarampo, rubéola, poliomielite</li>
+          <li>Febre amarela</li>
+          <li>Doença meningocócica e outras meningites</li>
+          <li>Doença de Chagas aguda</li>
+          <li>Óbitos e eventos de Saúde Pública de Importância Nacional/Internacional (ESPII)</li>
+        </ul>
+      </div>
+      <div class="col right">
+        <h5>Notificação semanal</h5>
+        <p>Reservada a doenças endêmicas, de transmissão mais lenta ou já bem monitoradas, cujo acompanhamento contínuo é essencial para o planejamento de programas de controle.</p>
+        <ul>
+          <li>Tuberculose</li>
+          <li>Hanseníase</li>
+          <li>HIV / Aids (infecção pelo HIV, casos de Aids, gestante HIV+, criança exposta)</li>
+          <li>Sífilis (adquirida, congênita, em gestante)</li>
+          <li>Hepatites virais</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alert prova">
+      <span class="alert-tag">Prova</span>
+      <p>Tanto a tuberculose quanto a infecção pelo HIV e a Aids são de notificação compulsória semanal e não imediata — uma pegadinha comum é confundi-las com doenças de notificação em 24 horas por sua relevância epidemiológica.</p>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Panorama da lista nacional</span><span class="rule"></span></div>
+    <div class="grid grid-3">
+      <div class="card">
+        <span class="card-label">Infecciosas de transmissão vetorial</span>
+        <ul><li>Dengue</li><li>Chikungunya</li><li>Zika</li><li>Malária</li><li>Leishmanioses</li><li>Doença de Chagas</li></ul>
+      </div>
+      <div class="card">
+        <span class="card-label">Imunopreveníveis</span>
+        <ul><li>Sarampo e rubéola</li><li>Coqueluche</li><li>Difteria</li><li>Tétano</li><li>Poliomielite</li></ul>
+      </div>
+      <div class="card">
+        <span class="card-label">Agravos não infecciosos</span>
+        <ul><li>Violência doméstica, sexual e autoprovocada</li><li>Intoxicações exógenas</li><li>Acidentes por animais peçonhentos</li><li>Acidentes de trabalho graves</li></ul>
+      </div>
+    </div>
+    <div class="prose">
+      <p>A lista completa reúne mais de quatro dezenas de doenças e agravos, revisada periodicamente pelo Ministério da Saúde — inclui ainda leptospirose, esquistossomose, raiva humana e, desde 2020, a COVID-19 como notificação imediata. O ponto central para a prova não é decorar a lista inteira, mas entender a lógica por trás da classificação: quanto maior o potencial de disseminação rápida ou o risco à saúde pública internacional, mais curto é o prazo de notificação.</p>
+    </div>
+  </section>
+
+  <!-- ============ SEÇÃO 4 — FEBRE ============ -->
+  <section class="section" id="s4" style="--accent:var(--c-febre)">
+    <div class="sec-head">
+      <div class="sec-num">04</div>
+      <div class="sec-headtext">
+        <h2>Comportamento da febre em TB e HIV</h2>
+        <div class="sec-sub">Por que o padrão febril de cada doença conta uma história fisiopatológica diferente.</div>
+      </div>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Fisiologia da febre — lembrete rápido</span><span class="rule"></span></div>
+    <div class="prose">
+      <p>Antes de comparar, vale relembrar o mecanismo comum: pirógenos exógenos (componentes microbianos) estimulam macrófagos a liberar citocinas pirogênicas — IL-1, IL-6 e TNF-α — que atuam no órgão vasculoso da lâmina terminal do hipotálamo, estimulando a produção de prostaglandina E2. A PGE2 eleva o ponto de ajuste (set point) do centro termorregulador hipotalâmico, e o corpo passa a "trabalhar" para atingir essa nova temperatura-alvo, gerando calafrios (produção de calor) até alcançá-la. É esse mesmo mecanismo, com diferentes intensidades e padrões temporais, que está por trás da febre em ambas as doenças — mas a forma como ele se expressa ao longo do dia e da doença é bem diferente.</p>
+    </div>
+
+    <div class="compare">
+      <div class="col left">
+        <h5>Tuberculose</h5>
+        <p>Padrão vespertino-noturno, de baixa a moderada intensidade (geralmente entre 37,5°C e 38,5°C), persistente ao longo de semanas, com curso arrastado e insidioso.</p>
+        <ul>
+          <li>Acompanha-se classicamente de sudorese noturna profusa</li>
+          <li>Compõe, junto ao emagrecimento, a tríade clássica da tuberculose</li>
+          <li>Reflete a liberação sustentada e de baixo grau de citocinas pró-inflamatórias pelo granuloma em atividade</li>
+          <li>Raramente cursa com calafrios importantes ou febre muito alta, exceto em formas disseminadas graves</li>
+        </ul>
+      </div>
+      <div class="col right">
+        <h5>HIV/AIDS</h5>
+        <p>Comportamento bifásico, dependendo da fase da infecção.</p>
+        <ul>
+          <li>Na infecção aguda: febre alta, de início abrupto, parte da síndrome retroviral aguda, autolimitada em 1 a 4 semanas</li>
+          <li>Na fase avançada/AIDS: febre de origem indeterminada é comum, geralmente secundária a infecções oportunistas (a própria tuberculose disseminada é uma causa importante)</li>
+          <li>O padrão varia conforme a causa subjacente, refletindo mais a etiologia oportunista do que o HIV isoladamente</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alert clinica">
+      <span class="alert-tag">Correlação clínica</span>
+      <p>Diante de um paciente vivendo com HIV que apresenta febre persistente por mais de duas a três semanas, a tuberculose deve sempre estar no topo da lista de hipóteses a investigar — não apenas por coincidência epidemiológica, mas porque a imunodepressão progressiva por queda de CD4 é justamente o gatilho mais comum de reativação da infecção latente descrita na seção 1.</p>
+    </div>
+
+    <details class="deep">
+      <summary>Aprofunde-se: por que a coinfecção acelera ambas as doenças</summary>
+      <div class="deep-body">
+        <p>A relação entre HIV e tuberculose é bidirecional e sinérgica. De um lado, a depleção de linfócitos T CD4+ compromete exatamente o braço da imunidade — a resposta Th1 mediada por IFN-γ — que mantém o granuloma tuberculoso contido; por isso, pessoas vivendo com HIV têm um risco de progressão de infecção latente para tuberculose ativa muitas vezes maior do que a população geral, e esse risco aumenta ainda mais à medida que o CD4 cai. De outro lado, a tuberculose ativa gera um estado de ativação imune generalizada que pode acelerar a replicação do HIV e a progressão da própria doença retroviral. Essa é a razão pela qual os protocolos preconizam testagem para HIV em todo caso de tuberculose e rastreio ativo de tuberculose em toda pessoa vivendo com HIV, especialmente sintomática respiratória.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ SEÇÃO 5 — VULNERABILIDADE SOCIAL ============ -->
+  <section class="section" id="s5" style="--accent:var(--c-social)">
+    <div class="sec-head">
+      <div class="sec-num">05</div>
+      <div class="sec-headtext">
+        <h2>Vulnerabilidade social e doenças infectocontagiosas</h2>
+        <div class="sec-sub">Por que tuberculose e HIV nunca são apenas questões biológicas.</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>Nenhuma das duas doenças que estudamos se distribui aleatoriamente na população — ambas se concentram, de forma desproporcional, em grupos social e economicamente vulnerabilizados. Isso não é uma observação apenas sociológica: tem uma lógica biológica e epidemiológica direta. Pense no modelo dos determinantes sociais da saúde de Dahlgren e Whitehead — camadas concêntricas que vão das condições estruturais macroeconômicas até as características biológicas individuais, passando pelas condições de vida e trabalho, redes sociais e estilos de vida.</p>
+      <p>No caso da tuberculose, a lógica é quase mecânica: sabemos que a transmissão depende de contato próximo e prolongado em ambientes mal ventilados. Moradias precárias, superlotadas, sem ventilação adequada — realidade de populações em situação de rua, comunidades carcerárias, favelas densamente povoadas — multiplicam exponencialmente as chances de um núcleo de Wells infectante alcançar um novo hospedeiro suscetível. Some a isso a desnutrição, comum em contextos de pobreza extrema, que compromete diretamente a resposta Th1 que você estudou na seção 1, e o ciclo se fecha: mais exposição, pior imunidade, maior adoecimento.</p>
+      <p>Para o HIV, o mecanismo de vulnerabilização passa menos pela transmissão física direta e mais pelo acesso: menor acesso à informação sobre prevenção, menor acesso a preservativos e à PrEP, menor acesso a testagem regular e, quando diagnosticado, menor acesso e adesão à TARV — muitas vezes por barreiras concretas como instabilidade de moradia, insegurança alimentar e necessidade de priorizar sobrevivência imediata sobre acompanhamento de saúde contínuo.</p>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <span class="card-label">Populações-chave e prioritárias</span>
+        <ul>
+          <li>Pessoas em situação de rua</li>
+          <li>População privada de liberdade (sistema prisional)</li>
+          <li>Usuários de álcool e outras drogas</li>
+          <li>Populações indígenas</li>
+          <li>Imigrantes e refugiados</li>
+          <li>Profissionais do sexo, população trans, HSH — para o HIV especificamente</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="card-label">Ciclo de retroalimentação da pobreza</span>
+        <p>Pobreza reduz o acesso a diagnóstico precoce, o que atrasa o tratamento e prolonga a transmissibilidade; a doença prolongada compromete a capacidade laboral e a renda familiar; a perda de renda aprofunda a pobreza — fechando um círculo vicioso que a Organização Mundial da Saúde reconhece explicitamente ao chamar a tuberculose de "doença da pobreza".</p>
+      </div>
+    </div>
+
+    <div class="alert pegadinha">
+      <span class="alert-tag">Pegadinha</span>
+      <p>Não confunda vulnerabilidade social com causa exclusiva individual — o determinante social atua sobre a exposição e sobre o acesso a cuidado, não substitui a etiologia biológica (o bacilo ou o vírus continuam sendo agentes necessários). Provas de PBL costumam cobrar essa integração entre biologia e contexto social, não uma em detrimento da outra.</p>
+    </div>
+
+    <div class="prose">
+      <p>É justamente por reconhecer essa dimensão que a Estratégia Global End TB, da OMS, tem como um de seus três pilares explícitos as "políticas intersetoriais e sistemas de apoio", ao lado dos pilares de cuidado e prevenção centrados no paciente e da pesquisa. Combater a tuberculose e o HIV, portanto, não é apenas uma questão de disponibilizar o antibiótico ou o antirretroviral certo — é também uma questão de habitação, renda, redução do estigma e acesso equitativo ao sistema de saúde.</p>
+    </div>
+  </section>
+
+  <!-- ============ SEÇÃO 6 — QUIMIOPROFILAXIA E TDO ============ -->
+  <section class="section" id="s6" style="--accent:var(--c-tdo)">
+    <div class="sec-head">
+      <div class="sec-num">06</div>
+      <div class="sec-headtext">
+        <h2>Quimioprofilaxia e Tratamento Diretamente Observado</h2>
+        <div class="sec-sub">Duas estratégias que existem para resolver o mesmo problema estrutural: impedir que a infecção avance e que o tratamento seja abandonado.</div>
+      </div>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Quimioprofilaxia</span><span class="rule"></span></div>
+    <div class="prose">
+      <p>Quimioprofilaxia é o uso de um fármaco para prevenir que uma infecção se instale ou progrida, e não para tratar uma doença já estabelecida. No contexto da tuberculose, vale distinguir dois cenários:</p>
+    </div>
+    <div class="grid grid-2">
+      <div class="card">
+        <span class="card-label">Quimioprofilaxia primária</span>
+        <p>Administrada a pessoas expostas ao bacilo mas ainda não infectadas, para impedir que a infecção se estabeleça — o exemplo clássico é o recém-nascido coabitante de mãe ou familiar bacilífero, que recebe isoniazida antes mesmo de qualquer teste, enquanto aguarda a definição diagnóstica e a vacinação BCG.</p>
+      </div>
+      <div class="card">
+        <span class="card-label">Tratamento da infecção latente (TILTB)</span>
+        <p>Também chamada de quimioprofilaxia secundária: tratamento de pessoas já infectadas — PPD ou IGRA reagente — mas sem evidência de doença ativa, com o objetivo de eliminar os bacilos latentes antes que eles possam reativar. Esquemas: isoniazida isolada por 6 a 9 meses (270 doses), ou alternativas mais curtas como rifampicina por 4 meses ou a combinação semanal de isoniazida com rifapentina por 3 meses (esquema 3HP).</p>
+      </div>
+    </div>
+    <div class="prose">
+      <p>Quem deve receber o tratamento da infecção latente? Prioritariamente: contactantes domiciliares de casos bacilíferos, pessoas vivendo com HIV (nas quais o risco de reativação é dramaticamente maior, como você viu na seção 4), e outros grupos de imunossupressão relevante com PPD igual ou superior a 5 mm.</p>
+    </div>
+
+    <div class="sec-tagline"><span class="chip">Tratamento Diretamente Observado (TDO)</span><span class="rule"></span></div>
+    <div class="prose">
+      <p>O TDO é uma estratégia operacional, não farmacológica: um profissional de saúde (ou pessoa devidamente capacitada e supervisionada) observa presencialmente o paciente ingerindo cada dose da medicação antituberculose. A lógica por trás dessa estratégia é simples e poderosa — o tratamento da tuberculose é longo (6 meses no mínimo), e a adesão tende a cair justamente quando o paciente já se sente melhor, semanas antes de o esquema estar completo.</p>
+      <p>O abandono precoce do tratamento tem duas consequências graves: a doença pode reativar, e — mais preocupante do ponto de vista de saúde pública — os bacilos remanescentes, expostos a doses subterapêuticas de antibiótico, são justamente aqueles com maior chance de carregar mutações de resistência, sendo selecionados e podendo originar cepas multirresistentes (MDR-TB, resistentes a pelo menos rifampicina e isoniazida) ou extensivamente resistentes (XDR-TB).</p>
+    </div>
+    <div class="flow">
+      <div class="fnode"><span class="fn-label">Sem TDO</span>Autoadministração</div><div class="farrow">→</div>
+      <div class="fnode"><span class="fn-label">Risco</span>Abandono precoce</div><div class="farrow">→</div>
+      <div class="fnode"><span class="fn-label">Consequência</span>Seleção de bacilos resistentes</div><div class="farrow">→</div>
+      <div class="fnode"><span class="fn-label">Desfecho</span>Tuberculose multirresistente (MDR-TB)</div>
+    </div>
+    <div class="prose">
+      <p>A estratégia é preconizada globalmente pela OMS desde o programa DOTS (<em>Directly Observed Treatment, Short-course</em>), um dos pilares históricos do controle da tuberculose no mundo. No Brasil, recomenda-se observação direta em pelo menos parte relevante das tomadas — com maior intensidade na fase intensiva dos dois primeiros meses, quando a carga bacilar e o risco de resistência são maiores — associada à busca ativa de faltosos, ou seja, ao acompanhamento proativo de pacientes que não comparecem para a supervisão, e não apenas à espera passiva de que retornem por conta própria.</p>
+    </div>
+
+    <div class="alert atencao">
+      <span class="alert-tag">Atenção</span>
+      <p>TDO não é sinônimo de desconfiança do paciente ou de punição — é uma estratégia de suporte e vínculo, muitas vezes realizada em domicílio, na unidade básica de saúde ou por agentes comunitários, com o objetivo de garantir a cura e proteger a comunidade da disseminação de cepas resistentes.</p>
+    </div>
+  </section>
+
+  <!-- ============ SUPER RESUMO ============ -->
+  <section class="section superresumo" id="sresumo" style="--accent:#fff">
+    <div class="sec-head">
+      <div class="sec-num" style="color:#fff; opacity:.35">★</div>
+      <div class="sec-headtext">
+        <h2>Super-resumo</h2>
+        <div class="sec-sub">O que precisa estar automático para a prova e para o PBL.</div>
+      </div>
+    </div>
+    <div class="grid grid-3">
+      <div class="card" style="border-top-color:var(--c-tb)">
+        <span class="card-label" style="color:var(--c-tb)">Tuberculose</span>
+        <p><em>M. tuberculosis</em>, transmissão aérea por núcleos de Wells. Granuloma com necrose caseosa contém a infecção (ILTB); imunodepressão reativa e forma cavidades apicais. Diagnóstico: TRM-TB, baciloscopia, cultura. Tratamento: RHZE 2 meses + RH 4 meses.</p>
+      </div>
+      <div class="card" style="border-top-color:var(--c-hiv)">
+        <span class="card-label" style="color:var(--c-hiv)">HIV/AIDS</span>
+        <p>Retrovírus que integra seu DNA ao genoma do hospedeiro (reservatório latente incurável). Depleta CD4+ e gera ativação imune crônica. Fases: aguda, latência clínica, AIDS. TARV com ITRN + inibidor de integrase; meta é carga viral indetectável (I=I).</p>
+      </div>
+      <div class="card" style="border-top-color:var(--c-notif)">
+        <span class="card-label" style="color:var(--c-notif)">Notificação</span>
+        <p>TB e HIV/Aids: notificação compulsória semanal via SINAN, base na Lei 6.259/1975 e Portaria de Consolidação nº 4/2017. Notificação imediata (24h) reservada a doenças de alto risco epidêmico (sarampo, febre amarela, meningites).</p>
+      </div>
+      <div class="card" style="border-top-color:var(--c-febre)">
+        <span class="card-label" style="color:var(--c-febre)">Febre</span>
+        <p>TB: vespertina-noturna, baixa intensidade, arrastada, com sudorese noturna. HIV: bifásica — alta e aguda na soroconversão, e febre de origem indeterminada na fase avançada, geralmente por infecção oportunista (TB é a principal suspeita).</p>
+      </div>
+      <div class="card" style="border-top-color:var(--c-social)">
+        <span class="card-label" style="color:var(--c-social)">Vulnerabilidade social</span>
+        <p>Moradia precária e aglomeração aumentam a transmissão de TB; pobreza reduz acesso a testagem, tratamento e adesão em ambas as doenças. TB é classicamente chamada "doença da pobreza" pela OMS.</p>
+      </div>
+      <div class="card" style="border-top-color:var(--c-tdo)">
+        <span class="card-label" style="color:var(--c-tdo)">Quimioprofilaxia &amp; TDO</span>
+        <p>Quimioprofilaxia primária previne infecção em expostos; TILTB trata infecção latente (isoniazida 6-9 meses ou esquemas curtos). TDO garante adesão observando a ingestão da medicação, prevenindo abandono e resistência (MDR-TB).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REFERÊNCIAS ============ -->
+  <section class="refs" id="refs" style="--accent:var(--text-faint)">
+    <div class="sec-head">
+      <div class="sec-headtext">
+        <h2 style="font-size:1.6rem">Referências</h2>
+        <div class="sec-sub">Formatação ABNT NBR 6023, conforme padrão institucional Uniarp-SC.</div>
+      </div>
+    </div>
+    <ol>
+      <li>BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde. <em>Manual de Recomendações para o Controle da Tuberculose no Brasil</em>. 2. ed. atual. Brasília: Ministério da Saúde, 2019.</li>
+      <li>BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde. <em>Protocolo Clínico e Diretrizes Terapêuticas para Manejo da Infecção pelo HIV em Adultos</em>. Brasília: Ministério da Saúde, 2018.</li>
+      <li>BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde. <em>Guia de Vigilância em Saúde</em>. Brasília: Ministério da Saúde, [ed. vigente].</li>
+      <li>BRASIL. Lei nº 6.259, de 30 de outubro de 1975. Dispõe sobre a organização das ações de Vigilância Epidemiológica, sobre o Programa Nacional de Imunizações, estabelece normas relativas à notificação compulsória de doenças, e dá outras providências. <em>Diário Oficial da União</em>, Brasília, DF, 1975.</li>
+      <li>BRASIL. Ministério da Saúde. Portaria de Consolidação nº 4, de 28 de setembro de 2017. Consolidação das normas sobre os sistemas e os subsistemas do Sistema Único de Saúde. Anexo V — Lista Nacional de Notificação Compulsória de doenças, agravos e eventos de saúde pública. Brasília: Ministério da Saúde, 2017.</li>
+      <li>KASPER, Dennis L. et al. (ed.). <em>Medicina Interna de Harrison</em>. 20. ed. Porto Alegre: AMGH, 2020.</li>
+      <li>KUMAR, Vinay; ABBAS, Abul K.; ASTER, Jon C. <em>Robbins &amp; Cotran: Patologia — Bases Patológicas das Doenças</em>. 10. ed. Rio de Janeiro: Guanabara Koogan, 2021.</li>
+      <li>KATZUNG, Bertram G.; TREVOR, Anthony J. <em>Farmacologia Básica e Clínica</em>. 14. ed. Porto Alegre: AMGH, 2020.</li>
+      <li>WORLD HEALTH ORGANIZATION. <em>Global Tuberculosis Report 2023</em>. Geneva: WHO, 2023.</li>
+      <li>UNAIDS. <em>Global HIV &amp; AIDS Statistics — Fact Sheet</em>. Geneva: UNAIDS, [ano de acesso].</li>
+    </ol>
+  </section>
+
+</div>
+
+<div id="toolbar">
+  <button id="btn-edit" onclick="toggleEdit()">✎ Ativar edição</button>
+  <button id="btn-download" onclick="downloadCopy()">⬇ Baixar cópia</button>
+  <button id="btn-restore" onclick="restoreOriginal()">↺ Restaurar</button>
+  <span class="status" id="tb-status"></span>
+</div>
+
+<script>
+  var STORAGE_KEY = 'estudo_tb_hiv_aids_2026_uniarp';
+  var editing = false;
+  var autosaveTimer = null;
+  var contentRoot = document.getElementById('main');
+
+  // Ao carregar: se houver versão salva localmente, restaura
+  (function loadSaved(){
+    try{
+      var saved = window.localStorage.getItem(STORAGE_KEY);
+      if(saved){ contentRoot.innerHTML = saved; }
+    }catch(e){ /* localStorage indisponível (ex.: pré-visualização em iframe) */ }
+  })();
+
+  function setStatus(msg){
+    var el = document.getElementById('tb-status');
+    if(el){ el.textContent = msg; }
+  }
+
+  function toggleEdit(){
+    editing = !editing;
+    var btn = document.getElementById('btn-edit');
+    contentRoot.contentEditable = editing ? 'true' : 'false';
+    if(editing){
+      btn.classList.add('on');
+      btn.textContent = '✓ Salvar e sair';
+      setStatus('edição ativa');
+      autosaveTimer = setInterval(saveNow, 15000);
+    } else {
+      btn.classList.remove('on');
+      btn.textContent = '✎ Ativar edição';
+      clearInterval(autosaveTimer);
+      saveNow();
+      setStatus('edição desligada');
+    }
+  }
+
+  function saveNow(){
+    try{
+      window.localStorage.setItem(STORAGE_KEY, contentRoot.innerHTML);
+      var now = new Date();
+      setStatus('salvo ' + now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0'));
+    }catch(e){
+      setStatus('autosave indisponível aqui');
+    }
+  }
+
+  function restoreOriginal(){
+    if(!confirm('Isso apaga as edições salvas neste navegador e volta ao texto original gerado. Deseja continuar?')) return;
+    try{ window.localStorage.removeItem(STORAGE_KEY); }catch(e){}
+    location.reload();
+  }
+
+  function downloadCopy(){
+    var clone = document.documentElement.cloneNode(true);
+    // remove atributos de edição da cópia exportada
+    clone.querySelectorAll('[contenteditable]').forEach(function(el){ el.removeAttribute('contenteditable'); });
+    var htmlStr = '<!DOCTYPE html>\n' + clone.outerHTML;
+    var blob = new Blob([htmlStr], {type:'text/html;charset=utf-8'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'tuberculose-hiv-aids-editado.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+</script>
+
+</body>
+</html>

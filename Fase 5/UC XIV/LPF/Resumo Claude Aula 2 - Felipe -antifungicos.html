@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fármacos Antifúngicos — Engenharia de um Cerco</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --bg:            #0b2239;
+  --bg-deep:       #081a2b;
+  --bg-panel:      #0f2c47;
+  --bg-panel-2:    #11324f;
+  --grid-line:     rgba(234,242,248,0.055);
+  --grid-line-strong: rgba(234,242,248,0.11);
+  --ink:           #eaf2f8;
+  --ink-dim:       #a9c0d4;
+  --ink-faint:     #6f89a1;
+  --paper:         #f3ede0;
+
+  --wall:          #c98a4b;   /* equinocandinas — parede celular */
+  --wall-soft:     rgba(201,138,75,0.14);
+  --bind:          #57bcb6;   /* polienos — ligação direta ao ergosterol */
+  --bind-soft:     rgba(87,188,182,0.14);
+  --demet:         #a58bf5;   /* azois — 14-alfa-desmetilase */
+  --demet-soft:    rgba(165,139,245,0.15);
+  --epox:          #e08aa3;   /* alilaminas — esqualeno epoxidase */
+  --epox-soft:     rgba(224,138,163,0.14);
+  --nucleo:        #e9c468;   /* flucitosina — sintese de acidos nucleicos */
+  --nucleo-soft:   rgba(233,196,104,0.14);
+  --fuso:          #8fd1e8;   /* griseofulvina — fuso mitotico */
+  --fuso-soft:     rgba(143,209,232,0.14);
+
+  --clin:          #7fb0d9;   /* dossie clinico */
+  --clin-soft:     rgba(127,176,217,0.13);
+  --warn:          #e0715f;   /* efeitos adversos / alertas */
+  --warn-soft:     rgba(224,113,95,0.13);
+  --note:          #8fc9a0;   /* observacoes / notas de campo */
+  --note-soft:     rgba(143,201,160,0.13);
+
+  --font-display:  'Space Grotesk', sans-serif;
+  --font-body:     'Newsreader', serif;
+  --font-mono:     'JetBrains Mono', monospace;
+
+  --measure: 64ch;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+
+body{
+  margin:0;
+  background:
+    repeating-linear-gradient(0deg, var(--grid-line) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(90deg, var(--grid-line) 0 1px, transparent 1px 28px),
+    var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:17px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+
+::selection{ background:var(--demet); color:var(--bg-deep); }
+
+h1,h2,h3,h4{
+  font-family:var(--font-display);
+  font-weight:500;
+  margin:0;
+  color:var(--ink);
+}
+
+p{ margin:0 0 1.05em; max-width:var(--measure); }
+p:last-child{ margin-bottom:0; }
+
+a{ color:inherit; }
+
+.mono{ font-family:var(--font-mono); }
+
+em, .em{ font-style:italic; color:inherit; }
+
+img,svg{ max-width:100%; display:block; }
+
+.visually-hidden{
+  position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden;
+  clip:rect(0,0,0,0); white-space:nowrap; border:0; padding:0;
+}
+
+/* ============================================================
+   TOPO FIXO
+   ============================================================ */
+.topo{
+  position:fixed; top:0; left:0; right:0; z-index:60;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0.75rem 1.4rem;
+  background:rgba(8,26,43,0.86);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--grid-line-strong);
+}
+.topo-id{
+  display:flex; align-items:baseline; gap:0.6rem;
+  font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.04em;
+  color:var(--ink-dim);
+}
+.topo-id strong{ font-weight:500; color:var(--ink); }
+.topo-nav-btn{
+  font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.04em;
+  color:var(--ink); background:transparent; border:1px solid var(--ink-faint);
+  padding:0.4rem 0.8rem; border-radius:2px; cursor:pointer;
+}
+.topo-nav-btn:hover{ border-color:var(--ink); }
+
+.indice{
+  position:fixed; top:0; right:-340px; width:320px; height:100vh; z-index:70;
+  background:var(--bg-panel); border-left:1px solid var(--grid-line-strong);
+  padding:4.5rem 1.6rem 2rem; overflow-y:auto;
+  transition:right 0.35s ease;
+}
+.indice.aberto{ right:0; }
+.indice h4{
+  font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.08em;
+  color:var(--ink-faint); margin-bottom:1.2rem;
+}
+.indice ol{ list-style:none; margin:0; padding:0; counter-reset:folha; }
+.indice li{ counter-increment:folha; margin-bottom:0.15rem; }
+.indice a{
+  display:flex; gap:0.65rem; padding:0.5rem 0.3rem; text-decoration:none;
+  color:var(--ink-dim); font-size:0.92rem; border-bottom:1px dashed transparent;
+}
+.indice a:hover{ color:var(--ink); border-bottom-color:var(--ink-faint); }
+.indice a::before{
+  content:counter(folha,decimal-leading-zero);
+  font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-faint);
+}
+.indice-fechar{
+  position:absolute; top:1.1rem; right:1.3rem;
+  background:none; border:none; color:var(--ink-dim); font-family:var(--font-mono);
+  font-size:0.85rem; cursor:pointer;
+}
+.veu{
+  position:fixed; inset:0; background:rgba(4,12,20,0.5); z-index:65;
+  opacity:0; pointer-events:none; transition:opacity 0.3s ease;
+}
+.veu.aberto{ opacity:1; pointer-events:auto; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative;
+  min-height:100vh;
+  padding:6.5rem 1.6rem 4rem;
+  display:flex; flex-direction:column; justify-content:center;
+  max-width:1180px; margin:0 auto;
+}
+.hero-marcas{
+  position:absolute; inset:1.4rem;
+  border:1px solid var(--grid-line-strong);
+  pointer-events:none;
+}
+.hero-marcas::before,.hero-marcas::after{
+  content:''; position:absolute; width:18px; height:18px;
+  border:1px solid var(--ink-faint);
+}
+.hero-marcas::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
+.hero-marcas::after{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
+
+.hero-tags{
+  display:flex; flex-wrap:wrap; gap:1.4rem;
+  font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.05em;
+  color:var(--ink-faint); margin-bottom:2.6rem;
+}
+.hero-tags span strong{ color:var(--ink-dim); font-weight:500; }
+
+.hero-titulo{
+  font-size:clamp(2.4rem, 6vw, 4.6rem);
+  line-height:1.04;
+  font-weight:600;
+  max-width:14ch;
+  color:var(--ink);
+}
+.hero-titulo .risco{ color:var(--wall); }
+
+.hero-sub{
+  font-family:var(--font-body); font-style:italic;
+  font-size:clamp(1.05rem,2vw,1.32rem);
+  color:var(--ink-dim); max-width:46ch; margin-top:1.6rem;
+}
+
+.hero-legenda-mapa{
+  margin-top:3.2rem; display:flex; flex-wrap:wrap; gap:0.5rem 1.6rem;
+  font-family:var(--font-mono); font-size:0.74rem; color:var(--ink-dim);
+}
+.hero-legenda-mapa i{
+  display:inline-block; width:9px; height:9px; margin-right:0.45rem;
+  border-radius:1px; vertical-align:middle;
+}
+
+.hero-desca{
+  margin-top:3.4rem; display:inline-flex; align-items:center; gap:0.7rem;
+  font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-dim);
+  text-decoration:none; width:fit-content;
+}
+.hero-desca .seta{
+  width:26px; height:26px; border:1px solid var(--ink-faint); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* ============================================================
+   ESTRUTURA GERAL DE PRANCHA
+   ============================================================ */
+main{ position:relative; }
+
+.prancha{
+  max-width:1180px; margin:0 auto;
+  padding:5.5rem 1.6rem 2rem;
+  scroll-margin-top:4.6rem;
+}
+.prancha.pulso{ animation:pulso 1.6s ease; }
+@keyframes pulso{
+  0%{ box-shadow:inset 0 0 0 1px transparent; background:rgba(234,242,248,0.05); }
+  100%{ box-shadow:inset 0 0 0 1px transparent; background:transparent; }
+}
+
+.prancha-cabecalho{
+  display:flex; align-items:baseline; gap:1.1rem; flex-wrap:wrap;
+  border-bottom:1px solid var(--grid-line-strong);
+  padding-bottom:1.1rem; margin-bottom:2.4rem;
+}
+.prancha-num{
+  font-family:var(--font-mono); font-size:0.82rem; letter-spacing:0.03em;
+  color:var(--ink-faint); white-space:nowrap;
+}
+.prancha-titulo{
+  font-size:clamp(1.5rem,3.2vw,2.2rem); font-weight:500;
+}
+.prancha-eixo{
+  margin-left:auto; font-family:var(--font-mono); font-size:0.72rem;
+  color:var(--ink-faint); white-space:nowrap;
+}
+
+.prancha-intro{
+  font-family:var(--font-body); font-style:italic; color:var(--ink-dim);
+  font-size:1.08rem; max-width:60ch; margin-bottom:2.2rem;
+}
+
+.corpo{ max-width:var(--measure); }
+.corpo-largo{ max-width:80ch; }
+
+h3.subtitulo{
+  font-size:1.28rem; margin:2.4rem 0 0.9rem; color:var(--ink);
+}
+h4.subtitulo-menor{
+  font-family:var(--font-mono); font-size:0.86rem; letter-spacing:0.03em;
+  color:var(--ink-dim); margin:1.8rem 0 0.7rem; text-transform:none;
+}
+
+ul.lista, ol.lista{ padding-left:1.15rem; max-width:var(--measure); margin:0 0 1.05em; }
+ul.lista li, ol.lista li{ margin-bottom:0.55rem; }
+ul.lista{ list-style:none; }
+ul.lista li{ position:relative; padding-left:1.2rem; }
+ul.lista li::before{
+  content:'—'; position:absolute; left:0; color:var(--ink-faint);
+}
+
+/* ============================================================
+   CARDS / BLOCOS COLORIDOS (por alvo)
+   ============================================================ */
+.grade{
+  display:grid; gap:1.1rem; margin:1.6rem 0 2.2rem;
+}
+.grade-2{ grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
+.grade-3{ grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+
+.bloco{
+  background:var(--bg-panel);
+  border:1px solid var(--grid-line-strong);
+  border-top:2px solid var(--tint,var(--ink-faint));
+  padding:1.3rem 1.4rem;
+}
+.bloco h5{
+  font-family:var(--font-mono); font-size:0.78rem; letter-spacing:0.03em;
+  color:var(--tint,var(--ink-dim)); margin-bottom:0.55rem;
+}
+.bloco p{ font-size:0.96rem; color:var(--ink-dim); margin-bottom:0; }
+.bloco p em{ color:var(--ink); }
+
+.bloco--wall{ --tint:var(--wall); }
+.bloco--bind{ --tint:var(--bind); }
+.bloco--demet{ --tint:var(--demet); }
+.bloco--epox{ --tint:var(--epox); }
+.bloco--nucleo{ --tint:var(--nucleo); }
+.bloco--fuso{ --tint:var(--fuso); }
+.bloco--clin{ --tint:var(--clin); }
+.bloco--warn{ --tint:var(--warn); }
+.bloco--note{ --tint:var(--note); }
+
+/* ============================================================
+   PAINEL DE ARMA (abre cada classe de farmaco)
+   ============================================================ */
+.arma{
+  margin:0 0 5.4rem;
+  padding-top:1rem;
+  border-top:1px solid var(--grid-line-strong);
+}
+.arma-cabecalho{
+  display:flex; flex-wrap:wrap; align-items:flex-end; gap:0.5rem 1.3rem;
+  margin-bottom:1.6rem;
+}
+.arma-alvo{
+  font-family:var(--font-mono); font-size:0.74rem; letter-spacing:0.04em;
+  padding:0.28rem 0.6rem; border:1px solid var(--tint); color:var(--tint);
+}
+.arma-nome{ font-size:clamp(1.4rem,2.6vw,1.9rem); font-weight:500; }
+.arma-classe{
+  font-family:var(--font-body); font-style:italic; color:var(--ink-dim);
+  font-size:1rem;
+}
+
+/* ============================================================
+   BLOCO DE FICHA TECNICA (estilo carimbo de prancha tecnica)
+   ============================================================ */
+.ficha{
+  border:1px solid var(--tint,var(--ink-faint));
+  background:var(--bg-panel-2);
+  margin:1.6rem 0 2.2rem;
+  max-width:640px;
+}
+.ficha-topo{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:0.55rem 0.9rem; border-bottom:1px solid var(--tint,var(--ink-faint));
+  font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.04em;
+  color:var(--tint,var(--ink-dim));
+}
+.ficha-corpo{ padding:0.35rem 0.9rem 0.6rem; }
+.linha-spec{
+  display:flex; align-items:baseline; gap:0.4rem;
+  padding:0.42rem 0; border-bottom:1px dotted rgba(234,242,248,0.15);
+  font-family:var(--font-mono); font-size:0.82rem;
+}
+.linha-spec:last-child{ border-bottom:none; }
+.spec-rotulo{ color:var(--ink-faint); white-space:nowrap; }
+.spec-preenche{ flex:1; }
+.spec-valor{ color:var(--ink); text-align:right; white-space:normal; }
+
+/* ============================================================
+   APROFUNDE-SE (details/summary)
+   ============================================================ */
+details.aprofunde{
+  margin:1.5rem 0 1.9rem; border:1px solid var(--grid-line-strong);
+  background:var(--bg-panel); max-width:76ch;
+}
+details.aprofunde summary{
+  cursor:pointer; list-style:none; padding:0.85rem 1.1rem;
+  display:flex; align-items:center; gap:0.7rem;
+  font-family:var(--font-mono); font-size:0.82rem; letter-spacing:0.02em;
+  color:var(--ink);
+}
+details.aprofunde summary::-webkit-details-marker{ display:none; }
+details.aprofunde summary::before{
+  content:'+'; color:var(--tint,var(--demet)); font-size:1rem; width:1em;
+}
+details.aprofunde[open] summary::before{ content:'–'; }
+details.aprofunde summary .rotulo-aprofunde{
+  color:var(--ink-faint); text-transform:none;
+}
+.aprofunde-conteudo{
+  padding:0 1.25rem 1.4rem; border-top:1px solid var(--grid-line);
+}
+.aprofunde-conteudo p{ font-size:0.98rem; color:var(--ink-dim); }
+.aprofunde-conteudo p em{ color:var(--ink); }
+
+/* ============================================================
+   NOTA / ALERTA (estilo outline)
+   ============================================================ */
+.nota{
+  border:1px solid var(--tint,var(--note)); padding:1.1rem 1.3rem;
+  margin:1.5rem 0; max-width:70ch; background:var(--tint-soft,var(--note-soft));
+}
+.nota-rotulo{
+  font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.04em;
+  color:var(--tint,var(--note)); margin-bottom:0.4rem;
+}
+.nota p{ font-size:0.97rem; color:var(--ink-dim); margin-bottom:0; }
+.nota--warn{ --tint:var(--warn); --tint-soft:var(--warn-soft); }
+.nota--note{ --tint:var(--note); --tint-soft:var(--note-soft); }
+.nota--clin{ --tint:var(--clin); --tint-soft:var(--clin-soft); }
+
+/* ============================================================
+   MAPA DE ATAQUE (SVG interativo)
+   ============================================================ */
+.mapa-wrap{
+  display:grid; grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);
+  gap:2rem; align-items:start; margin-top:1rem;
+}
+.mapa-svg-caixa{
+  background:var(--bg-panel); border:1px solid var(--grid-line-strong);
+  padding:1.2rem;
+}
+.mapa-svg-caixa svg{ width:100%; height:auto; }
+
+.zona{ cursor:pointer; transition:opacity 0.2s ease; }
+.zona-hit{ fill:transparent; stroke:transparent; }
+.zona:hover .zona-traco, .zona.ativa .zona-traco{ stroke-width:2.4; }
+.zona-rotulo{
+  font-family:'JetBrains Mono',monospace; font-size:10.5px; fill:var(--ink-faint);
+  pointer-events:none;
+}
+.zona:hover .zona-rotulo, .zona.ativa .zona-rotulo{ fill:var(--ink); }
+
+.mapa-legenda{
+  background:var(--bg-panel); border:1px solid var(--grid-line-strong);
+  padding:1.4rem 1.5rem; position:sticky; top:5.5rem; min-height:230px;
+}
+.mapa-legenda-rotulo{
+  font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-faint);
+  margin-bottom:0.9rem;
+}
+.mapa-legenda-titulo{
+  font-size:1.15rem; margin-bottom:0.5rem; color:var(--tint,var(--ink));
+}
+.mapa-legenda-drogas{
+  font-family:var(--font-mono); font-size:0.78rem; color:var(--tint,var(--ink-dim));
+  margin-bottom:0.7rem;
+}
+.mapa-legenda-desc{ font-size:0.92rem; color:var(--ink-dim); }
+.mapa-legenda-cta{
+  margin-top:1rem; font-family:var(--font-mono); font-size:0.72rem;
+  color:var(--ink-faint);
+}
+
+.chave-mapa{
+  display:flex; flex-wrap:wrap; gap:0.5rem 1.3rem; margin-top:1.1rem;
+  font-family:var(--font-mono); font-size:0.74rem; color:var(--ink-dim);
+}
+.chave-mapa span i{
+  display:inline-block; width:9px; height:9px; margin-right:0.4rem; vertical-align:middle;
+}
+
+/* ============================================================
+   REGUA DE PROFUNDIDADE (prancha 02)
+   ============================================================ */
+.regua{
+  border:1px solid var(--grid-line-strong); background:var(--bg-panel);
+  margin:1.6rem 0 2rem;
+}
+.regua-item{
+  display:grid; grid-template-columns:150px 1fr;
+  border-bottom:1px solid var(--grid-line);
+}
+.regua-item:last-child{ border-bottom:none; }
+.regua-marca{
+  padding:1.1rem 1rem; border-right:1px solid var(--grid-line);
+  font-family:var(--font-mono); font-size:0.78rem; color:var(--tint,var(--ink-dim));
+  display:flex; align-items:center;
+}
+.regua-corpo{ padding:1.1rem 1.3rem; }
+.regua-corpo h5{ font-size:1.02rem; font-family:var(--font-display); font-weight:500; margin-bottom:0.35rem; }
+.regua-corpo p{ font-size:0.93rem; color:var(--ink-dim); margin-bottom:0; max-width:62ch;}
+.regua-corpo .exemplos{ font-family:var(--font-mono); font-size:0.76rem; color:var(--ink-faint); display:block; margin-top:0.4rem;}
+@media (max-width:640px){
+  .regua-item{ grid-template-columns:1fr; }
+  .regua-marca{ border-right:none; border-bottom:1px solid var(--grid-line); }
+}
+
+/* ============================================================
+   DOSSIE CLINICO (prancha 03)
+   ============================================================ */
+.dossie{
+  border:1px solid var(--grid-line-strong); background:var(--bg-panel);
+  padding:1.5rem 1.6rem; margin-bottom:1.5rem;
+  border-top:2px solid var(--clin);
+}
+.dossie-cabecalho{
+  display:flex; justify-content:space-between; align-items:baseline;
+  flex-wrap:wrap; gap:0.4rem 1rem; margin-bottom:0.9rem;
+}
+.dossie-nome{ font-size:1.28rem; font-weight:500; }
+.dossie-agente{
+  font-family:var(--font-body); font-style:italic; color:var(--clin);
+  font-size:0.98rem;
+}
+.dossie-campos{ display:grid; gap:0.9rem; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); margin-top:1rem; }
+.dossie-campo h6{
+  font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.04em;
+  color:var(--ink-faint); margin-bottom:0.3rem; font-weight:400;
+}
+.dossie-campo p{ font-size:0.92rem; color:var(--ink-dim); margin-bottom:0; }
+
+/* ============================================================
+   SINTESE DE CAMPO (guia rapido)
+   ============================================================ */
+.sintese-lista{ display:grid; gap:0.7rem; margin:1.6rem 0 2rem; }
+.sintese-item{
+  display:grid; grid-template-columns:1.4fr 1.6fr; gap:1rem;
+  border:1px solid var(--grid-line-strong); background:var(--bg-panel);
+  padding:0.95rem 1.2rem; align-items:center;
+}
+.sintese-infeccao{ font-size:1rem; }
+.sintese-infeccao span{ display:block; font-family:var(--font-mono); font-size:0.7rem; color:var(--ink-faint); margin-top:0.2rem; }
+.sintese-arsenal{ font-family:var(--font-mono); font-size:0.84rem; color:var(--ink); }
+.sintese-arsenal em{ color:var(--ink-faint); font-style:normal; }
+@media (max-width:640px){ .sintese-item{ grid-template-columns:1fr; } }
+
+/* ============================================================
+   REFERENCIAS
+   ============================================================ */
+.referencias{ max-width:76ch; }
+.referencias p{
+  margin-bottom:1.2rem; font-size:0.94rem; color:var(--ink-dim);
+  text-indent:-1.6em; padding-left:1.6em;
+}
+.referencias p:first-of-type{ margin-top:0; }
+
+/* ============================================================
+   RODAPE
+   ============================================================ */
+footer{
+  max-width:1180px; margin:0 auto; padding:2.5rem 1.6rem 8rem;
+  font-family:var(--font-mono); font-size:0.72rem; color:var(--ink-faint);
+  border-top:1px solid var(--grid-line-strong);
+}
+
+/* ============================================================
+   BARRA FLUTUANTE DE EDICAO
+   ============================================================ */
+.barra-edicao{
+  position:fixed; bottom:1.3rem; right:1.3rem; z-index:80;
+  display:flex; gap:0.5rem; background:var(--bg-panel-2);
+  border:1px solid var(--grid-line-strong); padding:0.5rem;
+  font-family:var(--font-mono); font-size:0.72rem;
+}
+.barra-edicao button{
+  background:transparent; border:1px solid var(--ink-faint); color:var(--ink-dim);
+  padding:0.5rem 0.75rem; cursor:pointer; letter-spacing:0.02em;
+}
+.barra-edicao button:hover{ color:var(--ink); border-color:var(--ink); }
+.barra-edicao button.ativo{ color:var(--bg-deep); background:var(--nucleo); border-color:var(--nucleo); }
+.barra-edicao .aviso-ponto{
+  align-self:center; width:7px; height:7px; border-radius:50%;
+  background:var(--note); opacity:0; transition:opacity 0.4s ease;
+}
+.barra-edicao .aviso-ponto.mostrar{ opacity:1; }
+[contenteditable="true"]{ outline:1px dashed rgba(234,242,248,0.25); outline-offset:6px; }
+
+@media (max-width:720px){
+  .mapa-wrap{ grid-template-columns:1fr; }
+  .mapa-legenda{ position:static; }
+  .barra-edicao{ left:1rem; right:1rem; justify-content:space-between; }
+}
+</style>
+</head>
+<body>
+
+<div class="topo">
+  <div class="topo-id"><strong>Fármacos Antifúngicos</strong><span class="mono">· prancha viva</span></div>
+  <button class="topo-nav-btn" id="btn-indice" aria-expanded="false">índice de pranchas</button>
+</div>
+
+<div class="veu" id="veu"></div>
+<nav class="indice" id="indice" aria-label="Índice de pranchas">
+  <button class="indice-fechar" id="btn-fecha-indice" aria-label="Fechar índice">fechar ×</button>
+  <h4>sumário desta planta</h4>
+  <ol>
+    <li><a href="#briefing">Cenário clínico atual</a></li>
+    <li><a href="#fortaleza">Anatomia do alvo — a célula fúngica</a></li>
+    <li><a href="#classificacao">Mapa de profundidade das micoses</a></li>
+    <li><a href="#dossie">Dossiê de campo — principais micoses</a></li>
+    <li><a href="#mapa-ataque">Mapa de ataque — diagrama interativo</a></li>
+    <li><a href="#equinocandinas">Muralha — Equinocandinas</a></li>
+    <li><a href="#polienos">Cortina — Macrolídeos poliênicos</a></li>
+    <li><a href="#azois">Linha de suprimento I — Azóis</a></li>
+    <li><a href="#alilaminas">Linha de suprimento II — Alilaminas</a></li>
+    <li><a href="#flucitosina">Sabotagem interna I — Flucitosina</a></li>
+    <li><a href="#griseofulvina">Sabotagem interna II — Griseofulvina</a></li>
+    <li><a href="#resistencia">Mapa de resistência</a></li>
+    <li><a href="#sintese">Síntese de campo</a></li>
+    <li><a href="#referencias">Referências</a></li>
+  </ol>
+</nav>
+
+<header class="hero" id="topo-pagina">
+  <div class="hero-marcas" aria-hidden="true"></div>
+  <div class="hero-tags">
+    <span><strong>Uniarp — SC</strong> · 5ª fase</span>
+    <span>farmacologia · antifúngicos</span>
+    <span>fonte · aula do prof. Felipe Vanz</span>
+    <span>rev. 2026.09</span>
+  </div>
+  <h1 class="hero-titulo">Fármacos <span class="risco">Antifúngicos</span></h1>
+  <p class="hero-sub">A célula fúngica é uma fortaleza eucariótica quase idêntica à nossa. Cada classe de antifúngico é uma via de ataque diferente contra essa fortaleza — e entender qual muralha cada fármaco escala é a chave para entender tudo o mais: espectro, toxicidade, resistência e uso clínico.</p>
+
+  <div class="hero-legenda-mapa">
+    <span><i style="background:var(--wall)"></i>parede celular</span>
+    <span><i style="background:var(--bind)"></i>ligação ao ergosterol</span>
+    <span><i style="background:var(--demet)"></i>síntese do ergosterol · desmetilase</span>
+    <span><i style="background:var(--epox)"></i>síntese do ergosterol · epoxidase</span>
+    <span><i style="background:var(--nucleo)"></i>ácidos nucleicos</span>
+    <span><i style="background:var(--fuso)"></i>fuso mitótico</span>
+  </div>
+
+  <a href="#briefing" class="hero-desca"><span class="seta">↓</span> começar pelo cenário clínico</a>
+</header>
+
+<main id="conteudo">
+
+<!-- ============================================================
+     PRANCHA 00 — BRIEFING
+     ============================================================ -->
+<section class="prancha" id="briefing">
+  <div class="prancha-cabecalho">
+    <span class="prancha-num">PRANCHA 00</span>
+    <h2 class="prancha-titulo">Cenário clínico atual</h2>
+    <span class="prancha-eixo">por que isso importa agora</span>
+  </div>
+  <p class="prancha-intro">Antes de desenhar qualquer planta de ataque, todo engenheiro de cerco precisa entender por que o cerco é necessário. Aqui está o motivo.</p>
+
+  <div class="corpo">
+    <p>A incidência de infecções fúngicas potencialmente fatais aumentou de forma consistente nas últimas décadas, e isso não é coincidência epidemiológica: é consequência direta do sucesso da medicina moderna em manter vivos pacientes que, décadas atrás, não sobreviveriam tempo suficiente para desenvolver uma micose invasiva. Populações cada vez maiores de pacientes imunocomprometidos — pela disseminação do HIV/Aids, por receptores de transplante em neutropenia induzida, por pacientes oncológicos sob quimioterapia citotóxica e por indivíduos em uso crônico de imunossupressores para doenças autoimunes ou transplantes — criaram um nicho ecológico enorme para organismos que, num hospedeiro imunocompetente, jamais causariam doença.</p>
+    <p>Some a isso um fator menos óbvio, mas igualmente relevante: o uso de antibióticos de amplo espectro. Ao suprimir a microbiota bacteriana competidora, esses fármacos abrem espaço ecológico para a proliferação de fungos que, em condições normais, estariam contidos pela competição microbiana — é o mesmo princípio por trás da candidíase orofaríngea que aparece após um curso de antibiótico, ou da colite por <em>Clostridioides difficile</em>, guardadas as diferenças de agente.</p>
+    <p>O resultado prático é desconfortável: apesar de existir hoje uma farmacopeia antifúngica razoavelmente diversificada, as taxas de mortalidade por doença fúngica invasiva permanecem inaceitavelmente altas. Isso não é falta de fármacos — é reflexo de uma limitação estrutural da farmacologia antifúngica que vale a pena entender antes de decorar qualquer mecanismo de ação.</p>
+  </div>
+
+  <details class="aprofunde">
+    <summary><span class="rotulo-aprofunde">aprofunde-se</span> por que existem tão poucas classes de antifúngicos, comparadas a antibacterianos?</summary>
+    <div class="aprofunde-conteudo">
+      <p>Pense na diferença fundamental entre uma bactéria e um fungo do ponto de vista farmacológico: a bactéria é procariota, o fungo é eucariota — exatamente como as nossas células. Um antibacteriano tem um universo inteiro de alvos exclusivamente bacterianos para explorar: parede de peptideoglicano, ribossomo 70S, DNA-girase bacteriana, via do folato bacteriana. Nenhuma dessas estruturas existe, na forma bacteriana, em uma célula humana — a toxicidade seletiva é quase automática.</p>
+      <p>Um fungo, por outro lado, compartilha conosco o núcleo, o retículo endoplasmático, os ribossomos 80S, a maquinaria de replicação de DNA e a própria arquitetura da membrana plasmática como bicamada fosfolipídica. Os poucos alvos verdadeiramente exclusivos do fungo são <em>o ergosterol</em> no lugar do nosso colesterol, <em>a parede celular</em> de quitina e β-glicanos — que nós simplesmente não temos — e algumas diferenças pontuais em enzimas do citocromo P450 fúngico. É basicamente sobre esse punhado de diferenças que toda a farmacologia antifúngica sistêmica foi construída, e é por isso que, comparada à imensa variedade de classes de antibióticos, a lista de antifúngicos sistêmicos cabe em uma única prancha.</p>
+    </div>
+  </details>
+
+  <h3 class="subtitulo">A micobiota: o fungo nem sempre é o inimigo</h3>
+  <div class="corpo">
+    <p>Um ponto que costuma escapar da leitura apressada dos slides: fungos não são apenas agentes causadores de doença. Eles também podem ser isolados de mamíferos saudáveis, sem qualquer sinal de doença — fazem parte do que se chama <em>micobiota</em>, a comunidade fúngica comensal que habita cavidade oral, pele, trato urinário, vagina, intestino e até o leite materno. Gêneros como <em>Candida</em>, <em>Malassezia</em>, <em>Saccharomyces</em> e <em>Aspergillus</em> circulam nesses sítios em equilíbrio com o hospedeiro na maior parte do tempo.</p>
+    <p>A consequência prática disso é central para entender a fisiopatologia das micoses oportunistas: a espécie causadora da doença muitas vezes não vem de fora — ela já estava ali, contida pelo sistema imune e pela competição microbiana, e a doença surge quando esse equilíbrio se rompe. É exatamente por isso que candidíase, aspergilose e outras micoses oportunistas aparecem tão consistentemente associadas a rupturas desse equilíbrio: imunossupressão, antibioticoterapia de amplo espectro, dispositivos invasivos.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRANCHA 01 — A FORTALEZA FUNGICA
+     ============================================================ -->
+<section class="prancha" id="fortaleza">
+  <div class="prancha-cabecalho">
+    <span class="prancha-num">PRANCHA 01</span>
+    <h2 class="prancha-titulo">Anatomia do alvo — a célula fúngica</h2>
+    <span class="prancha-eixo">o que estamos atacando</span>
+  </div>
+  <p class="prancha-intro">Todo cerco começa com um levantamento topográfico da fortaleza inimiga. Aqui está a planta baixa da célula fúngica, camada por camada, de fora para dentro.</p>
+
+  <div class="corpo-largo">
+    <p>Os fungos são células eucarióticas, sem mobilidade própria, que apresentam duas estruturas de revestimento sobrepostas e farmacologicamente decisivas: uma <em>parede celular</em> rígida por fora e uma <em>membrana plasmática</em> por dentro dela. Cada uma dessas estruturas guarda uma diferença química específica em relação à célula humana, e é exatamente sobre essas diferenças que se apoia toda a seletividade dos antifúngicos que vamos estudar nas próximas pranchas.</p>
+  </div>
+
+  <div class="grade grade-2">
+    <div class="bloco bloco--wall">
+      <h5>camada externa · parede celular</h5>
+      <p>Rígida, ausente em qualquer célula humana. Construída por três componentes principais dispostos de fora para dentro: <em>manoproteínas</em> (reconhecimento e adesão), uma malha de <em>β-glicanos</em> (1,3 e 1,6-β-glicano, o esqueleto estrutural que confere resistência mecânica) e, na camada mais interna, <em>quitina</em> — um polímero de N-acetilglicosamina que também forma o exoesqueleto de artrópodes. A ausência total dessa estrutura em células humanas é a base farmacológica das equinocandinas.</p>
+    </div>
+    <div class="bloco bloco--bind">
+      <h5>camada interna · membrana plasmática</h5>
+      <p>Bicamada fosfolipídica convencional, mas com uma diferença crucial: o esterol estrutural que regula fluidez e organização da membrana não é o colesterol humano, e sim o <em>ergosterol</em> — quimicamente parecido, mas não idêntico. Essa diferença sutil é suficiente para ser reconhecida seletivamente por polienos, e a via metabólica que produz o ergosterol pode ser bloqueada em pontos que não existem na via humana do colesterol.</p>
+    </div>
+  </div>
+
+  <h3 class="subtitulo">A via do ergosterol: um oleoduto com dois pontos de sabotagem</h3>
+  <div class="corpo-largo">
+    <p>Vale a pena gravar a sequência desta via metabólica, porque ela sozinha explica o mecanismo de ação de três classes farmacológicas inteiras. Partindo do esqualeno, a célula fúngica converte esse precursor lipídico em epóxido de esqualeno através da enzima <em>esqualeno epoxidase</em> — o ponto exato onde a terbinafina atua. O epóxido de esqualeno é então convertido em lanosterol, e o lanosterol é convertido em ergosterol através da enzima <em>14-α-esterol-desmetilase</em> (também chamada lanosterol 14-α-desmetilase, ou CYP51 fúngica) — o ponto exato onde os azóis atuam. O ergosterol pronto se incorpora à bicamada da membrana, onde pode ainda ser alvo direto dos macrolídeos poliênicos.</p>
+    <p>Note que são três estratégias farmacológicas completamente diferentes mirando a mesma via: bloquear o início da via (terbinafina), bloquear uma etapa mais adiante da via (azóis), ou ignorar a via e atacar diretamente o produto final já incorporado à membrana (polienos). Essa distinção não é apenas didática — ela explica por que terbinafina costuma ser fungicida enquanto azóis costumam ser fungistáticos contra <em>Candida</em>, um ponto que vamos retomar com mais profundidade na prancha da terbinafina.</p>
+  </div>
+
+  <details class="aprofunde">
+    <summary><span class="rotulo-aprofunde">aprofunde-se</span> seletividade imperfeita: por que a anfotericina B ainda é nefrotóxica?</summary>
+    <div class="aprofunde-conteudo">
+      <p>O princípio da toxicidade seletiva pressupõe uma diferença molecular limpa entre alvo microbiano e célula humana. Compare dois casos extremos: um β-lactâmico ataca a síntese de peptideoglicano — uma molécula que simplesmente não existe em nenhuma célula humana, o que confere uma janela terapêutica enorme. Já o ergosterol e o colesterol são primos químicos próximos, diferindo apenas por uma dupla ligação extra e um grupamento metil na cadeia lateral.</p>
+      <p>Essa semelhança residual explica por que a anfotericina B, mesmo tendo maior afinidade pelo ergosterol, ainda consegue se ligar de forma não desprezível ao colesterol das membranas humanas — em especial nas células tubulares renais, ricamente supridas e expostas a altas concentrações do fármaco durante a excreção. É essa afinidade cruzada, e não um efeito tóxico aleatório, que fundamenta a nefrotoxicidade que limita clinicamente o uso da formulação convencional (desoxicolato) da anfotericina B, como veremos na prancha da cortina de membrana.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ============================================================
+     PRANCHA 02 — CLASSIFICACAO POR PROFUNDIDADE
+     ============================================================ -->
+<section class="prancha" id="classificacao">
+  <div class="prancha-cabecalho">
+    <span class="prancha-num">PRANCHA 02</span>
+    <h2 class="prancha-titulo">Mapa de profundidade das micoses</h2>
+    <span class="prancha-eixo">até onde o invasor chega</span>
+  </div>
+  <p class="prancha-intro">Classificar uma micose pela profundidade que ela atinge no hospedeiro é, na prática, medir o quanto o invasor conseguiu avançar — da queratina morta na superfície até a corrente sanguínea.</p>
+
+  <div class="regua">
+    <div class="regua-item">
+      <div class="regua-marca">superfície</div>
+      <div class="regua-corpo">
+        <h5>micoses superficiais</h5>
+        <p>Invadem apenas as camadas mortas mais externas — o estrato córneo da pele ou a haste do pelo — sem provocar resposta inflamatória relevante do hospedeiro, porque não há tecido vivo em contato direto com o fungo.</p>
+        <span class="exemplos">exemplos · pitiríase versicolor, tinea nigra, piedras</span>
+      </div>
+    </div>
+    <div class="regua-item">
+      <div class="regua-marca">epiderme e anexos</div>
+      <div class="regua-corpo">
+        <h5>micoses cutâneas</h5>
+        <p>Invadem toda a espessura da epiderme viva ou a porção queratinizada intrafolicular do pelo e da unha — aqui já há tecido vivo envolvido, e por isso há resposta inflamatória e sintomas como prurido.</p>
+        <span class="exemplos">exemplos · dermatofitoses (tineas), candidíase superficial</span>
+      </div>
+    </div>
+    <div class="regua-item">
+      <div class="regua-marca">derme e subcutâneo</div>
+      <div class="regua-corpo">
+        <h5>micoses subcutâneas ou de implantação</h5>
+        <p>Resultam de implantação traumática do fungo através da pele ou mucosa — espinhos, lascas de madeira, contato com vegetais em decomposição, ferimentos por animais. Manifestam-se como lesão supurada da pele ou tecido subcutâneo, disseminando-se localmente por contiguidade ou via linfática, com aspecto e localização muito variáveis.</p>
+        <span class="exemplos">exemplos · esporotricose, cromoblastomicose, feohifomicose subcutânea, lobomicose, micetomas</span>
+      </div>
+    </div>
+    <div class="regua-item">
+      <div class="regua-marca">órgãos internos</div>
+      <div class="regua-corpo">
+        <h5>micoses sistêmicas (endêmicas)</h5>
+        <p>Adquiridas por inalação de conídios — a forma infectante ambiental —, causam uma lesão pulmonar primária, e as lesões extrapulmonares que eventualmente surgem resultam de disseminação hematogênica a partir desse foco pulmonar inicial.</p>
+        <span class="exemplos">exemplos · blastomicose, coccidioidomicose, histoplasmose, paracoccidioidomicose</span>
+      </div>
+    </div>
+    <div class="regua-item">
+      <div class="regua-marca">hospedeiro comprometido</div>
+      <div class="regua-corpo">
+        <h5>micoses oportunistas</h5>
+        <p>Acometem indivíduos com imunodeficiência, com porta de entrada e quadro clínico altamente variáveis — as lesões podem ser cutâneas, subcutâneas ou sistêmicas, dependendo do organismo e do grau de comprometimento imune do hospedeiro.</p>
+        <span class="exemplos">exemplos · aspergilose, mucormicose, fusariose, candidíase sistêmica, pneumocistose</span>
+      </div>
+    </div>
+  </div>
+
+  <details class="aprofunde">
+    <summary><span class="rotulo-aprofunde">aprofunde-se</span> dimorfismo térmico: o truque dos fungos endêmicos sistêmicos</summary>
+    <div class="aprofunde-conteudo">
+      <p>Um detalhe que os slides citam de passagem — "fungos termodimórficos" — merece ser desdobrado, porque é a chave fisiopatológica das micoses sistêmicas endêmicas. <em>Paracoccidioides</em>, <em>Histoplasma</em>, <em>Blastomyces</em> e <em>Coccidioides</em> compartilham a capacidade de existir em duas morfologias distintas conforme a temperatura ambiente: crescem como bolor filamentoso no solo, à temperatura ambiente, e sofrem uma conversão morfológica completa para a forma de levedura assim que atingem a temperatura corporal de 37°C, após serem inalados.</p>
+      <p>Essa troca não é cosmética — é uma estratégia de virulência regulada por expressão gênica sensível à temperatura, e a forma leveduriforme costuma ser menos reconhecível pelo sistema imune inato e mais adaptada a sobreviver dentro de macrófagos alveolares do que a forma filamentosa ambiental. É esse mesmo princípio de adaptação térmica que explica por que a inalação de conídios do solo é a via de entrada universal desse grupo, e por que a lesão pulmonar primária aparece de forma tão consistente antes de qualquer disseminação.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ============================================================
+     PRANCHA 03 — DOSSIE CLINICO
+     ============================================================ -->
+<section class="prancha" id="dossie">
+  <div class="prancha-cabecalho">
+    <span class="prancha-num">PRANCHA 03</span>
+    <h2 class="prancha-titulo">Dossiê de campo — principais micoses</h2>
+    <span class="prancha-eixo">quem é o inimigo</span>
+  </div>
+  <p class="prancha-intro">Antes de entrar no arsenal terapêutico, vale reconhecer o inimigo pelo retrato falado: apresentação clínica, método diagnóstico e a lógica por trás do tratamento de primeira linha de cada micose citada na aula.</p>
+
+  <div class="dossie">
+    <div class="dossie-cabecalho">
+      <span class="dossie-nome">Tinea versicolor (pitiríase versicolor)</span>
+      <span class="dossie-agente"><em>Malassezia</em> spp.</span>
+    </div>
+    <p>Popularmente conhecida como "pano branco", é causada por leveduras do gênero <em>Malassezia</em> que normalmente habitam o folículo piloso como comensais, sem causar doença — a micose surge quando essa levedura assume a forma filamentosa patogênica, geralmente favorecida por calor, umidade e oleosidade da pele. Manifesta-se como máculas discretas e serpentinas, hiper ou hipopigmentadas, tipicamente no tórax, braços, tronco, pescoço e rosto — o termo "versicolor" descreve exatamente essa variabilidade de pigmentação. As lesões costumam ser assintomáticas ou levemente pruriginosas.</p>
+    <div class="dossie-campos">
+      <div class="dossie-campo"><h6>diagnóstico</h6><p>Microscopia com KOH: hifas curtas não ramificadas associadas a células esféricas agrupadas — um padrão bem distinto dos dermatófitos.</p></div>
+      <div class="dossie-campo"><h6>tratamento</h6><p>Antifúngicos tópicos. A hiper ou hipopigmentação residual pode persistir por semanas a meses mesmo após tratamento bem-sucedido — isso não indica falha terapêutica.</p></div>
+    </div>
+  </div>
+
+  <div class="dossie">
+    <div class="dossie-cabecalho">
+      <span class="dossie-nome">Dermatofitoses (tineas)</span>
+      <span class="dossie-agente"><em>Trichophyton</em>, <em>Epidermophyton</em>, <em>Microsporum</em></span>
+    </div>
+    <p>Esses três gêneros compartilham uma característica bioquímica definidora: metabolizam queratina, o que explica por que ficam restritos à pele, aos cabelos e às unhas — tecidos ricos em queratina — e nunca invadem tecidos mais profundos em hospedeiros imunocompetentes. As apresentações clínicas variam pela localização: tinea pedis (pés), tinea corporis (corpo), tinea cruris (virilha), tinea capitis (couro cabeludo) e onicomicose (unhas). Tipicamente formam manchas vermelhas de superfície escamosa que crescem de dentro para fora, com bordas bem delimitadas — um padrão de crescimento centrífugo que reflete a progressão radial da colonização fúngica a partir do ponto de inoculação. O prurido é o sintoma dominante. A transmissão pode ser direta (pessoa-pessoa, animal-pessoa, solo-pessoa) ou indireta, por fômites contaminados.</p>
+    <div class="dossie-campos">
+      <div class="dossie-campo"><h6>diagnóstico</h6><p>Microscopia com KOH: hifas longas, ramificadas e septadas — contraste direto com o padrão curto e não ramificado da tinea versicolor.</p></div>
+      <div class="dossie-campo"><h6>tratamento</h6><p>Maioria responde a antifúngicos tópicos (cetoconazol xampu, terbinafina creme). Terapia oral reservada para casos refratários ou extensos — como onicomicose, tratada com terbinafina ou itraconazol prolongados.</p></div>
+    </div>
+  </div>
+
+  <div class="dossie">
+    <div class="dossie-cabecalho">
+      <span class="dossie-nome">Candidíase</span>
+      <span class="dossie-agente"><em>Candida albicans</em> (mais comum entre ~20 espécies patogênicas)</span>
+    </div>
+    <p>O espectro clínico da candidíase é o mais amplo entre as micoses estudadas nesta prancha, indo de infecções mucocutâneas locais até doença sistêmica com falência multissistêmica. As formas mucocutâneas incluem candidíase orofaríngea (o clássico "sapinho", típica de adultos imunocompetentes usuários de dentaduras, antibióticos recentes ou corticoide inalatório, apresentando-se como placas brancas removíveis na mucosa bucal), candidíase esofágica (praticamente restrita a imunocomprometidos, com odinofagia como sintoma-chave e diagnóstico endoscópico), candidíase vulvovaginal (a forma mucosa mais comum, responsável por prurido e corrimento vulvovaginal, com <em>C. albicans</em> respondendo por 80 a 92% dos episódios) e balanite, além da candidíase mucocutânea crônica e da mastite por Candida. Já a candidíase invasiva — geralmente associada a candidemia — pode acometer trato urinário, olho (endoftalmite), articulações e ossos, meninges, endocárdio, peritônio e, raramente, pulmão.</p>
+    <div class="dossie-campos">
+      <div class="dossie-campo"><h6>diagnóstico</h6><p>Coloração de Gram ou KOH: leveduras em brotamento, com ou sem pseudo-hifas. Na candidíase vulvovaginal, também se usa KOH 10%, NAAT ou Gram.</p></div>
+      <div class="dossie-campo"><h6>tratamento</h6><p>Tópico ou sistêmico conforme localização e gravidade — fluconazol oral é a base do tratamento das formas mucosas em não gestantes, com detalhamento posológico completo na prancha dos azóis.</p></div>
+    </div>
+  </div>
+
+  <div class="dossie">
+    <div class="dossie-cabecalho">
+      <span class="dossie-nome">Aspergilose invasiva</span>
+      <span class="dossie-agente"><em>Aspergillus fumigatus</em> (mais comum), <em>A. flavus</em>, <em>A. niger</em>, <em>A. terreus</em></span>
+    </div>
+    <p>A invasão tecidual por <em>Aspergillus</em> é incomum em hospedeiros saudáveis e ocorre predominantemente em contextos de imunossupressão farmacológica ou de doença imunodepressora de base. A forma pulmonar, decorrente da inalação de esporos, é a mais frequente, cursando com febre, dor torácica, dispneia, tosse e eventualmente hemoptise. A partir do pulmão, o fungo pode se disseminar para pele, cérebro, olhos, fígado e rins.</p>
+    <div class="dossie-campos">
+      <div class="dossie-campo"><h6>diagnóstico</h6><p>Clínico e laboratorial: biomarcadores séricos (galactomanana, β-D-glucana, PCR) associados a escarro para coloração e cultura fúngica.</p></div>
+      <div class="dossie-campo"><h6>tratamento</h6><p>Voriconazol é recomendado como terapia inicial de escolha, em vez de outros antifúngicos — detalhado na prancha dos azóis.</p></div>
+    </div>
+  </div>
+
+  <div class="dossie">
+    <div class="dossie-cabecalho">
+      <span class="dossie-nome">Meningoencefalite criptocócica</span>
+      <span class="dossie-agente"><em>Cryptococcus neoformans</em></span>
+    </div>
+    <p>O <em>Cryptococcus</em> é encontrado no solo em todo o mundo, particularmente em áreas frequentadas por pássaros — pombos e galinhas em especial. A infecção se inicia nos pulmões pela inalação do fungo, mas é a meningite — quase sempre acompanhada de encefalite, daí o termo meningoencefalite — a manifestação mais frequente entre pacientes com imunossupressão avançada. Os sintomas mais comuns são febre, mal-estar e cefaleia; rigidez de nuca, fotofobia e vômitos aparecem em cerca de um quarto a um terço dos pacientes, e alguns casos evoluem para coma e óbito fulminante em poucos dias.</p>
+    <div class="dossie-campos">
+      <div class="dossie-campo"><h6>diagnóstico</h6><p>Cultura do líquido cefalorraquidiano é o padrão-ouro; um antígeno criptocócico (CrAg) positivo no LCR ou soro, por aglutinação em látex ou ELISA, sugere fortemente a infecção. A tinta da China (nanquim) evidencia a cápsula característica ao microscópio.</p></div>
+      <div class="dossie-campo"><h6>tratamento</h6><p>Esquema em três fases — indução, consolidação e manutenção —, combinando anfotericina B, flucitosina e fluconazol, detalhado nas pranchas correspondentes.</p></div>
+    </div>
+  </div>
+
+  <div class="dossie">
+    <div class="dossie-cabecalho">
+      <span class="dossie-nome">Paracoccidioidomicose</span>
+      <span class="dossie-agente"><em>Paracoccidioides brasiliensis</em>, <em>P. lutzii</em></span>
+    </div>
+    <p>Doença micótica endêmica sistêmica causada por fungos termicamente dimórficos cuja distribuição geográfica é limitada à América Central e do Sul — uma micose genuinamente latino-americana. Costuma causar infecção pulmonar assintomática; quando não contida pelo hospedeiro, evolui para uma de duas formas: a forma crônica, correspondendo à reativação de uma infecção primária antiga (mais comum em homens adultos), ou a forma aguda/subaguda, também chamada juvenil, com predomínio de comprometimento do sistema linforreticular — linfadenopatia, hepatoesplenomegalia, e em crianças pode incluir abscessos com envolvimento osteoarticular.</p>
+    <div class="dossie-campos">
+      <div class="dossie-campo"><h6>diagnóstico</h6><p>Visualização microscópica de elementos fúngicos sugestivos ou cultura a partir de amostras clínicas; testes sorológicos auxiliam tanto o diagnóstico quanto o monitoramento da resposta terapêutica.</p></div>
+      <div class="dossie-campo"><h6>tratamento</h6><p>Formas leves e moderadas: itraconazol oral. Formas graves: desoxicolato de anfotericina B.</p></div>
+    </div>
+  </div>
+
+  <details class="aprofunde">
+    <summary><span class="rotulo-aprofunde">aprofunde-se</span> lendo o KOH: como a microscopia já entrega o diagnóstico diferencial</summary>
+    <div class="aprofunde-conteudo">
+      <p>Reparou que cada dossiê acima descreve um achado microscópico diferente? Isso não é coincidência nem redundância didática — a morfologia que cada fungo assume ao KOH é, na prática clínica, o primeiro e mais rápido diagnóstico diferencial disponível à beira do leito, muito antes do resultado de qualquer cultura. Vale consolidar o padrão: hifas curtas, não ramificadas, associadas a células esféricas agrupadas apontam para <em>Malassezia</em> (tinea versicolor); hifas longas, ramificadas e septadas apontam para dermatófitos; leveduras em brotamento, com ou sem pseudo-hifas, apontam para <em>Candida</em>; e uma zona clara (halo) proeminente ao redor de leveduras individuais, evidenciada pela tinta da China, é a assinatura da cápsula polissacarídica do <em>Cryptococcus neoformans</em> — um achado que nenhum outro fungo desta lista reproduz.</p>
+      <p>Essa capacidade de diferenciar morfologicamente não é trivialidade taxonômica: cada padrão reflete uma biologia distinta — hifas verdadeiras versus pseudo-hifas versus levedura pura refletem diferentes estratégias de crescimento fúngico, e a cápsula do <em>Cryptococcus</em> é, ela própria, um fator de virulência que dificulta a fagocitose pelo sistema imune do hospedeiro.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ============================================================
+     PRANCHA 04 — MAPA DE ATAQUE (INTERATIVO)
+     ============================================================ -->
+<section class="prancha" id="mapa-ataque">
+  <div class="prancha-cabecalho">
+    <span class="prancha-num">PRANCHA 04</span>
+    <h2 class="prancha-titulo">Mapa de ataque</h2>
+    <span class="prancha-eixo">toque em uma estrutura</span>
+  </div>
+  <p class="prancha-intro">Este é o corte transversal da fortaleza fúngica que vamos atacar nas próximas seis pranchas. Passe o cursor ou toque em cada estrutura para descobrir qual arsenal a ataca — e clique para ir direto à prancha correspondente.</p>
+
+  <div class="mapa-wrap">
+    <div class="mapa-svg-caixa">
+      <svg viewBox="0 0 880 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Corte transversal esquemático da célula fúngica com seis alvos farmacológicos interativos">
+
+        <!-- moldura tecnica -->
+        <rect x="8" y="8" width="864" height="444" fill="none" stroke="rgba(234,242,248,0.12)" stroke-width="1"/>
+        <text x="24" y="30" class="zona-rotulo" fill="rgba(234,242,248,0.35)">CORTE A-A · CÉLULA FÚNGICA · ESC. S/N</text>
+
+        <!-- ===== ZONA: PAREDE CELULAR (equinocandinas) ===== -->
+        <g class="zona" data-alvo="wall" data-anchor="#equinocandinas" tabindex="0" role="button" aria-label="Parede celular — Equinocandinas">
+          <rect x="60" y="70" width="760" height="52" rx="4" fill="var(--wall-soft)" stroke="var(--wall)" stroke-width="1.4" class="zona-traco"/>
+          <rect x="60" y="122" width="760" height="26" fill="var(--wall-soft)" stroke="var(--wall)" stroke-width="1" opacity="0.7" class="zona-traco"/>
+          <rect x="60" y="70" width="760" height="78" fill="transparent" class="zona-hit"/>
+          <text x="80" y="94" class="zona-rotulo" fill="var(--wall)">manoproteínas · β-glicanos</text>
+          <text x="80" y="140" class="zona-rotulo" fill="var(--wall)">quitina</text>
+          <text x="700" y="66" class="zona-rotulo" fill="var(--wall)">PAREDE CELULAR</text>
+        </g>
+
+        <!-- ===== ZONA: MEMBRANA - LIGACAO DIRETA (polienos) ===== -->
+        <g class="zona" data-alvo="bind" data-anchor="#polienos" tabindex="0" role="button" aria-label="Membrana plasmática — Macrolídeos poliênicos">
+          <rect x="60" y="150" width="760" height="46" fill="var(--bind-soft)" stroke="var(--bind)" stroke-width="1.4" class="zona-traco"/>
+          <!-- fosfolipidios esquematicos -->
+          <g stroke="var(--bind)" stroke-width="1" opacity="0.55">
+            <line x1="90" y1="160" x2="90" y2="186"/><line x1="120" y1="160" x2="120" y2="186"/>
+            <line x1="150" y1="160" x2="150" y2="186"/><line x1="180" y1="160" x2="180" y2="186"/>
+            <line x1="210" y1="160" x2="210" y2="186"/><line x1="240" y1="160" x2="240" y2="186"/>
+            <line x1="270" y1="160" x2="270" y2="186"/><line x1="300" y1="160" x2="300" y2="186"/>
+          </g>
+          <!-- ergosteróis -->
+          <circle cx="340" cy="173" r="7" fill="var(--bind)"/>
+          <circle cx="365" cy="165" r="7" fill="var(--bind)"/>
+          <circle cx="390" cy="180" r="7" fill="var(--bind)"/>
+          <!-- poro / canal transmembrana -->
+          <rect x="440" y="150" width="26" height="46" fill="none" stroke="var(--bind)" stroke-width="2"/>
+          <text x="418" y="212" class="zona-rotulo" fill="var(--bind)">poro / ergosterol</text>
+          <text x="700" y="146" class="zona-rotulo" fill="var(--bind)">MEMBRANA — LIGAÇÃO DIRETA</text>
+        </g>
+
+        <!-- caixa de detalhe: via biossintetica do ergosterol -->
+        <g>
+          <rect x="60" y="215" width="760" height="90" fill="none" stroke="rgba(234,242,248,0.15)" stroke-dasharray="3 3"/>
+          <text x="76" y="234" class="zona-rotulo" fill="rgba(234,242,248,0.4)">DETALHE — VIA DE SÍNTESE DO ERGOSTEROL</text>
+
+          <text x="76" y="270" class="zona-rotulo" fill="var(--ink-dim)">esqualeno</text>
+          <line x1="150" y1="266" x2="205" y2="266" stroke="var(--ink-faint)" stroke-width="1" marker-end="url(#seta)"/>
+
+          <!-- ZONA: esqualeno epoxidase (alilaminas) -->
+          <g class="zona" data-alvo="epox" data-anchor="#alilaminas" tabindex="0" role="button" aria-label="Esqualeno epoxidase — Alilaminas">
+            <circle cx="230" cy="266" r="22" fill="var(--epox-soft)" stroke="var(--epox)" stroke-width="1.4" class="zona-traco"/>
+            <rect x="200" y="240" width="60" height="55" fill="transparent" class="zona-hit"/>
+            <text x="230" y="271" text-anchor="middle" class="zona-rotulo" fill="var(--epox)">EPOX</text>
+          </g>
+
+          <line x1="252" y1="266" x2="330" y2="266" stroke="var(--ink-faint)" stroke-width="1" marker-end="url(#seta)"/>
+          <text x="336" y="270" class="zona-rotulo" fill="var(--ink-dim)">epóxido → lanosterol</text>
+          <line x1="470" y1="266" x2="530" y2="266" stroke="var(--ink-faint)" stroke-width="1" marker-end="url(#seta)"/>
+
+          <!-- ZONA: 14-alfa-desmetilase (azois) -->
+          <g class="zona" data-alvo="demet" data-anchor="#azois" tabindex="0" role="button" aria-label="14-alfa-desmetilase — Azóis">
+            <circle cx="558" cy="266" r="22" fill="var(--demet-soft)" stroke="var(--demet)" stroke-width="1.4" class="zona-traco"/>
+            <rect x="528" y="240" width="60" height="55" fill="transparent" class="zona-hit"/>
+            <text x="558" y="271" text-anchor="middle" class="zona-rotulo" fill="var(--demet)">CYP51</text>
+          </g>
+
+          <line x1="580" y1="266" x2="650" y2="266" stroke="var(--ink-faint)" stroke-width="1" marker-end="url(#seta)"/>
+          <text x="656" y="270" class="zona-rotulo" fill="var(--ink-dim)">ergosterol</text>
+        </g>
+
+        <!-- ===== CITOPLASMA / NUCLEO ===== -->
+        <rect x="60" y="325" width="760" height="110" fill="rgba(234,242,248,0.02)" stroke="rgba(234,242,248,0.12)"/>
+        <text x="76" y="345" class="zona-rotulo" fill="rgba(234,242,248,0.4)">CITOPLASMA</text>
+
+        <!-- ZONA: fuso mitotico (griseofulvina) -->
+        <g class="zona" data-alvo="fuso" data-anchor="#griseofulvina" tabindex="0" role="button" aria-label="Fuso mitótico — Griseofulvina">
+          <g class="zona-traco" stroke="var(--fuso)" stroke-width="1.6">
+            <line x1="150" y1="360" x2="150" y2="410"/>
+            <line x1="150" y1="360" x2="130" y2="405"/>
+            <line x1="150" y1="360" x2="170" y2="405"/>
+            <line x1="150" y1="410" x2="130" y2="365"/>
+            <line x1="150" y1="410" x2="170" y2="365"/>
+          </g>
+          <circle cx="150" cy="385" r="42" fill="var(--fuso-soft)" stroke="none"/>
+          <rect x="105" y="358" width="90" height="55" fill="transparent" class="zona-hit"/>
+          <text x="150" y="430" text-anchor="middle" class="zona-rotulo" fill="var(--fuso)">fuso mitótico</text>
+        </g>
+
+        <!-- ZONA: nucleo / acidos nucleicos (flucitosina) -->
+        <g class="zona" data-alvo="nucleo" data-anchor="#flucitosina" tabindex="0" role="button" aria-label="Núcleo — DNA e RNA — Flucitosina">
+          <ellipse cx="430" cy="382" rx="150" ry="46" fill="var(--nucleo-soft)" stroke="var(--nucleo)" stroke-width="1.4" class="zona-traco"/>
+          <path d="M300 382 Q 330 365, 360 382 T 420 382 T 480 382 T 540 382 T 560 382" fill="none" stroke="var(--nucleo)" stroke-width="1.3" opacity="0.7"/>
+          <path d="M300 392 Q 330 375, 360 392 T 420 392 T 480 392 T 540 392 T 560 392" fill="none" stroke="var(--nucleo)" stroke-width="1.3" opacity="0.5"/>
+          <rect x="290" y="345" width="280" height="75" fill="transparent" class="zona-hit"/>
+          <text x="430" y="415" text-anchor="middle" class="zona-rotulo" fill="var(--nucleo)">síntese de DNA, RNA</text>
+        </g>
+
+        <text x="700" y="345" class="zona-rotulo" fill="rgba(234,242,248,0.35)">núcleo</text>
+
+        <defs>
+          <marker id="seta" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="var(--ink-faint)"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="mapa-legenda" id="mapa-legenda">
+      <div class="mapa-legenda-rotulo">estrutura selecionada</div>
+      <div class="mapa-legenda-titulo" id="legenda-titulo">nenhuma</div>
+      <div class="mapa-legenda-drogas" id="legenda-drogas">—</div>
+      <div class="mapa-legenda-desc" id="legenda-desc">Passe o cursor sobre a parede celular, a membrana, a via do ergosterol ou o núcleo para ver qual classe de antifúngico ataca cada estrutura.</div>
+      <div class="mapa-legenda-cta" id="legenda-cta"></div>
+    </div>
+  </div>
+
+  <div class="chave-mapa">
+    <span><i style="background:var(--wall)"></i>equinocandinas</span>
+    <span><i style="background:var(--bind)"></i>polienos</span>
+    <span><i style="background:var(--demet)"></i>azóis</span>
+    <span><i style="background:var(--epox)"></i>alilaminas</span>
+    <span><i style="background:var(--nucleo)"></i>flucitosina</span>
+    <span><i style="background:var(--fuso)"></i>griseofulvina</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRANCHA 05 — MURALHA — EQUINOCANDINAS
+     ============================================================ -->
+<section class="prancha" id="equinocandinas">
+  <div class="prancha-cabecalho">
+    <span class="prancha-num">PRANCHA 05</span>
+    <h2 class="prancha-titulo">Muralha — Equinocandinas</h2>
+    <span class="prancha-eixo">alvo: parede celular</span>
+  </div>
+  <p class="prancha-intro">Se um exército quer destruir uma fortaleza sem se preocupar em atingir seus próprios soldados, o alvo ideal é uma estrutura que só o inimigo possui. A parede celular fúngica é exatamente isso.</p>
+
+  <div class="arma">
+    <div class="arma-cabecalho">
+      <span class="arma-alvo" style="--tint:var(--wall)">parede celular</span>
+      <h3 class="arma-nome">Equinocandinas</h3>
+      <span class="arma-classe">caspofungina · micafungina · anidulafungina</span>
+    </div>
+
+    <div class="corpo-largo">
+      <p>Disponíveis apenas para administração parenteral — não existe formulação oral eficaz para esta classe, uma limitação farmacocinética relevante na hora de planejar transição para terapia ambulatorial. O mecanismo de ação é a inibição da enzima <em>1,3-β-glicano sintase</em>, responsável por sintetizar o β-glicano, o polímero de glicose essencial à integridade estrutural da parede celular fúngica. Sem esse polímero, a célula perde a capacidade de resistir à pressão osmótica interna e sofre lise.</p>
+      <p>São fungicidas para <em>Candida</em>, mas apresentam um padrão mais fungistático contra <em>Aspergillus</em> — a explicação está na biologia do crescimento hifal: mesmo com a síntese de glicano comprometida, as regiões já formadas da hifa mantêm alguma integridade estrutural residual, de modo que o fármaco impede o avanço do crescimento sem necessariamente destruir a estrutura já existente.</p>
+      <p>A principal vantagem clínica desta classe é a atividade antifúngica consistente contra espécies de <em>Candida</em>, incluindo <em>Candida glabrata</em> e <em>Candida krusei</em> — ambas resistentes ao fluconazol —, combinada a baixíssimo potencial de toxicidade renal ou hepática. Não por acaso, as equinocandinas são hoje os fármacos de escolha para infecções por <em>Candida auris</em>, espécie multirresistente de relevância epidemiológica crescente. Como não são extensivamente eliminadas pelos rins, não é necessário ajuste posológico em disfunção renal.</p>
+      <p>Um ponto de atenção clínica: as equinocandinas não são recomendadas para candidíase ocular, do sistema nervoso central ou do trato urinário, porque apresentam penetração tecidual insuficiente nesses três compartimentos — de nada adianta um fármaco potente in vitro se ele não alcança concentração terapêutica no sítio da infecção.</p>
+    </div>
+
+    <h4 class="subtitulo-menor">diferenças entre os três representantes</h4>
+    <div class="grade grade-3">
+      <div class="bloco bloco--wall">
+        <h5>caspofungina</h5>
+        <p>Candidíase invasiva e esofágica; terapia de resgate em aspergilose invasiva refratária à anfotericina B.</p>
+      </div>
+      <div class="bloco bloco--wall">
+        <h5>micafungina</h5>
+        <p>Candidíase invasiva e esofágica; profilaxia em receptores de transplante de células-tronco hematopoiéticas.</p>
+      </div>
+      <div class="bloco bloco--wall">
+        <h5>anidulafungina</h5>
+        <p>Candidemia e outras infecções por Candida, incluindo abscessos intra-abdominais, peritonite e candidíase esofágica.</p>
+      </div>
+    </div>
+
+    <h4 class="subtitulo-menor">efeitos adversos e interações</h4>
+    <div class="corpo-largo">
+      <p>Os efeitos adversos são mínimos e raramente motivam a suspensão do tratamento: alterações gastrointestinais (náusea, vômito, diarreia, dor abdominal), flebite no local da infusão e, mais raramente, efeitos hematológicos (anemia, leucopenia, neutropenia, trombocitopenia) e hepatotoxicidade — vale monitorar AST e ALT. São contraindicadas na gestação. Do ponto de vista de interações medicamentosas, esta é a classe antifúngica sistêmica mais "silenciosa": não são inibidoras nem indutoras significativas do citocromo P450, o que reduz substancialmente o risco de interações farmacocinéticas quando comparadas a azóis ou até à anfotericina B.</p>
+    </div>
+
+    <details class="aprofunde">
+      <summary><span class="rotulo-aprofunde">aprofunde-se</span> por que a parede celular é o alvo farmacológico "perfeito" — e por que isso não resolve tudo</summary>
+      <div class="aprofunde-conteudo">
+        <p>A β-glicano sintase não tem ortólogo humano — nenhuma célula do nosso corpo produz ou depende de β-glicano estrutural. Isso torna as equinocandinas o exemplo mais próximo de toxicidade seletiva "ideal" entre todos os antifúngicos sistêmicos, comparável ao que os β-lactâmicos representam entre os antibacterianos. É por isso que o perfil de segurança desta classe é tão superior ao das demais.</p>
+        <p>O preço dessa seletividade quase perfeita é o espectro estreito: como o alvo é específico da parede celular de leveduras e, parcialmente, de bolores como <em>Aspergillus</em>, as equinocandinas não têm atividade relevante contra <em>Cryptococcus neoformans</em> — cuja parede celular tem composição e organização distintas —, contra os fungos dos gêneros <em>Mucor</em>/<em>Rhizopus</em> (mucormicose) nem contra os fungos dimórficos endêmicos. Um alvo mais exclusivo tende a significar um espectro mais restrito: essa é uma tensão recorrente em farmacologia antimicrobiana, não uma peculiaridade desta classe.</p>
+        <p>Vale ainda mencionar, como nota de resistência, que já foram descritas mutações no gene <em>FKS</em> — que codifica a própria subunidade catalítica da glicano sintase — capazes de reduzir a afinidade da enzima pelas equinocandinas, um mecanismo de resistência por modificação do alvo análogo ao que veremos, de forma mais detalhada, na prancha dos azóis.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRANCHA 06 — CORTINA — MACROLIDEOS POLIENICOS
+     ============================================================ -->
+<section class="prancha" id="polienos">
+  <div class="prancha-cabecalho">
+    <span class="prancha-num">PRANCHA 06</span>
+    <h2 class="prancha-titulo">Cortina — Macrolídeos poliênicos</h2>
+    <span class="prancha-eixo">alvo: ergosterol de membrana</span>
+  </div>
+  <p class="prancha-intro">Se a via de suprimento não pode ser cortada a tempo, ataca-se a muralha já construída. É exatamente essa a estratégia dos poliênicos: em vez de impedir a síntese do ergosterol, eles atacam o ergosterol já incorporado à membrana.</p>
+
+  <div class="arma">
+    <div class="arma-cabecalho">
+      <span class="arma-alvo" style="--tint:var(--bind)">membrana — ligação direta</span>
+      <h3 class="arma-nome">Anfotericina B</h3>
+      <span class="arma-classe">macrolídeo poliênico · produzido por <em>Streptomyces nodosus</em></span>
+    </div>
+
+    <div class="corpo-largo">
+      <p>Estruturalmente, é um macrolídeo — molécula com um grande anel de lactona de 12 ou mais átomos — e também um polieno, termo que descreve a presença de múltiplas ligações duplas conjugadas ao longo da cadeia. Essa dualidade química não é decorativa: confere à molécula um caráter anfipático, com uma face hidrofóbica rica em ligações duplas e uma face hidrofílica rica em hidroxilas — arquitetura que é a base direta do seu mecanismo de ação.</p>
+      <p>É o fungicida sistêmico de maior espectro entre todos os antifúngicos disponíveis, ativo contra <em>Candida</em> spp., <em>Histoplasma capsulatum</em>, <em>Cryptococcus neoformans</em>, <em>Sporothrix schenckii</em>, <em>Coccidioides</em> spp., <em>Blastomyces dermatitidis</em>, <em>Paracoccidioides brasiliensis</em> e <em>Aspergillus</em> spp. — mas não apresenta nenhuma atividade antibacteriana. É justamente esse espectro amplíssimo que mantém a anfotericina B relevante clinicamente, mesmo décadas após fármacos mais recentes e menos tóxicos terem assumido boa parte de suas indicações.</p>
+    </div>
+
+    <h4 class="subtitulo-menor">mecanismo de ação — dois modelos complementares</h4>
+    <div class="corpo-largo">
+      <p>A face hidrofóbica poliênica interage com o ergosterol da membrana fúngica sensível e forma poros ou canais transmembrana que aumentam a permeabilidade da membrana, permitindo o extravasamento de potássio e outras moléculas citosólicas pequenas — levando à perda da integridade da membrana e à morte celular. Esse é o modelo clássico do "canal iônico".</p>
+      <p>Um segundo modelo, hoje considerado igualmente ou até mais relevante em concentrações terapêuticas, descreve a formação de grandes agregados extramembranares de anfotericina B que sequestram o ergosterol da bicamada lipídica — como uma esponja — desorganizando a arquitetura da membrana independentemente da formação de um poro discreto. Na prática, os dois mecanismos provavelmente coexistem e se reforçam mutuamente.</p>
+    </div>
+
+    <details class="aprofunde">
+      <summary><span class="rotulo-aprofunde">aprofunde-se</span> canal iônico versus esponja molecular: por que essa distinção importa</summary>
+      <div class="aprofunde-conteudo">
+        <p>Por muito tempo, o modelo do poro transmembrana — análogo a um canal iônico formado por múltiplas moléculas de anfotericina B organizadas em barril ao redor de uma coluna de água central — foi tratado como a explicação completa do mecanismo de ação. Estudos biofísicos mais recentes mostraram que, nas concentrações efetivamente atingidas durante o tratamento, a anfotericina B tende a se organizar preferencialmente em grandes agregados extramembranares que extraem fisicamente o ergosterol da bicamada, de forma semelhante a como uma esponja absorve um líquido — desestabilizando a organização lipídica da membrana mesmo sem formar um canal discreto e funcional.</p>
+        <p>Essa reformulação não é apenas uma curiosidade acadêmica: ela ajuda a explicar por que a toxicidade da anfotericina B nem sempre se correlaciona linearmente com a formação de poros mensuráveis, e reforça a lógica por trás das formulações lipídicas mais modernas — se o mecanismo central depende da capacidade do fármaco de interagir com esteróis de membrana, então controlar como e onde essa interação acontece se torna a chave para reduzir toxicidade sem perder eficácia, exatamente o que as formulações lipossomais tentam fazer.</p>
+      </div>
+    </details>
+
+    <h4 class="subtitulo-menor">farmacocinética</h4>
+    <div class="ficha" style="--tint:var(--bind)">
+      <div class="ficha-topo"><span>ANFOTERICINA B DESOXICOLATO — ficha técnica</span><span class="mono">PRANCHA 06</span></div>
+      <div class="ficha-corpo">
+        <div class="linha-spec"><span class="spec-rotulo">absorção oral</span><span class="spec-preenche"></span><span class="spec-valor">insignificante — uso oral restrito a infecções do TGI superior</span></div>
+        <div class="linha-spec"><span class="spec-rotulo">via para efeito sistêmico</span><span class="spec-preenche"></span><span class="spec-valor">intravenosa</span></div>
+        <div class="linha-spec"><span class="spec-rotulo">ligação a proteínas plasmáticas</span><span class="spec-preenche"></span><span class="spec-valor">&gt; 90%</span></div>
+        <div class="linha-spec"><span class="spec-rotulo">penetração tecidual</span><span class="spec-preenche"></span><span class="spec-valor">baixa; SNC pouco penetrado, melhora com meninges inflamadas</span></div>
+        <div class="linha-spec"><span class="spec-rotulo">meia-vida de eliminação</span><span class="spec-preenche"></span><span class="spec-valor">≈ 15 dias</span></div>
+        <div class="linha-spec"><span class="spec-rotulo">excreção renal</span><span class="spec-preenche"></span><span class="spec-valor">≈ 40%, de forma lenta</span></div>
+      </div>
+    </div>
+
+    <h4 class="subtitulo-menor">uso clínico</h4>
+    <div class="corpo-largo">
+      <p>Continua sendo um agente útil para praticamente todas as infecções fúngicas com risco de vida, embora fármacos mais recentes e menos tóxicos a tenham substituído na maioria das condições eletivas. Seu papel clássico é o de terapia de indução — reduzir rapidamente a carga fúngica em pacientes imunossuprimidos e naqueles com pneumonia fúngica grave, meningite criptocócica grave ou infecções disseminadas por micoses endêmicas — sendo posteriormente substituída por um azólico mais moderno para a fase de manutenção. Seu uso em infecções fúngicas superficiais, como dermatofitoses, é off-label e não recomendado.</p>
+    </div>
+
+    <div class="grade grade-3">
+      <div class="bloco bloco--warn">
+        <h5>durante a infusão</h5>
+        <p>Febre, calafrios e hipotensão são reações agudas ligadas ao próprio ato de infundir o fármaco.</p>
+      </div>
+      <div class="bloco bloco--warn">
+        <h5>após semanas de uso</h5>
+        <p>Anemia, tipicamente após mais de duas semanas de tratamento contínuo.</p>
+      </div>
+      <div class="bloco bloco--warn">
+        <h5>toxicidade limitante</h5>
+        <p>Insuficiência renal — o efeito adverso que mais restringe clinicamente o uso da formulação desoxicolato.</p>
+      </div>
+    </div>
+
+    <h4 class="subtitulo-menor">formulação lipossomal versus convencional</h4>
+    <div class="corpo-largo">
+      <p>A anfotericina B lipossomal (L-AmB) encapsula o fármaco em vesículas lipídicas, reduzindo consideravelmente o risco de lesão renal aguda quando comparada à formulação desoxicolato convencional (C-AmB). O mecanismo proposto depende da presença de lipases na parede celular fúngica: essas enzimas degradam preferencialmente o lipossomo próximo ao alvo fúngico, liberando anfotericina B livre justamente onde ela é necessária — e poupando, na teoria, a exposição sistêmica que causaria toxicidade tubular renal. Isso é seletividade farmacocinética conquistada por engenharia de formulação, e não por uma molécula quimicamente diferente.</p>
+    </div>
+
+    <div class="nota nota--note">
+      <div class="nota-rotulo">mecanismos de resistência</div>
+      <p>A resistência a poliênicos ocorre quando a ligação ao ergosterol é prejudicada — seja por modificação da molécula de esterol-alvo, reduzindo sua afinidade pelo fármaco, seja por simples redução da concentração de ergosterol disponível na membrana. É um mecanismo de resistência conceitualmente mais simples do que o observado nos azóis, e por isso a resistência primária a poliênicos é, na prática clínica, relativamente incomum.</p>
+    </div>
+  </div>
+
+  <div class="arma" style="border-top:none; margin-top:-2rem;">
+    <div class="arma-cabecalho">
+      <span class="arma-alvo" style="--tint:var(--bind)">membrana — ligação direta</span>
+      <h3 class="arma-nome">Nistatina</h3>
+      <span class="arma-classe">macrolídeo poliênico · produzido por <em>Streptomyces noursei</em></span>
+    </div>
+    <div class="corpo-largo">
+      <p>Compartilha exatamente o mesmo mecanismo de ação da anfotericina B, mas com um destino farmacocinético completamente diferente: não é absorvida pelo trato gastrointestinal, pela pele ou pela vagina, o que a torna inadequada para qualquer efeito sistêmico e a restringe ao uso tópico. Suas indicações se limitam ao tratamento da candidíase superficial — cutânea, vaginal (embora os azóis sejam mais efetivos nessa indicação) e oral. Para a candidíase oral especificamente, a técnica de administração importa: a suspensão deve ser bochechada e mantida por vários minutos na cavidade oral antes de ser deglutida, porque engolir cedo demais pode deixar de tratar a mucosa infectada na parte posterior da faringe ou do esôfago.</p>
+      <p>Os efeitos adversos são incomuns e incluem náuseas, vômitos e diarreia quando deglutida, além de reações alérgicas locais.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRANCHA 07 — LINHA DE SUPRIMENTO I — AZOIS
+     ============================================================ -->
+<section class="prancha" id="azois">
+  <div class="prancha-cabecalho">
+    <span class="prancha-num">PRANCHA 07</span>
+    <h2 class="prancha-titulo">Linha de suprimento I — Azóis</h2>
+    <span class="prancha-eixo">alvo: 14-α-esterol-desmetilase (CYP51)</span>
+  </div>
+  <p class="prancha-intro">Em vez de atacar a muralha já erguida, esta classe corta a via de suprimento de ergosterol antes que ele chegue à membrana — e faz isso interrompendo justamente a etapa final da produção.</p>
+
+  <div class="arma">
+    <div class="arma-cabecalho">
+      <span class="arma-alvo" style="--tint:var(--demet)">membrana — bloqueio da síntese</span>
+      <h3 class="arma-nome">Imidazóis e Triazóis</h3>
+      <span class="arma-classe">cetoconazol, miconazol, clotrimazol · fluconazol, itraconazol, voriconazol, posaconazol</span>
+    </div>
+
+    <div class="corpo-largo">
+      <p>O núcleo azólico admite duas variações estruturais que dão nome às duas subclasses: quando a posição X do anel é ocupada por carbono, temos um imidazol (dois átomos de nitrogênio no anel); quando X é ocupado por nitrogênio, temos um triazol (três átomos de nitrogênio). Os imidazóis incluem cetoconazol, miconazol e clotrimazol; os triazóis incluem fluconazol, itraconazol, voriconazol e posaconazol. Essa diferença de um único átomo no anel parece pequena, mas tem consequências farmacológicas importantes, como veremos a seguir.</p>
+      <p>Todos os azóis compartilham o mesmo mecanismo de ação: inibem a enzima do citocromo P450 fúngico <em>14-α-esterol-desmetilase</em> — também chamada lanosterol 14-α-desmetilase, ou CYP51 fúngica —, responsável por converter o lanosterol em ergosterol. Ao bloquear essa conversão, os azóis não apenas depletam o ergosterol disponível para a membrana, mas também permitem o acúmulo de esteróis metilados anômalos, que se incorporam de forma desorganizada à bicamada lipídica e comprometem sua função e permeabilidade. O efeito final é a inibição do crescimento fúngico. De modo geral, os azóis são fungistáticos contra <em>Candida</em>; o voriconazol é uma exceção relevante, sendo fungicida contra <em>Aspergillus</em>.</p>
+    </div>
+
+    <h4 class="subtitulo-menor">imidazóis versus triazóis: uma questão de seletividade</h4>
+    <div class="corpo-largo">
+      <p>A toxicidade seletiva dos azóis decorre de sua maior afinidade pelas enzimas do citocromo P450 fúngico do que pelas enzimas humanas equivalentes. Só que essa seletividade não é igual entre as duas subclasses: os imidazóis apresentam menor grau de seletividade do que os triazóis, o que explica sua maior incidência de interações medicamentosas e efeitos adversos sistêmicos. Na prática, isso empurrou miconazol e clotrimazol para uso exclusivamente tópico, e o cetoconazol para uso preferencialmente tópico. Os triazóis, por outro lado, são geralmente bem tolerados, apresentam farmacocinética superior e perfis de segurança mais favoráveis, sendo por isso os azóis de escolha para uso sistêmico no tratamento de micoses sistêmicas.</p>
+    </div>
+
+    <h4 class="subtitulo-menor">cetoconazol — o pioneiro e seus limites</h4>
+    <div class="corpo-largo">
+      <p>Foi o primeiro azol disponível por via oral para tratar infecções fúngicas sistêmicas, mas é relativamente tóxico por essa via, e a recidiva é comum mesmo após tratamento aparentemente bem-sucedido — motivos que levaram à substituição do seu uso sistêmico por azóis mais modernos. É pouco ou nada ativo contra espécies de <em>Aspergillus</em>. Hoje, seu principal uso clínico é tópico, no tratamento de dermatofitoses, em xampu ou creme dermatológico, com tempo de tratamento de 4 a 8 semanas para alívio dos sintomas. Requer acidez gástrica para ser absorvido por via oral, o que significa que antiácidos, inibidores de bomba de prótons e antagonistas H2 reduzem sua absorção — uma interação farmacocinética simples, mas clinicamente relevante quando o uso sistêmico ainda é necessário.</p>
+    </div>
+
+    <div class="ficha" style="--tint:var(--demet)">
+      <div class="ficha-topo"><span>CETOCONAZOL — ficha técnica</span><span class="mono">PRANCHA 07</span></div>
+      <div class="ficha-corpo">
+        <div class="linha-spec"><span class="spec-rotulo">vias de administração</span><span class="spec-preenche"></span><span class="spec-valor">oral, tópica</span></div>
+        <div class="linha-spec"><span class="spec-rotulo">biodisponibilidade oral</span><span class="spec-preenche"></span><span class="spec-valor">variável — depende de acidez gástrica</span></div>
+        <div class="linha-spec"><span class="spec-rotulo">via primária de excreção</span><span class="spec-preenche"></span><span class="spec-valor">biliar (≈ 95%)</span></div>
+        <div class="linha-spec"><span class="spec-rotulo">enzima CYP inibida</span><span class="spec-preenche"></span><span class="spec-valor">CYP3A4 — inibidor potente</span></div>
+        <div class="linha-spec"><span class="spec-rotulo">meia-vida</span><span class="spec-preenche"></span><span class="spec-valor">6 a 9 horas</span></div>
+        <div class="linha-spec"><span class="spec-rotulo">penetração no LCS</span><span class="spec-preenche"></span><span class="spec-valor">insignificante</span></div>
+      </div>
+    </div>
+
+    <div class="nota nota--warn">
+      <div class="nota-rotulo">riscos do uso sistêmico do cetoconazol</div>
+      <p>Toxicidade hepática rara, porém potencialmente fatal — monitorar AST e ALT. Alterações gastrointestinais e intolerância ao álcool, por prejuízo na biotransformação etílica. Em doses altas (≥ 600 mg/dia), inibe a esteroidogênese suprarrenal — reduzindo cortisol e aldosterona séricos — e gonadal — reduzindo a testosterona sérica, sobretudo por inibir a atividade da CYP17 (17-α-hidroxilase) — o que pode causar impotência sexual e ginecomastia. Diferencia-se dos triazóis por sua maior propensão a inibir enzimas do citocromo P450 humano, resultando em elevado número de interações farmacológicas.</p>
+    </div>
+
+    <details class="aprofunde">
+      <summary><span class="rotulo-aprofunde">aprofunde-se</span> quando um efeito adverso vira indicação terapêutica</summary>
+      <div class="aprofunde-conteudo">
+        <p>As enzimas CYP não atuam apenas no metabolismo de fármacos exógenos — elas também participam ativamente da síntese endógena de hormônios esteroides na suprarrenal e nas gônadas. É exatamente por inibir a CYP17 (17-α-hidroxilase) nessas duas vias que o cetoconazol em altas doses reduz cortisol, aldosterona e testosterona séricos.</p>
+        <p>Esse mesmo "efeito adverso" tem sido reaproveitado clinicamente: a redução de cortisol torna o cetoconazol uma opção off-label no tratamento da doença de Cushing, quando a causa não pode ser removida cirurgicamente de imediato; e a redução de testosterona o torna uma opção de segunda linha no tratamento do câncer de próstata testosterona-dependente, antes da disseminação de antiandrogênicos mais modernos e seletivos. É um bom lembrete de que, em farmacologia, o mesmo mecanismo pode ser toxicidade em um contexto e ferramenta terapêutica em outro — depende inteiramente da dose e do objetivo clínico.</p>
+      </div>
+    </details>
+
+    <h4 class="subtitulo-menor">os quatro triazóis sistêmicos</h4>
+    <div class="corpo-largo">
+      <p><em>Fluconazol</em> — nas doses habituais, não inibe a esteroidogênese nem o metabolismo hepático de outros fármacos na mesma extensão que o cetoconazol. Apresenta excelente atividade contra a maioria das espécies de <em>Candida</em>, mas atividade reduzida contra <em>C. glabrata</em> e nenhuma atividade contra <em>C. krusei</em> — ambas consideradas intrinsecamente resistentes ao fluconazol. Possui excelente e ampla atividade contra <em>Cryptococcus</em>, mas não tem atividade útil contra histoplasmose, blastomicose ou esporotricose, nem é eficaz na prevenção ou tratamento da aspergilose. É eliminado por via renal, exigindo ajuste de dose na insuficiência renal, e penetra bem o líquido cefalorraquidiano — combinação que o torna a base das fases de consolidação e manutenção do tratamento da meningoencefalite criptocócica, detalhado no bloco de posologia mais abaixo.</p>
+      <p><em>Itraconazol</em> — carece do efeito de supressão de corticosteroides associado ao cetoconazol. É o azólico de escolha para infecções não meníngeas indolentes causadas por <em>Blastomyces dermatitidis</em>, <em>Histoplasma capsulatum</em>, <em>Sporothrix</em>, <em>Paracoccidioides brasiliensis</em> e <em>Coccidioides immitis</em> — mas não penetra o líquor, o que exclui seu uso em formas meníngeas dessas mesmas micoses. Tem atividade contra <em>Aspergillus</em>, porém foi em grande parte substituído pelo voriconazol nessa indicação. É muito utilizado no tratamento de dermatofitoses e onicomicose. Em raros casos, causa hepatotoxicidade grave, com insuficiência hepática e óbito; também pode causar alterações gastrointestinais, cefaleia e erupções graves, incluindo a síndrome de Stevens-Johnson.</p>
+      <p><em>Voriconazol e posaconazol</em> — são os azóis de espectro mais amplo, sendo o posaconazol o de maior espectro entre todos. O posaconazol é usado principalmente no tratamento e na profilaxia de infecções invasivas por <em>Candida</em> e <em>Aspergillus</em>; seus efeitos adversos mais comuns são náuseas, vômitos, diarreia, dor abdominal e cefaleia, e é um potente inibidor da CYP3A4. Já o voriconazol é o azol de escolha no tratamento da aspergilose invasiva, com menor toxicidade comparado à anfotericina B; apresenta reações adversas únicas entre os azóis — alterações visuais transitórias e erupção por fotossensibilidade — e inibe CYP2C9, CYP2C19 e CYP3A4.</p>
+    </div>
+
+    <div class="ficha" style="--tint:var(--demet)">
+      <div class="ficha-topo"><span>TRIAZÓIS — perfil farmacocinético comparado</span><span class="mono">PRANCHA 07</span></div>
+      <div class="ficha-corpo">
+        <div class="linha-spec"><span class="spec-rotulo">fluconazol</span><span class="spec-preenche"></span><span class="spec-valor">oral/IV · biodisp. &gt;90% · eliminação renal · CSF sim · t½ 24h</span></div>
+        <div class="linha-spec"><span class="spec-rotulo">itraconazol</span><span class="spec-preenche"></span><span class="spec-valor">oral · biodisp. 55% · eliminação hepática CYP3A4 · CSF não · t½ 25–50h</span></div>
+        <div class="linha-spec"><span class="spec-rotulo">voriconazol</span><span class="spec-preenche"></span><span class="spec-valor">oral/IV · biodisp. &gt;90% · eliminação hepática CYP2C19/2C9/3A4 · CSF sim · t½ variável</span></div>
+        <div class="linha-spec"><span class="spec-rotulo">posaconazol</span><span class="spec-preenche"></span><span class="spec-valor">oral/IV · biodisp. 54% · pouco metabolizado, 66% inalterado nas fezes · CSF sim · t½ 20–66h</span></div>
+      </div>
+    </div>
+
+    <h4 class="subtitulo-menor">posologia de campo — fluconazol na prática</h4>
+    <div class="grade grade-2">
+      <div class="bloco bloco--clin">
+        <h5>candidíase vulvovaginal não complicada</h5>
+        <p>Dose única de fluconazol oral 150 mg, preferível a regimes com múltiplas doses ou tratamentos tópicos para sintomas leves. Sintomas moderados costumam exigir uma segunda dose 72 horas após a primeira.</p>
+      </div>
+      <div class="bloco bloco--clin">
+        <h5>complicada, não gestante</h5>
+        <p>Fluconazol oral 150 mg em duas doses sequenciais, com intervalo de três dias entre elas, em vez de dose única ou tratamento tópico.</p>
+      </div>
+      <div class="bloco bloco--clin">
+        <h5>complicada, gestante</h5>
+        <p>Terapia tópica com azólico por via vaginal durante sete dias consecutivos — clotrimazol ou miconazol, nunca fluconazol oral.</p>
+      </div>
+      <div class="bloco bloco--clin">
+        <h5>candidíase vulvovaginal recorrente</h5>
+        <p>Mais de 50% das pacientes voltam a apresentar sintomas após suspender a manutenção com fluconazol — quadro chamado RVVC dependente de fluconazol, geralmente não relacionado a resistência. Duas estratégias: tratamento episódico de cada recorrência, ou indução (150 mg VO a cada 72h, três doses) seguida de manutenção prolongada (150 mg VO semanal por 6 meses, podendo se estender).</p>
+      </div>
+    </div>
+
+    <div class="ficha" style="--tint:var(--demet)">
+      <div class="ficha-topo"><span>MENINGOENCEFALITE CRIPTOCÓCICA — esquema em três fases</span><span class="mono">PRANCHA 07</span></div>
+      <div class="ficha-corpo">
+        <div class="linha-spec"><span class="spec-rotulo">indução (≥ 2 semanas)</span><span class="spec-preenche"></span><span class="spec-valor">anfotericina B (desoxicolato 0,7–1 mg/kg/dia IV ou lipossomal 3–4 mg/kg/dia IV) + flucitosina 100 mg/kg/dia VO, dividida em 4 doses</span></div>
+        <div class="linha-spec"><span class="spec-rotulo">consolidação (8 semanas)</span><span class="spec-preenche"></span><span class="spec-valor">fluconazol 400–800 mg/dia VO (12 mg/kg em crianças)</span></div>
+        <div class="linha-spec"><span class="spec-rotulo">manutenção (≈ 1 ano)</span><span class="spec-preenche"></span><span class="spec-valor">fluconazol 200 mg/dia VO — em HIV, pode se estender por tempo indefinido como profilaxia secundária</span></div>
+      </div>
+    </div>
+
+    <div class="nota nota--warn">
+      <div class="nota-rotulo">fluconazol — efeitos adversos e interações</div>
+      <p>Os efeitos adversos são em geral brandos — náusea, cefaleia, dor abdominal e diarreia —, embora tenham sido relatados casos raros de morte por insuficiência hepática. O fluconazol inibe a CYP3A4 (podendo elevar níveis de alprazolam e varfarina), a CYP2C9 (elevando níveis de varfarina) e a CYP2C19 (podendo comprometer a bioativação do clopidogrel, um pró-fármaco que depende dessa enzima para se tornar ativo).</p>
+    </div>
+
+    <h4 class="subtitulo-menor">miconazol e clotrimazol — agentes exclusivamente tópicos</h4>
+    <div class="corpo-largo">
+      <p>Disponíveis em formulações dermatológicas, vaginais e, no caso do miconazol, também gel oral. Na candidíase vulvovaginal em gestantes, são a opção recomendada — ao contrário do fluconazol oral —, e o tratamento não deve ultrapassar sete dias. Também são amplamente usados no tratamento tópico de dermatofitoses.</p>
+    </div>
+
+    <h4 class="subtitulo-menor">mecanismos de resistência aos azóis</h4>
+    <div class="corpo-largo">
+      <p>A resistência fúngica aos azóis não surge por um único caminho — ela converge para pelo menos cinco estratégias distintas, todas girando em torno do gene <em>Cyp51A</em>, que codifica a 14-α-esterol-desmetilase.</p>
+    </div>
+    <div class="grade grade-3">
+      <div class="bloco bloco--demet">
+        <h5>afinidade reduzida</h5>
+        <p>Mutações pontuais na enzima-alvo (G54E/R, M220I, G448S, P216L) reduzem a afinidade do azol pela enzima, sem comprometer sua função catalítica normal.</p>
+      </div>
+      <div class="bloco bloco--demet">
+        <h5>superexpressão do alvo</h5>
+        <p>Mutações promotoras (TR34/L98H, TR46/Y121F/T289A, HapE P88L) aumentam a quantidade de enzima produzida — mesmo com afinidade reduzida por molécula, há enzima suficiente escapando da inibição.</p>
+      </div>
+      <div class="bloco bloco--demet">
+        <h5>efluxo aumentado</h5>
+        <p>Superexpressão de bombas de efluxo, como o transportador Cdr1B, reduz a concentração intracelular do fármaco antes que ele possa agir.</p>
+      </div>
+      <div class="bloco bloco--demet">
+        <h5>degradação do fármaco</h5>
+        <p>Mecanismo ainda pouco elucidado, mas documentado como via adicional de escape à ação azólica.</p>
+      </div>
+      <div class="bloco bloco--demet">
+        <h5>via alternativa (bypass)</h5>
+        <p>Expressão de uma via metabólica alternativa que contorna a necessidade da enzima bloqueada — mecanismo também ainda não totalmente esclarecido.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRANCHA 08 — LINHA DE SUPRIMENTO II — ALILAMINAS
+     ============================================================ -->
+<section class="prancha" id="alilaminas">
+  <div class="prancha-cabecalho">
+    <span class="prancha-num">PRANCHA 08</span>
+    <h2 class="prancha-titulo">Linha de suprimento II — Alilaminas</h2>
+    <span class="prancha-eixo">alvo: esqualeno epoxidase</span>
+  </div>
+  <p class="prancha-intro">Um ponto mais adiantado da mesma via de suprimento, atacado desta vez logo na primeira etapa — com uma consequência tática que faz toda a diferença: o material barrado na fábrica não some, ele se acumula e se torna, por si só, uma arma.</p>
+
+  <div class="arma">
+    <div class="arma-cabecalho">
+      <span class="arma-alvo" style="--tint:var(--epox)">membrana — bloqueio da síntese</span>
+      <h3 class="arma-nome">Terbinafina</h3>
+      <span class="arma-classe">alilamina sintética</span>
+    </div>
+
+    <div class="corpo-largo">
+      <p>Fungicida de uso oral ou tópico — creme dermatológico e solução — indicado para infecções fúngicas superficiais. O mecanismo de ação é a inibição seletiva da enzima <em>esqualeno epoxidase</em>, responsável por converter esqualeno em epóxido de esqualeno, a primeira etapa comprometida da via do ergosterol que vimos na prancha 01. Essa inibição reduz a síntese de ergosterol, mas o efeito farmacologicamente mais importante é outro: o acúmulo do próprio esqualeno, que é diretamente tóxico para a célula fúngica.</p>
+    </div>
+
+    <details class="aprofunde">
+      <summary><span class="rotulo-aprofunde">aprofunde-se</span> por que a terbinafina é fungicida e a maioria dos azóis é fungistática</summary>
+      <div class="aprofunde-conteudo">
+        <p>Compare os dois pontos de bloqueio na mesma via metabólica: os azóis bloqueiam uma etapa mais tardia, a conversão de lanosterol em ergosterol, causando principalmente depleção do produto final e acúmulo de esteróis metilados intermediários — um efeito predominantemente inibitório do crescimento, sem necessariamente destruir a célula (por isso fungistático contra a maioria das espécies de <em>Candida</em>).</p>
+        <p>A terbinafina, por sua vez, bloqueia a etapa inicial da via, catalisada pela esqualeno epoxidase. Como essa é uma etapa "de entrada" para toda a via biossintética subsequente, o esqualeno — substrato dessa enzima — não tem para onde ir e se acumula em quantidades consideráveis dentro da célula fúngica. Esse acúmulo de esqualeno não é apenas depleção de ergosterol a jusante: é, por si só, diretamente tóxico às membranas fúngicas, provavelmente por desorganizar a arquitetura lipídica de forma mais agressiva do que a simples ausência de ergosterol conseguiria. É essa combinação — depleção do produto final somada ao acúmulo tóxico do substrato inicial — que explica por que a terbinafina costuma ser fungicida, enquanto o bloqueio mais tardio dos azóis tende a ser apenas fungistático.</p>
+      </div>
+    </details>
+
+    <h4 class="subtitulo-menor">uso clínico</h4>
+    <div class="corpo-largo">
+      <p>Sua principal indicação é o tratamento de dermatofitoses, em particular a onicomicose — a tinha das unhas. O uso diário por 12 semanas resulta em taxa de cura de até 90% dos casos de onicomicose, superando o itraconazol e a griseofulvina nessa mesma indicação, um dado que vale a pena reter para a prática clínica.</p>
+    </div>
+
+    <div class="grade grade-2">
+      <div class="bloco bloco--warn">
+        <h5>efeitos adversos</h5>
+        <p>Raros — predominam distúrbios gastrointestinais e cefaleia. Muito raramente, hepatotoxicidade grave e neutropenia grave.</p>
+      </div>
+      <div class="bloco bloco--note">
+        <h5>interações medicamentosas</h5>
+        <p>A terbinafina não parece afetar de forma relevante o sistema do citocromo P450, e até o momento não foram demonstradas interações medicamentosas clinicamente significativas — um contraste marcante com o perfil de interações dos azóis sistêmicos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRANCHA 09 — SABOTAGEM INTERNA I — FLUCITOSINA
+     ============================================================ -->
+<section class="prancha" id="flucitosina">
+  <div class="prancha-cabecalho">
+    <span class="prancha-num">PRANCHA 09</span>
+    <h2 class="prancha-titulo">Sabotagem interna I — Flucitosina</h2>
+    <span class="prancha-eixo">alvo: síntese de DNA</span>
+  </div>
+  <p class="prancha-intro">Em vez de atacar as muralhas externas, esta arma é contrabandeada para dentro da fortaleza disfarçada de suprimento inofensivo — e só revela sua verdadeira natureza depois de já estar lá dentro.</p>
+
+  <div class="arma">
+    <div class="arma-cabecalho">
+      <span class="arma-alvo" style="--tint:var(--nucleo)">núcleo — ácidos nucleicos</span>
+      <h3 class="arma-nome">Flucitosina (5-FC)</h3>
+      <span class="arma-classe">análogo da pirimidina · 5-fluorocitosina</span>
+    </div>
+
+    <div class="corpo-largo">
+      <p>É um agente fungistático sistêmico, ativo por via oral, mas com espectro estreito — atua principalmente sobre leveduras. Justamente por essa limitação de espectro e pelo risco de resistência rápida em monoterapia, é usada quase exclusivamente como adjuvante em associação com a anfotericina B, com quem exerce efeito sinérgico, no tratamento da candidíase e da meningite criptocócica. No Brasil, foi incorporada ao SUS especificamente para o tratamento da meningite criptocócica e de outras formas de neurocriptococose.</p>
+    </div>
+
+    <h4 class="subtitulo-menor">mecanismo de ação — um cavalo de troia metabólico</h4>
+    <div class="corpo-largo">
+      <p>A flucitosina é captada pelas células fúngicas por meio da enzima <em>citosina-permease</em>, um transportador de membrana que a reconhece como se fosse citosina natural. Uma vez dentro da célula, é convertida pela enzima fúngica <em>citosina-desaminase</em> no antimetabólito 5-fluorouracila (5-FU) — o mesmo composto usado como quimioterápico antineoplásico. A 5-FU é então metabolizada a 5-fluorodesoxiuridina monofosfato (5-FdUMP), um potente inibidor da enzima <em>timidilato sintetase</em>, responsável por converter dUMP em dTMP (timidina monofosfato). Sem dTMP disponível, a síntese de DNA e a divisão celular ficam bloqueadas — um mecanismo de "morte por falta de timina", análogo ao de alguns quimioterápicos antimetabólitos.</p>
+    </div>
+
+    <details class="aprofunde">
+      <summary><span class="rotulo-aprofunde">aprofunde-se</span> por que uma célula humana não converte flucitosina em veneno — e quando ela acaba convertendo mesmo assim</summary>
+      <div class="aprofunde-conteudo">
+        <p>A seletividade teórica da flucitosina depende de duas etapas que as células fúngicas realizam com eficiência muito maior do que as células humanas: a captação pela citosina-permease e, principalmente, a conversão pela citosina-desaminase. Células de mamíferos têm atividade de citosina-desaminase muito baixa ou ausente, o que em teoria deveria poupar completamente o hospedeiro da toxicidade do 5-FU gerado.</p>
+        <p>O problema é que essa seletividade tem uma brecha conhecida: bactérias da microbiota intestinal do próprio paciente <em>possuem</em> citosina-desaminase e podem converter parte da flucitosina absorvida em 5-FU sistemicamente, fora do controle do organismo humano. Esse 5-FU "vazado" pela flora intestinal é responsável pela principal toxicidade limitante da flucitosina: depressão de medula óssea, causando anemia, leucopenia e trombocitopenia — daí a recomendação de cautela redobrada em pacientes já submetidos a radioterapia ou quimioterapia mielossupressora. Também pode ocorrer disfunção hepática reversível e distúrbios gastrointestinais em cerca de 6% dos pacientes.</p>
+      </div>
+    </details>
+
+    <div class="nota nota--clin">
+      <div class="nota-rotulo">por que sempre em combinação com anfotericina B?</div>
+      <p>A associação não é apenas aditiva — é sinérgica em dois sentidos práticos. Primeiro, a anfotericina B permeabiliza a membrana fúngica ao formar poros e desestabilizar a bicamada, o que facilita a entrada de flucitosina na célula. Segundo, e talvez mais importante do ponto de vista de saúde pública, a combinação suprime o surgimento de mutantes resistentes que emergiriam rapidamente sob monoterapia com flucitosina — a resistência a esse fármaco isolado pode se desenvolver por mutação da própria citosina-permease, da citosina-desaminase ou de uma enzima downstream, a uridina-monofosfato-pirofosforilase. É exatamente o mesmo raciocínio farmacológico por trás da terapia combinada na tuberculose ou da terapia antirretroviral combinada no HIV: nunca deixar um único fármaco sozinho sob pressão seletiva quando a resistência de ponto único é fácil de emergir.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRANCHA 10 — SABOTAGEM INTERNA II — GRISEOFULVINA
+     ============================================================ -->
+<section class="prancha" id="griseofulvina">
+  <div class="prancha-cabecalho">
+    <span class="prancha-num">PRANCHA 10</span>
+    <h2 class="prancha-titulo">Sabotagem interna II — Griseofulvina</h2>
+    <span class="prancha-eixo">alvo: fuso mitótico</span>
+  </div>
+  <p class="prancha-intro">Esta arma não mata quem já está dentro da fortaleza — ela impede que novos reforços sejam produzidos, deixando o tempo fazer o trabalho de expulsar o invasor à medida que o tecido velho é naturalmente substituído.</p>
+
+  <div class="arma">
+    <div class="arma-cabecalho">
+      <span class="arma-alvo" style="--tint:var(--fuso)">citoplasma — microtúbulos</span>
+      <h3 class="arma-nome">Griseofulvina</h3>
+      <span class="arma-classe">produzida por <em>Penicillium griseofulvum</em></span>
+    </div>
+
+    <div class="corpo-largo">
+      <p>É um fungistático de uso sistêmico oral, restrito a infecções fúngicas superficiais — e, mais especificamente, a um único uso clínico: o tratamento de dermatofitoses. O mecanismo de ação é peculiar entre os antifúngicos: a griseofulvina se deposita seletivamente nos tecidos recém-formados que contêm queratina — cabelos e unhas em crescimento recente —, onde atua inibindo a mitose fúngica ao se ligar a proteínas microtubulares intracelulares, especificamente a β-tubulina, desorganizando a formação do fuso mitótico.</p>
+    </div>
+
+    <details class="aprofunde">
+      <summary><span class="rotulo-aprofunde">aprofunde-se</span> por que o tempo de tratamento depende do tipo de tecido — e não da dose</summary>
+      <div class="aprofunde-conteudo">
+        <p>Repare que o mecanismo de ação da griseofulvina não mata diretamente as células fúngicas já estabelecidas no tecido infectado — ele bloqueia a divisão celular fúngica nas células que tentam colonizar o tecido queratinizado <em>recém-formado</em>. Isso significa que o fármaco não "limpa" a infecção existente de forma ativa; ele impede que a infecção avance para o tecido novo, enquanto o próprio crescimento fisiológico do hospedeiro substitui gradualmente o tecido velho e infectado por tecido novo e protegido.</p>
+        <p>É exatamente por isso que a duração do tratamento não é definida pela farmacocinética do fármaco, mas pela velocidade de renovação de cada tecido queratinizado: cerca de um mês para dermatofitoses do couro cabeludo e dos cabelos, que crescem relativamente rápido; seis a nove meses para as unhas das mãos; e pelo menos um ano para as unhas dos pés — reflexo direto de que as unhas dos pés crescem visivelmente mais devagar do que as das mãos. Aumentar a dose não acelera esse processo, porque o fator limitante é biológico, não farmacocinético.</p>
+      </div>
+    </details>
+
+    <div class="corpo-largo">
+      <p>Foi amplamente substituída na prática clínica por antifúngicos mais recentes — itraconazol e terbinafina —, que oferecem cursos de tratamento mais curtos e perfis de interação mais favoráveis.</p>
+    </div>
+
+    <div class="grade grade-2">
+      <div class="bloco bloco--warn">
+        <h5>efeitos adversos</h5>
+        <p>Reações adversas graves são raras. Contraindicada na gestação. Podem ocorrer alterações gastrointestinais e do sistema nervoso central (vertigem, fadiga, síncope), cefaleia (em até 15% dos pacientes), hepatotoxicidade e efeitos hematológicos — leucopenia, neutropenia, basofilia e monocitose —, justificando monitorização com hemograma.</p>
+      </div>
+      <div class="bloco bloco--note">
+        <h5>interações farmacológicas</h5>
+        <p>Induz enzimas do citocromo P450 hepático, aumentando a taxa de metabolismo da varfarina, de anticoncepcionais orais com baixo conteúdo de estrogênio e de outros fármacos metabolizados por essas mesmas enzimas — um ponto de orientação farmacêutica relevante, já que pode comprometer a eficácia contraceptiva sem que a paciente perceba.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRANCHA 11 — MAPA DE RESISTENCIA
+     ============================================================ -->
+<section class="prancha" id="resistencia">
+  <div class="prancha-cabecalho">
+    <span class="prancha-num">PRANCHA 11</span>
+    <h2 class="prancha-titulo">Mapa de resistência</h2>
+    <span class="prancha-eixo">como o inimigo se adapta</span>
+  </div>
+  <p class="prancha-intro">Todo cerco prolongado ensina algo ao lado sitiado. Reunindo o que já vimos prancha por prancha, os fungos convergem para um número surpreendentemente pequeno de estratégias de escape — os mesmos quatro ou cinco truques, reaparecendo sob roupagens diferentes em cada classe farmacológica.</p>
+
+  <div class="grade grade-2">
+    <div class="bloco bloco--wall">
+      <h5>modificação do alvo</h5>
+      <p>Mutações pontuais que reduzem a afinidade do fármaco pela enzima ou estrutura-alvo, sem necessariamente comprometer sua função original — o mecanismo central da resistência azólica, e também descrito para equinocandinas via mutações no gene <em>FKS</em>.</p>
+    </div>
+    <div class="bloco bloco--demet">
+      <h5>superexpressão do alvo</h5>
+      <p>Produzir mais cópias da enzima-alvo garante que, mesmo com afinidade reduzida por molécula individual, sempre sobre função enzimática suficiente escapando da inibição — descrito em detalhe para os azóis.</p>
+    </div>
+    <div class="bloco bloco--epox">
+      <h5>efluxo aumentado</h5>
+      <p>Bombas de efluxo superexpressas expulsam o fármaco da célula antes que ele atinja concentração inibitória eficaz — mecanismo bem documentado em azóis, através de transportadores como o Cdr1B.</p>
+    </div>
+    <div class="bloco bloco--bind">
+      <h5>alteração da membrana-alvo</h5>
+      <p>Para os poliênicos, a resistência depende diretamente de menos ergosterol disponível na membrana ou de um ergosterol quimicamente modificado, com afinidade reduzida pelo fármaco.</p>
+    </div>
+    <div class="bloco bloco--nucleo">
+      <h5>bloqueio da via de ativação</h5>
+      <p>Para a flucitosina, mutações na citosina-permease, na citosina-desaminase ou na uridina-monofosfato-pirofosforilase impedem que o pró-fármaco seja captado ou convertido na forma ativa — daí a necessidade de sempre combiná-la a outro agente.</p>
+    </div>
+    <div class="bloco bloco--fuso">
+      <h5>degradação e vias alternativas</h5>
+      <p>Mecanismos menos elucidados, mas documentados para azóis: degradação enzimática direta do fármaco, ou expressão de uma via metabólica alternativa que contorna a necessidade da enzima originalmente bloqueada.</p>
+    </div>
+  </div>
+
+  <div class="nota nota--note">
+    <div class="nota-rotulo">o padrão por trás do padrão</div>
+    <p>Vale reconhecer que esse repertório de estratégias — alterar o alvo, produzir mais alvo, bombear o fármaco para fora, degradar o fármaco, ou simplesmente contorná-lo — não é exclusivo dos fungos. É essencialmente o mesmo conjunto de mecanismos de resistência descrito para bactérias frente a antibióticos, e para células tumorais frente a quimioterápicos. Reconhecer esse padrão geral, em vez de decorar cada mecanismo isoladamente por classe farmacológica, é o que realmente rende em prova e, mais adiante, na prática clínica diante de uma falha terapêutica inesperada.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRANCHA 12 — SINTESE DE CAMPO
+     ============================================================ -->
+<section class="prancha" id="sintese">
+  <div class="prancha-cabecalho">
+    <span class="prancha-num">PRANCHA 12</span>
+    <h2 class="prancha-titulo">Síntese de campo</h2>
+    <span class="prancha-eixo">guia rápido de primeira linha</span>
+  </div>
+  <p class="prancha-intro">Um resumo tático, para revisão de véspera de prova — não substitui o raciocínio construído nas pranchas anteriores, mas ajuda a fixá-lo.</p>
+
+  <div class="sintese-lista">
+    <div class="sintese-item">
+      <div class="sintese-infeccao">Tinea versicolor / dermatofitoses<span>micoses cutâneas e superficiais</span></div>
+      <div class="sintese-arsenal">azóis ou terbinafina tópicos <em>·</em> oral reservado para casos extensos</div>
+    </div>
+    <div class="sintese-item">
+      <div class="sintese-infeccao">Onicomicose<span>dermatofitose ungueal</span></div>
+      <div class="sintese-arsenal">terbinafina oral 12 semanas <em>·</em> alternativa: itraconazol</div>
+    </div>
+    <div class="sintese-item">
+      <div class="sintese-infeccao">Candidíase vulvovaginal<span>não gestante</span></div>
+      <div class="sintese-arsenal">fluconazol oral 150 mg, dose única ou em duas doses</div>
+    </div>
+    <div class="sintese-item">
+      <div class="sintese-infeccao">Candidíase vulvovaginal<span>gestante</span></div>
+      <div class="sintese-arsenal">clotrimazol ou miconazol tópico vaginal, 7 dias</div>
+    </div>
+    <div class="sintese-item">
+      <div class="sintese-infeccao">Candidíase invasiva<span>especialmente C. glabrata / C. krusei / C. auris</span></div>
+      <div class="sintese-arsenal">equinocandina (caspofungina, micafungina ou anidulafungina)</div>
+    </div>
+    <div class="sintese-item">
+      <div class="sintese-infeccao">Aspergilose invasiva<span>micose oportunista</span></div>
+      <div class="sintese-arsenal">voriconazol</div>
+    </div>
+    <div class="sintese-item">
+      <div class="sintese-infeccao">Meningoencefalite criptocócica<span>micose oportunista</span></div>
+      <div class="sintese-arsenal">indução anfotericina B + flucitosina <em>·</em> consolidação e manutenção com fluconazol</div>
+    </div>
+    <div class="sintese-item">
+      <div class="sintese-infeccao">Paracoccidioidomicose leve-moderada<span>micose sistêmica endêmica</span></div>
+      <div class="sintese-arsenal">itraconazol oral</div>
+    </div>
+    <div class="sintese-item">
+      <div class="sintese-infeccao">Paracoccidioidomicose grave<span>micose sistêmica endêmica</span></div>
+      <div class="sintese-arsenal">desoxicolato de anfotericina B</div>
+    </div>
+    <div class="sintese-item">
+      <div class="sintese-infeccao">Infecção fúngica invasiva com risco de vida, agente não identificado<span>terapia empírica de amplo espectro</span></div>
+      <div class="sintese-arsenal">anfotericina B como indução <em>·</em> depois step-down para azólico</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     REFERENCIAS
+     ============================================================ -->
+<section class="prancha" id="referencias">
+  <div class="prancha-cabecalho">
+    <span class="prancha-num">PRANCHA 13</span>
+    <h2 class="prancha-titulo">Referências</h2>
+    <span class="prancha-eixo">ABNT · modelo institucional Uniarp-SC</span>
+  </div>
+
+  <div class="referencias">
+    <p>BRASIL. Ministério da Saúde. <em>Micoses endêmicas</em>. Brasília, DF: Ministério da Saúde, 2023. Disponível em: https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/m/micoses-endemicas. Acesso em: 17 set. 2026.</p>
+    <p>GOERING, Richard V. <em>Mims microbiologia médica e imunologia</em>. 6. ed. Rio de Janeiro: Guanabara Koogan, 2020.</p>
+    <p>GOODMAN, Louis S.; GILMAN, Alfred (Ed.). <em>As bases farmacológicas da terapêutica de Goodman &amp; Gilman</em>. 14. ed. Porto Alegre: AMGH, 2025.</p>
+    <p>KATZUNG, Bertram G. <em>Farmacologia básica e clínica</em>. 16. ed. Porto Alegre: AMGH, 2024.</p>
+    <p>PATEL, Vinay; LIAW, Bobby; OH, William. The role of ketoconazole in current prostate cancer care. <em>Nature Reviews Urology</em>, v. 15, p. 643-651, 2018. DOI: 10.1038/s41585-018-0077-y.</p>
+    <p>RANG, Humphrey P.; DALE, Maureen M. <em>Rang &amp; Dale farmacologia</em>. 9. ed. Rio de Janeiro: Elsevier, 2020.</p>
+    <p>RANG, Humphrey P.; DALE, Maureen M. <em>Rang &amp; Dale farmacologia</em>. 10. ed. Rio de Janeiro: Elsevier, 2025.</p>
+    <p>RIERA, Fabián O. et al. Invasive candidiasis: update and current challenges in the management of this mycosis in South America. <em>Antibiotics</em>, v. 11, n. 7, p. 877, 2022. DOI: 10.3390/antibiotics11070877.</p>
+    <p>SANTUS, Walter; DEVLIN, Jaeu R.; BEHNSEN, Judith. Crossing kingdoms: how the mycobiota and fungal-bacterial interactions impact host health and disease. <em>Infection and Immunity</em>, v. 89, n. 4, e00648-20, 2021. DOI: 10.1128/IAI.00648-20.</p>
+    <p>SOCIEDADE BRASILEIRA DE DERMATOLOGIA. <em>Dermatofitoses</em>; <em>Micose</em>. São Paulo: SBD, 2025. Disponível em: https://www.sbd.org.br. Acesso em: 17 set. 2026.</p>
+    <p>UPTODATE. <em>Candida vulvovaginitis: clinical manifestations and diagnosis; Candida vulvovaginitis in adults: treatment of acute infection; Candida vulvovaginitis in adults: recurrent infection; Cryptococcus neoformans meningoencephalitis in persons with HIV: treatment and prevention; Cryptococcus neoformans: treatment and prevention of meningoencephalitis and disseminated infection in patients without HIV; Dermatophyte (tinea) infections; Diagnosis of invasive aspergillosis; Epidemiology and clinical manifestations of invasive aspergillosis; Epidemiology, clinical manifestations, and diagnosis of Cryptococcus neoformans meningoencephalitis in patients with HIV; Esophageal candidiasis in adults; Microbiology and epidemiology of Cryptococcus neoformans infection; Oropharyngeal candidiasis in adults; Overview of Candida infections; Pharmacology of azoles; Pharmacology of echinocandins and other glucan synthesis inhibitors; Pharmacology of flucytosine (5-FC); Tinea versicolor (pityriasis versicolor); Treatment and prevention of invasive aspergillosis; Treatment of paracoccidioidomycosis; Clinical manifestations and diagnosis of acute/subacute paracoccidioidomycosis; Candidemia and invasive candidiasis in children: management</em>. Waltham, MA: UpToDate, 2025.</p>
+    <p>VANZ, Felipe. <em>Fármacos antifúngicos</em>: material de aula, disciplina de Farmacologia. Caçador: Universidade Alto Vale do Rio do Peixe (Uniarp), 2026.</p>
+    <p>WHALEN, Karen. <em>Farmacologia ilustrada</em>. 6. ed. Porto Alegre: Artmed, 2016.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  documento de estudo construído a partir do material de aula do prof. Felipe Vanz · uso pessoal, não substitui bibliografia completa · Uniarp-SC, 5ª fase
+</footer>
+
+<div class="barra-edicao">
+  <span class="aviso-ponto" id="ponto-salvo" title="alterações salvas neste navegador"></span>
+  <button id="btn-editar" title="ativa a edição direta do texto nesta página">editar</button>
+  <button id="btn-baixar" title="baixa uma cópia .html com suas edições">baixar cópia</button>
+  <button id="btn-restaurar" title="apaga as edições salvas e volta ao texto original">restaurar</button>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- indice lateral ---------- */
+  var indice = document.getElementById('indice');
+  var veu = document.getElementById('veu');
+  var btnIndice = document.getElementById('btn-indice');
+  var btnFecha = document.getElementById('btn-fecha-indice');
+
+  function abrirIndice(){
+    indice.classList.add('aberto'); veu.classList.add('aberto');
+    btnIndice.setAttribute('aria-expanded','true');
+  }
+  function fecharIndice(){
+    indice.classList.remove('aberto'); veu.classList.remove('aberto');
+    btnIndice.setAttribute('aria-expanded','false');
+  }
+  btnIndice.addEventListener('click', function(){
+    indice.classList.contains('aberto') ? fecharIndice() : abrirIndice();
+  });
+  btnFecha.addEventListener('click', fecharIndice);
+  veu.addEventListener('click', fecharIndice);
+  indice.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', fecharIndice);
+  });
+
+  /* ---------- mapa de ataque interativo ---------- */
+  var infoMapa = {
+    wall:   { titulo:'Parede celular', drogas:'equinocandinas', cor:'var(--wall)',
+              desc:'Bloqueiam a 1,3-β-glicano sintase, impedindo a formação do polímero estrutural da parede. Sem parede, a célula não resiste à pressão osmótica interna e sofre lise.' },
+    bind:   { titulo:'Membrana — ligação direta ao ergosterol', drogas:'macrolídeos poliênicos (anfotericina B, nistatina)', cor:'var(--bind)',
+              desc:'Ligam-se ao ergosterol já incorporado à membrana, formando poros e/ou sequestrando o esterol em agregados — desorganizando a membrana independentemente da via de síntese.' },
+    demet:  { titulo:'Síntese do ergosterol — 14-α-desmetilase (CYP51)', drogas:'azóis (imidazóis e triazóis)', cor:'var(--demet)',
+              desc:'Bloqueiam a conversão de lanosterol em ergosterol, depletando o produto final e permitindo o acúmulo de esteróis metilados anômalos na membrana.' },
+    epox:   { titulo:'Síntese do ergosterol — esqualeno epoxidase', drogas:'alilaminas (terbinafina)', cor:'var(--epox)',
+              desc:'Bloqueiam a primeira etapa da via, causando acúmulo tóxico de esqualeno — por isso, geralmente fungicida, ao contrário do bloqueio mais tardio dos azóis.' },
+    nucleo: { titulo:'Núcleo — síntese de DNA e RNA', drogas:'flucitosina (5-FC)', cor:'var(--nucleo)',
+              desc:'Convertida dentro da célula fúngica em 5-fluorouracila, que bloqueia a timidilato sintetase e interrompe a síntese de DNA — usada quase sempre em combinação com anfotericina B.' },
+    fuso:   { titulo:'Citoplasma — fuso mitótico', drogas:'griseofulvina', cor:'var(--fuso)',
+              desc:'Liga-se à β-tubulina e impede a formação do fuso mitótico, bloqueando a divisão de novas células fúngicas em tecido queratinizado recém-formado.' }
+  };
+
+  var zonas = document.querySelectorAll('.zona');
+  var elTitulo = document.getElementById('legenda-titulo');
+  var elDrogas = document.getElementById('legenda-drogas');
+  var elDesc = document.getElementById('legenda-desc');
+  var elCta = document.getElementById('legenda-cta');
+  var elLegenda = document.getElementById('mapa-legenda');
+
+  function mostrarInfo(alvo){
+    var info = infoMapa[alvo];
+    if(!info) return;
+    elTitulo.textContent = info.titulo;
+    elTitulo.style.color = info.cor;
+    elDrogas.textContent = info.drogas;
+    elDrogas.style.color = info.cor;
+    elDesc.textContent = info.desc;
+    elCta.textContent = 'clique para abrir a prancha completa →';
+  }
+
+  zonas.forEach(function(zona){
+    var alvo = zona.getAttribute('data-alvo');
+    var anchor = zona.getAttribute('data-anchor');
+
+    zona.addEventListener('mouseenter', function(){ mostrarInfo(alvo); });
+    zona.addEventListener('focus', function(){ mostrarInfo(alvo); });
+
+    zona.addEventListener('click', function(){ irPara(anchor); });
+    zona.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); irPara(anchor); }
+    });
+  });
+
+  function irPara(anchor){
+    var alvoEl = document.querySelector(anchor);
+    if(!alvoEl) return;
+    alvoEl.scrollIntoView({behavior:'smooth', block:'start'});
+    alvoEl.classList.add('pulso');
+    setTimeout(function(){ alvoEl.classList.remove('pulso'); }, 1700);
+  }
+
+  /* ---------- edicao / autosave / download ---------- */
+  var STORAGE_KEY = 'studydoc:farmacos-antifungicos-uniarp:v1';
+  var main = document.getElementById('conteudo');
+  var btnEditar = document.getElementById('btn-editar');
+  var btnBaixar = document.getElementById('btn-baixar');
+  var btnRestaurar = document.getElementById('btn-restaurar');
+  var pontoSalvo = document.getElementById('ponto-salvo');
+  var editando = false;
+  var intervaloAutosave = null;
+
+  function carregarSalvo(){
+    try{
+      var salvo = localStorage.getItem(STORAGE_KEY);
+      if(salvo){ main.innerHTML = salvo; }
+    }catch(e){ /* localStorage indisponível — segue com conteúdo original */ }
+  }
+
+  function salvarAgora(){
+    try{
+      localStorage.setItem(STORAGE_KEY, main.innerHTML);
+      pontoSalvo.classList.add('mostrar');
+      setTimeout(function(){ pontoSalvo.classList.remove('mostrar'); }, 900);
+    }catch(e){ /* ambiente sem localStorage disponível (ex.: pré-visualização de artefato) */ }
+  }
+
+  function alternarEdicao(){
+    editando = !editando;
+    main.setAttribute('contenteditable', editando ? 'true' : 'false');
+    btnEditar.textContent = editando ? 'salvar e sair' : 'editar';
+    btnEditar.classList.toggle('ativo', editando);
+    if(editando){
+      intervaloAutosave = setInterval(salvarAgora, 15000);
+    } else {
+      if(intervaloAutosave){ clearInterval(intervaloAutosave); intervaloAutosave = null; }
+      salvarAgora();
+    }
+  }
+
+  function baixarCopia(){
+    var clone = document.documentElement.cloneNode(true);
+    var mainClone = clone.querySelector('#conteudo');
+    if(mainClone){ mainClone.removeAttribute('contenteditable'); }
+    clone.querySelectorAll('.pulso').forEach(function(el){ el.classList.remove('pulso'); });
+    var btnEd = clone.querySelector('#btn-editar');
+    if(btnEd){ btnEd.textContent = 'editar'; btnEd.classList.remove('ativo'); }
+    var indiceClone = clone.querySelector('#indice');
+    if(indiceClone){ indiceClone.classList.remove('aberto'); }
+    var veuClone = clone.querySelector('#veu');
+    if(veuClone){ veuClone.classList.remove('aberto'); }
+
+    var html = '<!DOCTYPE html>\n' + clone.outerHTML;
+    var blob = new Blob([html], {type:'text/html;charset=utf-8'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'farmacos-antifungicos-editado.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1500);
+  }
+
+  function restaurarOriginal(){
+    var confirmar = window.confirm('Isso apaga as edições salvas neste navegador e recarrega o texto original. Deseja continuar?');
+    if(!confirmar) return;
+    try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+    location.reload();
+  }
+
+  btnEditar.addEventListener('click', alternarEdicao);
+  btnBaixar.addEventListener('click', baixarCopia);
+  btnRestaurar.addEventListener('click', restaurarOriginal);
+
+  document.addEventListener('DOMContentLoaded', carregarSalvo);
+  carregarSalvo();
+
+})();
+</script>
+
+</body>
+</html>

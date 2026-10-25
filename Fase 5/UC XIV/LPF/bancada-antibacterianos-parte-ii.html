@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bancada de sabotagem: antibacterianos parte II</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Figtree:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#eef0f6;--grid:#d5d9e6;--ink:#161b33;--mute:#555d7a;--s30:#6a3fa6;--s50:#0e7a5c;--dna:#b86e00;--red:#c01f3b;--card:#f9faff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;color:var(--ink);font:400 16.5px/1.7 Figtree,system-ui,sans-serif;background:var(--paper) linear-gradient(var(--grid) 1px,transparent 1px) 0 0/28px 28px,linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/28px 28px;background-attachment:local}
+h1,h2,h3,h4,b,strong,th,summary{font-weight:400}
+h1,h2,h3{font-family:"Instrument Serif",Georgia,serif;line-height:1.05;margin:0}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+header{padding:70px 6vw 38px;border-bottom:3px double var(--ink);background:var(--paper)}
+header p.k{font-style:italic;color:var(--mute);margin:0 0 12px}
+h1{font-size:clamp(3rem,9vw,7rem);max-width:12ch;letter-spacing:-.02em}
+h1 i{color:var(--red)}
+.lede{max-width:60ch;font-size:1.12rem;margin:20px 0 0}
+.key{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;font-size:.9rem}
+.key span{padding:4px 12px;border-radius:99px;color:#fff}
+nav{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--ink);display:flex;gap:4px;overflow-x:auto;padding:8px 6vw}
+nav a{white-space:nowrap;text-decoration:none;color:var(--ink);padding:4px 13px;border:1px solid var(--grid);border-radius:4px;font-size:.88rem;background:var(--card)}
+nav a:hover{border-color:var(--c,var(--red))}
+main{max-width:880px;margin:0 auto;padding:0 5vw 140px}
+section{padding:64px 0 6px;--c:var(--ink)}
+section.a{--c:var(--s30)}section.b{--c:var(--s50)}section.d{--c:var(--dna)}
+section h2{font-size:clamp(2.1rem,5vw,3.4rem);color:var(--c)}
+.tag{display:inline-block;background:var(--c);color:#fff;padding:2px 12px;border-radius:3px;font-size:.85rem;margin:0 0 10px;font-style:italic}
+.sub{font-style:italic;color:var(--mute);margin:8px 0 22px}
+p{margin:0 0 1.05em}
+em{color:var(--c)}
+h3{font-size:1.45rem;margin:30px 0 8px;color:var(--c)}
+.chain{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:20px 0;font-size:.87rem;line-height:1.3}
+.chain span{background:var(--card);border:1px solid var(--grid);border-bottom:3px solid var(--c);padding:7px 11px}
+.chain i{font-style:normal;color:var(--mute)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:20px 0}
+.card{background:var(--card);border:1px solid var(--grid);border-left:6px solid var(--k,var(--c));padding:14px 16px;font-size:.93rem;line-height:1.58}
+.card h4{font-family:"Instrument Serif",serif;font-size:1.25rem;color:var(--k,var(--c));margin:0 0 4px}
+.card p{margin:0 0 .5em}
+.dose{font-style:italic;color:var(--mute);font-size:.88rem}
+.note{background:#fff7d6;border:1px dashed #b89400;padding:14px 18px;margin:22px 0;font-size:.94rem}
+.note h4{font-family:"Instrument Serif",serif;font-size:1.2rem;color:#7a5f00;margin:0 0 4px}
+.note p:last-child{margin:0}
+.note.red{background:#ffe9ed;border-color:var(--red)}.note.red h4{color:var(--red)}
+details{background:var(--card);border:1px solid var(--grid);margin:18px 0}
+summary{cursor:pointer;padding:11px 16px;font-family:"Instrument Serif",serif;font-size:1.2rem;color:var(--c);list-style:none;display:flex;justify-content:space-between}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";font-family:Figtree}
+details[open] summary:after{content:"\2212"}
+details[open]{border-color:var(--c)}
+.in{padding:0 18px 12px;font-size:.95rem;animation:o .25s ease}
+@keyframes o{from{opacity:0;transform:translateY(-4px)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto}}
+.bench{background:var(--card);border:2px solid var(--ink);padding:18px;margin:24px 0;box-shadow:6px 6px 0 var(--ink)}
+.bench svg{width:100%;height:auto;display:block}
+.bench text{font:italic 13px Figtree,sans-serif;fill:var(--mute)}
+#mk{transition:transform .45s cubic-bezier(.4,1.4,.5,1)}
+.btns{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.btns button{font:inherit;font-size:.88rem;border:1.5px solid var(--ink);background:var(--paper);padding:6px 13px;cursor:pointer}
+.btns button[aria-pressed=true]{background:var(--ink);color:#fff}
+#bx{min-height:9em;font-size:.95rem;margin:6px 0 0}
+#bx i{color:var(--red)}
+.qa details{margin:9px 0}
+#bar{position:fixed;right:14px;bottom:14px;z-index:9;display:flex;gap:6px;background:var(--ink);padding:7px;border-radius:99px;box-shadow:0 6px 24px #0006}
+#bar button{font:inherit;font-size:.82rem;border:0;border-radius:99px;padding:8px 14px;cursor:pointer;background:var(--paper);color:var(--ink)}
+#bar button.act{background:var(--red);color:#fff}
+body.ed #doc :is(h2,h3,p,li,.sub){outline:1px dashed var(--red);outline-offset:3px;cursor:text}
+.refs p{padding-left:2.2em;text-indent:-2.2em;font-size:.88rem;line-height:1.5}
+@media(max-width:700px){#bar{left:14px;justify-content:center}header{padding-top:44px}}
+</style>
+</head>
+<body>
+<header>
+<p class="k">Farmacologia, antibacterianos parte II, aula de 07/04/2026 (Prof. Felipe Vanz), aprofundada</p>
+<h1>Bancada de <i>sabotagem</i></h1>
+<p class="lede">Uma bactéria é uma fábrica: lê o DNA, monta proteínas no ribossomo e copia o genoma. Cada antibacteriano deste material é um sabotador com endereço certo. Aprenda o endereço e o efeito clínico (toxicidade, espectro, interação) sai quase sozinho.</p>
+<div class="key"><span style="background:var(--s30)">subunidade 30S</span><span style="background:var(--s50)">subunidade 50S</span><span style="background:var(--dna)">DNA</span></div>
+</header>
+<nav aria-label="Seções">
+<a href="#alvos">Alvos</a><a href="#linha">Linha de montagem</a><a href="#tetra" style="--c:var(--s30)">Tetraciclinas</a><a href="#amino" style="--c:var(--s30)">Aminoglicosídeos</a><a href="#macro" style="--c:var(--s50)">Macrolídeos</a><a href="#clora" style="--c:var(--s50)">Cloranfenicol</a><a href="#clinda" style="--c:var(--s50)">Clindamicina</a><a href="#quino" style="--c:var(--dna)">Quinolonas</a><a href="#uri" style="--c:var(--dna)">Urinários</a><a href="#ler">Para ler</a><a href="#rev">Revisão</a><a href="#refs">Referências</a>
+</nav>
+<main id="doc">
+
+<section id="alvos">
+<h2>O mapa de alvos</h2>
+<p class="sub">Slides 2 a 6: por que dá para matar a bactéria sem matar o paciente.</p>
+<p>O princípio é a toxicidade seletiva: o fármaco precisa atingir uma estrutura que a bactéria tem e a célula humana não tem, ou tem em versão diferente. O slide mostra a célula bacteriana e seus alvos: parede celular (betalactâmicos e glicopeptídeos, cerca de 60 por cento dos antibacterianos do mercado), membrana (polimixinas e daptomicina), síntese de ácido fólico e de purinas (sulfonamidas, trimetoprima), função e estrutura do DNA (quinolonas, nitroimidazólicos) e síntese proteica. Nesta aula vamos aos dois últimos.</p>
+<p>O ribossomo bacteriano é 70S, formado pelas subunidades 30S e 50S; o do citoplasma humano é 80S (40S e 60S). O "S" é a unidade Svedberg, que mede velocidade de sedimentação, e por isso os valores não se somam (30 mais 50 dá 70, não 80), como o slide lembra. As diferenças de RNA ribossômico e de proteínas entre os dois permitem ligação seletiva.</p>
+<div class="note"><h4>Linha do tempo (slide 2)</h4><p>A figura de Walsh (2003) mostra o intervalo de inovação entre 1962 e 2000, quando praticamente nenhuma classe nova de antibacteriano chegou à clínica. Estreptograminas e oxazolidinonas aparecem no slide como classes pouco usadas no Brasil. É esse vazio que explica a pressão de resistência atual: quase tudo o que usamos é variação de classes antigas.</p></div>
+<details><summary>Aprofunde-se: a seletividade não é perfeita</summary><div class="in">
+<p>As mitocôndrias humanas descendem de bactérias e têm ribossomos de tipo bacteriano (55S, com RNA ribossômico 12S e 16S). Isso explica uma família inteira de efeitos adversos: cloranfenicol (supressão medular), linezolida (mielossupressão, acidose láctica), tetraciclinas em dose alta (efeito antianabólico) e aminoglicosídeos (ototoxicidade, especialmente em portadores da variante mitocondrial A1555G do gene 12S). Sempre que um inibidor de síntese proteica causar toxicidade em tecido de alta demanda energética (medula, cóclea, nervo óptico, rim), pense em mitocôndria.</p></div></details>
+</section>
+
+<section id="linha">
+<h2>A linha de montagem do ribossomo</h2>
+<p class="sub">Slides 7 a 12: o que precisa estar claro antes de qualquer fármaco.</p>
+<p>A tradução tem cinco estágios (Lehninger): ativação dos aminoácidos (tRNA-sintetases ligam o aminoácido ao tRNA correto), iniciação (mRNA e tRNA iniciador entram na subunidade 30S e a 50S se junta; em bactérias o iniciador é a N-formilmetionina), alongamento, terminação e reciclagem, e enovelamento com processamento. O alongamento é o ciclo que importa para os antibióticos, e acontece em três sítios do ribossomo.</p>
+<div class="grid">
+<div class="card" style="--k:var(--s30)"><h4>Sítio A (aceptor)</h4><p>Recebe o aminoacil-tRNA que chega, pareado com o códon do mRNA.</p></div>
+<div class="card" style="--k:var(--s50)"><h4>Sítio P (peptidil)</h4><p>Segura o tRNA com a cadeia nascente.</p></div>
+<div class="card" style="--k:var(--dna)"><h4>Sítio E (saída)</h4><p>Por onde sai o tRNA já descarregado.</p></div>
+</div>
+<div class="chain"><span>aminoacil-tRNA entra no sítio A</span><i>→</i><span>ligação peptídica (peptidil-transferase)</span><i>→</i><span>translocação: A para P, P para E</span><i>→</i><span>tRNA livre sai, sítio A fica livre</span></div>
+<p>Dois detalhes fazem diferença. A peptidil-transferase não é uma proteína, é o RNA ribossômico 23S da subunidade 50S: uma ribozima. Por isso fármacos que se ligam ao 23S (cloranfenicol, clindamicina, macrolídeos, linezolida) atrapalham a própria química da ligação peptídica ou o túnel por onde a cadeia sai. Já a translocação consome GTP e usa o fator de alongamento G; é um passo mecânico, e inibi-lo congela o ribossomo.</p>
+<h3>Bancada interativa</h3>
+<p>Escolha o fármaco e veja onde ele se prende, o que ele faz e se o efeito é bacteriostático ou bactericida (a figura do slide 12 mostra justamente essa associação).</p>
+<div class="bench">
+<svg viewBox="0 0 600 320" role="img" aria-label="Ribossomo 70S com sítios A, P, E e locais de ligação dos antibióticos">
+<ellipse cx="300" cy="110" rx="165" ry="82" fill="#0e7a5c" opacity=".22" stroke="#0e7a5c" stroke-width="2.5"/>
+<ellipse cx="300" cy="222" rx="140" ry="54" fill="#6a3fa6" opacity=".22" stroke="#6a3fa6" stroke-width="2.5"/>
+<g fill="#fff" stroke="#161b33" stroke-width="1.6"><rect x="215" y="150" width="56" height="62" rx="8"/><rect x="280" y="150" width="56" height="62" rx="8"/><rect x="345" y="150" width="56" height="62" rx="8"/></g>
+<text x="232" y="186">E</text><text x="302" y="186">P</text><text x="366" y="186">A</text>
+<path d="M300 130V30" stroke="#0e7a5c" stroke-width="12" stroke-dasharray="3 7" opacity=".5"/><text x="312" y="40">túnel de saída da cadeia nascente</text>
+<path d="M90 276H510" stroke="#161b33" stroke-width="3"/><text x="96" y="296">mRNA, lido de 5' para 3'</text>
+<text x="70" y="106" fill="#0e7a5c">50S</text><text x="70" y="236" fill="#6a3fa6">30S</text>
+<g id="mk" style="transform:translate(300px,10px)" opacity="0"><circle r="15" fill="none" stroke="#c01f3b" stroke-width="4"/><circle r="5" fill="#c01f3b"/></g>
+</svg>
+<div class="btns" role="group" aria-label="Fármacos"><button data-d="t">Tetraciclina</button><button data-d="a">Aminoglicosídeo</button><button data-d="m">Macrolídeo</button><button data-d="c">Cloranfenicol</button><button data-d="l">Clindamicina</button></div>
+<p id="bx" aria-live="polite">Clique em um fármaco.</p>
+</div>
+<details><summary>Aprofunde-se: por que bacteriostático e bactericida importam</summary><div class="in">
+<p>Bacteriostático impede o crescimento, e quem elimina a bactéria é a defesa do paciente; funciona bem em imunocompetentes e em infecções de menor gravidade. Em endocardite, meningite e neutropenia, onde a defesa local é fraca ou ausente, prefere-se bactericida. O aminoglicosídeo é o único inibidor ribossômico bactericida desta aula porque a ligação é irreversível e, sobretudo, porque a leitura errada produz proteínas anômalas que, inseridas na membrana, abrem poros e aumentam a própria captação do fármaco (um ciclo que se retroalimenta). Os demais se ligam de modo reversível: quando a concentração cai, o ribossomo volta a funcionar.</p></div></details>
+</section>
+
+<section id="tetra" class="a">
+<span class="tag">30S</span>
+<h2>Tetraciclinas e glicilciclinas</h2>
+<p class="sub">Slides 13 a 24. Bacteriostáticas, de amplo espectro, cheias de pegadinhas de absorção.</p>
+<p>Tetraciclina, doxiciclina e minociclina (as duas últimas são as mais prescritas) se ligam de forma reversível à subunidade 30S e bloqueiam o acesso do aminoacil-tRNA ao sítio A. Sem tRNA novo, o ribossomo para: efeito bacteriostático. Entram na bactéria por porinas e depois por transporte dependente de energia. O espectro é amplo e inclui os microrganismos atípicos: Mycoplasma pneumoniae, Rickettsia, Chlamydia, Legionella, além de Vibrio cholerae e Treponema pallidum. Não cobrem Pseudomonas aeruginosa.</p>
+<div class="chain"><span>fármaco entra na bactéria</span><i>→</i><span>liga-se à 30S</span><i>→</i><span>aminoacil-tRNA não acessa o sítio A</span><i>→</i><span>alongamento para</span><i>→</i><span>bacteriostase</span></div>
+<div class="grid">
+<div class="card"><h4>Tetraciclina</h4><p class="dose">0,25 a 0,5 g VO, 6/6 h. Criança: 25 a 50 mg/kg/dia.</p></div>
+<div class="card"><h4>Doxiciclina</h4><p class="dose">0,1 a 0,2 g VO, 12/12 h.</p></div>
+<div class="card"><h4>Minociclina</h4><p class="dose">0,1 a 0,2 g VO ou IV, 12/12 h.</p></div>
+<div class="card"><h4>Tigeciclina</h4><p class="dose">0,05 g IV, 12/12 h. Só parenteral.</p></div>
+</div>
+<h3>Farmacocinética: a regra dos quelatos</h3>
+<p>As tetraciclinas formam quelatos com Ca2+, Mg2+, Al3+, Fe e Zn (leite, antiácidos, sulfato ferroso), complexos que o intestino não absorve. Têm volume de distribuição alto, atravessam a placenta e são excretadas no leite; a eliminação é biliar para a doxiciclina e renal para a tetraciclina.</p>
+<div class="note"><h4>Os slides 16 e 17 parecem se contradizer</h4><p>O slide 16 diz que o leite reduz a absorção; o 17 cita Goodman (14. ed.) afirmando que alimentos, inclusive laticínios, não interferem na doxiciclina e na minociclina. As duas coisas são parcialmente verdadeiras: a interferência do alimento é pequena para doxiciclina e minociclina (mais lipofílicas) e relevante para a tetraciclina; já os cátions de antiácidos e suplementos de ferro continuam sendo problema para toda a classe. Na dúvida, separe o horário.</p></div>
+<h3>Efeitos adversos e o porquê</h3>
+<p>O cálcio é o centro da toxicidade. As tetraciclinas quelam o cálcio e se depositam em ossos e dentes em formação, o que causa descoloração permanente dos dentes (amarelo-acinzentada a marrom) e, por vezes, alteração do crescimento ósseo. Por isso são contraindicadas na gestação (segunda metade), na amamentação e abaixo de 8 anos. Há ainda distúrbio gastrointestinal por alteração da microbiota, que também reduz a eficácia de anticoncepcionais orais, e, em altas doses, efeito antianabólico (lesão hepática e renal), com a doxiciclina sendo menos nefro e hepatotóxica.</p>
+<details><summary>Aprofunde-se: resistência, glicilciclinas e o que o slide não cita</summary><div class="in">
+<p>Resistência: bombas de efluxo (a mais comum; genes tet), proteínas de proteção ribossômica que deslocam o fármaco do alvo (dão resistência cruzada a doxiciclina e minociclina) e enzimas de inativação. Por serem mecanismos diferentes, uma cepa resistente à tetraciclina pode seguir sensível a doxiciclina ou minociclina.</p>
+<p>A tigeciclina, análoga da minociclina, tem um grupo glicilamido que a mantém longe das bombas de efluxo e aumenta a afinidade pelo ribossomo, vencendo os dois mecanismos principais; mecanismo de ação idêntico ao das tetraciclinas. Indicada em pneumonia comunitária, pele e partes moles e infecções intra-abdominais, mas o uso em pneumonia associada à ventilação foi associado a maior mortalidade, e por isso fica como alternativa; exige ajuste em hepatopatas. Não atinge boa concentração urinária nem sérica.</p>
+<p>Fora dos slides, vale conhecer: fotossensibilidade (sobretudo doxiciclina), esofagite por comprimido sem água (tomar em pé, com líquido), hipertensão intracraniana benigna e a síndrome de Fanconi com tetraciclina vencida. A doxiciclina é primeira escolha em clamídia, rickettsioses e uretrites não gonocócicas.</p></div></details>
+</section>
+
+<section id="amino" class="a">
+<span class="tag">30S</span>
+<h2>Aminoglicosídeos</h2>
+<p class="sub">Slides 25 a 33. O inibidor ribossômico que mata.</p>
+<p>Gentamicina, estreptomicina, tobramicina, amicacina e neomicina se ligam de forma irreversível à 30S e produzem três efeitos, que a figura do slide 26 separa: A, bloqueio da iniciação; B, bloqueio da tradução seguinte com terminação prematura; C, leitura errada do mRNA, com incorporação de aminoácidos incorretos. Os efeitos B e C vêm do erro de leitura: a proteína defeituosa que se insere na membrana a torna permeável. É essa cascata que torna o fármaco bactericida.</p>
+<div class="chain" style="--c:var(--s30)"><span>cruza a membrana externa por porinas</span><i>→</i><span>cruza a interna com energia (força próton-motriz)</span><i>→</i><span>liga-se irreversivelmente à 30S</span><i>→</i><span>erro de leitura</span><i>→</i><span>proteínas anômalas na membrana</span><i>→</i><span>morte</span></div>
+<p>O passo energético tem uma consequência clínica direta: anaeróbios não geram força próton-motriz suficiente, e por isso aminoglicosídeos não funcionam contra eles. Também por isso o espectro é de bacilos aeróbios gram-negativos. Quase sempre são usados em associação (com penicilina ou vancomicina), porque o betalactâmico, ao lesar a parede, facilita a entrada do aminoglicosídeo: sinergismo. A farmacocinética é guiada pela polaridade: são hidrossolúveis, quase não absorvidos por via oral (menos de 1 por cento), não chegam ao líquor nem ao olho e são eliminados pelos rins.</p>
+<div class="grid">
+<div class="card"><h4>Gentamicina</h4><p>Primeira escolha na maioria das indicações. Endocardite (com penicilina ou vancomicina), peritonite, ITU e sepse por gram-negativos resistentes.</p><p class="dose">1 a 1,7 mg/kg IV ou IM, 8/8 h.</p></div>
+<div class="card"><h4>Tobramicina</h4><p>Perfil da gentamicina, mas mais ativa contra Pseudomonas (associar a penicilina antipseudomonas). Colírio.</p><p class="dose">1 a 2 mg/kg, 8/8 h.</p></div>
+<div class="card"><h4>Amicacina</h4><p>Maior espectro; resiste a muitas enzimas inativadoras. Infecção hospitalar grave onde há resistência à gentamicina. Ativa em M. tuberculosis.</p><p class="dose">5 mg/kg, 8/8 h.</p></div>
+<div class="card"><h4>Estreptomicina</h4><p>Endocardite (a gentamicina é preferida) e tuberculose de segunda linha.</p><p class="dose">1 g IM, 12/12 h.</p></div>
+<div class="card"><h4>Neomicina</h4><p>Uso tópico, otológico (e oral, para descontaminação). Muito ativa em E. coli, Klebsiella e Proteus, e em S. aureus.</p></div>
+</div>
+<h3>Toxicidade: o preço da concentração no tecido errado</h3>
+<p>Doses altas ou uso por mais de cinco dias aumentam o risco. Na nefrotoxicidade, o fármaco é captado pelas células do túbulo proximal e as lesa; a insuficiência renal aparece depois de 5 a 7 dias e, como o túbulo regenera, costuma reverter. Ordem decrescente: neomicina, depois tobramicina e gentamicina, depois amicacina, depois estreptomicina. A ototoxicidade é irreversível (perda das células ciliadas da cóclea e do vestíbulo), com neomicina e amicacina entre as mais ototóxicas. O bloqueio neuromuscular é raro, mas pode causar paralisia respiratória.</p>
+<details><summary>Aprofunde-se: resistência, uso por dose única diária e interações</summary><div class="in">
+<p>Resistência (slide 32): enzimas que inativam o fármaco por fosforilação, adenilação ou acetilação (codificadas em plasmídeos); redução da entrada; e queda de afinidade ribossômica. O slide pergunta se o terceiro mecanismo é "alostérico". Na prática, são mutações de proteínas do ribossomo (como a S12 para a estreptomicina) ou metilação do RNA 16S por metiltransferases, que dá resistência de alto nível a quase toda a classe.</p>
+<p>O efeito bactericida depende da concentração (quanto maior o pico, mais rápida a morte) e há efeito pós-antibiótico prolongado. Por isso, muitos serviços usam dose única diária, o que mantém eficácia e reduz o acúmulo renal; a tabela do slide mostra o esquema clássico de 8/8 h. Evite associar a diuréticos de alça, vancomicina, anfotericina e bloqueadores neuromusculares, porque somam nefro, oto ou neurotoxicidade.</p></div></details>
+</section>
+
+<section id="macro" class="b">
+<span class="tag">50S</span>
+<h2>Macrolídeos</h2>
+<p class="sub">Slides 34 a 42. Entre as classes mais usadas, e as mais cheias de interação.</p>
+<p>Eritromicina, claritromicina e azitromicina se ligam de forma reversível à 50S. O slide traz duas explicações para o efeito. A clássica diz que bloqueiam a translocação do peptidil-tRNA do sítio A para o P. A outra, mais atual, diz que a ligação na entrada do túnel de saída da cadeia nascente, próximo da peptidil-transferase, distorce o ribossomo e faz a cadeia curta se soltar com seu tRNA. Não são hipóteses concorrentes: ambas descrevem uma parada do alongamento, e o efeito exato depende da sequência de aminoácidos da cadeia. Resultado: bacteriostáticos (podem ser bactericidas em altas concentrações contra alguns germes).</p>
+<div class="grid">
+<div class="card"><h4>Eritromicina</h4><p>Alternativa em alérgicos a penicilina (estreptococos e estafilococos sensíveis). Fraca em gram-negativos, exceto N. gonorrhoeae.</p><p class="dose">0,25 a 0,5 g VO, 6/6 h.</p></div>
+<div class="card"><h4>Claritromicina</h4><p>Chlamydia, Mycoplasma, Legionella, H. pylori (com amoxicilina e inibidor de bomba de prótons), M. leprae.</p><p class="dose">0,25 a 1 g VO, 12/12 h.</p></div>
+<div class="card"><h4>Azitromicina</h4><p>A mais ativa contra H. influenzae. Útil em ISTs e em gestantes com clamídia, quando tetraciclina é proibida.</p><p class="dose">0,5 g VO ou IV, 24/24 h.</p></div>
+</div>
+<p>Farmacocinética: a eritromicina base é destruída em pH ácido (por isso o revestimento entérico, ou os ésteres de estearato, estolato e etilsuccinato). Absorção e distribuição variam: poucos chegam ao SNC e ao líquor. A eliminação é principalmente biliar.</p>
+<h3>Efeitos adversos e o mecanismo</h3>
+<p>A eritromicina é agonista dos receptores de motilina, e por isso causa cólica e diarreia (efeito pró-cinético). Os três podem prolongar o intervalo QT e causar arritmia (torsades de pointes); a azitromicina é a de menor risco. Eritromicina e claritromicina inibem fortemente a CYP3A4, o que eleva carbamazepina, corticosteroides, digoxina, valproato e varfarina. A azitromicina quase não faz isso.</p>
+<details><summary>Aprofunde-se: resistência e pontos de atenção</summary><div class="in">
+<p>Três mecanismos: bomba de efluxo; modificação do alvo (metilases erm que metilam o RNA 23S, diminuindo a ligação, e que costumam dar resistência cruzada também a clindamicina e estreptogramina B, fenótipo MLSB); e mutação cromossômica na 50S. O slide 41 lista os três.</p>
+<div class="note"><h4>Dois pontos do slide para conferir na bula</h4><p>O slide 36 recomenda não dar claritromicina e azitromicina com alimento. Para comprimidos de claritromicina e a maioria das apresentações de azitromicina atuais, a bula admite ambos, e o que sempre piora é a cápsula de azitromicina. O slide também chama os macrolídeos de "altamente polares", o que não é a melhor descrição: são grandes, bases fracas e se concentram dentro das células (macrófagos, neutrófilos), e por isso ótimos em atípicos intracelulares. A baixa penetração no líquor é real, mas vem de tamanho e efluxo.</p></div>
+<p>A eritromicina em recém-nascidos associa-se a estenose hipertrófica do piloro, e o estolato pode causar hepatite colestática. Em "Lanzoprazol" (slide 38), o nome correto é lansoprazol.</p></div></details>
+</section>
+
+<section id="clora" class="b">
+<span class="tag">50S</span>
+<h2>Cloranfenicol</h2>
+<p class="sub">Slides 43 a 50. Eficaz, barato e perigoso; reservado para quando nada mais serve.</p>
+<p>O cloranfenicol se liga de forma reversível à 50S, no sítio da peptidil-transferase (o slide cita a proteína L16 e o rRNA 23S), e impede a transferência do aminoácido para a cadeia em crescimento: não forma ligação peptídica. Liga-se perto de macrolídeos e clindamicina, e por isso eles competem entre si: associá-los não soma, atrapalha. É bem absorvido por via oral, tem alto volume de distribuição e atinge concentração terapêutica no líquor, o que explica seu uso em meningite.</p>
+<p>Usos reservados a infecções graves: meningite por pneumococo, H. influenzae e meningococo em alérgicos graves a betalactâmicos (ceftriaxona é a primeira escolha), algumas cepas de MRSA e Enterococcus faecium multirresistente. Resistência: acetiltransferase codificada em plasmídeo, cujo derivado acetilado não se liga ao ribossomo.</p>
+<h3>Por que ele é tóxico</h3>
+<p>Os ribossomos mitocondriais lembram os bacterianos. O cloranfenicol inibe a síntese proteica mitocondrial (e o transporte de elétrons), o que lesa as células de maior renovação: a medula óssea. Existem dois quadros distintos: a depressão medular dose-dependente e reversível (anemia, e até pancitopenia) e, mais raramente, uma aplasia medular idiossincrática, irreversível e que pode aparecer meses depois. É também potente inibidor do citocromo P-450, e eleva a meia-vida de fenitoína, clorpropamida e varfarina.</p>
+<div class="note red"><h4>Síndrome do bebê cinzento</h4><p>Aparece de 2 a 9 dias após o início em recém-nascidos, com vômitos, diarreia, flacidez, hipotermia e cor acinzentada, e mortalidade de cerca de 40 por cento. O fígado do neonato tem pouca UDP-glicuronosiltransferase (a glicuronidação responde por cerca de 85 por cento da inativação no adulto) e os rins ainda excretam mal o fármaco livre. A meia-vida é de 10 h no recém-nascido e de 4 a 6 h aos 6 meses e aos 4 anos (slide 49). Por isso a dose neonatal é menor (6,25 mg/kg, 6/6 h) que a de lactentes acima de 2 semanas e adultos (12,5 mg/kg, 6/6 h, máximo de 4 g por dia).</p></div>
+<details><summary>Aprofunde-se: apresentações</summary><div class="in"><p>Existe por via oral, tópica e intravenosa: colírio (4 a 5 mg/mL), pó injetável de 1.000 mg, xarope, cápsula de 250 mg, drágea e comprimido de 500 mg, e pomada. A via oral é bem absorvida; a forma injetável é pró-fármaco (succinato), hidrolisada no fígado, o que pode deixar a concentração sérica abaixo da esperada.</p></div></details>
+</section>
+
+<section id="clinda" class="b">
+<span class="tag">50S</span>
+<h2>Clindamicina</h2>
+<p class="sub">Slides 51 a 55. A única lincosamida; a rainha dos anaeróbios e dos tecidos profundos.</p>
+<p>Liga-se ao RNA 23S da subunidade 50S (o slide escreve "proteína 23S", mas 23S é RNA), perto do cloranfenicol e dos macrolídeos. Interfere na formação do complexo de iniciação, no alongamento e na translocação, e pode estimular a dissociação do peptidil-tRNA. Bacteriostática. A absorção oral é quase completa (90 por cento), a penetração em ossos e abscessos é excelente (o que a torna útil em osteomielite), atravessa a placenta e não alcança concentração boa no líquor, nem com meninges inflamadas. Metabolismo hepático, excreção renal e biliar.</p>
+<p>Espectro: cocos gram-positivos (pneumococo, S. pyogenes, viridans, estafilococos, inclusive resistentes à penicilina) e anaeróbios como Bacteroides e Clostridium perfringens. Indicações: alternativa em alérgicos a betalactâmicos (vias aéreas superiores, pele e partes moles), toxoplasmose cerebral em HIV (com pirimetamina) e fasciite necrosante, em associação a carbapenêmico ou piperacilina-tazobactam mais vancomicina.</p>
+<p class="dose" style="margin:0 0 1em">Dose oral 0,15 a 0,45 g, 6 a 8 h; IV ou IM 0,3 a 0,9 g.</p>
+<details><summary>Aprofunde-se: toxina, colite e o teste D</summary><div class="in">
+<p>Por que na fasciite necrosante? Estreptococos e estafilococos produtores de toxina sofrem queda de produção de toxina quando a síntese proteica é bloqueada, e a clindamicina age mesmo com alto inóculo e crescimento lento, quando o betalactâmico perde eficácia. É um efeito antitoxina, além do antibacteriano.</p>
+<p>O efeito adverso clássico é a colite pseudomembranosa: ao eliminar a flora anaeróbia do cólon, abre espaço para Clostridioides difficile, cujas toxinas A e B lesam a mucosa. Pode ser grave e fatal, e é a razão para pensar em diarreia durante ou semanas após o uso. Em S. aureus, a resistência induzível por erm (resistência à eritromicina com clindamicina aparentemente sensível) exige o teste D antes de confiar na clindamicina.</p></div></details>
+</section>
+
+<section id="quino" class="d">
+<span class="tag">DNA</span>
+<h2>Quinolonas e fluoroquinolonas</h2>
+<p class="sub">Slides 56 a 69. Bactericidas por quebrar o DNA.</p>
+<p>Para replicar, a bactéria precisa abrir a dupla-hélice, e a helicase, ao avançar, gera superespiralamento positivo à frente do garfo de replicação, como torcer uma corda fixa nas pontas. A DNA girase (topoisomerase II) corta as duas fitas, passa o segmento e religa, introduzindo superespirais negativas que aliviam a tensão (o slide chama a girase de "enzima nuclear", mas bactérias não têm núcleo: o DNA fica no nucleoide). A topoisomerase IV separa os cromossomos-filhos entrelaçados (catenados) ao final da replicação.</p>
+<div class="chain" style="--c:var(--dna)"><span>quinolona entra por porina</span><i>→</i><span>liga-se ao complexo girase-DNA após o corte</span><i>→</i><span>impede a religação</span><i>→</i><span>quebras de dupla fita</span><i>→</i><span>morte (bactericida)</span></div>
+<p>O alvo principal é a girase nos gram-negativos e a topoisomerase IV nos gram-positivos. A toxicidade seletiva existe porque a topoisomerase II humana é estruturalmente diferente.</p>
+<div class="grid">
+<div class="card"><h4>1a geração</h4><p>Ácido nalidíxico (usado no teste de sensibilidade).</p></div>
+<div class="card"><h4>2a geração</h4><p>Norfloxacino e ciprofloxacino (2a) e levofloxacino (2b).</p></div>
+<div class="card"><h4>3a geração</h4><p>Esparfloxacino e gatifloxacino.</p></div>
+<div class="card"><h4>4a geração</h4><p>Gemifloxacino e moxifloxacino. A classificação varia entre autores.</p></div>
+</div>
+<div class="grid">
+<div class="card"><h4>Ciprofloxacino</h4><p>ITU, prostatite, diarreia do viajante, intra-abdominal (com metronidazol), antraz (primeira escolha, na profilaxia pós-exposição). Bom contra Pseudomonas.</p><p class="dose">0,25 a 0,75 g VO, 8/12 h; 0,2 a 0,4 g IV.</p></div>
+<div class="card"><h4>Levofloxacino</h4><p>"Quinolona respiratória": pneumococo, atípicos, além de ITU.</p><p class="dose">0,25 a 0,5 g, 24/24 h.</p></div>
+<div class="card"><h4>Moxifloxacino</h4><p>Respiratório e anaeróbios (Bacteroides). Excreção não renal: não serve para ITU. Prolonga o QT.</p><p class="dose">0,4 g, 24/24 h.</p></div>
+<div class="card"><h4>Norfloxacino</h4><p>ITU e gastroenterite, mas só atinge concentração no trato digestivo e urinário.</p><p class="dose">0,4 g VO, 12/12 h.</p></div>
+</div>
+<p>Farmacocinética: biodisponibilidade oral de 80 a 95 por cento, mas a absorção cai com cátions (cálcio, ferro, magnésio): tomar 2 h antes ou 4 h depois. Alto volume de distribuição (rins, próstata, pulmões), maioria não cruza a barreira hematoencefálica (ofloxacino é exceção) e eliminação renal (menos a moxifloxacino).</p>
+<h3>Efeitos adversos</h3>
+<p>Mais comuns: diarreia, náuseas e vômito; ocasionais: cefaleia e vertigem. O grave é a lesão do tecido conjuntivo: as fluoroquinolonas aumentam a expressão de metaloproteinases, que degradam o colágeno dos tendões, causando tendinite e ruptura (sobretudo o tendão de Aquiles, às vezes bilateral, até meses após a suspensão) e artropatia na cartilagem em crescimento. Risco maior em idosos e em quem usa corticoide. Daí evitar em gestantes, lactantes e menores de 18 anos; nos idosos, o termo é cautela. Ao primeiro sinal (dor, inchaço), suspender e manter repouso do membro.</p>
+<details><summary>Aprofunde-se: resistência e outros alertas</summary><div class="in">
+<p>Resistência (slide 67): efluxo ativo e mutações nos genes da girase (região determinante de resistência a quinolonas, gyrA). Existem ainda genes qnr, em plasmídeos, que protegem a girase e facilitam a seleção de mutantes. Cada nova mutação reduz mais a sensibilidade, por isso resistência surge em degraus.</p>
+<p>Outros alertas das bulas: a bula do ciprofloxacino (slide 66) manda cautela na miastenia grave (podem exacerbar sintomas). Há também prolongamento do QT, disglicemia, neuropatia periférica, efeitos no SNC, fotossensibilidade e risco de aneurisma e dissecção de aorta. O colírio de ciprofloxacino (slide 68) é uma das apresentações mais comuns, e a via tópica evita a maior parte desses riscos.</p></div></details>
+</section>
+
+<section id="uri" class="d">
+<span class="tag">DNA e parede</span>
+<h2>Antissépticos urinários</h2>
+<p class="sub">Slides 70 a 72. Fármacos que concentram na urina e pouco no sangue.</p>
+<div class="grid">
+<div class="card" style="--k:var(--dna)"><h4>Nitrofurantoína</h4>
+<p>Bacteriostática até 32 μg/mL e bactericida a partir de 100 μg/mL, o que é possível na urina e não no sangue. Enzimas bacterianas (nitrorredutases) a convertem em intermediários reativos que danificam o DNA e outras macromoléculas. Excelente contra E. coli e enterococos; Proteus e Pseudomonas são resistentes.</p>
+<p>Primeira linha para cistite não complicada, inclusive profilaxia. Não serve para pielonefrite, porque a concentração tecidual é insuficiente. Efeitos: náuseas, vômito, urina castanha; pulmonar (aguda ou crônica, com fibrose), neuropatia e anemia hemolítica em pediatria (e em deficiência de G6PD).</p></div>
+<div class="card" style="--k:var(--s50)"><h4>Fosfomicina</h4>
+<p>Inibe a enzima MurA (enolpiruvil-transferase, o primeiro passo da síntese dos precursores do peptidoglicano): bactericida, ação em parede e não em DNA. Entra pelos transportadores de glicerol-3-fosfato e hexose-fosfato.</p>
+<p>Via oral: primeira linha para cistite não complicada, em dose única, ótima em gestantes. Via parenteral: parte de esquemas combinados em infecções graves. Efeitos raros: desconforto GI, vaginite, cefaleia, tontura.</p></div>
+</div>
+<div class="note"><h4>Um ponto do slide 71 para esclarecer</h4><p>O slide diz para evitar nitrofurantoína no "primeiro semestre" por icterícia neonatal após uso nos últimos 30 dias. São duas preocupações distintas, e "semestre" provavelmente é erro de digitação por trimestre. A icterícia/hemólise neonatal (em especial em G6PD deficiente) está ligada ao uso próximo do parto, e o cuidado com o primeiro trimestre é outro. Confira a diretriz vigente.</p></div>
+</section>
+
+<section id="ler">
+<h2>Sugestões do professor</h2>
+<p class="sub">Slide 73: três classes para ler por conta. Aqui está o esqueleto do que procurar.</p>
+<div class="grid">
+<div class="card" style="--k:var(--s50)"><h4>Linezolida (oxazolidinona)</h4><p>Liga-se ao 23S da 50S e impede a formação do complexo de iniciação 70S. Ativa em gram-positivos, inclusive MRSA. Efeitos: mielossupressão (anemia, leucopenia, trombocitopenia, mais em uso prolongado). Também inibe de forma fraca a MAO, com risco de síndrome serotoninérgica.</p></div>
+<div class="card" style="--k:var(--red)"><h4>Daptomicina (lipopeptídeo)</h4><p>Insere-se na membrana de gram-positivos (dependente de cálcio), despolariza-a e mata. Associada a outros fármacos em MRSA. Toxicidade musculoesquelética (monitorar CPK). Inativada pelo surfactante pulmonar: não usar em pneumonia.</p></div>
+<div class="card" style="--k:var(--dna)"><h4>Polimixina B (polimixina)</h4><p>Detergente catiônico: desloca cátions que estabilizam o lipopolissacarídeo da membrana externa e a rompe. Boa contra E. coli, Klebsiella, Pseudomonas e Acinetobacter, inclusive multirresistentes. Nefrotoxicidade e neurotoxicidade.</p></div>
+</div>
+</section>
+
+<section id="rev">
+<h2>Revisão ativa</h2>
+<p class="sub">Responda antes de abrir.</p>
+<div class="qa">
+<details><summary>Qual subunidade cada classe atinge?</summary><div class="in"><p>30S: tetraciclinas, glicilciclinas, aminoglicosídeos. 50S: macrolídeos, cloranfenicol, clindamicina (e linezolida). Quinolonas: DNA girase e topoisomerase IV.</p></div></details>
+<details><summary>Por que o aminoglicosídeo é bactericida e a tetraciclina não?</summary><div class="in"><p>Ele se liga de modo irreversível e causa leitura errada do mRNA; as proteínas anômalas lesam a membrana. A tetraciclina só impede a entrada do tRNA, de forma reversível.</p></div></details>
+<details><summary>Por que aminoglicosídeo não funciona em anaeróbios?</summary><div class="in"><p>A entrada pela membrana interna depende de energia (força próton-motriz), que anaeróbios não geram bem.</p></div></details>
+<details><summary>Que fármacos têm toxicidade ligada a mitocôndrias?</summary><div class="in"><p>Cloranfenicol (medula), linezolida (medula, lactato), tetraciclinas em dose alta, aminoglicosídeos (cóclea).</p></div></details>
+<details><summary>Qual classe causa colite pseudomembranosa de forma clássica e qual causa ruptura de tendão?</summary><div class="in"><p>Clindamicina (C. difficile) e fluoroquinolonas (metaloproteinases e colágeno do tendão).</p></div></details>
+<details><summary>Que classes são proibidas na gestação e por quê?</summary><div class="in"><p>Tetraciclinas (quelam cálcio em ossos e dentes), aminoglicosídeos (ototoxicidade fetal) e fluoroquinolonas (cartilagem). Azitromicina e fosfomicina são alternativas.</p></div></details>
+</div>
+</section>
+
+<section id="refs">
+<h2>Referências</h2>
+<p class="sub">ABNT. Confira edições na biblioteca e o modelo da Uniarp.</p>
+<div class="refs">
+<p>BRUNTON, L. L.; HILAL-DANDAN, R.; KNOLLMANN, B. C. (org.). <em>Goodman &amp; Gilman: as bases farmacológicas da terapêutica</em>. 13. ed. Porto Alegre: AMGH, 2019.</p>
+<p>KATZUNG, B. G. (org.). <em>Farmacologia básica e clínica</em>. 14. ed. Porto Alegre: AMGH, 2017.</p>
+<p>LEHNINGER, A. L.; NELSON, D. L.; COX, M. M. <em>Princípios de bioquímica de Lehninger</em>. 7. ed. Porto Alegre: Artmed, 2019.</p>
+<p>RANG, H. P. et al. <em>Rang &amp; Dale: farmacologia</em>. 9. ed. Rio de Janeiro: GEN Guanabara Koogan, 2020.</p>
+<p>WALSH, C. Where will new antibiotics come from? <em>Nature Reviews Microbiology</em>, v. 1, n. 1, p. 65-70, 2003.</p>
+</div>
+</section>
+</main>
+
+<div id="bar" role="toolbar" aria-label="Edição do documento">
+<button id="b-ed" type="button">Ativar edição</button>
+<button id="b-dl" type="button">Baixar cópia editada</button>
+<button id="b-rs" type="button">Restaurar original</button>
+</div>
+
+<script>
+(function(){
+var KEY='bancada-antibacterianos-parte-ii-v1',doc=document.getElementById('doc'),ed=false,timer=null;
+var D={
+t:{x:372,y:236,n:'Tetraciclina (30S)',s:'Bacteriostática',t:'Bloqueia o acesso do aminoacil-tRNA ao sítio A, ligando-se de forma reversível à 30S. Sem tRNA novo, o alongamento para.'},
+a:{x:262,y:236,n:'Aminoglicosídeo (30S)',s:'Bactericida',t:'Liga-se de forma irreversível ao centro de decodificação da 30S. Causa leitura errada do mRNA, proteínas anômalas na membrana e morte celular. Também bloqueia a iniciação.'},
+m:{x:300,y:82,n:'Macrolídeo (50S)',s:'Bacteriostático',t:'Prende-se na entrada do túnel de saída da cadeia nascente, perto da peptidil-transferase. A cadeia curta é liberada e o alongamento (e a translocação) é interrompido.'},
+c:{x:372,y:160,n:'Cloranfenicol (50S)',s:'Bacteriostático',t:'Ocupa o sítio da peptidil-transferase (23S), impedindo a ligação peptídica. Compete com macrolídeos e clindamicina, que se ligam perto.'},
+l:{x:322,y:150,n:'Clindamicina (50S)',s:'Bacteriostática',t:'Liga-se ao rRNA 23S, próximo ao cloranfenicol e macrolídeos. Atrapalha a iniciação, a ligação peptídica e a translocação.'}};
+document.addEventListener('click',function(e){var b=e.target.closest('.btns button');if(!b)return;var d=D[b.dataset.d],m=document.getElementById('mk');
+document.querySelectorAll('.btns button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+m.style.transform='translate('+d.x+'px,'+d.y+'px)';m.setAttribute('opacity','1');
+document.getElementById('bx').innerHTML=d.n+': <i>'+d.s+'</i>. '+d.t;});
+try{var s=localStorage.getItem(KEY);if(s)doc.innerHTML=s;}catch(x){}
+var Q='h2,h3,p,li,.sub';
+function setEd(on){ed=on;document.body.classList.toggle('ed',on);
+doc.querySelectorAll(Q).forEach(function(n){if(on)n.setAttribute('contenteditable','true');else n.removeAttribute('contenteditable');});
+var b=document.getElementById('b-ed');b.textContent=on?'Salvar e sair':'Ativar edição';b.classList.toggle('act',on);
+clearInterval(timer);if(on)timer=setInterval(save,15000);else save();}
+function clean(){var c=doc.cloneNode(true);c.querySelectorAll('[contenteditable]').forEach(function(n){n.removeAttribute('contenteditable')});return c;}
+function save(){try{localStorage.setItem(KEY,clean().innerHTML)}catch(x){}}
+document.getElementById('b-ed').onclick=function(){setEd(!ed)};
+document.getElementById('b-rs').onclick=function(){if(confirm('Apagar as edições salvas neste navegador e voltar ao texto original?')){try{localStorage.removeItem(KEY)}catch(x){}location.reload();}};
+document.getElementById('b-dl').onclick=function(){
+var live=doc.innerHTML;doc.innerHTML=clean().innerHTML;
+var h='<!DOCTYPE html>\n'+document.documentElement.outerHTML;doc.innerHTML=live;
+var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([h],{type:'text/html'}));
+a.download='bancada-antibacterianos-editado.html';document.body.appendChild(a);a.click();a.remove();};
+})();
+</script>
+</body>
+</html>

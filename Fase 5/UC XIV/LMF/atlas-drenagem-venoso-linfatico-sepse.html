@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atlas de drenagem: retorno venoso, sistema linfático e sepse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Literata:ital,opsz,wght@0,7..72,400;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+:root{--sea:#e6eff0;--deep:#d3e4e7;--ink:#10252c;--mute:#4d6469;--lymph:#0d7a73;--vein:#27479b;--art:#b8321f;--mag:#a3246f;--buff:#efe5bf;--line:#a9c2c6}
+@media(prefers-color-scheme:dark){:root{--sea:#0f2228;--deep:#16303a;--ink:#e3eeee;--mute:#9db5b8;--lymph:#4fc4b8;--vein:#8fa8f0;--art:#ff8c78;--mag:#f08fc6;--buff:#2b2a1c;--line:#2d4a52}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--sea);color:var(--ink);font:400 17px/1.75 Literata,Georgia,serif}
+h1,h2,h3,h4,b,strong,th,summary{font-weight:400}
+h1,h2,h3{font-family:"Young Serif",Georgia,serif;line-height:1.15;margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--mag);outline-offset:3px}
+.contour{background:repeating-radial-gradient(ellipse at 85% 10%,transparent 0 22px,var(--line) 22px 23px);opacity:.55;position:absolute;inset:0;pointer-events:none}
+header{position:relative;overflow:hidden;padding:64px 6vw 40px;border-bottom:2px solid var(--ink)}
+header>*{position:relative}
+.coord{font-style:italic;color:var(--mute);font-size:.9rem;margin:0 0 14px}
+h1{font-size:clamp(2.4rem,6.5vw,5rem);max-width:15ch}
+.lede{max-width:62ch;font-size:1.15rem;margin:22px 0 0}
+.river{position:absolute!important;right:3vw;top:30px;width:min(38vw,380px);opacity:.95}
+nav{position:sticky;top:0;z-index:5;background:var(--sea);border-bottom:1px solid var(--ink);display:flex;gap:4px;overflow-x:auto;padding:8px 6vw;scrollbar-width:thin}
+nav a{white-space:nowrap;text-decoration:none;padding:5px 14px;border:1px solid var(--line);border-radius:99px;font-size:.88rem;color:var(--mute)}
+nav a:hover{border-color:var(--lymph);color:var(--lymph)}
+main{max-width:860px;margin:0 auto;padding:0 5vw 140px}
+section{padding:70px 0 10px}
+section h2{font-size:clamp(1.8rem,4vw,2.7rem);color:var(--c,var(--ink))}
+.trecho{font-style:italic;color:var(--c,var(--mute));font-size:.95rem;margin:0 0 8px;display:flex;align-items:center;gap:12px}
+.trecho:after{content:"";flex:1;border-top:1px dashed var(--line)}
+.sub{color:var(--mute);font-style:italic;margin:10px 0 26px}
+p{margin:0 0 1.1em}
+em,i{color:var(--c,var(--lymph))}
+.chain{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:22px 0;font-size:.88rem;line-height:1.3}
+.chain span{background:var(--deep);border:1px solid var(--line);border-left:4px solid var(--c,var(--lymph));padding:7px 11px;border-radius:3px 12px 12px 3px}
+.chain i{font-style:normal;color:var(--mute)}
+.note{background:var(--buff);border-left:5px solid var(--mag);padding:16px 20px;margin:24px 0;border-radius:0 14px 14px 0;font-size:.97rem}
+.note>:last-child{margin:0}
+.note h4{font-family:"Young Serif",serif;color:var(--mag);margin:0 0 6px;font-size:1.02rem}
+.note.ok{border-color:var(--lymph)}.note.ok h4{color:var(--lymph)}
+.note.flag{border-color:var(--vein)}.note.flag h4{color:var(--vein)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:22px 0}
+.card{border:1px solid var(--line);border-top:5px solid var(--c,var(--lymph));background:var(--deep);padding:16px 18px;border-radius:4px 22px 4px 22px;font-size:.94rem;line-height:1.6}
+.card h3{font-size:1.1rem;color:var(--c,var(--lymph));margin-bottom:6px}
+.card p{margin:0 0 .6em}
+details{border:1px solid var(--line);border-radius:10px;margin:18px 0;background:color-mix(in srgb,var(--deep) 55%,transparent)}
+summary{cursor:pointer;padding:12px 18px;font-family:"Young Serif",serif;color:var(--c,var(--lymph));list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"abrir";font:italic .85rem Literata,serif;color:var(--mute)}
+details[open] summary:after{content:"fechar"}
+details[open]{border-color:var(--c,var(--lymph))}
+.in{padding:2px 20px 14px;font-size:.97rem;animation:o .25s ease}
+@keyframes o{from{opacity:0;transform:translateY(-4px)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto}}
+.stage{background:var(--deep);border:1px solid var(--ink);border-radius:6px 30px 6px 30px;padding:18px;margin:26px 0}
+.stage svg{width:100%;height:auto;display:block}
+.stage .cap{fill:none;stroke:var(--ink);stroke-width:3}
+.stage .z{fill:none;stroke:var(--lymph);stroke-width:6;opacity:.35;stroke-linecap:round;transition:.3s}
+.stage .on{stroke:var(--mag);opacity:1;stroke-width:9}
+.stage .fol{fill:var(--vein);opacity:.25}
+.stage text{font:italic 13px Literata,serif;fill:var(--mute)}
+.steps{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.steps button{font:inherit;font-size:.88rem;border:1px solid var(--lymph);background:transparent;color:var(--lymph);padding:6px 13px;border-radius:99px;cursor:pointer}
+.steps button[aria-pressed=true]{background:var(--mag);border-color:var(--mag);color:#fff}
+#stp{min-height:7.5em;font-size:.97rem;margin:8px 0 0}
+.qa details{margin:10px 0}
+#bar{position:fixed;right:14px;bottom:14px;z-index:9;display:flex;gap:6px;background:var(--ink);padding:7px;border-radius:99px;box-shadow:0 6px 24px #0006}
+#bar button{font:inherit;font-size:.82rem;border:0;border-radius:99px;padding:8px 14px;cursor:pointer;background:var(--sea);color:var(--ink)}
+#bar button.act{background:var(--mag);color:#fff}
+body.ed #doc :is(h2,h3,p,li,.sub){outline:1px dashed var(--mag);outline-offset:3px;cursor:text}
+.refs p{padding-left:2.2em;text-indent:-2.2em;font-size:.9rem;line-height:1.55}
+@media(max-width:700px){.river{display:none}#bar{left:14px;justify-content:center}header{padding-top:44px}}
+</style>
+</head>
+<body>
+<header>
+<div class="contour"></div>
+<svg class="river" viewBox="0 0 380 300" fill="none" stroke-linecap="round" aria-hidden="true">
+<g stroke="#0d7a73" stroke-width="2"><path d="M20 20C60 60 80 80 110 110M60 10C80 50 100 90 110 110M150 20C140 60 130 90 110 110M200 40C170 80 130 100 110 110M30 120C60 120 90 115 110 110"/><path d="M110 110C140 150 160 170 190 190S250 210 280 240" stroke-width="4"/></g>
+<g stroke="#a3246f" stroke-width="3"><circle cx="110" cy="110" r="7" fill="var(--sea)"/><circle cx="190" cy="190" r="7" fill="var(--sea)"/></g>
+<path d="M280 240C310 262 330 270 360 278" stroke="#27479b" stroke-width="8"/><path d="M280 240C300 215 330 205 370 210" stroke="#27479b" stroke-width="8"/>
+<text x="18" y="146" fill="#4d6469" font-family="Literata" font-style="italic" font-size="12">nascentes</text><text x="120" y="102" fill="#a3246f" font-family="Literata" font-style="italic" font-size="12">eclusa</text><text x="200" y="215" fill="#a3246f" font-family="Literata" font-style="italic" font-size="12">eclusa</text><text x="258" y="284" fill="#27479b" font-family="Literata" font-style="italic" font-size="12">foz venosa</text>
+</svg>
+<p class="coord">Laboratório Morfofuncional, aula da Prof.ª Elizama de Gregório, aprofundada</p>
+<h1>Atlas de drenagem do corpo</h1>
+<p class="lede">Todo líquido que sai do sangue precisa de um caminho de volta. Este atlas segue esse percurso: dos leitos capilares ao retorno venoso, depois ao sistema linfático (vasos, linfonodos, tonsilas, ductos) e, por fim, ao que acontece quando a barreira falha e o hospedeiro responde de forma desregulada: a sepse.</p>
+</header>
+<nav aria-label="Trechos do atlas">
+<a href="#vasos">Leitos e vasos</a><a href="#venoso">Retorno venoso</a><a href="#linfa">Linfa</a><a href="#nodo">Linfonodo</a><a href="#malt">Tonsilas e MALT</a><a href="#ductos">Ductos</a><a href="#sepse">Sepse</a><a href="#revisao">Revisão</a><a href="#refs">Referências</a>
+</nav>
+<main id="doc">
+
+<section id="vasos" style="--c:var(--art)">
+<p class="trecho">Trecho 1, as nascentes e os leitos</p>
+<h2>Hierarquia dos vasos sanguíneos</h2>
+<p class="sub">O slide organiza os vasos por tamanho e função. O ponto de partida é entender por que cada calibre existe.</p>
+<p>A parede de um vaso tem três túnicas. A íntima (endotélio, camada subendotelial e lâmina elástica interna) está em contato com o sangue. A média (músculo liso e elastina, limitada pela lâmina elástica externa) é a que muda de espessura e de função ao longo da árvore. A externa, ou adventícia, é conjuntivo que ancora o vaso e leva os vasa vasorum nos vasos grandes. O que distingue artéria de veia é proporção: a artéria precisa suportar pressão alta, então tem média espessa; a veia opera em baixa pressão, tem média fina, lúmen largo e, em muitas, válvulas.</p>
+<div class="grid">
+<div class="card"><h3>Artérias elásticas</h3><p>Aorta e grandes ramos, os vasos condutores. Muita elastina na média. Distendem na sístole e retraem na diástole, convertendo o jato intermitente do coração em fluxo quase contínuo (efeito de câmara de compressão, ou Windkessel), como mostra o desenho do slide.</p></div>
+<div class="card"><h3>Artérias musculares</h3><p>Vasos de distribuição. Média rica em músculo liso, o que permite ajustar o fluxo de cada território (músculo em exercício, intestino na digestão).</p></div>
+<div class="card"><h3>Arteríolas</h3><p>Vasos de resistência. Pouco lúmen, muito músculo liso. É aqui que ocorre a maior queda de pressão do sistema e onde o corpo decide quanto sangue vai para cada leito capilar.</p></div>
+</div>
+<p>Por que as arteríolas regulam a pressão? Pela relação de Poiseuille, a resistência varia com o inverso da quarta potência do raio. Reduzir o raio à metade multiplica a resistência por dezesseis. Como a pressão arterial é o produto do débito cardíaco pela resistência vascular periférica, uma vasoconstrição arteriolar difusa eleva a pressão, e uma vasodilatação difusa a derruba. O trecho destacado no slide diz exatamente isso, e é a chave para entender o choque séptico mais adiante.</p>
+<div class="chain" style="--c:var(--art)"><span>contração do músculo liso arteriolar</span><i>→</i><span>raio do lúmen diminui</span><i>→</i><span>atrito e resistência aumentam</span><i>→</i><span>menos fluxo ao leito capilar</span><i>→</i><span>pressão arterial sobe</span></div>
+<h3 style="margin-top:34px">Capilares: onde a troca acontece</h3>
+<p>Parede mínima: endotélio sobre membrana basal, com pericitos. Quanto mais fina a barreira, mais eficiente a troca por difusão. O slide classifica três tipos, e a diferença entre eles é o grau de permeabilidade que cada órgão precisa.</p>
+<div class="grid">
+<div class="card" style="--c:var(--vein)"><h3>Contínuo</h3><p>Endotélio íntegro, junções oclusivas, fendas intercelulares estreitas, vesículas pinocíticas. Músculo, pele, pulmão, tecido nervoso (na barreira hematoencefálica as junções são ainda mais firmes e há pé astrocitário).</p></div>
+<div class="card" style="--c:var(--lymph)"><h3>Fenestrado</h3><p>Poros (fenestrações) atravessam a célula endotelial, em geral cobertos por diafragma fino. Intestino delgado, glândulas endócrinas, glomérulo renal (aqui sem diafragma). Permitem passagem rápida de água e solutos.</p></div>
+<div class="card" style="--c:var(--mag)"><h3>Sinusoide</h3><p>Lúmen largo, fendas intercelulares grandes, membrana basal incompleta. Fígado, baço, medula óssea. Permitem passagem de proteínas e até de células (saída de hemácias e leucócitos para o sangue).</p></div>
+</div>
+<details><summary>Aprofunde-se: vênula pós-capilar e capacitância</summary><div class="in">
+<p>A vênula pós-capilar é o ponto preferencial de migração leucocitária. Mediadores inflamatórios (histamina, TNF-α, IL-1) induzem selectinas e moléculas de adesão (ICAM-1, VCAM-1) no endotélio; o leucócito rola, adere firmemente e faz diapedese. Também é onde a permeabilidade aumenta primeiro na inflamação, porque a histamina contrai as células endoteliais e abre fendas entre elas. Guarde isso: é o mesmo cenário da sepse, só que sistêmico.</p>
+<p>As veias, que no slide aparecem como vasos de capacitância, guardam cerca de 60 a 70 por cento do volume sanguíneo. Por serem muito distensíveis, pequenas variações de tônus venoso mobilizam grande volume para a circulação central. É por isso que a venoconstrição simpática é um mecanismo eficaz de aumentar a pré-carga.</p></div></details>
+</section>
+
+<section id="venoso" style="--c:var(--vein)">
+<p class="trecho">Trecho 2, a volta pelas veias</p>
+<h2>Retorno venoso</h2>
+<p class="sub">Dos capilares ao átrio direito, com pouca pressão e muita engenharia auxiliar.</p>
+<p>O retorno venoso é o volume de sangue que chega ao coração por minuto pelas veias sistêmicas. Em regime estável ele é igual ao débito cardíaco; se não fosse, o sangue se acumularia em um dos lados da circulação. O slide atribui o retorno à pressão gerada pela contração ventricular. Isso é verdade, mas incompleto: ao atravessar o leito capilar, a pressão cai de cerca de 100 mmHg (média arterial) para algo em torno de 15 a 20 mmHg na vênula, e o gradiente que sobra é pequeno. Por isso o corpo conta com mecanismos auxiliares.</p>
+<div class="note flag"><h4>Nota sobre o slide</h4><p>O texto sobre retorno venoso aparece cortado no meio da frase ("Embora pequena, a diferença de pressão entre as..."). Complementei com a descrição clássica do gradiente entre a pressão venosa periférica e o átrio direito, sem atribuir à professora nada além do que está escrito.</p></div>
+<div class="chain" style="--c:var(--vein)"><span>pressão média de enchimento sistêmico (~7 mmHg)</span><i>menos</i><span>pressão no átrio direito (~0 mmHg)</span><i>dividido por</i><span>resistência ao retorno venoso</span><i>=</i><span>retorno venoso</span></div>
+<div class="grid">
+<div class="card"><h3>Bomba muscular</h3><p>Os músculos da panturrilha, ao contrair, comprimem as veias profundas. A válvula proximal se abre e empurra o sangue para cima; a distal se fecha e impede que ele volte. No relaxamento, a pressão cai, a proximal fecha e a distal abre, enchendo o segmento. É a sequência dos três desenhos do slide.</p></div>
+<div class="card"><h3>Bomba respiratória</h3><p>Na inspiração o diafragma desce: a pressão intratorácica fica mais negativa (as cavas intratorácicas se dilatam) e a intra-abdominal sobe, comprimindo a veia cava inferior. O gradiente favorece o fluxo para o tórax.</p></div>
+<div class="card"><h3>Venoconstrição simpática</h3><p>Fibras simpáticas (receptores alfa-1) enrijecem a parede venosa, reduzindo a capacitância e empurrando sangue de volta ao coração. Importante no exercício e na hemorragia.</p></div>
+</div>
+<p>As válvulas são dobras da íntima, bicúspides, que deixam o sangue passar apenas em direção ao coração. São mais numerosas nos membros inferiores, onde o sangue sobe contra a gravidade, e ausentes nas veias cavas. A figura do slide com a legenda repetida "válvulas da válvula" corresponde às cúspides (válvulas) da válvula venosa.</p>
+<details><summary>Aprofunde-se: quando o retorno venoso falha</summary><div class="in">
+<p>Insuficiência valvular leva a refluxo e hipertensão venosa distal: varizes, edema ao fim do dia, hiperpigmentação (hemossiderina) e, nos casos crônicos, úlcera de estase. Ao contrário, a trombose venosa profunda segue a tríade de Virchow (estase, lesão endotelial, hipercoagulabilidade); o imobilizado perde a bomba muscular e a estase favorece o trombo. Queda do retorno venoso por hipovolemia, venodilatação ou obstrução reduz a pré-carga e, pelo mecanismo de Frank-Starling, o débito cardíaco. Na síncope ortostática, ao levantar, a gravidade represa sangue nas pernas; se o reflexo barorreceptor falha, o retorno cai e o cérebro hipoperfunde.</p></div></details>
+</section>
+
+<section id="linfa" style="--c:var(--lymph)">
+<p class="trecho">Trecho 3, o sistema de drenagem paralelo</p>
+<h2>Tá, e o linfático?</h2>
+<p class="sub">A pergunta do slide tem uma resposta fisiológica precisa: a veia não dá conta sozinha.</p>
+<p>Nas extremidades arteriais do capilar, a pressão hidrostática empurra líquido para o interstício; na extremidade venosa, a pressão oncótica das proteínas do plasma puxa parte dele de volta (equilíbrio de Starling). O balanço não fecha: cerca de 3 litros por dia ficam no interstício, junto com proteínas que escaparam e que as veias não conseguem reabsorver. O sistema linfático recolhe esse líquido (a linfa), filtra-o em linfonodos e devolve-o ao sangue. Sem isso, o edema se instala em horas.</p>
+<p>O slide define o sistema linfático por dois componentes: uma rede de vasos e os tecidos e órgãos linfáticos (linfonodos, tonsilas, baço, timo, MALT). Ele cumpre três funções: drenar o excesso de líquido, absorver lipídios (os vasos linfáticos das vilosidades, os lácteos, levam gordura sob a forma de quilomícrons, e a linfa fica leitosa: quilo) e vigiar o organismo, concentrando antígenos onde há linfócitos.</p>
+<h3 style="margin-top:34px">O capilar linfático é uma válvula viva</h3>
+<p>Capilares linfáticos têm fundo cego e endotélio em que as bordas das células se sobrepõem frouxamente, formando minivalvas em aba. Filamentos de colágeno (filamentos de ancoragem) prendem essas células ao tecido conjuntivo vizinho. Quando o interstício incha, os filamentos tracionam as células e as abas se abrem: o líquido entra, e a pressão interna fecha a aba, impedindo a saída. O inchaço, portanto, abre o vaso em vez de colapsá-lo, o que é o oposto do que ocorreria num tubo sem ancoragem.</p>
+<div class="chain" style="--c:var(--lymph)"><span>interstício acumula líquido</span><i>→</i><span>filamentos tracionam o endotélio</span><i>→</i><span>minivalvas se abrem</span><i>→</i><span>linfa entra no capilar</span><i>→</i><span>pressão fecha as abas</span></div>
+<p>Depois dos capilares, a linfa percorre vasos coletores com válvulas e músculo liso. Cada segmento entre válvulas funciona como uma pequena bomba (linfangion). A contração dos músculos esqueléticos, a pulsação das artérias vizinhas e a respiração ajudam, de modo semelhante ao retorno venoso.</p>
+<details><summary>Aprofunde-se: linfedema, linfangite e disseminação</summary><div class="in">
+<p>Obstrução ou perda de linfáticos gera linfedema: acúmulo de líquido rico em proteína, que estimula fibroblastos e leva à fibrose e ao aspecto endurecido da pele, em contraste com o edema venoso, que deixa cacifo. As causas incluem filariose (obstrução por Wuchereria bancrofti), dissecção axilar com radioterapia e cirurgias oncológicas. O sinal de Stemmer (incapacidade de pinçar a pele da base do segundo dedo do pé) sugere linfedema.</p>
+<p>Em infecção de pele (por exemplo, erisipela por estreptococos), as bactérias penetram nos capilares linfáticos e causam linfangite: estrias vermelhas dolorosas no trajeto do vaso, seguidas de linfadenite regional. Células tumorais também usam essa via. É por isso que o linfonodo sentinela é pesquisado em câncer de mama e melanoma.</p></div></details>
+</section>
+
+<section id="nodo" style="--c:var(--mag)">
+<p class="trecho">Trecho 4, a eclusa de controle</p>
+<h2>Linfonodos</h2>
+<p class="sub">Órgãos linfoides secundários, encapsulados e vascularizados, desenhados para iniciar a resposta adaptativa.</p>
+<p>A arquitetura do linfonodo serve a um objetivo: obrigar a linfa a passar devagar por uma malha de células que procuram antígenos. Vários vasos aferentes, com válvulas, entram pela face convexa e desembocam no seio subcapsular. Um único vaso eferente sai pelo hilo, por onde também entram artéria e veia. Entre a entrada e a saída a linfa percorre os seios, canais revestidos por fibras reticulares e macrófagos. Clique nas etapas abaixo para ver o percurso unidirecional que o slide numera de 1 a 5.</p>
+<div class="stage">
+<svg viewBox="0 0 600 310" role="img" aria-label="Esquema de um linfonodo com a rota da linfa">
+<ellipse class="cap" cx="300" cy="150" rx="215" ry="125"/>
+<g class="fol"><circle cx="170" cy="100" r="22"/><circle cx="235" cy="70" r="20"/><circle cx="365" cy="70" r="20"/><circle cx="430" cy="100" r="22"/><circle cx="150" cy="170" r="18"/><circle cx="450" cy="170" r="18"/></g>
+<path id="s1" class="z" d="M110 25L165 55M490 25L435 55"/>
+<ellipse id="s2" class="z" cx="300" cy="150" rx="203" ry="113"/>
+<path id="s3" class="z" d="M300 40V120M215 52L255 125M385 52L345 125"/>
+<path id="s4" class="z" d="M255 150Q300 125 345 150Q330 190 300 200Q270 190 255 150Z"/>
+<path id="s5" class="z" d="M300 200V245M300 250V300"/>
+<text x="20" y="40">linfa vinda dos tecidos</text><text x="330" y="225">hilo: eferente, artéria e veia</text><text x="120" y="130">folículos B (córtex externo)</text><text x="380" y="140">paracórtex (zona T)</text>
+</svg>
+<div class="steps" role="group" aria-label="Etapas do fluxo da linfa">
+<button aria-pressed="false" data-s="1">1 Aferentes</button><button aria-pressed="false" data-s="2">2 Seio subcapsular</button><button aria-pressed="false" data-s="3">3 Seio trabecular</button><button aria-pressed="false" data-s="4">4 Seio medular</button><button aria-pressed="false" data-s="5">5 Eferente</button>
+</div>
+<p id="stp" aria-live="polite">Escolha uma etapa para ver o que acontece com a linfa, e o que o linfonodo faz com o que ela carrega.</p>
+</div>
+<h3>O que mora em cada zona</h3>
+<div class="grid">
+<div class="card"><h3>Córtex externo</h3><p>Nódulos (folículos) de linfócitos B. O primário tem linfócitos B naive maduros e não ativados. O secundário se forma após exposição ao antígeno e tem centro germinativo: ali os linfócitos B proliferam, refinam a afinidade do anticorpo e originam plasmócitos e células B de memória. Células dendríticas foliculares e macrófagos participam.</p></div>
+<div class="card" style="--c:var(--vein)"><h3>Córtex interno</h3><p>Zona de linfócitos T. As células dendríticas, que chegaram carregando antígeno pela linfa, o apresentam em MHC de classe II ao linfócito T auxiliar (CD4); o T ativado prolifera e os clones migram para as áreas do corpo com atividade antigênica.</p></div>
+<div class="card" style="--c:var(--art)"><h3>Medula</h3><p>Cordões medulares com plasmócitos (que secretam anticorpos), macrófagos e linfócitos B, entremeados pelos seios medulares. É a última triagem antes de a linfa sair.</p></div>
+</div>
+<details><summary>Aprofunde-se: como a resposta B e T se encontram</summary><div class="in">
+<p>O linfócito T naive entra no linfonodo pelo sangue, atravessando as vênulas de endotélio alto (HEV) do paracórtex, guiado por L-selectina e pelas quimiocinas CCL19 e CCL21. A célula dendrítica chega por via linfática, também orientada por CCR7. Se o TCR do T reconhece o complexo peptídeo-MHC, o T se ativa e migra para a borda do folículo, onde encontra o linfócito B que reconheceu o mesmo antígeno por seu receptor. Com a coestimulação (CD40L, interleucinas) o B forma o centro germinativo, no qual a enzima AID promove hipermutação somática e troca de classe, e as células de maior afinidade sobrevivem. O resultado é anticorpo de alta afinidade (IgG, por exemplo) e células de memória, que é a lógica de uma vacina.</p></div></details>
+<div class="note"><h4>Clínica: linfonodos aumentados</h4><p>Linfadenopatia reativa (infecção local, como amigdalite) costuma ser dolorosa, macia e móvel, porque a cápsula distende com a proliferação celular. Metástase e linfoma tendem a ser indolores, duros, aderidos e persistentes. O linfonodo supraclavicular esquerdo aumentado (nódulo de Virchow) sugere neoplasia abdominal, pois o ducto torácico termina ali, como veremos.</p></div>
+</section>
+
+<section id="malt" style="--c:var(--vein)">
+<p class="trecho">Trecho 5, a guarda das mucosas</p>
+<h2>Nódulos linfáticos, MALT e tonsilas</h2>
+<p class="sub">Tecido linfoide sem cápsula, posicionado onde os patógenos entram.</p>
+<p>Diferente dos linfonodos, os nódulos linfáticos não têm cápsula. Estão espalhados na lâmina própria das mucosas dos tratos digestório, respiratório, urinário e genital, e por isso o conjunto se chama tecido linfoide associado à mucosa (MALT). É a estratégia de colocar o linfócito onde o patógeno chega: a mucosa é a maior superfície de contato com o meio externo.</p>
+<p>As tonsilas são o MALT da entrada comum de ar e alimento, e formam o anel linfático de Waldeyer. O slide cita três: faríngea (adenoide), palatina e lingual; completam o anel as tonsilas tubárias. Uma diferença importante: as tonsilas não têm vasos linfáticos aferentes. O antígeno chega diretamente do lúmen, passando pelo epitélio das criptas; só existem eferentes.</p>
+<div class="grid">
+<div class="card"><h3>Faríngea</h3><p>No teto da nasofaringe, revestida por epitélio respiratório. Hipertrofia (a "carne esponjosa" da figura) obstrui a passagem de ar e a tuba auditiva: respiração oral, roncos, voz anasalada e otite média serosa recorrente em crianças.</p></div>
+<div class="card" style="--c:var(--art)"><h3>Palatina</h3><p>Entre os arcos palatoglosso e palatofaríngeo, com epitélio pavimentoso estratificado e criptas profundas. É a "amígdala" da amigdalite: tonsilas hiperemiadas, com placas exsudativas brancas, como na fotografia do slide.</p></div>
+<div class="card" style="--c:var(--lymph)"><h3>Lingual</h3><p>Na base da língua, atrás do V lingual. Várias elevações com criptas rasas, sem cápsula bem definida.</p></div>
+</div>
+<details><summary>Aprofunde-se: amigdalite, complicações e o elo com a sepse</summary><div class="in">
+<p>Streptococcus pyogenes (estreptococo beta-hemolítico do grupo A) é a causa bacteriana clássica, e o tratamento correto importa pelas sequelas não supurativas: febre reumática (reação cruzada com antígenos cardíacos) e glomerulonefrite pós-estreptocócica. Entre as complicações supurativas estão o abscesso periamigdaliano (desvio da úvula, trismo) e a disseminação para o espaço parafaríngeo. A síndrome de Lemierre (tromboflebite séptica da veia jugular interna por Fusobacterium necrophorum, após faringite) mostra como uma infecção de mucosa invade o sistema venoso e causa sepse com êmbolos sépticos pulmonares.</p></div></details>
+</section>
+
+<section id="ductos" style="--c:var(--lymph)">
+<p class="trecho">Trecho 6, a foz</p>
+<h2>Troncos e ductos linfáticos</h2>
+<p class="sub">Onde a linfa volta ao sangue.</p>
+<p>A hierarquia segue a das veias, em sentido inverso ao da ramificação: capilares, vasos, linfonodos, troncos e, por fim, dois ductos que desembocam nas veias da base do pescoço, no ângulo venoso (junção das veias jugular interna e subclávia). Os troncos recolhem a linfa por território.</p>
+<div class="grid">
+<div class="card"><h3>Troncos jugulares</h3><p>Cabeça e pescoço.</p></div>
+<div class="card" style="--c:var(--vein)"><h3>Troncos subclávios</h3><p>Membros superiores (e parede do tronco superior).</p></div>
+<div class="card" style="--c:var(--mag)"><h3>Troncos broncomediastinais</h3><p>Pulmões, brônquios e mediastino.</p></div>
+<div class="card" style="--c:var(--art)"><h3>Troncos lombares e intestinal</h3><p>Lombares: membros inferiores, pelve e parede abdominal. Intestinal: vísceras do tubo digestório, com a gordura absorvida.</p></div>
+</div>
+<div class="grid">
+<div class="card" style="--c:var(--mag)"><h3>Ducto linfático direito (cerca de 1,2 cm)</h3><p>Curto. Recebe os troncos jugular, subclávio e broncomediastinal direitos e desemboca no ângulo venoso direito. Drena o quadrante superior direito: cabeça e pescoço à direita, membro superior direito e hemitórax direito.</p></div>
+<div class="card"><h3>Ducto torácico (38 a 45 cm)</h3><p>É o grande coletor, e drena todo o resto do corpo (cerca de três quartos). Nasce na cisterna do quilo, dilatação em L1 e L2 que recebe os troncos lombares e o intestinal, sobe pelo hiato aórtico, pelo mediastino posterior entre a aorta e a veia ázigo, e desemboca no ângulo venoso esquerdo, onde recebe também os troncos jugular, subclávio e broncomediastinal esquerdos. As aspas em "esquerdo" no slide indicam que ele termina à esquerda, mas nasce na linha média.</p></div>
+</div>
+<details><summary>Aprofunde-se: quilotórax e o que a anatomia explica</summary><div class="in">
+<p>Lesão do ducto torácico (cirurgia esofágica, trauma, linfoma) causa quilotórax: derrame pleural leitoso, com triglicerídeos acima de 110 mg/dL. Obstruções pelo tumor explicam o nódulo de Virchow, pois o líquido do abdome sobe até o ângulo esquerdo. Note ainda: a linfa chega ao sangue pelas veias, sem passar pelo fígado. Isso explica por que bactérias e células de um foco infeccioso periférico, se vencerem os linfonodos, entram direto na circulação sistêmica.</p></div></details>
+</section>
+
+<section id="sepse" style="--c:var(--mag)">
+<p class="trecho">Trecho 7, quando a barreira cede</p>
+<h2>Sepse</h2>
+<p class="sub">O título da aula cita sepse, mas os slides não trazem o tema; esta seção faz a ponte clínica com o que foi estudado.</p>
+<p>O sistema linfático é a primeira linha de contenção: capta o patógeno do tecido, o apresenta e o retém no linfonodo. Quando o inóculo é grande, o patógeno é virulento ou a defesa é fraca, o germe atravessa a barreira, cai na circulação (bacteremia) e dispara uma resposta sistêmica. Pelo consenso Sepsis-3, sepse é uma disfunção orgânica ameaçadora à vida causada por uma resposta desregulada do hospedeiro à infecção. Não é a infecção em si, é a resposta que lesa o próprio organismo.</p>
+<div class="chain" style="--c:var(--mag)"><span>PAMPs (LPS, peptidoglicano)</span><i>→</i><span>TLR em macrófagos e células dendríticas</span><i>→</i><span>NF-κB</span><i>→</i><span>TNF-α, IL-1, IL-6</span><i>→</i><span>endotélio ativado: NO, permeabilidade, coagulação</span><i>→</i><span>hipoperfusão e disfunção de órgãos</span></div>
+<p>Conecte com os trechos anteriores. Nas arteríolas, o óxido nítrico relaxa o músculo liso e o vaso fica pouco responsivo às catecolaminas: a resistência cai e a pressão arterial despenca (o slide dizia que dilatação arteriolar reduz a pressão). Nas veias, a venodilatação aumenta a capacitância e o retorno venoso cai. Nos capilares, a degradação do glicocálix e a abertura das junções fazem o plasma vazar para o interstício; a carga excede a capacidade do sistema linfático, e surge edema generalizado, hipovolemia relativa e hemoconcentração. O coração, por sua vez, pode se deprimir por citocinas. Em paralelo, o fator tecidual ativa a coagulação e consome anticoagulantes naturais (antitrombina, proteína C), causando microtrombos e, no extremo, CIVD. A hipóxia tecidual e a glicólise acelerada elevam o lactato.</p>
+<div class="grid">
+<div class="card"><h3>Sepse (Sepsis-3)</h3><p>Infecção suspeita ou confirmada com aumento agudo de 2 pontos ou mais no escore SOFA (respiração, coagulação, fígado, cardiovascular, sistema nervoso central, rim).</p></div>
+<div class="card" style="--c:var(--art)"><h3>Choque séptico</h3><p>Sepse com necessidade de vasopressor para manter pressão arterial média de 65 mmHg ou mais e lactato acima de 2 mmol/L, apesar de reposição volêmica adequada. A mortalidade hospitalar supera 40 por cento.</p></div>
+<div class="card" style="--c:var(--vein)"><h3>qSOFA</h3><p>Triagem à beira do leito: frequência respiratória de 22 ou mais, alteração do estado mental, pressão sistólica de 100 mmHg ou menos. Dois ou mais pontos alertam, mas o qSOFA não faz diagnóstico.</p></div>
+</div>
+<details><summary>Aprofunde-se: conduta inicial segundo a Surviving Sepsis Campaign</summary><div class="in">
+<p>A ideia central é tempo e foco. Colher lactato e hemoculturas (antes do antibiótico, sem atrasá-lo), iniciar antimicrobiano de amplo espectro em até uma hora quando há choque ou alta probabilidade de sepse, controlar o foco infeccioso (drenar abscesso, remover cateter), repor cristaloide balanceado (sugestão de 30 mL/kg nas primeiras 3 horas na hipoperfusão ou choque) e usar noradrenalina como vasopressor de primeira linha, com alvo de pressão arterial média de 65 mmHg; vasopressina pode ser associada, e hidrocortisona é considerada quando o vasopressor persiste. A reavaliação frequente (perfusão, tempo de enchimento capilar, lactato seriado, diurese) orienta quanto fluido dar, porque excesso de volume em um endotélio vazante agrava o edema pulmonar.</p>
+<p>Termos antigos como SIRS e sepse grave pertencem ao consenso anterior (Sepsis-2) e foram abandonados pelo Sepsis-3.</p></div></details>
+<div class="note"><h4>Pegadinha</h4><p>Infecção localizada com febre e linfonodos reativos não é sepse. O que define sepse é a disfunção orgânica. E o choque séptico é do tipo distributivo (vasodilatação e vazamento), não por falha primária de bomba, embora o miocárdio possa se deprimir.</p></div>
+</section>
+
+<section id="revisao" style="--c:var(--vein)">
+<p class="trecho">Trecho 8, conferência</p>
+<h2>Revisão ativa</h2>
+<p class="sub">Responda mentalmente antes de abrir.</p>
+<div class="qa">
+<details><summary>Por que a linfa não passa pelo linfonodo em sentido contrário?</summary><div class="in"><p>Porque os vasos aferentes e eferentes têm válvulas, e a rota (aferente, seio subcapsular, trabecular, medular, eferente) é unidirecional; a pressão e as válvulas impedem o refluxo.</p></div></details>
+<details><summary>O que impede o capilar linfático de colapsar quando o interstício incha?</summary><div class="in"><p>Os filamentos de colágeno que ancoram o endotélio ao conjuntivo. O inchaço os traciona e as minivalvas se abrem.</p></div></details>
+<details><summary>Qual a diferença entre nódulo linfático primário e secundário?</summary><div class="in"><p>O primário contém linfócitos B naive maduros. O secundário surge após estímulo antigênico, tem centro germinativo e forma plasmócitos e células B de memória.</p></div></details>
+<details><summary>Que territórios o ducto linfático direito drena, e onde termina o ducto torácico?</summary><div class="in"><p>O direito drena o quadrante superior direito (cabeça e pescoço, membro superior e tórax à direita). O torácico, o restante do corpo, termina no ângulo venoso esquerdo.</p></div></details>
+<details><summary>Como a fisiopatologia da sepse se liga ao retorno venoso e à resistência arteriolar?</summary><div class="in"><p>Vasodilatação arteriolar derruba a resistência e a pressão; venodilatação e vazamento capilar reduzem o retorno venoso e a pré-carga. O resultado é choque distributivo com hipoperfusão.</p></div></details>
+</div>
+</section>
+
+<section id="refs" style="--c:var(--mute)">
+<h2>Referências</h2>
+<p class="sub">Formato ABNT. Confira as edições disponíveis na biblioteca e o modelo exigido pela instituição antes de entregar.</p>
+<div class="refs">
+<p>ABBAS, A. K.; LICHTMAN, A. H.; PILLAI, S. <em>Imunologia celular e molecular</em>. 9. ed. Rio de Janeiro: Elsevier, 2019.</p>
+<p>EVANS, L. et al. Surviving Sepsis Campaign: international guidelines for management of sepsis and septic shock 2021. <em>Intensive Care Medicine</em>, v. 47, p. 1181-1247, 2021.</p>
+<p>HALL, J. E.; HALL, M. E. <em>Guyton &amp; Hall: tratado de fisiologia médica</em>. 14. ed. Rio de Janeiro: Guanabara Koogan, 2021.</p>
+<p>JUNQUEIRA, L. C.; CARNEIRO, J. <em>Histologia básica</em>. 13. ed. Rio de Janeiro: Guanabara Koogan, 2017.</p>
+<p>KUMAR, V.; ABBAS, A. K.; ASTER, J. C. <em>Robbins &amp; Cotran: patologia, bases patológicas das doenças</em>. Rio de Janeiro: Elsevier.</p>
+<p>MOORE, K. L.; DALLEY, A. F.; AGUR, A. M. R. <em>Anatomia orientada para a clínica</em>. 8. ed. Rio de Janeiro: Guanabara Koogan, 2019.</p>
+<p>SINGER, M. et al. The Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3). <em>JAMA</em>, v. 315, n. 8, p. 801-810, 2016.</p>
+<p>TORTORA, G. J.; DERRICKSON, B. <em>Princípios de anatomia e fisiologia</em>. 14. ed. Rio de Janeiro: Guanabara Koogan, 2016.</p>
+</div>
+</section>
+</main>
+
+<div id="bar" role="toolbar" aria-label="Edição do documento">
+<button id="b-ed" type="button">Ativar edição</button>
+<button id="b-dl" type="button">Baixar cópia editada</button>
+<button id="b-rs" type="button">Restaurar original</button>
+</div>
+
+<script>
+(function(){
+var KEY='atlas-drenagem-venoso-linfatico-sepse-v1',doc=document.getElementById('doc'),ed=false,timer=null;
+var T={
+1:'Vários vasos aferentes, com válvulas, trazem a linfa dos tecidos e a despejam na face convexa. Com ela chegam microrganismos, restos celulares e células dendríticas carregadas de antígeno.',
+2:'O seio subcapsular fica logo abaixo da cápsula. Macrófagos que o revestem capturam partículas e bactérias; a linfa se espalha ao redor do córtex, em contato com os folículos B.',
+3:'Os seios trabeculares correm ao longo das trabéculas e levam a linfa para o interior, atravessando o córtex externo e o paracórtex (zona T), onde o antígeno é apresentado.',
+4:'No seio medular, entre os cordões da medula, plasmócitos secretam anticorpos na linfa e macrófagos fazem a última triagem. A malha de fibras reticulares retarda o fluxo e aumenta o contato.',
+5:'Um único vaso eferente sai pelo hilo levando linfa filtrada, anticorpos e linfócitos recém-ativados, que seguem para o próximo linfonodo ou para os troncos e ductos e, enfim, para o sangue.'};
+function sel(n){for(var i=1;i<=5;i++){var e=document.getElementById('s'+i);if(e)e.classList.toggle('on',i==n);}
+document.querySelectorAll('.steps button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.s==n)});
+document.getElementById('stp').textContent=T[n];}
+document.addEventListener('click',function(e){var b=e.target.closest('.steps button');if(b)sel(b.dataset.s);});
+try{var s=localStorage.getItem(KEY);if(s)doc.innerHTML=s;}catch(x){}
+var Q='h2,h3,p,li,.sub';
+function setEd(on){ed=on;document.body.classList.toggle('ed',on);
+doc.querySelectorAll(Q).forEach(function(n){if(on)n.setAttribute('contenteditable','true');else n.removeAttribute('contenteditable');});
+var b=document.getElementById('b-ed');b.textContent=on?'Salvar e sair':'Ativar edição';b.classList.toggle('act',on);
+clearInterval(timer);if(on)timer=setInterval(save,15000);else save();}
+function clean(){var c=doc.cloneNode(true);c.querySelectorAll('[contenteditable]').forEach(function(n){n.removeAttribute('contenteditable')});return c;}
+function save(){try{localStorage.setItem(KEY,clean().innerHTML)}catch(x){}}
+document.getElementById('b-ed').onclick=function(){setEd(!ed)};
+document.getElementById('b-rs').onclick=function(){if(confirm('Apagar as edições salvas neste navegador e voltar ao texto original?')){try{localStorage.removeItem(KEY)}catch(x){}location.reload();}};
+document.getElementById('b-dl').onclick=function(){
+var c=clean(),live=doc.innerHTML;doc.innerHTML=c.innerHTML;
+var h='<!DOCTYPE html>\n'+document.documentElement.outerHTML;doc.innerHTML=live;
+var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([h],{type:'text/html'}));
+a.download='atlas-drenagem-editado.html';document.body.appendChild(a);a.click();a.remove();};
+})();
+</script>
+</body>
+</html>

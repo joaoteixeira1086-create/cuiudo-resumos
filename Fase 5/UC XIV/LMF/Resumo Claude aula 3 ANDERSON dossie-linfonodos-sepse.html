@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caso 03-LMF — Do Linfonodo ao Choque</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔍</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Rajdhani:wght@500;600;700&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fira+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+body { margin: 0; padding: 0; }
+img, svg { max-width: 100%; display: block; }
+a { color: inherit; }
+p { margin: 0 0 1em 0; }
+ul, ol { margin: 0 0 1em 0; padding-left: 1.3em; }
+li { margin-bottom: 0.45em; }
+h1, h2, h3, h4 { margin: 0; }
+button { font: inherit; cursor: pointer; }
+
+/* ============================================================
+   TOKENS — GLOBAIS
+   ============================================================ */
+:root {
+  color-scheme: light dark;
+
+  /* Bloco 1 — Dossiê de campo (investigação cervical) */
+  --b1-board:      #3f3021;
+  --b1-board-deep: #2c2115;
+  --b1-paper:      #ece0bf;
+  --b1-paper-hi:   #f5ecd2;
+  --b1-paper-alt:  #ddc99a;
+  --b1-ink:        #2a2014;
+  --b1-ink-soft:   #5b4a34;
+  --b1-ink-faint:  #8a7658;
+  --b1-stamp:      #a1352a;
+  --b1-stamp-deep: #7c281f;
+  --b1-thread:     #b23b30;
+  --b1-tag:        #33546b;
+  --b1-tag-deep:   #23404f;
+  --b1-gold:       #a8792e;
+
+  --b1-font-display: 'Zilla Slab', Georgia, serif;
+  --b1-font-body:    'Lora', Georgia, serif;
+  --b1-font-mono:    'Courier Prime', 'Courier New', monospace;
+
+  /* Bloco 2 — Sala de comando (sepse) */
+  --b2-bg:          #0a0e13;
+  --b2-bg-deep:     #05070a;
+  --b2-panel:       #121a22;
+  --b2-panel-hi:    #182330;
+  --b2-line:        #253544;
+  --b2-line-soft:   #1a2530;
+  --b2-text:        #dde5ec;
+  --b2-text-soft:   #8fa3b5;
+  --b2-text-faint:  #5b7086;
+
+  --b2-lvl1: #f0bd4c;   /* amarelo — infecção / SIRS */
+  --b2-lvl2: #ff8c42;   /* laranja — sepse */
+  --b2-lvl3: #e8483b;   /* vermelho — choque séptico */
+  --b2-cyan: #45d3e3;
+  --b2-violet: #a889f5;
+  --b2-green: #3ecf8e;
+
+  --b2-font-display: 'Rajdhani', 'Archivo', sans-serif;
+  --b2-font-body:    'Archivo', 'Segoe UI', sans-serif;
+  --b2-font-mono:    'Fira Mono', 'Courier New', monospace;
+
+  --edit-outline: #2f6f9e;
+}
+
+body {
+  background: var(--b1-board);
+  font-family: var(--b1-font-body);
+  color: var(--b1-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+@media (max-width: 640px) { .wrap { padding: 0 16px; } }
+
+/* ============================================================
+   TIPOGRAFIA — utilidades
+   ============================================================ */
+.b1 h1, .b1 h2, .b1 h3, .b1 h4, .b1-display { font-family: var(--b1-font-display); color: var(--b1-ink); }
+.b1 { font-family: var(--b1-font-body); }
+.b2 h1, .b2 h2, .b2 h3, .b2 h4, .b2-display { font-family: var(--b2-font-display); color: var(--b2-text); }
+.b2 { font-family: var(--b2-font-body); color: var(--b2-text); }
+
+.mono1 { font-family: var(--b1-font-mono); }
+.mono2 { font-family: var(--b2-font-mono); }
+
+/* ============================================================
+   BARRA DE ÍNDICE (topo, discreta)
+   ============================================================ */
+.topbar {
+  position: sticky; top: 0; z-index: 40;
+  background: var(--b1-board-deep);
+  border-bottom: 1px solid #55432b;
+  font-family: var(--b1-font-mono);
+}
+.topbar.on-dark { background: var(--b2-bg-deep); border-bottom-color: var(--b2-line); }
+.topbar-inner { max-width: 920px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.topbar-tag { font-size: 0.78rem; color: #d8c79a; letter-spacing: 0.02em; }
+.topbar.on-dark .topbar-tag { color: var(--b2-text-soft); }
+.topbar-tag b { font-weight: 400; color: var(--b1-gold); }
+.topbar.on-dark .topbar-tag b { color: var(--b2-cyan); }
+
+/* ============================================================
+   FERRAMENTA FLUTUANTE (canto inferior direito)
+   ============================================================ */
+.toolbar {
+  position: fixed; right: 18px; bottom: 18px; z-index: 200;
+  display: flex; flex-direction: column; gap: 6px;
+  background: #1b1712; border: 1px solid #4a3a26;
+  border-radius: 8px; padding: 8px; box-shadow: 0 8px 28px rgba(0,0,0,0.45);
+  font-family: var(--b1-font-mono); font-size: 0.72rem;
+}
+.toolbar button {
+  display: flex; align-items: center; gap: 8px;
+  background: #2a2318; color: #e7dcc0; border: 1px solid #59462b;
+  border-radius: 5px; padding: 7px 10px; text-align: left;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.toolbar button:hover { background: #3a2f1e; border-color: var(--b1-gold); }
+.toolbar button.active { background: var(--b1-stamp-deep); border-color: var(--b1-stamp); color: #fbe9e4; }
+.toolbar .ic { width: 14px; text-align: center; opacity: 0.9; }
+.toolbar-status { font-size: 0.62rem; color: #9a875f; padding: 2px 4px 0; min-height: 1.2em; }
+@media (max-width: 640px) {
+  .toolbar { right: 10px; bottom: 10px; }
+  .toolbar button span.label { display: none; }
+}
+
+/* edição ativa: contornos discretos nos campos editáveis */
+body.editing .editable { outline: 1px dashed rgba(47,111,158,0.55); outline-offset: 3px; cursor: text; border-radius: 2px; }
+body.editing .editable:focus { outline: 2px solid var(--edit-outline); background: rgba(47,111,158,0.06); }
+
+/* ============================================================
+   HERO — capa do dossiê
+   ============================================================ */
+.hero {
+  position: relative;
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(255,255,255,0.05), transparent 55%),
+    linear-gradient(180deg, var(--b1-board) 0%, var(--b1-board-deep) 100%);
+  padding: 64px 0 48px;
+  overflow: hidden;
+}
+.hero::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.05) 0 2px, transparent 2px 40px),
+    repeating-linear-gradient(-45deg, rgba(0,0,0,0.045) 0 2px, transparent 2px 40px);
+  opacity: 0.5; pointer-events: none;
+}
+.folder {
+  position: relative; z-index: 1;
+  background: var(--b1-paper);
+  background-image: linear-gradient(180deg, var(--b1-paper-hi), var(--b1-paper) 12%);
+  border: 1px solid #c8b586;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.4), 0 2px 0 #c8b586 inset;
+  padding: 38px 34px 30px;
+  transform: rotate(-0.6deg);
+  max-width: 760px; margin: 0 auto;
+}
+.folder::before {
+  content: "";
+  position: absolute; top: -14px; left: 36px;
+  width: 92px; height: 26px;
+  background: var(--b1-paper-alt);
+  border: 1px solid #c8b586; border-bottom: none;
+  clip-path: polygon(8% 100%, 0 0, 100% 0, 92% 100%);
+}
+.pin {
+  position: absolute; top: -10px; right: 46px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e8574a, var(--b1-stamp-deep));
+  box-shadow: 0 3px 5px rgba(0,0,0,0.5);
+}
+.case-meta {
+  display: flex; flex-wrap: wrap; gap: 10px 22px;
+  font-family: var(--b1-font-mono); font-size: 0.76rem; color: var(--b1-ink-soft);
+  border-bottom: 1px dashed #b8a271; padding-bottom: 16px; margin-bottom: 18px;
+}
+.case-meta span b { color: var(--b1-tag-deep); font-weight: 400; }
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3rem); line-height: 1.08; font-weight: 700;
+  margin-bottom: 14px; letter-spacing: -0.01em;
+}
+.hero h1 em { font-style: italic; color: var(--b1-stamp); }
+.hero .lede { font-family: var(--b1-font-body); font-size: 1.08rem; color: var(--b1-ink-soft); max-width: 56ch; line-height: 1.6; }
+.stamp {
+  display: inline-block; font-family: var(--b1-font-mono); font-weight: 700;
+  color: var(--b1-stamp); border: 2.5px solid var(--b1-stamp);
+  padding: 3px 10px; transform: rotate(-6deg); border-radius: 3px;
+  font-size: 0.78rem; letter-spacing: 0.04em; opacity: 0.85;
+  margin-top: 18px;
+}
+
+/* índice expansível */
+.index-card {
+  max-width: 760px; margin: 22px auto 0; position: relative; z-index: 1;
+}
+.index-card summary {
+  list-style: none; cursor: pointer;
+  background: var(--b1-paper-alt); border: 1px solid #b8a271;
+  padding: 10px 16px; font-family: var(--b1-font-mono); font-size: 0.8rem;
+  color: var(--b1-ink); display: flex; justify-content: space-between; align-items: center;
+}
+.index-card summary::-webkit-details-marker { display: none; }
+.index-card summary::after { content: "▸"; transition: transform 0.2s ease; color: var(--b1-gold); }
+.index-card[open] summary::after { transform: rotate(90deg); }
+.index-body {
+  background: var(--b1-paper); border: 1px solid #b8a271; border-top: none;
+  padding: 18px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 28px;
+}
+.index-body .grp { font-family: var(--b1-font-mono); font-size: 0.68rem; color: var(--b1-gold); margin: 10px 0 4px; }
+.index-body a { display: block; font-size: 0.86rem; color: var(--b1-ink-soft); text-decoration: none; padding: 3px 0; border-bottom: 1px dotted transparent; }
+.index-body a:hover { color: var(--b1-stamp); border-bottom-color: var(--b1-stamp); }
+@media (max-width: 640px) { .index-body { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   BLOCO 1 — DOSSIÊ (corpo)
+   ============================================================ */
+.b1 { background: var(--b1-board); padding-bottom: 10px; }
+.file {
+  background: var(--b1-paper);
+  background-image: linear-gradient(180deg, var(--b1-paper-hi), var(--b1-paper) 8%);
+  border: 1px solid #c8b586;
+  margin: 26px auto; max-width: 860px;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.32);
+  padding: 34px clamp(20px, 4vw, 44px) 38px;
+  position: relative;
+}
+.file + .file { margin-top: 18px; }
+.file-tab {
+  font-family: var(--b1-font-mono); font-size: 0.7rem; color: var(--b1-gold);
+  letter-spacing: 0.03em; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
+}
+.file-tab .n { background: var(--b1-tag-deep); color: #eee7d2; padding: 1px 7px; border-radius: 2px; }
+.file h2 { font-size: clamp(1.35rem, 3vw, 1.85rem); font-weight: 600; margin-bottom: 4px; }
+.file .sub { font-family: var(--b1-font-body); font-style: italic; color: var(--b1-ink-faint); margin-bottom: 20px; font-size: 0.96rem; }
+.file p, .file li { color: var(--b1-ink); font-size: 1rem; line-height: 1.68; max-width: 66ch; }
+.file h3 { font-size: 1.12rem; font-weight: 600; color: var(--b1-tag-deep); margin: 22px 0 8px; }
+.file h4 { font-size: 0.98rem; font-weight: 600; color: var(--b1-ink); margin: 14px 0 6px; font-style: italic; }
+
+.callout1 {
+  border: 1px solid var(--b1-gold); background: rgba(168,121,46,0.08);
+  padding: 14px 18px; margin: 18px 0; max-width: 64ch;
+}
+.callout1 .lbl { font-family: var(--b1-font-mono); font-size: 0.68rem; color: var(--b1-gold); margin-bottom: 6px; }
+.callout1 p:last-child { margin-bottom: 0; }
+
+.alerta1 {
+  border-left: 3px solid var(--b1-stamp); background: rgba(161,53,42,0.07);
+  padding: 12px 18px; margin: 18px 0; max-width: 64ch;
+}
+.alerta1 .lbl { font-family: var(--b1-font-mono); font-size: 0.68rem; color: var(--b1-stamp); margin-bottom: 6px; }
+
+/* cards em grade — dossiê */
+.grid1 { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin: 18px 0; }
+.card1 {
+  background: var(--b1-paper-alt); border: 1px solid #b8a271;
+  padding: 16px 18px; position: relative;
+}
+.card1::before {
+  content: ""; position: absolute; top: -6px; left: 18px;
+  width: 26px; height: 12px; background: #c9d3a0; opacity: 0.75;
+  transform: rotate(-3deg); box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+}
+.card1 h4 { margin-top: 0; color: var(--b1-tag-deep); font-style: normal; }
+.card1 p, .card1 li { font-size: 0.93rem; }
+
+/* colunas reativo x suspeito */
+.duo1 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 18px 0; }
+@media (max-width: 640px) { .duo1 { grid-template-columns: 1fr; } }
+.witness { border: 1px solid #7d935f; background: rgba(125,147,95,0.09); padding: 16px 18px; }
+.witness .lbl { font-family: var(--b1-font-mono); font-size: 0.68rem; color: #5c7440; margin-bottom: 8px; }
+.suspect { border: 1px solid var(--b1-stamp); background: rgba(161,53,42,0.09); padding: 16px 18px; }
+.suspect .lbl { font-family: var(--b1-font-mono); font-size: 0.68rem; color: var(--b1-stamp); margin-bottom: 8px; }
+.duo1 ul { padding-left: 1.1em; margin-bottom: 0; }
+.duo1 li { font-size: 0.92rem; }
+
+/* aprofunde-se — bloco 1 */
+details.deep1 {
+  margin: 16px 0; border: 1px dashed var(--b1-ink-faint); background: rgba(42,32,20,0.03);
+}
+details.deep1 summary {
+  cursor: pointer; list-style: none; padding: 10px 16px;
+  font-family: var(--b1-font-mono); font-size: 0.76rem; color: var(--b1-tag-deep);
+  display: flex; align-items: center; gap: 9px;
+}
+details.deep1 summary::-webkit-details-marker { display: none; }
+details.deep1 summary::before { content: "🖇"; }
+details.deep1 summary .txt::after { content: "  — abrir anexo"; color: var(--b1-ink-faint); font-style: italic; }
+details.deep1[open] summary .txt::after { content: "  — anexo aberto"; }
+details.deep1 .deep-body { padding: 4px 18px 18px 18px; border-top: 1px dashed #c8b586; }
+details.deep1 .deep-body p, details.deep1 .deep-body li { font-size: 0.94rem; }
+
+/* quadro de evidências — mapa interativo */
+.board-wrap { background: var(--b1-board-deep); border: 6px solid #241a10; padding: 22px; margin: 24px 0; }
+.board-lbl { font-family: var(--b1-font-mono); font-size: 0.7rem; color: #cbb989; margin-bottom: 12px; text-align: center; }
+.board { position: relative; width: 100%; aspect-ratio: 4 / 3.6; max-width: 620px; margin: 0 auto; }
+.board svg.threads { position: absolute; inset: 0; width: 100%; height: 100%; }
+.board svg.threads path { fill: none; stroke: var(--b1-thread); stroke-width: 1.2; stroke-dasharray: 3 3; opacity: 0.55; }
+.pinnote {
+  position: absolute; transform: translate(-50%, -50%);
+  background: var(--b1-paper-hi); border: 1px solid #b8a271; color: var(--b1-ink);
+  font-family: var(--b1-font-mono); font-weight: 700; font-size: 0.78rem;
+  width: 44px; height: 34px; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.4); cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  z-index: 2;
+}
+.pinnote::before {
+  content: ""; position: absolute; top: -5px; left: 50%; transform: translateX(-50%);
+  width: 9px; height: 9px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e8574a, var(--b1-stamp-deep));
+  box-shadow: 0 2px 3px rgba(0,0,0,0.5);
+}
+.pinnote:hover { transform: translate(-50%, -55%); }
+.pinnote.active { background: var(--b1-stamp); color: #fdf2ee; border-color: var(--b1-stamp-deep); }
+.board-focus {
+  margin-top: 16px; background: var(--b1-paper); border: 1px solid #b8a271;
+  padding: 16px 18px; min-height: 92px;
+}
+.board-focus .ft { font-family: var(--b1-font-mono); font-size: 0.7rem; color: var(--b1-gold); margin-bottom: 6px; }
+.board-focus h4 { margin: 0 0 6px; font-style: normal; color: var(--b1-tag-deep); }
+.board-focus p { font-size: 0.92rem; margin-bottom: 6px; }
+
+/* lista completa de fichas (níveis) */
+.evid { border-top: 1px dashed #c8b586; margin-top: 26px; padding-top: 6px; }
+.evid-item { padding: 18px 0; border-bottom: 1px dashed #c8b586; }
+.evid-item:last-child { border-bottom: none; }
+.evid-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+.evid-head .tag { font-family: var(--b1-font-mono); background: var(--b1-tag-deep); color: #eee7d2; padding: 2px 8px; font-size: 0.75rem; }
+.evid-head h4 { font-style: normal; margin: 0; font-size: 1.05rem; color: var(--b1-ink); }
+.evid-item p, .evid-item li { font-size: 0.94rem; }
+
+/* diagrama do linfonodo (svg) */
+.exhibit { background: var(--b1-paper-alt); border: 1px solid #b8a271; padding: 18px; margin: 20px 0; }
+.exhibit .cap { font-family: var(--b1-font-mono); font-size: 0.7rem; color: var(--b1-ink-soft); margin-top: 10px; text-align: center; font-style: italic; }
+.exhibit svg text { font-family: var(--b1-font-mono); font-size: 9px; fill: var(--b1-ink); }
+
+/* resumo final bloco 1 — cartão de encerramento */
+.close-stamp { text-align: center; margin: 30px 0 6px; }
+.close-stamp .st { display: inline-block; border: 3px double var(--b1-stamp); color: var(--b1-stamp); font-family: var(--b1-font-mono); font-weight: 700; padding: 8px 22px; transform: rotate(-3deg); letter-spacing: 0.05em; opacity: 0.82; }
+
+/* ============================================================
+   CENA DE TRANSIÇÃO
+   ============================================================ */
+.transition {
+  position: relative; padding: 70px 0; text-align: center; overflow: hidden;
+  background: linear-gradient(180deg, var(--b1-board-deep) 0%, #0d1219 55%, var(--b2-bg) 100%);
+}
+.transition .ring {
+  position: absolute; left: 50%; top: 20%; width: 480px; height: 480px;
+  margin-left: -240px; border-radius: 50%;
+  border: 1px solid rgba(232,72,59,0.35);
+  animation: pulse-ring 3.2s ease-out infinite;
+}
+.transition .ring.r2 { animation-delay: 1.05s; }
+.transition .ring.r3 { animation-delay: 2.1s; }
+@keyframes pulse-ring { 0% { transform: scale(0.4); opacity: 0.7; } 100% { transform: scale(1.15); opacity: 0; } }
+.transition-inner { position: relative; z-index: 1; max-width: 620px; margin: 0 auto; padding: 0 24px; }
+.transition .tag { font-family: var(--b2-font-mono); color: var(--b2-lvl3); font-size: 0.82rem; letter-spacing: 0.06em; animation: blink 1.6s steps(1) infinite; }
+@keyframes blink { 0%, 60% { opacity: 1; } 80% { opacity: 0.25; } 100% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .transition .ring, .transition .tag { animation: none; } }
+.transition h2 { font-family: var(--b2-font-display); color: #f2f4f6; font-size: clamp(1.5rem, 4vw, 2.1rem); font-weight: 700; margin: 14px 0 12px; }
+.transition p { font-family: var(--b2-font-body); color: var(--b2-text-soft); font-size: 1rem; line-height: 1.65; max-width: 52ch; margin: 0 auto; }
+
+/* ============================================================
+   BLOCO 2 — SALA DE COMANDO (sepse)
+   ============================================================ */
+.b2 { background: var(--b2-bg); padding: 6px 0 40px; position: relative; }
+.b2::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image: repeating-linear-gradient(180deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 3px);
+  opacity: 0.4;
+}
+.panel {
+  position: relative; background: var(--b2-panel);
+  border: 1px solid var(--b2-line);
+  margin: 22px auto; max-width: 860px;
+  padding: 30px clamp(18px, 4vw, 42px) 34px;
+  z-index: 1;
+}
+.panel::before, .panel::after,
+.panel .bl, .panel .br { content: ""; position: absolute; width: 14px; height: 14px; border-color: var(--b2-cyan); opacity: 0.55; }
+.panel::before { top: -1px; left: -1px; border-top: 2px solid var(--b2-cyan); border-left: 2px solid var(--b2-cyan); }
+.panel::after { top: -1px; right: -1px; border-top: 2px solid var(--b2-cyan); border-right: 2px solid var(--b2-cyan); }
+.panel .bl { bottom: -1px; left: -1px; border-bottom: 2px solid var(--b2-cyan); border-left: 2px solid var(--b2-cyan); }
+.panel .br { bottom: -1px; right: -1px; border-bottom: 2px solid var(--b2-cyan); border-right: 2px solid var(--b2-cyan); }
+.panel-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+.panel-head .code { font-family: var(--b2-font-mono); font-size: 0.72rem; color: var(--b2-cyan); background: rgba(69,211,227,0.08); padding: 2px 8px; border: 1px solid rgba(69,211,227,0.35); }
+.panel h2 { font-size: clamp(1.35rem, 3vw, 1.9rem); font-weight: 700; margin-bottom: 4px; letter-spacing: 0.01em; }
+.panel .sub { color: var(--b2-text-soft); font-style: italic; margin-bottom: 20px; font-size: 0.98rem; }
+.panel p, .panel li { color: var(--b2-text); font-size: 1rem; line-height: 1.72; max-width: 68ch; }
+.panel h3 { font-size: 1.1rem; font-weight: 700; color: var(--b2-cyan); margin: 22px 0 8px; font-family: var(--b2-font-display); letter-spacing: 0.01em; }
+.panel h4 { font-size: 0.98rem; font-weight: 600; color: var(--b2-text); margin: 14px 0 6px; }
+
+.callout2 { border: 1px solid var(--b2-cyan); background: rgba(69,211,227,0.06); padding: 14px 18px; margin: 18px 0; max-width: 64ch; }
+.callout2 .lbl { font-family: var(--b2-font-mono); font-size: 0.68rem; color: var(--b2-cyan); margin-bottom: 6px; }
+.callout2 p:last-child { margin-bottom: 0; }
+
+.alerta2 { border-left: 3px solid var(--b2-lvl3); background: rgba(232,72,59,0.08); padding: 12px 18px; margin: 18px 0; max-width: 64ch; }
+.alerta2 .lbl { font-family: var(--b2-font-mono); font-size: 0.68rem; color: var(--b2-lvl3); margin-bottom: 6px; }
+
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin: 18px 0; }
+.card2 { background: var(--b2-panel-hi); border: 1px solid var(--b2-line); padding: 16px 18px; }
+.card2 h4 { margin-top: 0; color: var(--b2-cyan); }
+.card2 p, .card2 li { font-size: 0.92rem; }
+.card2.violet h4 { color: var(--b2-violet); }
+.card2.lvl1 { border-left: 3px solid var(--b2-lvl1); }
+.card2.lvl2 { border-left: 3px solid var(--b2-lvl2); }
+.card2.lvl3 { border-left: 3px solid var(--b2-lvl3); }
+
+details.deep2 { margin: 16px 0; border: 1px solid var(--b2-line); background: rgba(69,211,227,0.02); }
+details.deep2 summary { cursor: pointer; list-style: none; padding: 10px 16px; font-family: var(--b2-font-mono); font-size: 0.76rem; color: var(--b2-cyan); display: flex; align-items: center; gap: 9px; }
+details.deep2 summary::-webkit-details-marker { display: none; }
+details.deep2 summary::before { content: "▹"; }
+details.deep2 summary .txt::after { content: "  // expandir transmissão"; color: var(--b2-text-faint); }
+details.deep2[open] summary .txt::after { content: "  // transmissão expandida"; }
+details.deep2 .deep-body { padding: 4px 18px 18px; border-top: 1px solid var(--b2-line); }
+details.deep2 .deep-body p, details.deep2 .deep-body li { font-size: 0.94rem; }
+
+/* readouts / estatísticas */
+.stats2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; margin: 18px 0; }
+.stat2 { border: 1px solid var(--b2-line); padding: 14px 16px; text-align: left; background: rgba(255,255,255,0.015); }
+.stat2 .num { font-family: var(--b2-font-mono); font-size: 1.7rem; color: var(--b2-lvl2); line-height: 1; }
+.stat2 .desc { font-size: 0.78rem; color: var(--b2-text-soft); margin-top: 6px; }
+.stat2 .src { font-size: 0.66rem; color: var(--b2-text-faint); margin-top: 4px; font-family: var(--b2-font-mono); }
+
+/* termo antigo -> atual (cards ao invés de tabela) */
+.evolve { display: flex; flex-direction: column; gap: 10px; margin: 18px 0; }
+.evolve-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 14px; border: 1px solid var(--b2-line); padding: 12px 16px; background: rgba(255,255,255,0.012); }
+.evolve-row .old { color: var(--b2-text-faint); text-decoration: line-through; font-size: 0.92rem; }
+.evolve-row .arrow { color: var(--b2-cyan); font-family: var(--b2-font-mono); }
+.evolve-row .now { color: var(--b2-text); font-size: 0.94rem; }
+.evolve-row .now b { color: var(--b2-lvl2); font-weight: 600; }
+@media (max-width: 560px) { .evolve-row { grid-template-columns: 1fr; text-align: left; } .evolve-row .arrow { display: none; } }
+
+/* painel de alerta interativo (nivel 1/2/3) */
+.panel-alerta { margin: 20px 0; }
+.alerta-btns { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.alerta-btn { flex: 1 1 140px; border: 1px solid var(--b2-line); background: var(--b2-panel-hi); color: var(--b2-text-soft); padding: 12px 14px; font-family: var(--b2-font-display); font-weight: 600; font-size: 0.94rem; text-align: left; transition: all 0.15s ease; }
+.alerta-btn .lamp { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 8px; background: var(--b2-text-faint); }
+.alerta-btn[data-lvl="1"].active { border-color: var(--b2-lvl1); background: rgba(240,189,76,0.1); color: var(--b2-lvl1); }
+.alerta-btn[data-lvl="1"].active .lamp { background: var(--b2-lvl1); box-shadow: 0 0 8px var(--b2-lvl1); }
+.alerta-btn[data-lvl="2"].active { border-color: var(--b2-lvl2); background: rgba(255,140,66,0.1); color: var(--b2-lvl2); }
+.alerta-btn[data-lvl="2"].active .lamp { background: var(--b2-lvl2); box-shadow: 0 0 8px var(--b2-lvl2); }
+.alerta-btn[data-lvl="3"].active { border-color: var(--b2-lvl3); background: rgba(232,72,59,0.1); color: var(--b2-lvl3); }
+.alerta-btn[data-lvl="3"].active .lamp { background: var(--b2-lvl3); box-shadow: 0 0 8px var(--b2-lvl3); }
+.alerta-painel { border: 1px solid var(--b2-line); padding: 18px 20px; background: rgba(255,255,255,0.015); min-height: 120px; }
+.alerta-painel .lvltxt { display: none; }
+.alerta-painel .lvltxt.show { display: block; }
+.alerta-painel h4 { margin-top: 0; }
+.alerta-painel ul { padding-left: 1.2em; }
+
+/* cascata (fluxo de 5 estágios) */
+.cascade { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; margin: 20px 0; }
+.cnode { flex: 1 1 150px; border: 1px solid var(--b2-line); padding: 14px; background: rgba(255,255,255,0.015); position: relative; }
+.cnode .k { font-family: var(--b2-font-mono); font-size: 0.66rem; color: var(--b2-cyan); }
+.cnode h4 { margin: 6px 0 4px; font-size: 0.94rem; }
+.cnode p { font-size: 0.82rem; margin: 0; color: var(--b2-text-soft); }
+.carrow { display: flex; align-items: center; justify-content: center; color: var(--b2-text-faint); font-size: 1.2rem; flex: 0 0 18px; }
+@media (max-width: 720px) { .carrow { display: none; } .cascade { flex-direction: column; } }
+.cascade-loop { margin-top: 10px; border: 1px dashed var(--b2-lvl2); padding: 10px 16px; font-size: 0.86rem; color: var(--b2-lvl2); background: rgba(255,140,66,0.06); }
+
+/* checklist do pacote de 1 hora */
+.checklist { display: flex; flex-direction: column; gap: 10px; margin: 18px 0; }
+.chk-item { display: flex; gap: 14px; align-items: flex-start; border: 1px solid var(--b2-line); padding: 12px 16px; background: rgba(255,255,255,0.015); cursor: pointer; }
+.chk-item .t { font-family: var(--b2-font-mono); color: var(--b2-cyan); font-size: 0.78rem; min-width: 48px; }
+.chk-item .box { width: 17px; height: 17px; border: 1.5px solid var(--b2-text-faint); flex: 0 0 17px; margin-top: 2px; position: relative; }
+.chk-item.done .box { border-color: var(--b2-green); background: rgba(62,207,142,0.15); }
+.chk-item.done .box::after { content: "✓"; color: var(--b2-green); position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; }
+.chk-item.done .txt h4 { color: var(--b2-green); }
+.chk-item .txt h4 { margin: 0 0 3px; font-size: 0.92rem; }
+.chk-item .txt p { margin: 0; font-size: 0.82rem; color: var(--b2-text-soft); }
+
+/* caso integrador */
+.vitals { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; margin: 16px 0; }
+.vit { border: 1px solid var(--b2-line); padding: 9px 10px; text-align: center; background: rgba(232,72,59,0.05); }
+.vit .v { font-family: var(--b2-font-mono); color: var(--b2-lvl3); font-size: 1rem; }
+.vit .l { font-size: 0.65rem; color: var(--b2-text-faint); margin-top: 2px; }
+
+/* funcionou x falhou */
+.duo2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 18px 0; }
+@media (max-width: 640px) { .duo2 { grid-template-columns: 1fr; } }
+.won { border: 1px solid var(--b2-green); background: rgba(62,207,142,0.06); padding: 16px 18px; }
+.won .lbl { font-family: var(--b2-font-mono); font-size: 0.68rem; color: var(--b2-green); margin-bottom: 8px; }
+.lost { border: 1px solid var(--b2-text-faint); background: rgba(255,255,255,0.02); padding: 16px 18px; }
+.lost .lbl { font-family: var(--b2-font-mono); font-size: 0.68rem; color: var(--b2-text-faint); margin-bottom: 8px; }
+.duo2 li { font-size: 0.9rem; }
+
+/* mensagens para levar */
+.brief { border: 1px solid var(--b2-cyan); background: rgba(69,211,227,0.04); padding: 22px 24px; margin: 20px 0; }
+.brief ol { padding-left: 1.3em; margin: 0; }
+.brief li { font-size: 0.98rem; margin-bottom: 10px; }
+.brief li b { color: var(--b2-lvl2); font-weight: 600; }
+
+/* ============================================================
+   REFERÊNCIAS
+   ============================================================ */
+.refs { background: #17110a; padding: 44px 0 60px; }
+.refs .wrap h2 { font-family: var(--b1-font-display); color: #e7dcc0; font-size: 1.3rem; margin-bottom: 4px; }
+.refs .wrap .sub { font-family: var(--b1-font-mono); color: #9a875f; font-size: 0.78rem; margin-bottom: 22px; }
+.refs ol { list-style: none; padding: 0; margin: 0; counter-reset: refc; }
+.refs li { counter-increment: refc; font-family: var(--b1-font-body); color: #cdbf9c; font-size: 0.88rem; line-height: 1.6; padding: 8px 0 8px 2.4em; position: relative; border-bottom: 1px solid #2a2115; }
+.refs li::before { content: counter(refc) "."; position: absolute; left: 0; color: #a8792e; font-family: var(--b1-font-mono); }
+.refs .note { font-family: var(--b1-font-mono); font-size: 0.72rem; color: #7c6a49; margin-top: 20px; font-style: italic; }
+
+/* ============================================================
+   UTILIDADES GERAIS
+   ============================================================ */
+.center { text-align: center; }
+.editable { }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     FERRAMENTA FLUTUANTE
+     ============================================================ -->
+<div class="toolbar" id="toolbar">
+  <button id="btn-edit" type="button"><span class="ic">✎</span><span class="label">Ativar edição</span></button>
+  <button id="btn-download" type="button"><span class="ic">⇩</span><span class="label">Baixar cópia editada</span></button>
+  <button id="btn-restore" type="button"><span class="ic">↺</span><span class="label">Restaurar original</span></button>
+  <div class="toolbar-status" id="toolbar-status"></div>
+</div>
+
+<div class="topbar" id="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-tag" id="topbar-tag"><b>Caso 03-LMF</b> · dossiê em andamento</span>
+    <span class="topbar-tag" id="topbar-clock"></span>
+  </div>
+</div>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="folder">
+      <div class="pin"></div>
+      <div class="case-meta">
+        <span><b>Turma</b> LMF · 5ª fase</span>
+        <span><b>Unidade</b> UC 2</span>
+        <span><b>Encontro</b> nº 03</span>
+        <span><b>Instrutor</b> Prof. Anderson L.</span>
+      </div>
+      <h1 class="editable">Do linfonodo ao choque: <em>dois casos, um mesmo raciocínio</em></h1>
+      <p class="lede editable">Este dossiê começa devagar, com lupa e régua: uma massa no pescoço, um território para mapear, um diagnóstico para descartar por eliminação. Na segunda metade, o cronômetro liga — a mesma linha de raciocínio clínico precisa rodar em minutos, não em consultas. É a distância entre examinar um linfonodo e conter uma sepse.</p>
+      <span class="stamp">aprofundamento · não repetição de slide</span>
+    </div>
+
+    <details class="index-card">
+      <summary><span>Índice do dossiê</span><span></span></summary>
+      <div class="index-body">
+        <div>
+          <div class="grp">Peça I — Investigação cervical</div>
+          <a href="#b1-intro">00 · Por que investigar um linfonodo</a>
+          <a href="#b1-classificacao">01 · O sistema de classificação</a>
+          <a href="#b1-mapa">02 · Quadro de evidências (níveis I–VII)</a>
+          <a href="#b1-outros">03 · Outros territórios da cabeça</a>
+          <a href="#b1-semiologia">04 · Como ler o achado</a>
+          <a href="#b1-flags">05 · Testemunha confiável × suspeito</a>
+          <a href="#b1-exames">06 · Coletando provas (USG, PAAF, biópsia)</a>
+          <a href="#b1-resumo">07 · Do território ao suspeito nº 1</a>
+        </div>
+        <div>
+          <div class="grp">Peça II — Sala de comando</div>
+          <a href="#b2-intro">00 · Por que isso importa</a>
+          <a href="#b2-definicoes">01 · Infecção, sepse, choque séptico</a>
+          <a href="#b2-alerta">02 · Painel de alerta (SIRS e disfunção)</a>
+          <a href="#b2-cascata">03 · A cascata, em cinco estágios</a>
+          <a href="#b2-reconhecimento">04 · PAMPs, DAMPs e receptores</a>
+          <a href="#b2-resposta">05 · Hiperinflamação × imunoparalisia</a>
+          <a href="#b2-endotelio">06 · Endotélio e glicocálix</a>
+          <a href="#b2-vasoplegia">07 · Por que a pressão despenca</a>
+          <a href="#b2-choque">08 · Choque séptico, três componentes</a>
+          <a href="#b2-coagulacao">09 · Da imunotrombose à CIVD</a>
+          <a href="#b2-micro">10 · Microcirculação e mitocôndria</a>
+          <a href="#b2-lactato">11 · Lactato: sinal, não sentença</a>
+          <a href="#b2-orgaos">12 · Do mecanismo ao critério</a>
+          <a href="#b2-caso">13 · Caso integrador — Dona M.</a>
+          <a href="#b2-bundle">14 · O pacote da primeira hora</a>
+          <a href="#b2-ssc">15 · Atualizações SSC 2026</a>
+          <a href="#b2-ensaios">16 · O que funcionou, o que falhou</a>
+          <a href="#b2-pos">17 · Síndrome pós-sepse</a>
+          <a href="#b2-mensagens">18 · Mensagens para levar</a>
+        </div>
+      </div>
+    </details>
+  </div>
+</header>
+
+<!-- ============================================================
+     BLOCO 1 — DOSSIÊ DE CAMPO
+     ============================================================ -->
+<main class="b1">
+
+<section class="file" id="b1-intro">
+  <div class="file-tab"><span class="n">PEÇA 00</span><span>abertura do caso</span></div>
+  <h2 class="editable">Por que investigar um linfonodo</h2>
+  <p class="sub editable">Antes de mapear o pescoço, entenda o que está sendo mapeado</p>
+
+  <p class="editable">O slide do professor entra direto nos níveis cervicais — e é correto que entre, porque é isso que se usa na beira do leito. Mas todo bom investigador conhece o objeto antes de vasculhar a cena: um linfonodo não é um ponto anônimo no mapa, é uma estrutura com arquitetura própria, e é essa arquitetura que explica por que ele aumenta, por que dói ou não dói, e por que a consistência muda conforme a causa. Sem isso, os sete critérios de exame do bloco de semiologia (adiante) viram uma lista decorada em vez de um raciocínio.</p>
+
+  <p class="editable">Um linfonodo é uma estação de filtragem encapsulada, interposta no trajeto de vasos linfáticos aferentes que drenam um território definido de pele, mucosa ou víscera. A linfa entra pela periferia, atravessa o parênquima nodal camada por camada, e sai por um único vaso eferente no hilo — o mesmo hilo por onde entram a artéria e saem a veia nodais. Essa arquitetura em funil, de múltiplas entradas para uma única saída, é o que permite que um linfonodo amostre continuamente tudo o que uma região do corpo está "exportando", inclusive antígenos microbianos e células neoplásicas.</p>
+
+  <div class="exhibit">
+    <svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Corte esquemático de um linfonodo">
+      <ellipse cx="210" cy="150" rx="185" ry="120" fill="none" stroke="#2a2014" stroke-width="2.4"/>
+      <text x="210" y="24" text-anchor="middle" font-weight="700">cápsula</text>
+      <ellipse cx="210" cy="150" rx="172" ry="108" fill="none" stroke="#5b4a34" stroke-width="1" stroke-dasharray="2 3"/>
+      <text x="210" y="46" text-anchor="middle" fill="#5b4a34">seio subcapsular</text>
+      <g fill="#a8792e" opacity="0.75">
+        <circle cx="120" cy="80" r="17"/><circle cx="170" cy="60" r="15"/><circle cx="230" cy="58" r="16"/><circle cx="290" cy="78" r="15"/>
+        <circle cx="105" cy="120" r="14"/><circle cx="315" cy="118" r="14"/>
+      </g>
+      <text x="210" y="30" text-anchor="middle" fill="#8a6a2a" font-size="9">córtex — folículos c/ centro germinativo</text>
+      <ellipse cx="210" cy="150" rx="130" ry="72" fill="none" stroke="#33546b" stroke-width="1"/>
+      <text x="210" y="118" text-anchor="middle" fill="#33546b">paracórtex (zona T)</text>
+      <path d="M 130 175 q 20 15 40 0 q 20 15 40 0 q 20 15 40 0 q 20 15 40 0" fill="none" stroke="#7c281f" stroke-width="1.4"/>
+      <text x="210" y="205" text-anchor="middle" fill="#7c281f">medula — cordões e seios medulares</text>
+      <line x1="210" y1="255" x2="210" y2="230" stroke="#2a2014" stroke-width="2"/>
+      <text x="210" y="270" text-anchor="middle" font-weight="700">hilo</text>
+      <text x="210" y="284" text-anchor="middle" fill="#5b4a34" font-size="8">artéria · veia · vaso eferente</text>
+      <line x1="40" y1="95" x2="70" y2="105" stroke="#2a2014" stroke-width="1.6" marker-end="url(#arr1)"/>
+      <text x="18" y="90" fill="#2a2014" font-size="8">aferentes</text>
+      <line x1="380" y1="95" x2="350" y2="105" stroke="#2a2014" stroke-width="1.6" marker-end="url(#arr1)"/>
+      <defs><marker id="arr1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#2a2014"/></marker></defs>
+    </svg>
+    <p class="cap">Exhibit A — arquitetura funcional de um linfonodo: da periferia filtrante ao hilo vascular</p>
+  </div>
+
+  <p class="editable">O córtex externo concentra folículos linfoides — agregados de linfócitos B organizados ao redor de células dendríticas foliculares. Quando um antígeno chega pela linfa e é reconhecido, o folículo primário (quiescente) se transforma em folículo secundário com centro germinativo: é ali que ocorre a hipermutação somática e a seleção de clones B de alta afinidade, o evento citológico por trás de uma reação de hiperplasia folicular reativa. Isso explica, em linguagem de mecanismo, por que um linfonodo reage a uma infecção próxima ficando maior sem que isso signifique nada maligno: é o centro germinativo trabalhando, não uma neoplasia se instalando.</p>
+
+  <p class="editable">Mais internamente, o paracórtex é território de linfócitos T e de células dendríticas interdigitantes, que capturam antígeno processado e o apresentam via MHC — é aqui que ocorre boa parte da ativação de linfócitos T virgens, e é essa zona que se expande de forma desproporcional em infecções virais (por isso linfadenopatias de etiologia viral tendem a ser mais firmes e difusas do que as puramente bacterianas). Por fim, os cordões medulares, ricos em plasmócitos e macrófagos, são a etapa final de filtração antes da linfa sair pelo vaso eferente — e são também a via mais comum de disseminação metastática dentro do próprio linfonodo, já que células tumorais tendem a se instalar primeiro nos seios subcapsulares (via aferente) antes de invadir o parênquima mais profundo.</p>
+
+  <details class="deep1">
+    <summary><span class="txt">Aprofunde-se — por que a hiperplasia reativa muda a consistência do linfonodo</span></summary>
+    <div class="deep-body">
+      <p class="editable">A distensão da cápsula fibrosa por um parênquima que está proliferando ativamente — expansão folicular, edema, influxo de neutrófilos em processos supurativos — é o evento mecânico que gera dor à palpação: a cápsula tem terminações nociceptivas sensíveis ao estiramento, e um crescimento rápido em poucos dias distende essa cápsula de forma aguda. Já um linfonodo metastático cresce, em geral, mais lentamente e por infiltração de células neoplásicas que substituem o parênquima normal por tecido mais denso e desorganizado — sem o componente inflamatório agudo que gera dor — e frequentemente ultrapassa a cápsula (extensão extracapsular), fixando o linfonodo aos planos adjacentes. É esse par de mecanismos — velocidade de crescimento e presença ou ausência de componente inflamatório agudo — que gera, na prática, o contraste clínico entre "dói, é mole, cresceu rápido, some em semanas" e "não dói, é duro, cresceu devagar, não regride".</p>
+      <p class="editable">Vale registrar a exceção clássica que confunde estudantes: no linfoma, o linfonodo costuma ser indolor e ter consistência "emborrachada" (elástica, mas não pétrea), porque a proliferação neoplásica ali é de linfócitos — células que mantêm certa coesão tecidual semelhante ao parênquima linfoide normal, ao contrário do estroma denso e desmoplásico típico de metástases de carcinoma, que costuma ser pétreo.</p>
+    </div>
+  </details>
+</section>
+
+<section class="file" id="b1-classificacao">
+  <div class="file-tab"><span class="n">PEÇA 01</span><span>o sistema de classificação</span></div>
+  <h2 class="editable">O mapa oficial: níveis cervicais de Robbins / AAO-HNS</h2>
+  <p class="sub editable">Por que dividir o pescoço em territórios numerados</p>
+
+  <p class="editable">A classificação em níveis I a VI (mais o VII, mediastinal) não é uma curiosidade nomenclatural: ela nasceu da cirurgia oncológica de cabeça e pescoço, especificamente do esvaziamento cervical, como forma de padronizar quais grupos ganglionares eram removidos em cada tipo de dissecção. Cada nível corresponde a um compartimento anatômico com limites musculares e vasculares reprodutíveis — o que faz da classificação uma linguagem comum entre clínico, cirurgião, radiologista e patologista. Quando você diz "linfonodo suspeito em nível IIA", qualquer um desses profissionais sabe exatamente qual território está sendo descrito, sem precisar de mais explicação.</p>
+
+  <p class="editable">A lógica de numeração segue um gradiente crânio-caudal e ântero-posterior: os níveis baixos (I, depois II) ficam mais superiores e anteriores, e a numeração cresce conforme desce e se desloca posteriormente, até fechar no compartimento central (VI) e, abaixo da fúrcula esternal, no mediastino superior (VII). Cada território drena uma área anatômica relativamente previsível — e é exatamente essa previsibilidade que torna o exame físico do pescoço uma ferramenta diagnóstica: o nível acometido aponta, estatisticamente, o sítio primário mais provável da agressão, seja ela infecciosa ou neoplásica.</p>
+
+  <div class="callout1">
+    <div class="lbl">pontos de referência para não se perder no território</div>
+    <p class="editable">Osso hioide separa I/II de III. Borda inferior da cartilagem cricoide separa III de IV, e Va de Vb. A clavícula fecha o pescoço embaixo. A borda posterior do esternocleidomastóideo (ECM) separa os níveis II–IV do nível V. As artérias carótidas marcam o limite lateral do compartimento central (VI).</p>
+  </div>
+
+  <details class="deep1">
+    <summary><span class="txt">Aprofunde-se — por que essa nomenclatura importa na prática cirúrgica</span></summary>
+    <div class="deep-body">
+      <p class="editable">O esvaziamento cervical seletivo remove apenas os níveis de maior risco de metástase para determinado tumor primário — por exemplo, um carcinoma de cavidade oral tende a metastatizar primeiro para os níveis I, II e III, de modo que um esvaziamento supraomo-hióideo (I–III) costuma bastar profilaticamente, poupando os níveis IV e V e reduzindo a morbidade cirúrgica (em especial ao nervo acessório, que cruza o nível V). Já um carcinoma de nasofaringe drena preferencialmente para o nível V (retrofaríngeo e cervical posterior), mudando completamente a estratégia de esvaziamento. Isto é: a classificação por níveis não serve só para descrever um achado, ela literalmente desenha o mapa cirúrgico de cada tumor.</p>
+    </div>
+  </details>
+</section>
+
+<section class="file" id="b1-mapa">
+  <div class="file-tab"><span class="n">PEÇA 02</span><span>quadro de evidências</span></div>
+  <h2 class="editable">Os territórios, um por um</h2>
+  <p class="sub editable">Toque em um alfinete para abrir a nota. O texto completo de cada nível está listado abaixo do quadro.</p>
+
+  <div class="board-wrap">
+    <div class="board-lbl">quadro de investigação — níveis cervicais (esquema, não em escala anatômica)</div>
+    <div class="board" id="board">
+      <svg class="threads" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path d="M35,6 L55,10" /><path d="M55,10 L60,25" /><path d="M60,25 L78,22" />
+        <path d="M60,25 L55,45" /><path d="M55,45 L52,65" /><path d="M78,22 L80,42" />
+        <path d="M80,42 L82,62" /><path d="M55,45 L35,55" />
+      </svg>
+      <button class="pinnote" data-lvl="ia" style="left:35%; top:8%;">Ia</button>
+      <button class="pinnote" data-lvl="ib" style="left:55%; top:11%;">Ib</button>
+      <button class="pinnote" data-lvl="iia" style="left:60%; top:26%;">IIa</button>
+      <button class="pinnote" data-lvl="iib" style="left:79%; top:22%;">IIb</button>
+      <button class="pinnote" data-lvl="iii" style="left:55%; top:46%;">III</button>
+      <button class="pinnote" data-lvl="iv" style="left:52%; top:66%;">IV</button>
+      <button class="pinnote" data-lvl="va" style="left:80%; top:43%;">Va</button>
+      <button class="pinnote" data-lvl="vb" style="left:82%; top:63%;">Vb</button>
+      <button class="pinnote" data-lvl="vi" style="left:35%; top:56%;">VI</button>
+    </div>
+    <div class="board-focus" id="board-focus">
+      <div class="ft">nota do alfinete</div>
+      <h4 id="bf-title">toque em um território acima</h4>
+      <p id="bf-text">Cada nível tem uma ficha completa mais abaixo — o quadro é só o ponto de partida para orientação espacial rápida.</p>
+    </div>
+  </div>
+
+  <div class="evid">
+
+    <div class="evid-item" id="ficha-ia">
+      <div class="evid-head"><span class="tag">Ia</span><h4>Submentual</h4></div>
+      <p class="editable">Limites: entre os ventres anteriores dos músculos digástricos, acima do músculo milo-hióideo, até o osso hioide. Drena o lábio inferior (porção central), o assoalho anterior da boca, a ponta da língua e a pele do mento.</p>
+      <p class="editable">Na prática, um linfonodo submentual endurecido em paciente com lesão ulcerada na ponta da língua ou no lábio inferior deve acender o alerta para carcinoma espinocelular de cavidade oral — é justamente por drenar essa região pequena e anterior que o nível Ia funciona quase como uma sentinela dedicada para lesões da linha média anterior da boca.</p>
+    </div>
+
+    <div class="evid-item" id="ficha-ib">
+      <div class="evid-head"><span class="tag">Ib</span><h4>Submandibular</h4></div>
+      <p class="editable">Limites: anteriormente o ventre anterior do digástrico, posteriormente o músculo estilo-hióideo (no exame radiológico, a borda posterior da glândula submandibular), superiormente o corpo da mandíbula, inferiormente o hioide. Drena a glândula submandibular, o assoalho da boca, a porção anterolateral da língua, os lábios, a bochecha e o vestíbulo nasal.</p>
+      <p class="editable">É o grupo mais frequentemente palpado em quadros odontogênicos — abscessos dentários, pericoronarite de terceiro molar — porque recebe drenagem direta da região dos molares inferiores por via periodontal. Antes de investigar neoplasia, sempre vale examinar a arcada dentária correspondente.</p>
+    </div>
+
+    <div class="evid-item" id="ficha-iia">
+      <div class="evid-head"><span class="tag">IIa</span><h4>Jugular superior, anterior ao nervo acessório</h4></div>
+      <p class="editable">Limites do nível II como um todo: base do crânio (superior), osso hioide (inferior), músculo estilo-hióideo (anterior) e borda posterior do ECM (posterior). A subdivisão IIa fica anterior ao nervo acessório (XI par craniano) — na imagem, nódulos junto à veia jugular interna ou inseparáveis dela. Drena cavidade oral e nasal, nasofaringe, orofaringe (tonsilas palatinas e base da língua), hipofaringe, laringe supraglótica e parótida.</p>
+      <div class="callout1"><div class="lbl">achado clássico</div><p class="editable">O linfonodo jugulodigástrico, dentro do IIa, é o mais palpado nas faringoamigdalites — é literalmente o primeiro posto de checagem para qualquer infecção de orofaringe, e por isso é o achado mais comum em crianças com quadros virais banais de garganta.</p></div>
+    </div>
+
+    <div class="evid-item" id="ficha-iib">
+      <div class="evid-head"><span class="tag">IIb</span><h4>Jugular superior, posterior ao nervo acessório</h4></div>
+      <p class="editable">Posterior ao nervo XI, separado do IIa por um plano de gordura na imagem. Recebe principalmente drenagem de orofaringe e nasofaringe. A separação IIa/IIb tem relevância cirúrgica direta: preservar o nível IIb quando possível reduz a morbidade ao nervo acessório (que inerva o trapézio) durante esvaziamentos seletivos.</p>
+    </div>
+
+    <div class="evid-item" id="ficha-iii">
+      <div class="evid-head"><span class="tag">III</span><h4>Jugular médio</h4></div>
+      <p class="editable">Terço médio da cadeia jugular interna: hioide acima, borda inferior da cartilagem cricoide abaixo, borda lateral do esterno-hióideo à frente, borda posterior do ECM atrás. Drena orofaringe, hipofaringe, laringe e cavidade oral, além de receber drenagem lateral da tireoide.</p>
+    </div>
+
+    <div class="evid-item" id="ficha-iv">
+      <div class="evid-head"><span class="tag">IV</span><h4>Jugular inferior</h4></div>
+      <p class="editable">Da borda inferior da cricoide até a clavícula, mesmos limites ântero-posteriores do nível III. Drena hipofaringe, laringe subglótica, tireoide e esôfago cervical.</p>
+      <div class="alerta1"><div class="lbl">sinal de Troisier</div><p class="editable">O linfonodo de Virchow, na fossa supraclavicular esquerda (transição IV/Vb), recebe o ducto torácico — a via final comum da drenagem linfática de praticamente todo o abdome e tórax esquerdo. Um linfonodo supraclavicular palpável é sempre suspeito e nunca deve ser atribuído a processo reativo local sem investigação completa, porque pode ser a primeira manifestação clínica de uma neoplasia abdominal ou torácica ainda silenciosa em outros sinais.</p></div>
+    </div>
+
+    <div class="evid-item" id="ficha-va">
+      <div class="evid-head"><span class="tag">Va</span><h4>Triângulo posterior, porção superior</h4></div>
+      <p class="editable">Limites comuns do nível V: borda posterior do ECM à frente, borda anterior do trapézio atrás, clavícula embaixo. Va fica acima do plano da borda inferior da cricoide e inclui a cadeia do nervo acessório. Junto com Vb, drena o couro cabeludo posterior, a pele da nuca, e recebe contribuição de nasofaringe e orofaringe.</p>
+    </div>
+
+    <div class="evid-item" id="ficha-vb">
+      <div class="evid-head"><span class="tag">Vb</span><h4>Triângulo posterior, porção inferior</h4></div>
+      <p class="editable">Abaixo do plano da cricoide até a clavícula. Inclui os linfonodos cervicais transversos e supraclaviculares — é aqui, na porção mais inferior e posterior deste nível, que se localiza o linfonodo de Virchow. Recebe também drenagem da tireoide e infraclavicular.</p>
+    </div>
+
+    <div class="evid-item" id="ficha-vi">
+      <div class="evid-head"><span class="tag">VI</span><h4>Compartimento central</h4></div>
+      <p class="editable">Do hioide até a fúrcula esternal, lateralmente limitado pelas artérias carótidas comuns, posteriormente pela fáscia pré-vertebral. Inclui os grupos pré-laríngeo (delfiano), pré-traqueal e paratraqueal. Drena a tireoide, a laringe glótica e subglótica, o ápice do seio piriforme, a traqueia e o esôfago cervicais.</p>
+      <p class="editable">É o compartimento de maior interesse no carcinoma diferenciado de tireoide, onde metástase para o nível VI (central) é considerada doença locorregional relativamente precoce, ao contrário de metástase para níveis laterais, que já indica disseminação mais extensa.</p>
+    </div>
+
+    <div class="evid-item" id="ficha-vii">
+      <div class="evid-head"><span class="tag">VII</span><h4>Mediastino superior</h4></div>
+      <p class="editable">Da fúrcula esternal até a artéria inominada — já fora dos limites estritos do pescoço, mas incluído na classificação por sua relevância no estadiamento e tratamento cirúrgico do carcinoma de tireoide, cuja drenagem pode alcançar esse compartimento em doença mais avançada.</p>
+    </div>
+
+  </div>
+
+  <details class="deep1">
+    <summary><span class="txt">Aprofunde-se — o linfonodo sentinela e a lógica da drenagem previsível</span></summary>
+    <div class="deep-body">
+      <p class="editable">Toda essa cartografia de níveis é, na verdade, uma aplicação clínica do conceito de linfonodo sentinela: o primeiro linfonodo (ou grupo de linfonodos) a receber drenagem direta de uma determinada região é estatisticamente o primeiro a abrigar metástase, caso ela ocorra. Em oncologia de mama e melanoma, esse princípio é explorado ativamente com biópsia de linfonodo sentinela guiada por radiotraçador. Em cabeça e pescoço, o princípio é o mesmo, só que aplicado de forma mais indireta: como cada sítio primário tem um padrão de drenagem relativamente constante e bem mapeado (cavidade oral para I–III, nasofaringe para II e V, laringe/hipofaringe para III–IV, tireoide para VI), a localização do linfonodo suspeito no exame físico já direciona a busca do tumor primário antes mesmo de qualquer exame de imagem.</p>
+    </div>
+  </details>
+</section>
+
+<section class="file" id="b1-outros">
+  <div class="file-tab"><span class="n">PEÇA 03</span><span>territórios fora da classificação cervical</span></div>
+  <h2 class="editable">Outros grupos da cabeça e pescoço</h2>
+  <p class="sub editable">Nem todo linfonodo relevante está nos níveis I–VII</p>
+
+  <div class="grid1">
+    <div class="card1">
+      <h4>Pré-auriculares / parotídeos</h4>
+      <p class="editable">Drenam pálpebras, conjuntiva, couro cabeludo temporal e orelha. Aumento associado a conjuntivite sugere síndrome oculoglandular de Parinaud — um padrão clássico (embora incomum) de febre por arranhadura de gato ou tularemia, entre outras causas.</p>
+    </div>
+    <div class="card1">
+      <h4>Retroauriculares</h4>
+      <p class="editable">Drenam couro cabeludo parietal e orelha. Aumento bilateral com exantema morbiliforme é achado clássico de rubéola — vale lembrar como diagnóstico diferencial em contexto de doenças exantemáticas.</p>
+    </div>
+    <div class="card1">
+      <h4>Occipitais</h4>
+      <p class="editable">Drenam o couro cabeludo posterior. Pediculose e dermatite seborreica do couro cabeludo são causas comuns e benignas; rubéola também entra no diferencial.</p>
+    </div>
+    <div class="card1">
+      <h4>Supraclaviculares</h4>
+      <p class="editable">À direita, sugerem foco em mediastino, pulmão ou esôfago. À esquerda (Virchow/Troisier), sugerem disseminação abdominal via ducto torácico. Ver alerta na ficha do nível IV, acima.</p>
+    </div>
+  </div>
+</section>
+
+<section class="file" id="b1-semiologia">
+  <div class="file-tab"><span class="n">PEÇA 04</span><span>interrogatório do achado</span></div>
+  <h2 class="editable">Como ler um linfonodo aumentado</h2>
+  <p class="sub editable">Sete perguntas que todo bom investigador faz ao examinar a cena</p>
+
+  <p class="editable">Cada um dos sete critérios abaixo não é um item de checklist isolado — é uma pergunta com uma resposta mecanística por trás, e são essas respostas que permitem interpretar o achado em vez de apenas descrevê-lo.</p>
+
+  <div class="grid1">
+    <div class="card1">
+      <h4>1 · Localização</h4>
+      <p class="editable">Qual nível? Localizado (uma cadeia) ou generalizado (duas ou mais cadeias não contíguas)? Linfadenopatia generalizada desloca o raciocínio de causa loco-regional para causa sistêmica — viremias (EBV, CMV, HIV), doenças autoimunes, linfoma disseminado.</p>
+    </div>
+    <div class="card1">
+      <h4>2 · Tamanho</h4>
+      <p class="editable">Em geral, acima de 1 cm já é considerado aumentado; acima de 1,5–2 cm a suspeita de malignidade cresce. O corte varia por região — um linfonodo inguinal de 1,5 cm pode ser normal, um cervical do mesmo tamanho, não.</p>
+    </div>
+    <div class="card1">
+      <h4>3 · Consistência</h4>
+      <p class="editable">Fibroelástica sugere processo reativo; pétrea sugere metástase de carcinoma (estroma desmoplásico denso); emborrachada (firme, mas elástica) é típica de linfoma. Ver o mecanismo completo no aprofundamento da Peça 00.</p>
+    </div>
+    <div class="card1">
+      <h4>4 · Mobilidade</h4>
+      <p class="editable">Móvel em relação aos planos profundos e à pele é tranquilizador; fixo (aderido a fáscia, músculo ou pele) sugere extensão extracapsular — a cápsula fibrosa foi rompida pela invasão tumoral e o linfonodo se fundiu ao tecido vizinho.</p>
+    </div>
+    <div class="card1">
+      <h4>5 · Coalescência</h4>
+      <p class="editable">Linfonodos individualmente palpáveis versus uma massa única de contornos indistintos (matting). Coalescência sugere neoplasia com extensão extracapsular confluente, ou infecção granulomatosa — tuberculose é a causa clássica de linfadenite cervical com matting.</p>
+    </div>
+    <div class="card1">
+      <h4>6 · Sinais flogísticos</h4>
+      <p class="editable">Dor, calor, rubor, edema — o quarteto clássico de inflamação aguda, refletindo vasodilatação e aumento de permeabilidade mediados por citocinas locais. Presença forte destes sinais aponta para processo inflamatório ou infeccioso agudo, não neoplásico.</p>
+    </div>
+    <div class="card1">
+      <h4>7 · Tempo</h4>
+      <p class="editable">Duração, velocidade de crescimento e capacidade de regressão. Um linfonodo que aparece, cresce em dias e regride em duas a quatro semanas conta uma história bem diferente de um que persiste ou continua crescendo por mais de duas semanas sem causa infecciosa evidente.</p>
+    </div>
+  </div>
+</section>
+
+<section class="file" id="b1-flags">
+  <div class="file-tab"><span class="n">PEÇA 05</span><span>confronto de versões</span></div>
+  <h2 class="editable">Testemunha confiável × suspeito da investigação</h2>
+  <p class="sub editable">Nenhum critério isolado fecha o caso — é o conjunto que orienta a conduta</p>
+
+  <div class="duo1">
+    <div class="witness">
+      <div class="lbl">sugere processo reativo</div>
+      <ul>
+        <li class="editable">Consistência fibroelástica</li>
+        <li class="editable">Móvel, não aderido</li>
+        <li class="editable">Doloroso à palpação — distensão rápida da cápsula</li>
+        <li class="editable">Crescimento rápido, com regressão em 2 a 4 semanas</li>
+        <li class="editable">Foco infeccioso identificável na área de drenagem correspondente</li>
+      </ul>
+    </div>
+    <div class="suspect">
+      <div class="lbl">sinal de alerta</div>
+      <ul>
+        <li class="editable">Endurecido, pétreo, geralmente indolor</li>
+        <li class="editable">Fixo ou aderido à pele; ulceração sobrejacente</li>
+        <li class="editable">Coalescente; aumento progressivo em número</li>
+        <li class="editable">Sem regressão: persistência acima de 2 semanas sem causa infecciosa clara</li>
+        <li class="editable">Localização supraclavicular; tamanho acima de 1,5 cm</li>
+        <li class="editable">Sintomas B: febre, sudorese noturna, perda de peso; tabagismo/etilismo como fatores de risco associados</li>
+      </ul>
+    </div>
+  </div>
+  <p class="editable" style="font-size:0.86rem; font-style:italic; color:var(--b1-ink-faint);">Referência: Pynnonen MA et al. Clinical Practice Guideline: Evaluation of the Neck Mass in Adults. Otolaryngol Head Neck Surg 2017;157(2S):S1-S30.</p>
+</section>
+
+<section class="file" id="b1-exames">
+  <div class="file-tab"><span class="n">PEÇA 06</span><span>coleta de provas</span></div>
+  <h2 class="editable">Exames complementares</h2>
+  <p class="sub editable">Da imagem à peça anatomopatológica</p>
+
+  <h3>Ultrassonografia — a primeira lente</h3>
+  <p class="editable">É o exame de primeira escolha por ser acessível, não invasivo e capaz de guiar punção no mesmo tempo do exame. Um linfonodo normal, à ultrassonografia, tem morfologia ovalada ou alongada — relação entre eixo longo e eixo curto maior que 2 —, córtex hipoecoico fino e regular, e um hilo central ecogênico correspondente a gordura e vasos, com vascularização hilar ao Doppler. É justamente esse hilo ecogênico central, junto com a forma alongada, que diferencia um linfonodo normal de planos musculares adjacentes, que podem simular a estrutura em cortes transversais desatentos.</p>
+
+  <div class="duo1">
+    <div class="witness">
+      <div class="lbl">padrão normal / reativo</div>
+      <ul>
+        <li class="editable">Forma oval, relação longo/curto maior que 2</li>
+        <li class="editable">Hilo ecogênico, central</li>
+        <li class="editable">Ecotextura homogênea</li>
+        <li class="editable">Ausência de calcificações</li>
+        <li class="editable">Doppler hilar</li>
+        <li class="editable">Contornos regulares</li>
+      </ul>
+    </div>
+    <div class="suspect">
+      <div class="lbl">padrão suspeito</div>
+      <ul>
+        <li class="editable">Forma arredondada, relação longo/curto menor que 2</li>
+        <li class="editable">Hilo ausente ou deslocado</li>
+        <li class="editable">Ecotextura heterogênea, necrose cística</li>
+        <li class="editable">Microcalcificações — sugestivas de carcinoma papilífero de tireoide</li>
+        <li class="editable">Doppler periférico ou caótico</li>
+        <li class="editable">Contornos irregulares, extensão extranodal</li>
+      </ul>
+    </div>
+  </div>
+
+  <details class="deep1">
+    <summary><span class="txt">Aprofunde-se — a física por trás dos artefatos de imagem</span></summary>
+    <div class="deep-body">
+      <p class="editable">Calcificações grosseiras geram sombra acústica posterior porque o feixe de ultrassom é quase totalmente refletido na interface tecido-cálcio, sem energia suficiente para atravessar e formar eco na profundidade — daí a "sombra" escura atrás da calcificação na imagem. Esse tipo de calcificação grosseira e periférica pode ocorrer em linfonodo reativo antigo ou granulomatoso tratado (cicatricial), sem significado neoplásico. Já as microcalcificações puntiformes, sem sombra acústica proeminente, correspondem histologicamente a corpos psamomatosos — depósitos concêntricos de cálcio característicos, embora não exclusivos, do carcinoma papilífero de tireoide, e sua presença dentro de um linfonodo cervical aumenta consideravelmente a probabilidade pré-teste dessa etiologia.</p>
+    </div>
+  </details>
+
+  <h3>Do citológico ao anatomopatológico</h3>
+  <div class="grid1">
+    <div class="card1"><h4>PAAF</h4><p class="editable">Punção aspirativa por agulha fina: fornece material para citologia. Excelente para confirmar metástase de carcinoma, onde a morfologia celular isolada já é bastante característica. Limitada para diagnóstico de linfoma, que depende de arquitetura tecidual.</p></div>
+    <div class="card1"><h4>Core biópsia</h4><p class="editable">Agulha grossa, preserva a arquitetura tecidual em cilindros de tecido. Intermediária entre PAAF e biópsia excisional — útil quando se quer mais do que citologia sem partir direto para cirurgia.</p></div>
+    <div class="card1"><h4>Biópsia excisional</h4><p class="editable">Remoção completa do linfonodo com estudo anatomopatológico. Necessária sempre que houver suspeita de linfoma, porque o diagnóstico e a subclassificação dependem da arquitetura nodal inteira — folículos, zonas, padrão de crescimento — além de imuno-histoquímica e, com frequência, citometria de fluxo, que exigem tecido íntegro, não apenas células isoladas.</p></div>
+    <div class="card1"><h4>TC / RM com contraste</h4><p class="editable">Estadiamento loco-regional e busca ativa do tumor primário quando o exame físico e a ultrassonografia não o localizam.</p></div>
+    <div class="card1"><h4>Laboratório</h4><p class="editable">Hemograma, sorologias (EBV, CMV, HIV, toxoplasmose) e PPD/IGRA conforme a suspeita clínica — completam a investigação nos quadros compatíveis com etiologia infecciosa.</p></div>
+  </div>
+</section>
+
+<section class="file" id="b1-resumo">
+  <div class="file-tab"><span class="n">PEÇA 07</span><span>fechamento do dossiê</span></div>
+  <h2 class="editable">Do território ao suspeito número 1</h2>
+  <p class="sub editable">O resumo que fecha a primeira metade do caso</p>
+
+  <div class="grid1">
+    <div class="card1"><h4>Ia — submentual</h4><p>Lábio inferior, assoalho anterior da boca, ponta da língua, mento.</p></div>
+    <div class="card1"><h4>Ib — submandibular</h4><p>Glândula submandibular, cavidade oral, lábios, bochecha, vestíbulo nasal.</p></div>
+    <div class="card1"><h4>II — jugular superior</h4><p>Cavidade oral e nasal, naso/orofaringe, hipofaringe, laringe supraglótica, parótida.</p></div>
+    <div class="card1"><h4>III — jugular médio</h4><p>Orofaringe, hipofaringe, laringe, cavidade oral.</p></div>
+    <div class="card1"><h4>IV — jugular inferior</h4><p>Hipofaringe, laringe subglótica, tireoide, esôfago cervical.</p></div>
+    <div class="card1"><h4>V — triângulo posterior</h4><p>Couro cabeludo posterior e nuca, naso/orofaringe; Vb ainda recebe tireoide e drenagem infraclavicular.</p></div>
+    <div class="card1"><h4>VI — central</h4><p>Tireoide, laringe glótica e subglótica, traqueia e esôfago cervicais.</p></div>
+  </div>
+
+  <div class="close-stamp"><span class="st">dossiê i · encerrado</span></div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     TRANSIÇÃO
+     ============================================================ -->
+<section class="transition" id="transicao">
+  <div class="ring"></div><div class="ring r2"></div><div class="ring r3"></div>
+  <div class="transition-inner">
+    <div class="tag mono2">● CHAMADA PRIORITÁRIA RECEBIDA</div>
+    <h2 class="editable">Enquanto você fechava o dossiê, um alerta chegou</h2>
+    <p class="editable">O mesmo raciocínio clínico que você acabou de treinar — juntar sinais, decidir o que é reativo e o que é ameaça real, investigar antes de concluir — ainda vale aqui. Só que agora o relógio corre em minutos, não em semanas, e a decisão errada custa órgãos, não apenas tempo de investigação. Leito 12: foco urinário suspeito, febre, confusão mental. A sala de comando está ligando as luzes.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     BLOCO 2 — SALA DE COMANDO
+     ============================================================ -->
+<main class="b2">
+
+<section class="panel" id="b2-intro">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-00</span></div>
+  <h2 class="editable">Por que a sala de comando existe</h2>
+  <p class="sub editable">Sepse não é um diagnóstico raro num canto da UTI</p>
+
+  <p class="editable">Antes de entrar na cascata de mecanismos, vale dimensionar o problema com números — porque é a escala do problema que justifica ter um protocolo cronometrado, e não apenas "bom senso clínico", guiando a primeira hora de atendimento.</p>
+
+  <div class="stats2">
+    <div class="stat2"><div class="num">48,9 mi</div><div class="desc">casos de sepse estimados no mundo em 2017</div><div class="src">Rudd et al., Lancet 2020</div></div>
+    <div class="stat2"><div class="num">11 mi</div><div class="desc">mortes por ano — cerca de 1 em cada 5 óbitos globais</div><div class="src">Rudd et al., Lancet 2020</div></div>
+    <div class="stat2"><div class="num">~30%</div><div class="desc">dos leitos de UTI no Brasil ocupados por pacientes com sepse</div><div class="src">SPREAD, Lancet Infect Dis 2017</div></div>
+    <div class="stat2"><div class="num">55,7%</div><div class="desc">mortalidade desses pacientes nas UTIs brasileiras</div><div class="src">SPREAD, Lancet Infect Dis 2017</div></div>
+  </div>
+
+  <div class="callout2">
+    <div class="lbl">mensagem do ILAS</div>
+    <p class="editable">A sepse é prevalente, grave e cara. Reconhecimento precoce e tratamento adequado são os fatores que mais mudam o desfecho — e isso começa por quem está na linha de frente: enfermagem, internos e residentes. Não é uma condição de UTI que "chega pronta"; é construída, muitas vezes, por horas de atraso no reconhecimento em uma emergência lotada.</p>
+  </div>
+</section>
+
+<section class="panel" id="b2-definicoes">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-01</span></div>
+  <h2 class="editable">Infecção, sepse e choque séptico</h2>
+  <p class="sub editable">A nomenclatura mudou porque o entendimento do mecanismo mudou</p>
+
+  <p class="editable">Até 2016, o modelo em uso definia sepse como uma síndrome de resposta inflamatória sistêmica (SRIS) desencadeada por infecção, e "sepse grave" como sepse com disfunção orgânica — uma escala de gravidade em degraus. O consenso Sepsis-3 (2016) jogou fora esse modelo e redefiniu sepse diretamente como disfunção orgânica ameaçadora à vida causada por uma resposta desregulada do hospedeiro à infecção: não existe mais "sepse sem disfunção" nessa nomenclatura — o que antes se chamava apenas "sepse" (infecção com SRIS, sem disfunção) deixou de ser considerado uma entidade separada e relevante o suficiente para nomear.</p>
+
+  <div class="evolve">
+    <div class="evolve-row"><span class="old">"Sepse" (infecção + SRIS, sem disfunção)</span><span class="arrow">→</span><span class="now">Apenas <b>infecção</b> — sem nome de síndrome própria no Sepsis-3</span></div>
+    <div class="evolve-row"><span class="old">"Sepse grave" (infecção + disfunção)</span><span class="arrow">→</span><span class="now"><b>Sepse</b> — disfunção orgânica por resposta desregulada à infecção</span></div>
+    <div class="evolve-row"><span class="old">"Choque séptico"</span><span class="arrow">→</span><span class="now"><b>Choque séptico</b> — sepse + hipotensão refratária a volume (PAM ≤ 65) + lactato &gt; 2 mmol/L</span></div>
+  </div>
+
+  <div class="callout2">
+    <div class="lbl">por que o ILAS diverge do Sepsis-3 em um ponto</div>
+    <p class="editable">O Sepsis-3 recomenda o escore SOFA para definir disfunção orgânica — uma ferramenta robusta, mas que exige cálculo e dados laboratoriais nem sempre disponíveis de imediato numa emergência lotada. O protocolo do ILAS adota o conceito do Sepsis-3 (disfunção por resposta desregulada), mas mantém critérios de disfunção mais simples e diretos — incluindo a hiperlactatemia isolada como critério — justamente para favorecer o reconhecimento precoce em serviços de saúde com recursos variáveis e alta mortalidade por sepse, como é a realidade brasileira.</p>
+  </div>
+</section>
+
+<section class="panel" id="b2-alerta">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-02</span></div>
+  <h2 class="editable">Painel de alerta: SIRS e critérios de disfunção</h2>
+  <p class="sub editable">Toque em cada nível para ver os critérios e o racional</p>
+
+  <div class="panel-alerta">
+    <div class="alerta-btns">
+      <button class="alerta-btn" data-lvl="1"><span class="lamp"></span>Nível 1 — SRIS / triagem</button>
+      <button class="alerta-btn" data-lvl="2"><span class="lamp"></span>Nível 2 — Sepse (disfunção)</button>
+      <button class="alerta-btn" data-lvl="3"><span class="lamp"></span>Nível 3 — Choque séptico</button>
+    </div>
+    <div class="alerta-painel">
+      <div class="lvltxt" data-lvl="1">
+        <h4>SRIS — dois ou mais critérios</h4>
+        <ul>
+          <li>Temperatura acima de 38,3 °C ou abaixo de 36 °C</li>
+          <li>Frequência cardíaca acima de 90 bpm</li>
+          <li>Frequência respiratória acima de 20 irpm, ou PaCO₂ abaixo de 32 mmHg</li>
+          <li>Leucócitos acima de 12.000 ou abaixo de 4.000/mm³, ou mais de 10% de formas jovens (desvio à esquerda)</li>
+        </ul>
+        <p>A SRIS sozinha não define sepse — muita gente com gripe comum preenche dois critérios — mas continua útil como ferramenta de triagem inicial para levantar a suspeita de infecção grave e disparar a investigação seguinte.</p>
+      </div>
+      <div class="lvltxt" data-lvl="2">
+        <h4>Disfunção orgânica — basta um critério, na vigência de infecção suspeita ou confirmada</h4>
+        <ul>
+          <li>Cardiovascular: PAS abaixo de 90, PAM abaixo de 65, ou queda da PA maior que 40 mmHg do basal</li>
+          <li>Renal: diurese igual ou abaixo de 0,5 mL/kg/h, ou creatinina acima de 2 mg/dL</li>
+          <li>Respiratória: relação PaO₂/FiO₂ abaixo de 300, ou necessidade de O₂ para manter SpO₂ acima de 90%</li>
+          <li>Hematológica: plaquetas abaixo de 100.000/mm³, ou queda de 50% em três dias</li>
+          <li>Metabólica: lactato acima do valor de referência do laboratório</li>
+          <li>Neurológica: rebaixamento de consciência, agitação, delirium</li>
+          <li>Hepática: bilirrubinas acima de 2 vezes o valor de referência</li>
+        </ul>
+        <p>Cada um destes sete critérios tem uma explicação mecanística própria — desenvolvida seção por seção, adiante, até fechar de volta neste mesmo painel na Peça 12.</p>
+      </div>
+      <div class="lvltxt" data-lvl="3">
+        <h4>Choque séptico</h4>
+        <p>Sepse com hipotensão que não se corrige após reposição volêmica adequada (PAM permanece igual ou abaixo de 65 mmHg), exigindo vasopressor — independentemente do valor do lactato, no critério do ILAS. O Sepsis-3 acrescenta a esse quadro a exigência de lactato acima de 2 mmol/L apesar de volume, como marcador da hipoperfusão tecidual persistente que caracteriza o choque distributivo.</p>
+        <p>É o patamar de maior mortalidade da síndrome — e o que dispara, com mais urgência, o pacote terapêutico detalhado na Peça 14.</p>
+      </div>
+    </div>
+  </div>
+  <p class="editable" style="font-size:0.86rem; font-style:italic; color:var(--b2-text-faint);">Fontes: ILAS, Protocolo clínico (rev. 2018) · Singer M et al. JAMA 2016;315:801-10. A SSC 2026 recomenda escores como NEWS, NEWS2 ou MEWS em vez do qSOFA isolado como ferramenta única de triagem à beira-leito.</p>
+</section>
+
+<section class="panel" id="b2-cascata">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-03</span></div>
+  <h2 class="editable">A cascata, em cinco estágios</h2>
+  <p class="sub editable">Por que uma infecção lesa órgãos a distância</p>
+
+  <p class="editable">Este é o mapa mestre — a sequência que todas as seções seguintes vão detalhar, estágio por estágio. Vale fixar essa lógica de fluxo antes de entrar no mecanismo molecular de cada etapa, porque é ela que explica por que sepse não é "infecção forte", mas sim uma reação do próprio hospedeiro que pode continuar lesando tecido mesmo depois que o patógeno já está sob controle.</p>
+
+  <div class="cascade">
+    <div class="cnode"><div class="k">01</div><h4>Infecção</h4><p>Patógeno invade e libera PAMPs</p></div>
+    <div class="carrow">▸</div>
+    <div class="cnode"><div class="k">02</div><h4>Reconhecimento</h4><p>Receptores TLR e NLR em células imunes e no endotélio</p></div>
+    <div class="carrow">▸</div>
+    <div class="cnode"><div class="k">03</div><h4>Resposta desregulada</h4><p>Inflamação exagerada e imunossupressão, ao mesmo tempo</p></div>
+    <div class="carrow">▸</div>
+    <div class="cnode"><div class="k">04</div><h4>Lesão tecidual</h4><p>Endotélio, coagulação, microcirculação, mitocôndria</p></div>
+    <div class="carrow">▸</div>
+    <div class="cnode"><div class="k">05</div><h4>Disfunção orgânica</h4><p>Sepse → choque séptico</p></div>
+  </div>
+  <div class="cascade-loop">Ciclo vicioso: células lesadas no estágio 4 liberam DAMPs, que reativam o reconhecimento no estágio 2 — a cascata se realimenta mesmo sem crescimento do inóculo bacteriano original.</div>
+
+  <p class="editable">Um ponto que costuma escapar em leitura rápida do slide: a gravidade depende de dois fatores multiplicando-se, não somando-se — o patógeno (carga microbiana, virulência) e o hospedeiro (idade, comorbidades, estado imunológico prévio, background genético de resposta inflamatória). Duas pessoas com a mesma bactéria, no mesmo foco, podem ter trajetórias completamente diferentes porque a variável decisiva não é o agressor, é a resposta.</p>
+  <p class="editable" style="font-size:0.86rem; font-style:italic; color:var(--b2-text-faint);">Angus DC, van der Poll T. NEJM 2013;369:840-51 · Hotchkiss RS et al. Nat Rev Dis Primers 2016;2:16045.</p>
+</section>
+
+<section class="panel" id="b2-reconhecimento">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-04</span></div>
+  <h2 class="editable">Estágios 1–2 · reconhecimento: PAMPs, DAMPs e receptores</h2>
+  <p class="sub editable">O alarme que dispara a cascata inteira</p>
+
+  <p class="editable">O sistema imune inato não reconhece "bactéria" de forma genérica — ele reconhece moléculas estruturais altamente conservadas, presentes em classes inteiras de micro-organismos e ausentes em células humanas, chamadas de padrões moleculares associados a patógenos (PAMPs). O exemplo mais estudado é o lipopolissacarídeo (LPS), componente da membrana externa de bactérias Gram-negativas: quando a membrana bacteriana é lesada — inclusive pela ação de antibióticos bactericidas — LPS é liberado em grande quantidade na circulação.</p>
+
+  <div class="grid2">
+    <div class="card2"><h4>PAMPs — do patógeno</h4><ul><li>LPS (endotoxina) de Gram-negativos</li><li>Peptidoglicano e ácido lipoteicoico de Gram-positivos</li><li>Flagelina, DNA/RNA microbianos, β-glucanas fúngicas</li></ul></div>
+    <div class="card2 violet"><h4>DAMPs — do próprio hospedeiro</h4><p>HMGB1, histonas, DNA mitocondrial e ATP, liberados por células que já morreram ou estão sob estresse — o corpo passa a soar o próprio alarme.</p></div>
+  </div>
+
+  <p class="editable">O reconhecimento desses padrões é feito por receptores de reconhecimento padrão (PRRs), presentes em macrófagos, neutrófilos, células dendríticas e — crucialmente para a fisiopatologia da sepse — também no próprio endotélio vascular. O TLR4, em complexo com a proteína MD-2 e o correceptor CD14, é o receptor clássico para LPS; o TLR2 reconhece componentes da parede de Gram-positivos. Intracelularmente, receptores do tipo NLR — em especial o inflamassoma NLRP3 — ativam a caspase-1, que processa as pró-formas de IL-1β e IL-18 em suas formas ativas e desencadeia a piroptose, uma forma de morte celular programada altamente inflamatória (ao contrário da apoptose, que é "silenciosa" para o sistema imune).</p>
+
+  <details class="deep2">
+    <summary><span class="txt">Aprofunde-se — da ligação do receptor à tempestade de citocinas</span></summary>
+    <div class="deep-body">
+      <p class="editable">A ligação de LPS ao complexo TLR4/MD-2/CD14 dispara duas vias intracelulares principais: a via dependente de MyD88, que ativa rapidamente o fator de transcrição NF-κB, e a via dependente de TRIF, mais lenta, que ativa IRF3 e a produção de interferons tipo I. A translocação de NF-κB para o núcleo liga a transcrição de genes de TNF-α, IL-1β e IL-6 — as três citocinas pró-inflamatórias centrais da resposta inicial, responsáveis por febre (via IL-1 e IL-6 atuando no hipotálamo através de prostaglandina E2), taquicardia (efeito cronotrópico direto e estímulo simpático) e leucocitose (mobilização de reserva medular de neutrófilos via G-CSF). Em paralelo, o complemento é ativado por três vias convergentes (clássica, alternativa, das lectinas), gerando as anafilatoxinas C3a e C5a, que amplificam ainda mais o recrutamento de neutrófilos. Neutrófilos ativados liberam armadilhas extracelulares (NETs) — redes de cromatina descondensada decoradas com enzimas antimicrobianas, que capturam micro-organismos mas também lesam o endotélio adjacente e servem de arcabouço para trombose, ligando diretamente inflamação e coagulação (ver Peça 09).</p>
+    </div>
+  </details>
+</section>
+
+<section class="panel" id="b2-resposta">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-05</span></div>
+  <h2 class="editable">Estágio 3 · resposta desregulada: não é só "inflamação demais"</h2>
+  <p class="sub editable">O erro conceitual mais comum sobre sepse</p>
+
+  <p class="editable">É tentador pensar em sepse como uma inflamação que simplesmente "passou do ponto" — e por décadas essa foi, de fato, a hipótese dominante, o que motivou vários ensaios clínicos com anti-inflamatórios e bloqueadores de citocinas (ver o resultado deles na Peça 16). O modelo atual é mais complexo e mais interessante: hiperinflamação e imunossupressão começam simultaneamente, desde as primeiras horas, e o que muda ao longo do tempo é qual das duas predomina clinicamente.</p>
+
+  <div class="grid2">
+    <div class="card2 lvl3"><h4>Hiperinflamação</h4><ul><li>Tempestade de citocinas pró-inflamatórias — TNF-α, IL-1β, IL-6</li><li>Ativação de complemento, neutrófilos e endotélio</li><li>Febre, vasodilatação, extravasamento capilar</li><li>Lesão tecidual colateral e disfunção orgânica precoce</li></ul></div>
+    <div class="card2 violet"><h4>Imunossupressão (imunoparalisia)</h4><ul><li>Apoptose maciça de linfócitos T e B, causando linfopenia</li><li>Monócitos com HLA-DR reduzido — menor apresentação de antígeno</li><li>IL-10 elevada; exaustão de linfócitos T via receptor PD-1</li><li>Infecções secundárias e reativação viral (CMV, HSV)</li></ul></div>
+  </div>
+
+  <div class="callout2">
+    <div class="lbl">por que isso muda a prática clínica</div>
+    <p class="editable">Muitos óbitos tardios em sepse decorrem de imunossupressão e infecções secundárias adquiridas na UTI, não do choque inicial já revertido — o que explica por que terapias puramente anti-inflamatórias falharam em reduzir mortalidade global: elas atacavam apenas metade do problema, e em alguns pacientes agravavam a outra metade.</p>
+  </div>
+  <p class="editable" style="font-size:0.86rem; font-style:italic; color:var(--b2-text-faint);">Hotchkiss RS et al. Nat Rev Dis Primers 2016 · van der Poll T et al. Nat Rev Immunol 2017.</p>
+</section>
+
+<section class="panel" id="b2-endotelio">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-06</span></div>
+  <h2 class="editable">Estágio 4 · endotélio e glicocálix: o órgão-alvo central</h2>
+  <p class="sub editable">Se existe um único tecido que decide o desfecho da sepse, é este</p>
+
+  <p class="editable">O endotélio costuma ser tratado, na graduação, como um forro passivo dos vasos. Na sepse, ele é protagonista. Cada capilar é revestido internamente por uma camada de glicoproteínas e proteoglicanos — o glicocálix, ancorado por moléculas como o sindecam-1 — que normalmente mantém as junções entre células endoteliais fechadas e regula o que passa entre o sangue e o interstício. Na sepse, esse glicocálix é degradado ativamente por heparanase, metaloproteinases de matriz e espécies reativas de oxigênio, todas liberadas ou ativadas no contexto da tempestade inflamatória descrita na peça anterior.</p>
+
+  <div class="callout2">
+    <div class="lbl">consequência direta à beira do leito</div>
+    <p class="editable">Um glicocálix degradado é um endotélio "poroso": citocinas e angiopoietina-2 desestabilizam as junções intercelulares (via VE-caderina), selectinas e moléculas de adesão (ICAM-1, VCAM-1) sobem, leucócitos aderem e migram lesando tecido adjacente, e a capacidade anticoagulante natural do endotélio — que depende de trombomodulina e heparan sulfato, ambos ligados ao próprio glicocálix — se perde. O resultado clínico é edema, síndrome do desconforto respiratório agudo (SDRA) e hipovolemia intravascular relativa — e é também por isso que excesso de fluido em um paciente com glicocálix já frágil piora, em vez de melhorar, o edema tecidual: o líquido extravasa para o interstício praticamente tão rápido quanto é infundido.</p>
+  </div>
+  <p class="editable" style="font-size:0.86rem; font-style:italic; color:var(--b2-text-faint);">Hotchkiss RS et al. Nat Rev Dis Primers 2016;2:16045.</p>
+</section>
+
+<section class="panel" id="b2-vasoplegia">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-07</span></div>
+  <h2 class="editable">Por que a pressão despenca (e não sobe só com volume)</h2>
+  <p class="sub editable">Quatro mecanismos que se somam — não é só "vasodilatação"</p>
+
+  <div class="grid2">
+    <div class="card2"><h4>Óxido nítrico induzível</h4><p>Citocinas induzem a NO-sintase induzível (iNOS), que — ao contrário da eNOS constitutiva — produz NO em quantidade muito maior e de forma sustentada. O NO ativa guanilato-ciclase solúvel, elevando GMPc e relaxando a musculatura lisa vascular de forma difusa: vasodilatação arterial e venosa generalizada.</p></div>
+    <div class="card2"><h4>Canais de potássio ATP-dependentes</h4><p>Acidose, lactato elevado e depleção de ATP intracelular abrem canais de K-ATP na musculatura lisa vascular, hiperpolarizando a membrana e reduzindo a entrada de cálcio por canais voltagem-dependentes. O resultado prático é um vaso que responde mal a catecolaminas — mesmo em doses altas.</p></div>
+    <div class="card2"><h4>Deficiência relativa de vasopressina</h4><p>Os estoques de vasopressina na neuro-hipófise, liberados em pico no início do choque, se esgotam com a persistência do estímulo — uma deficiência relativa que justifica mecanisticamente associar vasopressina como segundo vasopressor, poupador de catecolamina.</p></div>
+    <div class="card2"><h4>Insuficiência adrenal relativa</h4><p>A resposta do cortisol ao estresse fica inadequada, e a sensibilidade dos receptores adrenérgicos à própria noradrenalina diminui — o racional por trás do uso de hidrocortisona no choque séptico refratário a vasopressor.</p></div>
+  </div>
+  <p class="editable" style="font-size:0.86rem; font-style:italic; color:var(--b2-text-faint);">Angus DC, van der Poll T. NEJM 2013 · ILAS (2018): noradrenalina como vasopressor de primeira escolha; vasopressina como poupadora de catecolamina; hidrocortisona 50 mg a cada 6 horas no choque refratário.</p>
+</section>
+
+<section class="panel" id="b2-choque">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-08</span></div>
+  <h2 class="editable">Choque séptico: um choque distributivo com três componentes</h2>
+  <p class="sub editable">É por isso que só vasopressor, sozinho, raramente resolve</p>
+
+  <div class="grid2">
+    <div class="card2"><h4>Hipovolemia</h4><p>Venodilatação reduzindo o retorno venoso, extravasamento capilar pelo glicocálix lesado, e perdas por febre, taquipneia e vômitos somadas à queda de ingesta oral.</p></div>
+    <div class="card2"><h4>Vasodilatação</h4><p>Resistência vascular sistêmica reduzida, queda de PAM e de pressão de perfusão. Na fase inicial, a pele costuma estar quente — o clássico "choque quente" — justamente pela vasodilatação periférica predominante.</p></div>
+    <div class="card2"><h4>Disfunção miocárdica</h4><p>Citocinas, óxido nítrico e DAMPs deprimem diretamente a contratilidade e reduzem a resposta beta-adrenérgica. É geralmente reversível em sete a dez dias — mais um argumento a favor da hipótese de disfunção funcional (atordoamento/"hibernação") em vez de necrose miocárdica estrutural.</p></div>
+  </div>
+
+  <div class="callout2">
+    <div class="lbl">tradução para a conduta</div>
+    <p class="editable">Resultado combinado: pressão de perfusão reduzida e fluxo mal distribuído levam a hipoperfusão tecidual — lactato em ascensão, oligúria, tempo de enchimento capilar lentificado, livedo, confusão. A lógica terapêutica segue diretamente cada componente: volume para a hipovolemia, vasopressor para a vasoplegia, e inotrópico associado se houver baixo débito por disfunção miocárdica predominante.</p>
+  </div>
+</section>
+
+<section class="panel" id="b2-coagulacao">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-09</span></div>
+  <h2 class="editable">Da imunotrombose à CIVD</h2>
+  <p class="sub editable">Coagulação e inflamação são, evolutivamente, o mesmo sistema</p>
+
+  <p class="editable">Vale uma pausa conceitual antes dos mecanismos: coagulação e imunidade inata compartilham origem evolutiva — em invertebrados, o mesmo sistema que forma um coágulo também aprisiona patógenos no local da lesão, uma estratégia chamada imunotrombose. Em humanos, esse programa ancestral continua ativo: formar microtrombos localizados ajuda a conter a disseminação de um patógeno. O problema surge quando esse mecanismo, útil em escala local, é ativado de forma sistêmica e descontrolada.</p>
+
+  <div class="grid2">
+    <div class="card2 lvl3"><h4>Pró-coagulante em excesso</h4><ul><li>Fator tecidual exposto em monócitos e endotélio ativado</li><li>Geração maciça de trombina</li><li>NETs e plaquetas ativadas reforçando a imunotrombose</li></ul></div>
+    <div class="card2"><h4>Anticoagulantes naturais em queda</h4><ul><li>Antitrombina consumida</li><li>Proteína C ativada reduzida — perda de trombomodulina no endotélio lesado</li><li>TFPI e heparan sulfato do glicocálix, ambos depletados</li></ul></div>
+    <div class="card2 violet"><h4>Fibrinólise bloqueada</h4><ul><li>PAI-1 elevado inibe a plasmina</li><li>A fibrina formada não é removida — ela se acumula</li></ul></div>
+  </div>
+
+  <p class="editable">A soma dessas três frentes — mais pró-coagulante, menos anticoagulante natural, fibrinólise represada — empurra o sistema para microtrombos disseminados na microcirculação, causando isquemia e disfunção orgânica mesmo sem uma oclusão vascular macroscópica visível em exame de imagem convencional. O consumo de plaquetas e fatores de coagulação nesse processo é o que gera, clinicamente, a plaquetopenia (critério ILAS abaixo de 100.000/mm³), o alargamento de TP/INR, e, no extremo, sangramento espontâneo na coagulação intravascular disseminada (CIVD) franca — o mesmo sistema que começou tentando conter o patógeno termina consumindo a própria capacidade de coagular.</p>
+  <p class="editable" style="font-size:0.86rem; font-style:italic; color:var(--b2-text-faint);">van der Poll T et al. Nat Rev Immunol 2017 · SSC 2026 (pediatria): não transfundir plaquetas ou plasma de forma profilática na ausência de sangramento ativo.</p>
+</section>
+
+<section class="panel" id="b2-micro">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-10</span></div>
+  <h2 class="editable">Microcirculação e mitocôndria: PA normal não é sinônimo de tecido perfundido</h2>
+  <p class="sub editable">O ponto mais contraintuitivo — e mais importante — de toda a fisiopatologia</p>
+
+  <div class="grid2">
+    <div class="card2"><h4>Microcirculação heterogênea</h4><p>Capilares totalmente sem fluxo coexistem, lado a lado, com capilares hiperdinâmicos. Microtrombos, leucócitos aderidos e hemácias menos deformáveis obstruem parte da rede — o sangue que passa pelos capilares abertos frequentemente "atravessa em shunt", sem tempo ou gradiente adequado para entregar oxigênio ao tecido adjacente.</p></div>
+    <div class="card2 violet"><h4>Hipóxia citopática mitocondrial</h4><p>Óxido nítrico, peroxinitrito e estresse oxidativo inibem diretamente a cadeia respiratória mitocondrial. A célula deixa de usar adequadamente o oxigênio mesmo quando ele chega até ela — por isso a saturação venosa central de oxigênio (SvcO₂) pode estar normal ou até alta apesar de disfunção orgânica evidente: o oxigênio está presente, mas não está sendo consumido.</p></div>
+  </div>
+
+  <div class="callout2">
+    <div class="lbl">a hipótese da "hibernação" celular</div>
+    <p class="editable">Uma leitura possível — e que ajuda a explicar por que órgãos em falência na sepse costumam se recuperar sem necrose extensa, diferentemente de um infarto — é que essa hipóxia citopática represente uma resposta adaptativa: a célula reduz seu próprio metabolismo para sobreviver a um período de estresse extremo, de forma análoga à hibernação, em vez de simplesmente morrer por falta de energia. Essa hipótese reforça a importância de reavaliar perfusão de forma dinâmica — tempo de enchimento capilar, livedo, diurese, nível de consciência, lactato seriado — e não apenas normalizar a pressão arterial e considerar o trabalho feito.</p>
+  </div>
+</section>
+
+<section class="panel" id="b2-lactato">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-11</span></div>
+  <h2 class="editable">Lactato: marcador, não diagnóstico por si só</h2>
+  <p class="sub editable">Quatro mecanismos alimentam o mesmo número no exame</p>
+
+  <div class="grid2">
+    <div class="card2 lvl3"><h4>Hipoperfusão</h4><p>Metabolismo anaeróbio: quando falta oxigênio, o piruvato é convertido em lactato em vez de seguir para a mitocôndria — o mecanismo "clássico" que todo estudante já conhece.</p></div>
+    <div class="card2"><h4>Glicólise aeróbica adrenérgica</h4><p>Catecolaminas endógenas, atuando em receptores beta-2, aceleram a glicólise e a bomba Na⁺/K⁺-ATPase no músculo esquelético — gerando lactato mesmo na presença de oxigênio suficiente. É por isso que doses altas de adrenalina, por exemplo, podem elevar o lactato sem que isso signifique necessariamente piora da perfusão.</p></div>
+    <div class="card2"><h4>Disfunção mitocondrial</h4><p>Inibição da enzima piruvato-desidrogenase impede que o piruvato entre no ciclo de Krebs, empurrando-o na direção do lactato mesmo com oxigênio celular disponível — o mesmo fenômeno de hipóxia citopática descrito na peça anterior, agora visto pela lente do metabolismo da glicose.</p></div>
+    <div class="card2"><h4>Depuração reduzida</h4><p>O fígado — e, em menor grau, o rim — normalmente removem lactato da circulação de forma eficiente. Hipoperfundidos, esses órgãos depuram menos, e o lactato se acumula também por essa via, independentemente da produção periférica.</p></div>
+  </div>
+
+  <div class="stats2">
+    <div class="stat2"><div class="num">≥ 2x</div><div class="desc">o valor de referência: gatilho do ILAS para 30 mL/kg de cristaloide e nova dosagem em 2–4h</div></div>
+    <div class="stat2"><div class="num">≥ 5 mmol/L</div><div class="desc">pontua disfunção cardiovascular nos critérios de Phoenix, em pediatria</div></div>
+  </div>
+  <p class="editable">Uma ressalva prática do próprio ILAS: hiperlactatemia residual isolada, sem outros sinais clínicos de hipoperfusão (TEC normal, diurese adequada, sem livedo, paciente lúcido), não precisa necessariamente ser tratada de forma agressiva com mais volume — o número, sozinho, não é o alvo; ele é um entre vários sinais que precisam ser lidos em conjunto.</p>
+  <p class="editable" style="font-size:0.86rem; font-style:italic; color:var(--b2-text-faint);">ILAS (2018) · Weiss SL et al. SSC Children 2026 (recomendação 3: medir lactato na avaliação inicial).</p>
+</section>
+
+<section class="panel" id="b2-orgaos">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-12</span></div>
+  <h2 class="editable">Do mecanismo ao critério clínico</h2>
+  <p class="sub editable">Fechando o painel de alerta da Peça 02 — agora com o mecanismo por trás de cada linha</p>
+
+  <div class="grid2">
+    <div class="card2 lvl3"><h4>Cardiovascular</h4><p>Vasoplegia (NO, canais K-ATP), hipovolemia e depressão miocárdica somadas.</p><p style="color:var(--b2-lvl2); font-size:0.82rem;">Critério: PAS &lt; 90 / PAM &lt; 65 mmHg</p></div>
+    <div class="card2"><h4>Pulmão</h4><p>Permeabilidade alveolocapilar aumentada, infiltrado neutrofílico, edema rico em proteínas — o substrato da SDRA.</p><p style="color:var(--b2-lvl2); font-size:0.82rem;">Critério: PaO₂/FiO₂ &lt; 300</p></div>
+    <div class="card2"><h4>Rim</h4><p>Inflamação microvascular, lesão tubular direta e redistribuição de fluxo intrarrenal — não apenas hipoperfusão, como se pensava classicamente.</p><p style="color:var(--b2-lvl2); font-size:0.82rem;">Critério: diurese ≤ 0,5 mL/kg/h; creatinina &gt; 2</p></div>
+    <div class="card2"><h4>Coagulação</h4><p>Consumo de plaquetas e fatores por imunotrombose disseminada.</p><p style="color:var(--b2-lvl2); font-size:0.82rem;">Critério: plaquetas &lt; 100.000</p></div>
+    <div class="card2"><h4>Fígado</h4><p>Colestase inflamatória — redução de transportadores biliares — somada a hipoperfusão.</p><p style="color:var(--b2-lvl2); font-size:0.82rem;">Critério: bilirrubina &gt; 2x a referência</p></div>
+    <div class="card2 violet"><h4>Sistema nervoso central</h4><p>Quebra da barreira hematoencefálica, neuroinflamação e alteração de neurotransmissores — a encefalopatia séptica.</p><p style="color:var(--b2-lvl2); font-size:0.82rem;">Critério: delirium, agitação, rebaixamento</p></div>
+    <div class="card2"><h4>Metabolismo</h4><p>Hipoperfusão somada a glicólise adrenérgica e depuração hepática/renal reduzida — os quatro mecanismos da Peça 11.</p><p style="color:var(--b2-lvl2); font-size:0.82rem;">Critério: lactato acima da referência</p></div>
+  </div>
+  <p class="editable" style="font-size:0.86rem; font-style:italic; color:var(--b2-text-faint);">Critérios: ILAS, Protocolo clínico (rev. 2018).</p>
+</section>
+
+<section class="panel" id="b2-caso">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-13</span></div>
+  <h2 class="editable">Caso integrador — Dona M., leito 12</h2>
+  <p class="sub editable">72 anos, diabética. Disúria e febre há três dias; hoje, sonolenta e confusa.</p>
+
+  <div class="vitals">
+    <div class="vit"><div class="v">84/46</div><div class="l">PA (PAM 59)</div></div>
+    <div class="vit"><div class="v">118</div><div class="l">FC bpm</div></div>
+    <div class="vit"><div class="v">26</div><div class="l">FR irpm</div></div>
+    <div class="vit"><div class="v">38,9°</div><div class="l">Temperatura</div></div>
+    <div class="vit"><div class="v">91%</div><div class="l">SpO₂ ar ambiente</div></div>
+    <div class="vit"><div class="v">4s</div><div class="l">TEC, livedo em joelhos</div></div>
+  </div>
+  <div class="vitals">
+    <div class="vit"><div class="v">4,6</div><div class="l">Lactato mmol/L (ref &lt;2)</div></div>
+    <div class="vit"><div class="v">18.500</div><div class="l">Leucócitos, 12% bastões</div></div>
+    <div class="vit"><div class="v">88.000</div><div class="l">Plaquetas</div></div>
+    <div class="vit"><div class="v">2,4</div><div class="l">Creatinina mg/dL</div></div>
+    <div class="vit"><div class="v">15</div><div class="l">Diurese mL/h (2h, 65kg)</div></div>
+  </div>
+
+  <details class="deep2">
+    <summary><span class="txt">Abrir transmissão — seis perguntas para trabalhar antes de ler a discussão</span></summary>
+    <div class="deep-body">
+      <ol>
+        <li>Ela tem SRIS? Tem sepse? Quais disfunções estão presentes?</li>
+        <li>Por que a pressão está baixa e a pele apresenta livedo?</li>
+        <li>Por que o lactato está elevado — é só hipóxia?</li>
+        <li>Por que as plaquetas caíram?</li>
+        <li>Por que ela está confusa?</li>
+        <li>Quais itens do pacote de 1 hora você faria, e em que ordem?</li>
+      </ol>
+    </div>
+  </details>
+
+  <details class="deep2">
+    <summary><span class="txt">Abrir transmissão — discussão do caso</span></summary>
+    <div class="deep-body">
+      <p><span class="mono2" style="color:var(--b2-cyan);">01</span> SRIS presente (temperatura, FC, FR, leucócitos) somada a foco urinário claro e pelo menos uma disfunção já fecha o diagnóstico de sepse. Como a hipotensão não se corrigiu ainda (segue em avaliação após volume), o quadro caminha para choque séptico. Disfunções já documentadas: cardiovascular, renal, respiratória, hematológica, neurológica e metabólica (lactato) — praticamente todo o painel da Peça 12 positivo ao mesmo tempo.</p>
+      <p><span class="mono2" style="color:var(--b2-cyan);">02</span> Vasoplegia (NO e canais K-ATP) somada a hipovolemia por extravasamento capilar — mecanismos da Peça 07 e 08. O livedo e o tempo de enchimento capilar lentificado são sinais diretos de hipoperfusão periférica e alteração da microcirculação, descritos na Peça 10.</p>
+      <p><span class="mono2" style="color:var(--b2-cyan);">03</span> Hipoperfusão tecidual somada a glicólise adrenérgica e menor depuração hepática — os quatro mecanismos da Peça 11 atuando ao mesmo tempo, não apenas anaerobiose simples.</p>
+      <p><span class="mono2" style="color:var(--b2-cyan);">04</span> Consumo de plaquetas por imunotrombose e ativação da coagulação (Peça 09), com risco real de evoluir para CIVD franca se não controlada.</p>
+      <p><span class="mono2" style="color:var(--b2-cyan);">05</span> Encefalopatia séptica: neuroinflamação, disfunção da barreira hematoencefálica e hipoperfusão cerebral concorrendo para o rebaixamento e a confusão.</p>
+      <p><span class="mono2" style="color:var(--b2-cyan);">06</span> Lactato e exames de disfunção; duas hemoculturas e urocultura, sem atrasar o antibiótico; antimicrobiano de amplo espectro endovenoso em até uma hora; 30 mL/kg de cristaloide (cerca de 2 litros); noradrenalina se a PAM continuar abaixo de 65 após o volume, podendo iniciar em veia periférica; repetir o lactato em 2 a 4 horas. A sequência completa, com o racional de cada item, está na Peça 14.</p>
+    </div>
+  </details>
+</section>
+
+<section class="panel" id="b2-bundle">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-14</span></div>
+  <h2 class="editable">O pacote da primeira hora</h2>
+  <p class="sub editable">Toque em cada item para simular o checklist — cada linha existe por um motivo fisiopatológico específico</p>
+
+  <div class="checklist" id="checklist">
+    <div class="chk-item" data-item="1"><span class="t">T+0min</span><div class="box"></div><div class="txt"><h4>Lactato e exames de disfunção</h4><p>Gasometria, lactato (resultado em até 30 min), hemograma, creatinina, bilirrubina, coagulograma — quantifica hipoperfusão e disfunções já instaladas.</p></div></div>
+    <div class="chk-item" data-item="2"><span class="t">T+0min</span><div class="box"></div><div class="txt"><h4>Duas hemoculturas + culturas do foco</h4><p>Colhidas antes do antimicrobiano, mas sem atrasar sua administração — identifica o patógeno para permitir descalonar depois.</p></div></div>
+    <div class="chk-item" data-item="3"><span class="t">≤ 1h</span><div class="box"></div><div class="txt"><h4>Antimicrobiano de amplo espectro, endovenoso</h4><p>Na primeira hora, em dose plena/de ataque, sem ajuste renal nas primeiras 24h — reduz a carga de PAMPs que alimenta toda a cascata da Peça 03.</p></div></div>
+    <div class="chk-item" data-item="4"><span class="t">≤ 1h</span><div class="box"></div><div class="txt"><h4>Cristaloide, 30 mL/kg</h4><p>Se hipotensão ou lactato igual ou acima de 2x a referência; cautela em cardiopatas; evitar amidos — corrige a hipovolemia por venodilatação e extravasamento (Peça 08).</p></div></div>
+    <div class="chk-item" data-item="5"><span class="t">se necessário</span><div class="box"></div><div class="txt"><h4>Vasopressor — noradrenalina</h4><p>Se PAM permanecer abaixo de 65 após o volume; não tolerar mais de 30–40 min sem iniciar; pode começar em veia periférica — contrapõe a vasoplegia da Peça 07.</p></div></div>
+    <div class="chk-item" data-item="6"><span class="t">2–4h / 6h</span><div class="box"></div><div class="txt"><h4>Reavaliação</h4><p>Fluidorresponsividade, tempo de enchimento capilar, livedo, diurese, nível de consciência, novo lactato, SvcO₂ — porque hipoperfusão pode persistir mesmo com a PA já corrigida (Peça 10).</p></div></div>
+  </div>
+  <p class="editable" style="font-size:0.86rem; font-style:italic; color:var(--b2-text-faint);">ILAS, Protocolo clínico (rev. 2018), itens 4.1 e 4.2.</p>
+</section>
+
+<section class="panel" id="b2-ssc">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-15</span></div>
+  <h2 class="editable">Atualizações — Surviving Sepsis Campaign 2026</h2>
+  <p class="sub editable">O que a diretriz internacional reforça e o que ela detalha ou muda</p>
+
+  <h3>Adultos</h3>
+  <div class="grid2">
+    <div class="card2"><h4>Reforça o protocolo</h4><ul><li>Triagem com NEWS, NEWS2, MEWS ou SIRS — não o qSOFA isolado (recomendação forte)</li><li>Antimicrobiano idealmente em 1h no choque séptico e na sepse provável ou definida</li><li>Sepse possível sem choque: investigação rápida e antibiótico em até 3h se a suspeita persistir</li><li>Medir lactato (recomendação condicional)</li><li>PAM alvo de 65 mmHg (forte); 60–65 mmHg em maiores de 65 anos (condicional)</li></ul></div>
+    <div class="card2"><h4>Muda ou detalha</h4><ul><li>Pelo menos 30 mL/kg de cristaloide nas primeiras 3h (condicional); peso ajustado se IMC acima de 30</li><li>Cristaloides balanceados preferidos ao soro fisiológico 0,9%</li><li>Vasopressor em veia periférica em vez de atrasar à espera de acesso central</li><li>Noradrenalina segue primeira linha, mas a força da recomendação foi rebaixada para "sugere"</li><li>Infusão prolongada de betalactâmicos na manutenção (forte)</li><li>Corticoide endovenoso sugerido no choque séptico</li></ul></div>
+  </div>
+
+  <h3>Crianças — critérios de Phoenix (2024)</h3>
+  <div class="grid2">
+    <div class="card2"><h4>Definições</h4><p>Sepse: infecção associada a disfunção grave respiratória, cardiovascular, de coagulação e/ou neurológica. Choque séptico: pelo menos um ponto cardiovascular — hipotensão, lactato igual ou acima de 5 mmol/L, ou uso de droga vasoativa. Passam a existir os termos "sepse provável" e "choque séptico suspeito".</p></div>
+    <div class="card2"><h4>Hemodinâmica</h4><p>Com UTI disponível: até 40–60 mL/kg em bolus de 10–20 mL/kg na primeira hora, reavaliando a cada bolus. Sem UTI e sem hipotensão: não fazer bolus (recomendação forte, baseada no estudo FEAST). Cristaloide balanceado; vasoativo por via periférica, sem preferência estabelecida entre adrenalina e noradrenalina.</p></div>
+  </div>
+  <p class="editable" style="font-size:0.86rem; font-style:italic; color:var(--b2-text-faint);">SSC: International Guidelines for Management of Sepsis and Septic Shock 2026, Intensive Care Med 2026 · Weiss SL, Peters MJ et al. Pediatr Crit Care Med 2026;27(4):379-434.</p>
+</section>
+
+<section class="panel" id="b2-ensaios">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-16</span></div>
+  <h2 class="editable">O que funcionou, o que falhou nos ensaios clínicos</h2>
+  <p class="sub editable">Nem todo alvo fisiopatologicamente plausível vira tratamento eficaz</p>
+
+  <div class="duo2">
+    <div class="won">
+      <div class="lbl">funcionou (ou é plausível)</div>
+      <ul>
+        <li class="editable">Controle do foco e antibiótico precoce — remove a fonte de PAMPs na origem</li>
+        <li class="editable">Volume + vasopressor — corrige hipovolemia e vasoplegia diretamente</li>
+        <li class="editable">Vasopressina — repõe a deficiência relativa descrita na Peça 07</li>
+        <li class="editable">Hidrocortisona — insuficiência adrenal relativa, aumenta resposta a catecolaminas</li>
+        <li class="editable">Ventilação protetora — limita a lesão pulmonar adicional na SDRA</li>
+      </ul>
+    </div>
+    <div class="lost">
+      <div class="lbl">falhou em ensaios clínicos</div>
+      <ul>
+        <li class="editable">Anti-TNF, anti-endotoxina, antagonistas de TLR4 — sem benefício em mortalidade</li>
+        <li class="editable">Proteína C ativada — retirada do mercado após revisão de segurança/eficácia</li>
+        <li class="editable">Vitamina C e tiamina — a SSC pediátrica de 2026 sugere não usar</li>
+      </ul>
+    </div>
+  </div>
+  <p class="editable">O padrão por trás dessas falhas é consistente: sepse é heterogênea. As fases hiperinflamatória e imunossupressora coexistem em graus variáveis, e o momento em que uma intervenção é dada importa tanto quanto o alvo molecular escolhido — bloquear TNF-α numa fase já predominantemente imunossupressiva pode, inclusive, piorar o desfecho. A pesquisa atual caminha para identificar fenótipos e endotipos de sepse, buscando terapia de precisão em vez de um único protocolo imunomodulador universal.</p>
+  <p class="editable" style="font-size:0.86rem; font-style:italic; color:var(--b2-text-faint);">van der Poll T et al. Nat Rev Immunol 2017 · Weiss SL et al. Pediatr Crit Care Med 2026.</p>
+</section>
+
+<section class="panel" id="b2-pos">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-17</span></div>
+  <h2 class="editable">Sobreviver não é o fim: a síndrome pós-sepse</h2>
+  <p class="sub editable">Alta hospitalar não é o mesmo que recuperação completa</p>
+
+  <div class="grid2">
+    <div class="card2"><h4>Cognitiva</h4><p>Déficit de memória e atenção após episódio de encefalopatia séptica, por vezes persistente por meses.</p></div>
+    <div class="card2"><h4>Física</h4><p>Fraqueza adquirida na UTI, fadiga e perda funcional — consequência direta de imobilização, catabolismo e, por vezes, miopatia/polineuropatia do paciente crítico.</p></div>
+    <div class="card2 violet"><h4>Psíquica</h4><p>Ansiedade, depressão e estresse pós-traumático, relacionados tanto à gravidade do quadro quanto à experiência de internação prolongada em UTI.</p></div>
+    <div class="card2 lvl3"><h4>Clínica</h4><p>Readmissões, novas infecções — reflexo da imunossupressão residual — e piora de doença cardiovascular e renal preexistente.</p></div>
+  </div>
+
+  <div class="callout2">
+    <div class="lbl">recomendações</div>
+    <p class="editable">O ILAS recomenda uma linha de cuidado multiprofissional desde a internação até após a alta — nutrição, fisioterapia com mobilização precoce, fonoaudiologia, psicologia, farmácia, serviço social. A SSC pediátrica de 2026 recomenda reabilitação precoce individualizada e, no momento da alta, avaliação de risco, educação da família e busca ativa de sequelas de longo prazo.</p>
+  </div>
+</section>
+
+<section class="panel" id="b2-mensagens">
+  <div class="bl"></div><div class="br"></div>
+  <div class="panel-head"><span class="code">SIT-18</span></div>
+  <h2 class="editable">Mensagens para levar</h2>
+  <p class="sub editable">O briefing final antes de fechar a sala de comando</p>
+
+  <div class="brief">
+    <ol>
+      <li class="editable">O <b>nível</b> do linfonodo aponta a área de drenagem — sempre examine o sítio primário correspondente antes de qualquer outra investigação.</li>
+      <li class="editable">Duro, fixo, indolor, supraclavicular ou persistente por mais de duas semanas: <b>investigar</b>, com ultrassonografia e provável punção.</li>
+      <li class="editable">Sepse é <b>disfunção orgânica</b> por resposta desregulada à infecção — não apenas "infecção grave" em outras palavras.</li>
+      <li class="editable">Inflamação e imunossupressão <b>coexistem</b> desde o início; endotélio, coagulação, microcirculação e mitocôndria são os alvos reais da lesão.</li>
+      <li class="editable">Cada critério de disfunção e cada item do pacote de 1 hora têm uma <b>explicação fisiopatológica</b> — nunca são regras arbitrárias.</li>
+      <li class="editable">Reconhecer cedo, colher culturas, antibiótico em 1h, volume, vasopressor e <b>reavaliar a perfusão</b>, não apenas a pressão arterial.</li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     REFERÊNCIAS
+     ============================================================ -->
+<footer class="refs">
+  <div class="wrap">
+    <h2>Referências</h2>
+    <div class="sub">ABNT — conforme modelo institucional Uniarp-SC</div>
+    <ol>
+      <li>INSTITUTO LATINO AMERICANO DE SEPSE (ILAS). <em>Implementação de protocolo gerenciado de sepse</em>: protocolo clínico — atendimento ao paciente adulto com sepse/choque séptico. [S. l.]: ILAS, 2018.</li>
+      <li>WEISS, Scott L. et al. Surviving Sepsis Campaign International Guidelines for the Management of Sepsis and Septic Shock in Children 2026. <em>Pediatric Critical Care Medicine</em>, v. 27, n. 4, p. 379-434, 2026.</li>
+      <li>SURVIVING SEPSIS CAMPAIGN. International Guidelines for Management of Sepsis and Septic Shock 2026. <em>Intensive Care Medicine</em>, 2026.</li>
+      <li>SINGER, Mervyn et al. The Third International Consensus Definitions for Sepsis and Septic Shock (Sepsis-3). <em>JAMA</em>, v. 315, n. 8, p. 801-810, 2016.</li>
+      <li>SCHLAPBACH, Luregn J. et al. International Consensus Criteria for Pediatric Sepsis and Septic Shock (Phoenix). <em>JAMA</em>, v. 331, n. 8, p. 665-674, 2024.</li>
+      <li>ANGUS, Derek C.; VAN DER POLL, Tom. Severe sepsis and septic shock. <em>The New England Journal of Medicine</em>, v. 369, n. 9, p. 840-851, 2013.</li>
+      <li>VAN DER POLL, Tom et al. The immunopathology of sepsis and potential therapeutic targets. <em>Nature Reviews Immunology</em>, v. 17, n. 7, p. 407-420, 2017.</li>
+      <li>HOTCHKISS, Richard S. et al. Sepsis and septic shock. <em>Nature Reviews Disease Primers</em>, v. 2, p. 16045, 2016.</li>
+      <li>RUDD, Kristina E. et al. Global, regional, and national sepsis incidence and mortality, 1990-2017. <em>The Lancet</em>, v. 395, p. 200-211, 2020.</li>
+      <li>MACHADO, Flávia R. et al. The epidemiology of sepsis in Brazilian intensive care units (SPREAD). <em>The Lancet Infectious Diseases</em>, v. 17, n. 11, p. 1180-1189, 2017.</li>
+      <li>ROBBINS, K. Thomas et al. Consensus statement on the classification and terminology of neck dissection. <em>Archives of Otolaryngology-Head &amp; Neck Surgery</em>, v. 134, n. 5, p. 536-538, 2008.</li>
+      <li>PYNNONEN, Melissa A. et al. Clinical practice guideline: evaluation of the neck mass in adults. <em>Otolaryngology-Head and Neck Surgery</em>, v. 157, n. 2, supl., p. S1-S30, 2017.</li>
+      <li>CHAMMAS, Maria Cristina et al. Linfonodos cervicais: um dilema para o ultra-sonografista. <em>Radiologia Brasileira</em>, v. 37, n. 5, p. 357-364, 2004.</li>
+    </ol>
+    <p class="note">Dossiê construído a partir dos slides de aula do Prof. Anderson L. (3º encontro, LMF, 5ª fase, UC 2), com aprofundamento mecanístico complementar a partir das referências acima. Documento de estudo pessoal — não substitui protocolo institucional vigente.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var STORAGE_KEY = "dossie_linfonodos_sepse_v1_edicao";
+  var toolbar = document.getElementById("toolbar");
+  var btnEdit = document.getElementById("btn-edit");
+  var btnDownload = document.getElementById("btn-download");
+  var btnRestore = document.getElementById("btn-restore");
+  var status = document.getElementById("toolbar-status");
+  var body = document.body;
+  var editing = false;
+  var autosaveTimer = null;
+
+  function setStatus(msg){ if(status){ status.textContent = msg || ""; } }
+
+  function applySavedEdits(){
+    try {
+      var saved = window.localStorage.getItem(STORAGE_KEY);
+      if(saved){
+        var main1 = document.querySelector("main.b1");
+        var main2 = document.querySelector("main.b2");
+        var footer = document.querySelector("footer.refs .wrap");
+        var data = JSON.parse(saved);
+        if(data.b1 && main1) main1.innerHTML = data.b1;
+        if(data.b2 && main2) main2.innerHTML = data.b2;
+        if(data.refs && footer) footer.innerHTML = data.refs;
+        setStatus("edição salva neste navegador foi restaurada");
+        bindContentInteractions();
+      }
+    } catch(e) { /* localStorage indisponível — segue com o conteúdo original */ }
+  }
+
+  function saveEdits(){
+    try {
+      var main1 = document.querySelector("main.b1");
+      var main2 = document.querySelector("main.b2");
+      var footer = document.querySelector("footer.refs .wrap");
+      var data = {
+        b1: main1 ? main1.innerHTML : "",
+        b2: main2 ? main2.innerHTML : "",
+        refs: footer ? footer.innerHTML : ""
+      };
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      return true;
+    } catch(e) { return false; }
+  }
+
+  function setEditable(on){
+    var targets = document.querySelectorAll(".editable, .file p, .file li, .file h2, .file h3, .file h4, .panel p, .panel li, .panel h2, .panel h3, .panel h4, .refs li");
+    targets.forEach(function(el){ el.contentEditable = on ? "true" : "false"; });
+  }
+
+  btnEdit.addEventListener("click", function(){
+    editing = !editing;
+    body.classList.toggle("editing", editing);
+    setEditable(editing);
+    btnEdit.classList.toggle("active", editing);
+    btnEdit.querySelector(".label").textContent = editing ? "Salvar e sair da edição" : "Ativar edição";
+    if(editing){
+      setStatus("modo de edição ativo — autosave a cada 15s");
+      autosaveTimer = window.setInterval(function(){
+        var ok = saveEdits();
+        setStatus(ok ? "autosalvo às " + new Date().toLocaleTimeString("pt-BR") : "autosave indisponível neste navegador");
+      }, 15000);
+    } else {
+      if(autosaveTimer) window.clearInterval(autosaveTimer);
+      var ok = saveEdits();
+      setStatus(ok ? "edições salvas neste navegador" : "não foi possível salvar — copie o texto manualmente");
+    }
+  });
+
+  btnDownload.addEventListener("click", function(){
+    try {
+      var htmlStr = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      var blob = new Blob([htmlStr], { type: "text/html;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = "dossie-linfonodos-sepse-editado.html";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      setStatus("cópia editada baixada");
+    } catch(e) { setStatus("não foi possível gerar o download"); }
+  });
+
+  btnRestore.addEventListener("click", function(){
+    try { window.localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+    window.location.reload();
+  });
+
+  /* ---------- interações de conteúdo (delegadas, sobrevivem a restauração) ---------- */
+  var fichaData = {
+    ia: ["Ia — Submentual", "Lábio inferior, assoalho anterior da boca, ponta da língua, mento."],
+    ib: ["Ib — Submandibular", "Glândula submandibular, cavidade oral, lábios, bochecha, vestíbulo nasal."],
+    iia: ["IIa — Jugular superior, anterior ao XI", "Cavidade oral e nasal, naso/orofaringe, hipofaringe, laringe supraglótica, parótida."],
+    iib: ["IIb — Jugular superior, posterior ao XI", "Recebe principalmente orofaringe e nasofaringe."],
+    iii: ["III — Jugular médio", "Orofaringe, hipofaringe, laringe, cavidade oral; drenagem lateral da tireoide."],
+    iv: ["IV — Jugular inferior", "Hipofaringe, laringe subglótica, tireoide, esôfago cervical. Fossa supraclavicular esquerda: linfonodo de Virchow."],
+    va: ["Va — Triângulo posterior superior", "Acima do plano da cricoide; inclui a cadeia do nervo acessório."],
+    vb: ["Vb — Triângulo posterior inferior", "Cervicais transversos e supraclaviculares; recebe tireoide e drenagem infraclavicular."],
+    vi: ["VI — Compartimento central", "Tireoide, laringe glótica/subglótica, traqueia e esôfago cervicais."]
+  };
+
+  function bindContentInteractions(){
+    document.querySelectorAll(".pinnote").forEach(function(pin){
+      if(pin._bound) return; pin._bound = true;
+      pin.addEventListener("click", function(){
+        document.querySelectorAll(".pinnote").forEach(function(p){ p.classList.remove("active"); });
+        pin.classList.add("active");
+        var d = fichaData[pin.dataset.lvl];
+        if(d){
+          document.getElementById("bf-title").textContent = d[0];
+          document.getElementById("bf-text").textContent = d[1];
+        }
+        var target = document.getElementById("ficha-" + pin.dataset.lvl);
+        if(target){
+          target.style.transition = "background 0.3s ease";
+          target.style.background = "rgba(168,121,46,0.14)";
+          window.setTimeout(function(){ target.style.background = ""; }, 1400);
+        }
+      });
+    });
+
+    document.querySelectorAll(".alerta-btn").forEach(function(btn){
+      if(btn._bound) return; btn._bound = true;
+      btn.addEventListener("click", function(){
+        document.querySelectorAll(".alerta-btn").forEach(function(b){ b.classList.remove("active"); });
+        document.querySelectorAll(".lvltxt").forEach(function(t){ t.classList.remove("show"); });
+        btn.classList.add("active");
+        var lvl = btn.dataset.lvl;
+        var txt = document.querySelector('.lvltxt[data-lvl="' + lvl + '"]');
+        if(txt) txt.classList.add("show");
+      });
+    });
+    var firstAlerta = document.querySelector('.alerta-btn[data-lvl="1"]');
+    if(firstAlerta && !firstAlerta.classList.contains("active")) firstAlerta.click();
+
+    document.querySelectorAll(".chk-item").forEach(function(item){
+      if(item._bound) return; item._bound = true;
+      item.addEventListener("click", function(){ item.classList.toggle("done"); });
+    });
+  }
+  bindContentInteractions();
+
+  /* ---------- topbar contextual ---------- */
+  var topbar = document.getElementById("topbar");
+  var topbarTag = document.getElementById("topbar-tag");
+  var b2section = document.querySelector("main.b2");
+  if(window.IntersectionObserver && b2section){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          topbar.classList.add("on-dark");
+          topbarTag.innerHTML = "<b>Sala de comando</b> · protocolo em curso";
+        } else if(entry.boundingClientRect.top > 0){
+          topbar.classList.remove("on-dark");
+          topbarTag.innerHTML = "<b>Caso 03-LMF</b> · dossiê em andamento";
+        }
+      });
+    }, { threshold: 0, rootMargin: "-60px 0px -85% 0px" });
+    obs.observe(b2section);
+  }
+
+  var clock = document.getElementById("topbar-clock");
+  function tick(){
+    if(clock) clock.textContent = new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  }
+  tick(); window.setInterval(tick, 30000);
+
+  /* aplica edições salvas, se existirem, por último */
+  applySavedEdits();
+})();
+</script>
+</body>
+</html>

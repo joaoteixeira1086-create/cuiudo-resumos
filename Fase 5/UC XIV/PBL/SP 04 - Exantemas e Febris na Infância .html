@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doenças Exantemáticas e Febris na Infância — Guia de Estudo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#090c11;
+  --bg-raise:#0e131a;
+  --bg-card:#121822;
+  --bg-card-2:#151c27;
+  --border:rgba(255,255,255,.09);
+  --border-strong:rgba(255,255,255,.18);
+  --text:#e7ebf1;
+  --text-soft:#a4aebc;
+  --text-mute:#69727e;
+  --serif:'Merriweather',Georgia,serif;
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+  --mono:'DM Mono','SFMono-Regular',Consolas,monospace;
+  --radius:7px;
+  --c01:#f2545b; --c02:#f2994a; --c03:#f2c94c; --c04:#eb4d7e; --c05:#6fcf97;
+  --c06:#56ccc4; --c07:#c99a5b; --c08:#f28fb3; --c09:#9b8cf2; --c10:#5b8def;
+  --sidebar-w:288px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-padding-top:24px;}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{animation-duration:.01ms !important;transition-duration:.01ms !important;}}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:var(--sans);font-size:16.5px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:rgba(255,255,255,.18);}
+a{color:inherit;}
+p{margin:0 0 1em 0;color:var(--text-soft);}
+p:last-child{margin-bottom:0;}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:700;color:var(--text);margin:0;}
+em{color:var(--text);font-style:italic;}
+:focus-visible{outline:2px solid var(--text-soft);outline-offset:3px;}
+
+/* ---------- layout ---------- */
+.layout{display:flex;min-height:100vh;}
+.sidebar{
+  position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);
+  background:var(--bg-raise);border-right:1px solid var(--border);
+  padding:28px 22px;overflow-y:auto;z-index:40;
+  display:flex;flex-direction:column;gap:22px;
+}
+.sidebar-brand{font-family:var(--mono);font-size:12px;letter-spacing:.03em;color:var(--text-mute);line-height:1.5;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.sidebar-brand strong{display:block;font-family:var(--serif);font-size:16px;font-style:italic;color:var(--text);font-weight:700;margin-bottom:4px;}
+.sidebar nav{display:flex;flex-direction:column;gap:2px;}
+.sidebar nav a{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 10px;border-radius:5px;
+  font-size:13.5px;color:var(--text-soft);text-decoration:none;
+  transition:background .15s ease,color .15s ease;
+}
+.sidebar nav a:hover{background:var(--bg-card);color:var(--text);}
+.sidebar nav a.active{background:var(--bg-card-2);color:var(--text);}
+.sidebar nav a .num{font-family:var(--mono);font-size:11px;color:var(--text-mute);width:16px;flex-shrink:0;}
+.sidebar nav a .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;background:var(--dot,#888);}
+.sidebar nav a.active .num{color:var(--dot,var(--text-mute));}
+.sidebar-refs-link{margin-top:6px;padding-top:14px;border-top:1px solid var(--border);}
+.sidebar-note{font-family:var(--mono);font-size:11px;color:var(--text-mute);line-height:1.6;}
+
+.mobile-bar{display:none;}
+
+main.content{margin-left:var(--sidebar-w);flex:1;min-width:0;}
+
+/* ---------- hero ---------- */
+.hero{
+  padding:88px 64px 56px;max-width:920px;
+  border-bottom:1px solid var(--border);
+}
+.hero .kicker{font-family:var(--mono);font-size:12.5px;color:var(--text-mute);margin-bottom:18px;}
+.hero h1{font-size:42px;line-height:1.18;letter-spacing:-.01em;max-width:15ch;}
+.hero h1 i{color:var(--c01);font-style:italic;}
+.hero .lede{font-size:17.5px;color:var(--text-soft);max-width:62ch;margin-top:22px;line-height:1.75;}
+.hero-meta{display:flex;gap:28px;margin-top:30px;flex-wrap:wrap;}
+.hero-meta div{font-family:var(--mono);font-size:11.5px;color:var(--text-mute);}
+.hero-meta div strong{display:block;font-family:var(--sans);font-size:14px;font-weight:500;color:var(--text-soft);margin-top:3px;}
+
+.intro-block{padding:52px 64px;max-width:920px;border-bottom:1px solid var(--border);}
+.intro-block h2{font-size:22px;margin-bottom:18px;}
+.intro-block p{max-width:70ch;}
+.classic-box{
+  margin-top:26px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:22px 26px;
+}
+.classic-box .classic-title{font-family:var(--mono);font-size:11.5px;color:var(--text-mute);margin-bottom:12px;}
+.classic-list{display:flex;flex-direction:column;gap:7px;}
+.classic-list .row{display:flex;gap:14px;font-size:14.5px;align-items:baseline;}
+.classic-list .ord{font-family:var(--mono);color:var(--text-mute);width:26px;flex-shrink:0;}
+.classic-list .name{color:var(--text-soft);}
+.classic-list .obs{font-family:var(--mono);font-size:11px;color:var(--text-mute);margin-left:auto;text-align:right;}
+
+/* ---------- disease sections ---------- */
+.disease{padding:60px 64px 8px;max-width:920px;}
+.section-head{display:flex;align-items:baseline;gap:18px;margin-bottom:6px;}
+.section-head .tag{
+  font-family:var(--mono);font-size:14px;color:var(--accent);
+  border:1px solid var(--accent);border-radius:4px;padding:3px 9px;flex-shrink:0;
+}
+.section-head h2{font-size:30px;color:var(--text);}
+.section-line{height:1px;background:linear-gradient(to right,var(--border-strong),transparent);flex:1;align-self:center;margin-left:4px;}
+.disease .subtitle-latin{font-family:var(--mono);font-size:12px;color:var(--text-mute);margin:10px 0 30px 0;padding-left:2px;}
+
+.disease h3{font-size:19px;color:var(--text);margin:40px 0 14px;padding-left:14px;border-left:2px solid var(--accent);}
+.disease h3:first-of-type{margin-top:28px;}
+.disease p{max-width:70ch;}
+.disease ul,.disease ol{margin:0 0 1em 0;padding-left:22px;color:var(--text-soft);max-width:68ch;}
+.disease li{margin-bottom:8px;}
+.disease li::marker{color:var(--accent);}
+
+.card{
+  background:var(--bg-card);border:1px solid var(--border);border-top:3px solid var(--accent);
+  border-radius:var(--radius);padding:22px 24px;margin:18px 0;max-width:70ch;
+}
+.card .card-label{font-family:var(--mono);font-size:11px;color:var(--accent);margin-bottom:10px;}
+.card p:last-child{margin-bottom:0;}
+.card-row{display:flex;gap:16px;flex-wrap:wrap;margin:18px 0;}
+.card-row .card{flex:1 1 240px;margin:0;}
+
+.alert{
+  border:1px solid var(--accent);background:transparent;border-radius:var(--radius);
+  padding:16px 20px;margin:20px 0;max-width:70ch;
+}
+.alert .alert-label{font-family:var(--mono);font-size:11px;color:var(--accent);margin-bottom:6px;}
+.alert p{color:var(--text-soft);}
+
+.notif-badge{
+  display:inline-block;font-family:var(--mono);font-size:11.5px;padding:4px 11px;border-radius:20px;
+  border:1px solid var(--accent);color:var(--accent);margin-bottom:14px;
+}
+
+details.deepen{
+  margin:22px 0;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-raise);max-width:70ch;overflow:hidden;
+}
+details.deepen summary{
+  cursor:pointer;padding:15px 20px;list-style:none;display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:12.5px;color:var(--accent);user-select:none;
+}
+details.deepen summary::-webkit-details-marker{display:none;}
+details.deepen summary .chevron{transition:transform .2s ease;font-size:13px;color:var(--text-mute);}
+details.deepen[open] summary .chevron{transform:rotate(90deg);}
+details.deepen summary .stitle{color:var(--text-soft);font-family:var(--sans);font-size:14.5px;}
+details.deepen .deepen-body{padding:4px 22px 22px;border-top:1px solid var(--border);}
+details.deepen .deepen-body p{margin-top:16px;}
+
+.diff-grid{display:flex;flex-direction:column;gap:10px;margin:18px 0;max-width:70ch;}
+.diff-item{display:flex;gap:16px;padding:12px 16px;background:var(--bg-card);border-radius:var(--radius);border-left:2px solid var(--accent);}
+.diff-item .diff-name{font-family:var(--mono);font-size:12.5px;color:var(--text);flex:0 0 148px;}
+.diff-item .diff-desc{font-size:14px;color:var(--text-soft);}
+
+blockquote{
+  margin:22px 0;padding:4px 0 4px 20px;border-left:2px solid var(--border-strong);
+  max-width:66ch;font-style:italic;color:var(--text-soft);font-size:15px;
+}
+
+/* references */
+.references{padding:60px 64px 50px;max-width:920px;}
+.references h2{font-size:26px;margin-bottom:8px;}
+.references .refs-note{font-family:var(--mono);font-size:12px;color:var(--text-mute);margin-bottom:28px;}
+.ref-entry{font-size:14px;color:var(--text-soft);margin-bottom:16px;padding-left:22px;text-indent:-22px;max-width:76ch;line-height:1.65;}
+
+footer.doc-end{padding:0 64px 100px;max-width:920px;}
+footer.doc-end p{font-family:var(--mono);font-size:11.5px;color:var(--text-mute);}
+
+/* ---------- toolbar ---------- */
+.toolbar{
+  position:fixed;bottom:22px;right:22px;z-index:100;
+  display:flex;gap:8px;background:var(--bg-raise);border:1px solid var(--border-strong);
+  border-radius:10px;padding:8px;box-shadow:0 8px 30px rgba(0,0,0,.45);
+}
+.toolbar button{
+  font-family:var(--mono);font-size:11.5px;color:var(--text-soft);background:var(--bg-card);
+  border:1px solid var(--border);border-radius:6px;padding:9px 13px;cursor:pointer;
+  transition:background .15s ease,color .15s ease,border-color .15s ease;
+}
+.toolbar button:hover{background:var(--bg-card-2);color:var(--text);border-color:var(--border-strong);}
+.toolbar button.on{background:#1d2b22;color:#7fd99a;border-color:#2c4a37;}
+.toolbar .save-flag{
+  font-family:var(--mono);font-size:10.5px;color:var(--text-mute);align-self:center;padding:0 4px;
+  min-width:64px;text-align:center;
+}
+[contenteditable="true"]{outline:1px dashed rgba(255,255,255,.25);outline-offset:3px;border-radius:3px;}
+[contenteditable="true"]:focus{outline:1px dashed var(--text-soft);}
+
+/* ---------- responsive ---------- */
+@media (max-width:980px){
+  .sidebar{transform:translateX(-100%);transition:transform .25s ease;box-shadow:0 0 40px rgba(0,0,0,.5);}
+  .sidebar.open{transform:translateX(0);}
+  main.content{margin-left:0;}
+  .mobile-bar{
+    display:flex;position:sticky;top:0;z-index:30;background:var(--bg-raise);
+    border-bottom:1px solid var(--border);padding:14px 20px;align-items:center;gap:12px;
+  }
+  .mobile-bar button{font-family:var(--mono);font-size:12px;color:var(--text-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:8px 12px;}
+  .mobile-bar span{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--text-soft);}
+  .hero,.intro-block,.disease,.references,footer.doc-end{padding-left:28px;padding-right:28px;}
+  .hero{padding-top:40px;}
+  .hero h1{font-size:32px;}
+  .diff-item{flex-direction:column;gap:4px;}
+  .diff-item .diff-name{flex:none;}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <strong>Exantemas &amp; febris na infância</strong>
+    Guia integrado — etiologia, fisiopatologia, diagnóstico diferencial e conduta
+  </div>
+  <nav>
+    <a href="#s01" data-dot="var(--c01)" style="--dot:var(--c01)"><span class="num">01</span><span class="dot"></span>Sarampo</a>
+    <a href="#s02" style="--dot:var(--c02)"><span class="num">02</span><span class="dot"></span>Rubéola</a>
+    <a href="#s03" style="--dot:var(--c03)"><span class="num">03</span><span class="dot"></span>Doença mão-pé-boca</a>
+    <a href="#s04" style="--dot:var(--c04)"><span class="num">04</span><span class="dot"></span>Escarlatina</a>
+    <a href="#s05" style="--dot:var(--c05)"><span class="num">05</span><span class="dot"></span>Varicela</a>
+    <a href="#s06" style="--dot:var(--c06)"><span class="num">06</span><span class="dot"></span>Exantema súbito</a>
+    <a href="#s07" style="--dot:var(--c07)"><span class="num">07</span><span class="dot"></span>Impetigo bolhoso</a>
+    <a href="#s08" style="--dot:var(--c08)"><span class="num">08</span><span class="dot"></span>Eritema infeccioso</a>
+    <a href="#s09" style="--dot:var(--c09)"><span class="num">09</span><span class="dot"></span>Mononucleose</a>
+    <a href="#s10" style="--dot:var(--c10)"><span class="num">10</span><span class="dot"></span>Doença de Kawasaki</a>
+    <div class="sidebar-refs-link">
+      <a href="#referencias"><span class="num">§</span><span class="dot" style="background:var(--text-mute)"></span>Referências</a>
+    </div>
+  </nav>
+  <div class="sidebar-note">Uniarp-SC · ciclo clínico</div>
+</aside>
+
+<div class="mobile-bar">
+  <button id="menuToggle">≡ Seções</button>
+  <span>Exantemas na infância</span>
+</div>
+
+<main class="content">
+
+<header class="hero">
+  <div class="kicker">Medicina · Pediatria / Infectologia · resumo aprofundado</div>
+  <h1>Doenças exantemáticas e febris <i>da infância</i></h1>
+  <p class="lede">Dez quadros que todo estudante precisa reconhecer de cabeça, de relance, num corredor de pronto-atendimento: o exantema certo, na sequência certa, com a febre certa, conta praticamente toda a história antes de qualquer exame chegar. Este guia percorre etiologia, fisiopatologia, quadro clínico, diagnóstico diferencial, tratamento, notificação compulsória e prevenção de cada uma — com aprofundamentos para quem quer ir além do essencial.</p>
+  <div class="hero-meta">
+    <div>Abrangência<strong>10 condições</strong></div>
+    <div>Eixo central<strong>Diagnóstico diferencial do exantema febril</strong></div>
+    <div>Nível<strong>Ciclo clínico</strong></div>
+  </div>
+</header>
+
+<section class="intro-block">
+  <h2>Por que estudar essas dez juntas?</h2>
+  <p>Nenhum pediatra examina uma criança febril com manchas na pele pensando em uma doença isolada. Ele pensa em um leque — e o trabalho clínico é ir fechando esse leque com perguntas certas: a febre veio antes ou depois do exantema? Ele poupa palmas e plantas ou não? Há enantema? Há linfonodomegalia, e em que cadeia? Há um pródromo catarral? A criança está toxemiada ou surpreendentemente bem apesar da febre alta? Cada resposta elimina hipóteses. É esse raciocínio — não a memorização de dez fichas isoladas — que este guia tenta construir, colocando lado a lado condições virais, bacterianas e uma vasculite não infecciosa que entra classicamente no mesmo diagnóstico diferencial.</p>
+  <div class="classic-box">
+    <div class="classic-title">contexto histórico — a numeração clássica das exantemáticas</div>
+    <div class="classic-list">
+      <div class="row"><span class="ord">1ª</span><span class="name">Sarampo</span><span class="obs">morbillivirus</span></div>
+      <div class="row"><span class="ord">2ª</span><span class="name">Escarlatina</span><span class="obs">toxina de S. pyogenes</span></div>
+      <div class="row"><span class="ord">3ª</span><span class="name">Rubéola</span><span class="obs">rubivirus</span></div>
+      <div class="row"><span class="ord">4ª</span><span class="name">"Doença de Filatov-Dukes"</span><span class="obs">entidade hoje contestada — provável escarlatina atípica</span></div>
+      <div class="row"><span class="ord">5ª</span><span class="name">Eritema infeccioso</span><span class="obs">parvovírus B19</span></div>
+      <div class="row"><span class="ord">6ª</span><span class="name">Exantema súbito</span><span class="obs">HHV-6 / HHV-7</span></div>
+    </div>
+  </div>
+  <p style="margin-top:18px">Essa lista numerada, de finais do século XIX, hoje é mais curiosidade histórica do que ferramenta prática — a "quarta doença" nunca teve identidade etiológica sólida e a maioria dos autores contemporâneos considera que ela nunca existiu como entidade distinta. Ainda assim, ela mostra algo importante: doença mão-pé-boca, impetigo bolhoso, mononucleose infecciosa e a doença de Kawasaki não fazem parte do cânone histórico, mas entram sem cerimônia no diagnóstico diferencial do dia a dia — e é exatamente por isso que estão aqui, lado a lado com as seis clássicas.</p>
+</section>
+
+<section class="disease" id="s01" style="--accent:var(--c01)">
+  <div class="section-head"><span class="tag">01</span><h2>Sarampo</h2><div class="section-line"></div></div>
+  <div class="subtitle-latin">Measles · rubéola dos ingleses (nome que confunde gerações de estudantes lusófonos) · paramyxovirus, gênero Morbillivirus</div>
+
+  <h3>Etiologia e transmissão</h3>
+  <p>O vírus do sarampo é um RNA vírus de fita simples envelopado, da família Paramyxoviridae, gênero Morbillivirus. Ele não tem reservatório animal nem forma latente — depende inteiramente de cadeias de transmissão humano-humano para sobreviver como espécie, o que é justamente a razão pela qual a erradicação global é biologicamente possível, ao contrário de agentes com reservatórios zoonóticos.</p>
+  <p>A transmissão se dá por gotículas respiratórias e, de forma relevante, por aerossóis que permanecem suspensos no ar de um ambiente fechado por até duas horas após a saída da pessoa infectada. Isso explica por que surtos em salas de espera e consultórios são tão comuns. O número básico de reprodução (R0) do sarampo está entre 12 e 18 — um dos maiores de toda a infectologia, superior até ao de muitas cepas de influenza pandêmica. Na prática, isso significa que, numa população totalmente suscetível, cada caso gera de doze a dezoito casos secundários, e a cobertura vacinal necessária para interromper a cadeia de transmissão (imunidade de rebanho) precisa ultrapassar 95%. O período de transmissibilidade começa cerca de quatro dias antes do exantema e se estende até quatro dias depois — ou seja, a pessoa já está contagiando antes mesmo de saber que está com sarampo.</p>
+
+  <h3>Fisiopatologia</h3>
+  <p>Pense no sarampo não como uma infecção de pele, mas como uma infecção sistêmica do tecido linfoide que, num certo momento, decide se manifestar na pele. O vírus entra pelo trato respiratório e infecta primeiro células dendríticas e macrófagos alveolares através do receptor CD150 (também chamado SLAM, molécula de sinalização de ativação linfocitária), expresso em células imunes ativadas. Esse tropismo já é revelador: o vírus mira exatamente as células que deveriam organizar a resposta contra ele.</p>
+  <p>A partir daí, ocorre uma viremia primária que leva o vírus ao sistema reticuloendotelial — linfonodos regionais, baço, fígado, medula óssea — onde ele se amplifica maciçamente. Por volta do quinto ao sétimo dia, uma viremia secundária, muito mais intensa, dissemina o vírus para pele, conjuntiva, trato respiratório e trato gastrointestinal, já usando um segundo receptor, a nectina-4, expresso na superfície basolateral de células epiteliais — é essa troca de receptor que permite ao vírus sair do compartimento imune e invadir epitélios, inclusive é o mecanismo pelo qual ele volta a ser eliminado nas secreções respiratórias em grande quantidade, fechando o ciclo de transmissão.</p>
+  <p>E aqui está o ponto que mais costuma escapar do aluno apressado: o exantema do sarampo não é dano celular direto causado pelo vírus. É a sua própria imunidade celular — linfócitos T citotóxicos CD8+ atacando células endoteliais e epiteliais infectadas — que produz as lesões. Por isso o exantema surge apenas quando a resposta imune adaptativa amadurece, tipicamente entre o décimo e o décimo quarto dia após a exposição, coincidindo com o pico febril. E por isso, paradoxalmente, crianças com imunodeficiência celular grave (por exemplo, leucemia linfoblástica aguda em quimioterapia) podem cursar com "sarampo sem exantema" — sem a resposta T citotóxica, não há rash, mas também não há contenção viral, e o resultado costuma ser uma pneumonia de células gigantes gravíssima, com mortalidade elevada. Isso deveria mudar a forma como você pensa o exantema: ele não é o problema, é a evidência de que o sistema imune está, com sucesso, lutando.</p>
+  <details class="deepen">
+    <summary><span class="chevron">▸</span><span class="stitle">Aprofunde-se — amnésia imunológica e panencefalite esclerosante subaguda</span></summary>
+    <div class="deepen-body">
+      <p>Um dos achados mais impressionantes da imunologia do sarampo, confirmado por estudos de sequenciamento de repertório de anticorpos publicados na última década, é a chamada amnésia imunológica. O vírus infecta preferencialmente linfócitos B e T de memória — precisamente porque essas células expressam mais CD150/SLAM do que as células virgens — e os depleta seletivamente. O resultado é que, mesmo após a criança se recuperar clinicamente do sarampo, seu repertório imunológico fica "reiniciado parcialmente": memórias imunes construídas por anos de exposições e vacinações prévias são apagadas. Estudos populacionais mostram aumento mensurável da mortalidade infantil por outras causas infecciosas nos dois a três anos seguintes a um episódio de sarampo, mesmo controlando por fatores de confusão. Isso reposiciona o sarampo: ele não é "só" uma doença exantemática autolimitada, é um evento imunologicamente devastador que reabre a janela de vulnerabilidade da criança a praticamente tudo.</p>
+      <p>A panencefalite esclerosante subaguda (PEES) é a complicação mais temida a longo prazo. Nela, uma forma defectiva do vírus — que perdeu a capacidade de expressar corretamente a proteína M (matriz), responsável por organizar o brotamento de vírions completos na membrana celular — consegue persistir dentro de neurônios e células gliais do sistema nervoso central por anos, disseminando-se de célula a célula através de junções sinápticas e pontes citoplasmáticas, sem nunca produzir partículas virais infecciosas completas capazes de sair da célula. Sem vírion extracelular, não há alvo eficiente para anticorpos neutralizantes: o vírus fica essencialmente invisível ao sistema imune humoral enquanto destrói progressivamente o parênquima cerebral. A latência típica é de sete a dez anos após a infecção aguda, e o risco é inversamente proporcional à idade da infecção primária — crianças infectadas antes dos dois anos têm risco várias vezes maior. A doença é invariavelmente fatal, evoluindo em estágios que vão de declínio cognitivo e mudanças de personalidade até mioclonias, decorticação e óbito. Não existe tratamento curativo. É o argumento mais contundente, do ponto de vista de neuropatologia, a favor da vacinação: não existe forma de saber, no momento do sarampo agudo, quais crianças carregarão esse vírus defectivo dormente.</p>
+    </div>
+  </details>
+
+  <h3>Quadro clínico</h3>
+  <p>A evolução clínica do sarampo segue uma coreografia bastante previsível, e é justamente essa previsibilidade que o torna reconhecível à beira do leito. O pródromo dura de três a quatro dias e é dominado pelos "três Cs": coriza, tosse (cough) e conjuntivite, associados a febre que sobe progressivamente e mal-estar importante — a criança realmente parece doente, o que já é um dado semiológico útil, porque em muitas outras exantemáticas virais o estado geral é preservado.</p>
+  <p>Um a dois dias antes do exantema surgem as manchas de Koplik, o achado patognomônico do sarampo: pequenos pontos branco-acinzentados, como grãos de sal fino, sobre uma base eritematosa, localizados na mucosa jugal, tipicamente na altura dos molares inferiores. Elas duram pouco — costumam desaparecer em 12 a 72 horas, muitas vezes já quando o exantema cutâneo está instalado — e por isso um exame de mucosa oral cuidadoso, feito cedo, é um dos gestos semiológicos mais valiosos e mais frequentemente negligenciados na prática.</p>
+  <p>O exantema em si é maculopapular, eritematoso, e segue uma progressão cefalocaudal característica: começa na linha de implantação do cabelo e atrás das orelhas, desce para a face, tronco e por fim membros, tornando-se confluente à medida que avança, especialmente no tronco. Um detalhe semiológico fundamental: o exantema do sarampo aparece e atinge seu pico junto com o pico febril — a febre não cede quando o rash surge, ela acompanha ou até se intensifica. Isso contrasta com o exantema súbito, por exemplo, em que o rash só aparece quando a febre finalmente cede. Após cerca de três a quatro dias no auge, o exantema regride na mesma ordem cefalocaudal em que surgiu, deixando uma descamação fina, furfurácea, e por vezes hiperpigmentação transitória residual.</p>
+  <details class="deepen">
+    <summary><span class="chevron">▸</span><span class="stitle">Aprofunde-se — formas atípicas e complicações por frequência</span></summary>
+    <div class="deepen-body">
+      <p>Nem todo sarampo se apresenta do jeito de livro-texto. O sarampo atenuado ocorre em indivíduos com imunidade parcial — lactentes ainda protegidos por anticorpos maternos residuais em declínio, ou pessoas vacinadas que perderam parte da resposta imune com o tempo — e cursa com pródromo mais curto, exantema mais discreto e atípico (às vezes centrípeto em vez de cefalocaudal clássico) e menor carga viral, o que pode dificultar tanto o diagnóstico clínico quanto a detecção laboratorial. No extremo oposto está o sarampo hemorrágico, historicamente chamado "black measles", forma grave e felizmente rara com petéquias, equimoses e sangramento de mucosas sobre o exantema, associada a coagulopatia e alta letalidade. Já mencionamos o sarampo em imunocomprometidos, que pode cursar sem exantema algum e com pneumonia de células gigantes de Hecht, uma pneumonite intersticial grave com células gigantes multinucleadas características à histopatologia.</p>
+      <p>Quanto às complicações, vale internalizar a hierarquia de frequência, porque ela orienta a vigilância clínica: otite média aguda é a complicação mais comum, ocorrendo em cerca de sete a nove por cento dos casos, seguida por diarreia. A pneumonia — seja viral primária de células gigantes, seja bacteriana secundária por invasão de patógenos como Streptococcus pneumoniae ou Staphylococcus aureus sobre um epitélio respiratório já lesado — é a principal causa de morte associada ao sarampo, especialmente em menores de cinco anos e em contextos de desnutrição. A encefalite pós-infecciosa aguda ocorre em aproximadamente um a cada mil casos, surge tipicamente alguns dias após o início do exantema, e tem mecanismo autoimune desmielinizante, não infeccioso direto — distinto, portanto, tanto em tempo quanto em mecanismo, da panencefalite esclerosante subaguda de instalação tardia discutida acima.</p>
+    </div>
+  </details>
+
+  <h3>Diagnóstico e diagnóstico diferencial</h3>
+  <p>O diagnóstico do sarampo típico é eminentemente clínico-epidemiológico: febre alta, os três Cs, manchas de Koplik e exantema cefalocaudal em contexto de exposição ou ausência de vacinação já fecham fortemente a hipótese. Ainda assim, a confirmação laboratorial é obrigatória em todo caso suspeito, por seu peso em vigilância epidemiológica — sorologia IgM por ELISA, idealmente coletada entre o quarto e o vigésimo oitavo dia após o início do exantema (antes disso pode haver falso-negativo por IgM ainda não ter se elevado o suficiente), e RT-PCR de secreção de orofaringe/nasofaringe ou urina, mais sensível nos primeiros dias de doença, quando a carga viral ainda é alta e a resposta de anticorpos ainda está se formando.</p>
+  <div class="diff-grid">
+    <div class="diff-item"><span class="diff-name">Rubéola</span><span class="diff-desc">Exantema mais tênue e fugaz, sem manchas de Koplik, linfadenopatia retroauricular e occipital proeminente, estado geral menos comprometido.</span></div>
+    <div class="diff-item"><span class="diff-name">Escarlatina</span><span class="diff-desc">Pele em textura de lixa, língua em framboesa, palidez perioral, sem conjuntivite catarral nem manchas de Koplik; contexto de faringoamigdalite estreptocócica.</span></div>
+    <div class="diff-item"><span class="diff-name">Exantema súbito</span><span class="diff-desc">Lactente com febre alta de três a cinco dias em bom estado geral, e o exantema só surge quando a febre cede — sequência inversa à do sarampo.</span></div>
+    <div class="diff-item"><span class="diff-name">Doença de Kawasaki</span><span class="diff-desc">Febre igual ou superior a cinco dias associada a critérios mucocutâneos, mas sem pródromo catarral proeminente e sem manchas de Koplik.</span></div>
+    <div class="diff-item"><span class="diff-name">Farmacodermia</span><span class="diff-desc">História de exposição recente a fármaco, início mais abrupto, frequentemente com prurido mais intenso e sem pródromo catarral.</span></div>
+  </div>
+
+  <h3>Tratamento e complicações</h3>
+  <p>Não existe antiviral específico de uso rotineiro para o sarampo — o tratamento é fundamentalmente de suporte: antitérmicos, hidratação adequada e vigilância ativa para complicações. Um ponto de prova recorrente e clinicamente relevante é a suplementação de vitamina A em altas doses, recomendada pela Organização Mundial da Saúde para todas as crianças diagnosticadas com sarampo, independentemente do estado nutricional aparente, em duas doses administradas em dias consecutivos. A justificativa fisiológica é sólida: o sarampo consome reservas de vitamina A de forma acentuada, e a deficiência resultante compromete a integridade do epitélio respiratório e conjuntival, além da resposta imune — a suplementação demonstrou reduzir tanto a morbimortalidade geral quanto o risco específico de complicações oculares graves, incluindo cegueira por ceratomalácia, historicamente uma das sequelas mais devastadoras do sarampo em populações com deficiência nutricional de base. Complicações bacterianas secundárias, como otite média ou pneumonia bacteriana, devem ser tratadas com antibioticoterapia dirigida quando identificadas.</p>
+
+  <h3>Notificação compulsória</h3>
+  <span class="notif-badge">Notificação imediata — até 24h — MS / SES / SMS</span>
+  <p>O sarampo está entre as doenças exantemáticas de notificação compulsória imediata na Lista Nacional de Notificação Compulsória do Ministério da Saúde, atualmente disciplinada pela Portaria GM/MS nº 11.211, de 13 de maio de 2026 — que consolida alterações no Anexo 1 do Anexo V à Portaria de Consolidação GM/MS nº 4/2017. O ponto que costuma pegar o estudante de surpresa: a notificação parte da suspeita clínica, não da confirmação laboratorial. Todo profissional de saúde que atende um caso compatível com a definição de suspeição deve notificar às Secretarias Municipal e Estadual de Saúde e ao Ministério da Saúde em até vinte e quatro horas, para que a investigação epidemiológica, o rastreamento de contatos e o eventual bloqueio vacinal comecem o quanto antes.</p>
+  <div class="alert">
+    <div class="alert-label">contexto epidemiológico atual</div>
+    <p>O Brasil recuperou, em novembro de 2024, a certificação da Organização Pan-Americana da Saúde como país livre da circulação endêmica do vírus do sarampo — um marco de décadas de esforço do Programa Nacional de Imunizações. Isso não significa erradicação: casos importados e cadeias de transmissão secundária continuam ocorrendo, inclusive casos confirmados registrados em território nacional ao longo de 2026, o que reforça por que toda febre associada a exantema, tosse, coriza ou conjuntivite — sobretudo após viagem internacional ou contato epidemiológico relevante — deve levantar a hipótese diagnóstica e disparar notificação imediata, mesmo antes de qualquer resultado laboratorial.</p>
+  </div>
+
+  <h3>Prevenção</h3>
+  <p>A prevenção primária é vacinal. A vacina tríplice viral (sarampo, caxumba e rubéola) está no calendário nacional de vacinação, com primeira dose aos doze meses de idade e segunda dose, sob a forma da vacina tetraviral (que agrega o componente varicela), aos quinze meses. Diante de um caso suspeito ou confirmado, a vacinação de bloqueio de contactantes suscetíveis deve ser realizada idealmente em até setenta e duas horas após a exposição, período em que ainda é capaz de conferir proteção eficaz. Para contatos de alto risco que não podem receber a vacina de vírus vivo atenuado — lactentes menores de seis meses, gestantes suscetíveis e imunocomprometidos — a imunoglobulina humana está indicada até o sexto dia após a exposição.</p>
+</section>
+
+<section class="disease" id="s02" style="--accent:var(--c02)">
+  <div class="section-head"><span class="tag">02</span><h2>Rubéola</h2><div class="section-line"></div></div>
+  <div class="subtitle-latin">German measles · sarampo alemão · togavírus, gênero Rubivirus</div>
+
+  <h3>Etiologia e transmissão</h3>
+  <p>O vírus da rubéola é um RNA vírus envelopado da família Togaviridae, gênero Rubivirus. Diferente do sarampo, é um vírus consideravelmente menos contagioso — número básico de reprodução entre cinco e sete — e sua transmissão também ocorre por gotículas respiratórias, com período de transmissibilidade que começa cerca de sete dias antes do exantema e se estende por sete a quatorze dias após seu início, sendo o próprio doente contagioso mesmo em quadros oligossintomáticos, o que dificulta o controle de cadeias de transmissão em cenários de baixa cobertura vacinal.</p>
+
+  <h3>Fisiopatologia</h3>
+  <p>A fisiopatologia da rubéola pós-natal segue uma lógica parecida com a do sarampo — replicação inicial em mucosa respiratória e linfonodos regionais, seguida de viremia que dissemina o vírus para pele e outros tecidos, com o exantema também resultando, ao menos em parte, de mecanismo imunomediado — mas a intensidade de todo o processo é muito menor, o que explica a doença mais branda. O verdadeiro protagonismo fisiopatológico da rubéola, porém, não está na infecção pós-natal, e sim no que acontece quando o vírus atravessa a placenta.</p>
+  <p>Quando uma gestante suscetível adquire infecção primária, especialmente no primeiro trimestre, o vírus consegue infectar o feto e, ao contrário do que ocorre na infecção pós-natal, provoca dano citopático direto em células fetais em ativa divisão — o vírus interfere no ciclo mitótico e induz apoptose em precursores vasculares, gerando uma angiopatia que compromete a perfusão de órgãos ainda em formação. É esse mecanismo de lesão vascular durante a organogênese, e não uma malformação estrutural única, que explica por que a síndrome da rubéola congênita afeta múltiplos sistemas simultaneamente — o dano é temporal (qual órgão estava se formando naquele momento) mais do que anatomicamente localizado. A tríade clássica de Gregg — catarata congênita, cardiopatia (classicamente persistência do canal arterial) e surdez neurossensorial — nada mais é do que o retrato dos três órgãos cuja organogênese é mais vulnerável na janela temporal em que a infecção costuma ocorrer.</p>
+  <details class="deepen">
+    <summary><span class="chevron">▸</span><span class="stitle">Aprofunde-se — janela de risco gestacional e persistência viral fetal</span></summary>
+    <div class="deepen-body">
+      <p>O risco de malformação após infecção materna primária é inversamente proporcional à idade gestacional, e a curva é impressionante: infecção antes da décima primeira semana carrega risco de defeitos congênitos próximo a noventa por cento; entre a décima primeira e a décima sexta semana o risco cai para a faixa de vinte por cento, predominando surdez isolada; após a vigésima semana, o risco de malformações estruturais é praticamente nulo, embora a surdez neurossensorial ainda possa ocorrer isoladamente em exposições um pouco mais tardias, porque a cóclea continua sua maturação funcional por mais tempo do que outros órgãos.</p>
+      <p>Outro detalhe que costuma surpreender: crianças com síndrome da rubéola congênita não eliminam o vírus por poucos dias, como na infecção pós-natal — elas podem excretar vírus ativo pela urina, secreções nasofaríngeas e, por vezes, pelo cristalino removido cirurgicamente, por mais de um ano após o nascimento. Isso as torna fontes de transmissão para profissionais de saúde suscetíveis e, mais preocupante, para gestantes suscetíveis que circulem pela mesma unidade neonatal — um lembrete de que a síndrome da rubéola congênita não é apenas uma sequela estática, é também um problema ativo de biossegurança hospitalar.</p>
+    </div>
+  </details>
+
+  <h3>Quadro clínico</h3>
+  <p>A rubéola pós-natal costuma ser uma doença discreta — em crianças, até cerca de metade dos casos pode ser subclínica ou tão leve que passa despercebida, o que por si só já é um problema de saúde pública, porque permite circulação silenciosa do vírus até encontrar uma gestante suscetível. Quando sintomática, o pródromo é breve e brando: febre baixa, mal-estar leve, por vezes conjuntivite discreta sem a fotofobia proeminente do sarampo.</p>
+  <p>O achado clínico mais sensível — e muitas vezes o primeiro a aparecer, precedendo o exantema em um a cinco dias — é a linfadenopatia, classicamente localizada nas cadeias retroauricular, occipital e cervical posterior. Palpar essas cadeias antes mesmo de examinar a pele é um hábito semiológico que vale a pena cultivar. O exantema em si é maculopapular, róseo, mais tênue e delicado que o do sarampo, também com progressão cefalocaudal, mas notavelmente mais rápido em toda a sua evolução: costuma desaparecer em dois a três dias, o que lhe rendeu a alcunha informal de "exantema que voa". As manchas de Forchheimer — pequenas petéquias no palato mole — podem estar presentes, mas não são patognomônicas nem exclusivas da rubéola. Em adolescentes e mulheres adultas, artralgia ou artrite de pequenas articulações das mãos é uma manifestação relativamente comum e autolimitada, provavelmente também de mecanismo imunomediado, e é bem mais rara em crianças pré-púberes.</p>
+  <details class="deepen">
+    <summary><span class="chevron">▸</span><span class="stitle">Aprofunde-se — o espectro completo da síndrome da rubéola congênita</span></summary>
+    <div class="deepen-body">
+      <p>Vale a pena organizar as manifestações da síndrome da rubéola congênita em três categorias temporais, porque isso ajuda a lembrar delas na prática. As manifestações transitórias, presentes já ao nascimento e que tendem a resolver em semanas, incluem púrpura trombocitopênica com o característico padrão em "blueberry muffin" — placas purpúricas azul-arroxeadas que representam focos de hematopoese dérmica extramedular, hepatoesplenomegalia, hepatite, meningoencefalite e baixo peso ao nascer. As manifestações permanentes, que definem a síndrome classicamente, incluem a já mencionada tríade de Gregg — catarata (por vezes associada a glaucoma congênito), cardiopatia estrutural, surdez neurossensorial — além de microcefalia e retinopatia em "sal e pimenta". Por fim, existem manifestações tardias, que só se manifestam anos depois: diabetes mellitus tipo 1, disfunção tireoidiana autoimune e, muito raramente, uma panencefalite progressiva de mecanismo semelhante à panencefalite esclerosante subaguda do sarampo, surgindo na segunda ou terceira década de vida. Essa estratificação temporal deixa claro que o acompanhamento de uma criança com rubéola congênita não termina na alta da maternidade — ele se estende por toda a infância e adolescência.</p>
+    </div>
+  </details>
+
+  <h3>Diagnóstico e diagnóstico diferencial</h3>
+  <p>O diagnóstico laboratorial se apoia em sorologia IgM específica e, quando necessário esclarecer reações cruzadas ou resultados duvidosos — o que não é raro na rubéola, cuja sorologia tem taxa de falso-positivo relevante — no teste de avidez de IgG ou na repetição pareada de sorologia IgG com intervalo de duas a três semanas. RT-PCR também está disponível para confirmação, especialmente relevante em investigação de infecção congênita.</p>
+  <div class="diff-grid">
+    <div class="diff-item"><span class="diff-name">Sarampo</span><span class="diff-desc">Estado geral mais comprometido, manchas de Koplik, os três Cs proeminentes, exantema mais florido e persistente.</span></div>
+    <div class="diff-item"><span class="diff-name">Escarlatina</span><span class="diff-desc">Textura em lixa, contexto de faringite estreptocócica, sem a linfadenopatia occipital característica.</span></div>
+    <div class="diff-item"><span class="diff-name">Eritema infeccioso</span><span class="diff-desc">Face de "bochecha esbofeteada" seguida de rash rendilhado em membros, sem a linfadenopatia retroauricular proeminente.</span></div>
+    <div class="diff-item"><span class="diff-name">Exantema pós-amoxicilina em mononucleose</span><span class="diff-desc">História de uso recente de aminopenicilina em quadro de faringite, esplenomegalia, linfadenopatia generalizada mais que localizada.</span></div>
+  </div>
+
+  <h3>Tratamento</h3>
+  <p>Assim como no sarampo, não existe antiviral específico — o manejo é de suporte, com antitérmicos e observação. O verdadeiro trabalho clínico diante de um caso de rubéola é epidemiológico: identificar gestantes potencialmente expostas, obter sorologia pareada para determinar se há infecção aguda e, com base na idade gestacional e no resultado, oferecer aconselhamento adequado sobre risco fetal — uma conversa que exige sensibilidade e informação precisa, nunca alarmismo precipitado antes da confirmação laboratorial.</p>
+
+  <h3>Notificação compulsória</h3>
+  <span class="notif-badge">Notificação imediata — até 24h — MS / SES / SMS</span>
+  <p>A rubéola integra, junto com o sarampo, o grupo de doenças exantemáticas de notificação compulsória imediata na lista nacional vigente. Mais do que isso: a suspeita de síndrome da rubéola congênita em um recém-nascido também exige notificação imediata e investigação ativa, dado seu impacto em saúde pública e a necessidade de intervenção precoce em vigilância, ainda que a infecção materna primária não tenha sido diagnosticada durante o pré-natal.</p>
+
+  <h3>Prevenção</h3>
+  <p>A prevenção é vacinal, com a mesma vacina tríplice viral usada para o sarampo, nas mesmas idades do calendário nacional. Um ponto de prova clássico e clinicamente relevante: por se tratar de vírus vivo atenuado, a vacina é contraindicada durante a gestação, e orienta-se evitar a concepção por pelo menos trinta dias após a vacinação. O rastreamento sorológico pré-concepcional, quando disponível, permite identificar mulheres suscetíveis a tempo de vaciná-las antes de uma gestação, que é sempre a estratégia preventiva mais eficaz contra a síndrome da rubéola congênita.</p>
+</section>
+
+<section class="disease" id="s03" style="--accent:var(--c03)">
+  <div class="section-head"><span class="tag">03</span><h2>Doença mão-pé-boca</h2><div class="section-line"></div></div>
+  <div class="subtitle-latin">Hand-foot-mouth disease · enterovirose exantemática · Picornaviridae, gênero Enterovirus</div>
+
+  <h3>Etiologia e transmissão</h3>
+  <p>A doença mão-pé-boca é causada principalmente pelo Coxsackievirus A16, responsável pela forma clássica e benigna que a maioria dos pediatras encontra no dia a dia, e pelo Enterovirus A71 (EV-A71), agente de maior interesse clínico porque está associado a formas graves com complicações neurológicas, especialmente relevante em surtos de grande escala já registrados no sudeste asiático. Vale registrar também o Coxsackievirus A6, cada vez mais reconhecido como causador de uma apresentação atípica, mais extensa, que discutiremos adiante. Todos pertencem à família Picornaviridae, vírus RNA pequenos, sem envelope, o que lhes confere notável resistência ambiental.</p>
+  <p>A transmissão ocorre por três vias simultâneas — fecal-oral, oral-oral através de saliva e gotículas respiratórias, e contato direto com o líquido das vesículas cutâneas — o que explica a disseminação tão eficiente em creches e escolas infantis. O período de incubação é de três a seis dias, e um detalhe importante para orientar famílias: a eliminação viral nas fezes pode persistir por semanas após a resolução completa dos sintomas, muito além do período de transmissibilidade respiratória, o que torna a higienização de mãos após trocas de fralda uma medida de controle mais duradoura do que o simples afastamento escolar na fase aguda.</p>
+
+  <h3>Fisiopatologia</h3>
+  <p>Diferente do sarampo e da rubéola, cujo exantema é majoritariamente produto da resposta imune do hospedeiro, a doença mão-pé-boca causa lesão predominantemente por efeito citopático direto do vírus. Após ingestão ou inalação, o vírus replica inicialmente na orofaringe e no tecido linfoide associado ao intestino — particularmente nas placas de Peyer — de onde uma viremia dissemina o agente para pele e mucosas. Ali, o vírus infecta e replica diretamente dentro dos queratinócitos, causando degeneração balonizante e necrose celular que resulta em vesículas intraepidérmicas — literalmente, o teto da vesícula é formado por células epidérmicas mortas pelo próprio vírus, não por um processo inflamatório imunomediado como no sarampo.</p>
+  <p>O que torna o EV-A71 clinicamente temido é seu neurotropismo. Esse vírus consegue invadir o sistema nervoso central tanto por via hematogênica quanto por disseminação retrógrada ao longo de nervos periféricos e cranianos, com preferência marcante por núcleos do tronco encefálico. O espectro vai de uma meningite asséptica benigna até uma rombencefalite grave, na qual o acometimento de centros autonômicos do tronco desencadeia liberação maciça de catecolaminas — um verdadeiro tempestade simpática — capaz de causar edema pulmonar hemorrágico não cardiogênico e colapso cardiocirculatório em poucas horas. É esse mecanismo, e não uma pneumonia primária, que explica os óbitos súbitos associados a grandes surtos de EV-A71.</p>
+  <details class="deepen">
+    <summary><span class="chevron">▸</span><span class="stitle">Aprofunde-se — sinais de alarme neurológico e o espectro herpangina/mão-pé-boca</span></summary>
+    <div class="deepen-body">
+      <p>Vale a pena memorizar os sinais de alarme que sinalizam progressão para rombencefalite por EV-A71, porque são discretos e facilmente confundidos com irritabilidade banal de uma criança febril: mioclonias ao adormecer (abalos súbitos e breves logo antes ou durante o início do sono, muitas vezes o primeiro sinal a aparecer), ataxia, tremor de extremidades, letargia desproporcional, vômitos persistentes sem outra causa aparente e taquicardia ou taquipneia que não se explica apenas pela febre presente. Qualquer combinação desses achados, em uma criança com quadro compatível de mão-pé-boca, deve motivar avaliação hospitalar imediata — a janela entre os primeiros sinais neurológicos e o colapso cardiopulmonar pode ser de poucas horas nos casos mais graves.</p>
+      <p>Também vale entender que herpangina e doença mão-pé-boca não são duas doenças distintas, mas dois pontos do mesmo espectro clínico, causadas pelos mesmos agentes etiológicos. Na herpangina, as lesões vesicoulceradas ficam restritas à região posterior da orofaringe — palato mole, pilares amigdalianos, úvula — sem o componente cutâneo de mãos e pés. Já a doença mão-pé-boca acrescenta a esse quadro o exantema vesicular de extremidades. Por que alguns pacientes desenvolvem um espectro e outros o outro provavelmente reflete diferenças de cepa viral e de resposta imune individual, mas ainda não é totalmente compreendido.</p>
+    </div>
+  </details>
+
+  <h3>Quadro clínico</h3>
+  <p>O quadro se inicia com febre baixa a moderada e mal-estar inespecífico, seguido em um a dois dias pelo enantema oral — vesículas que rapidamente se rompem, deixando úlceras rasas e dolorosas, tipicamente no palato, na língua e na mucosa jugal. A dor dessas lesões é, na prática, o principal determinante da gravidade percebida pelos pais: uma criança que recusa líquidos por dor à deglutição é o cenário mais comum de busca por atendimento e, eventualmente, de internação para hidratação.</p>
+  <p>O exantema cutâneo acompanha ou segue de perto o enantema, distribuindo-se de forma característica no dorso e por vezes nas palmas das mãos, no dorso e plantas dos pés, e com frequência também nas nádegas e região de fraldas em lactentes. São vesículas ovaladas, de base eritematosa, geralmente pouco pruriginosas — o que ajuda a diferenciar de outras dermatoses vesiculares mais pruriginosas como a varicela.</p>
+  <p>A variante causada por Coxsackievirus A6 merece menção à parte porque tem se tornado cada vez mais reconhecida na prática: costuma produzir lesões mais extensas e de maior tamanho, verdadeiramente bolhosas em vez de vesiculares finas, com distribuição que ultrapassa mãos, pés e boca, acometendo também face, tronco e superfícies extensoras dos membros — um padrão que pode confundir com varicela ou eczema herpético à primeira vista. Uma peculiaridade tardia e bastante característica dessa variante é a oniquomadese, o descolamento e queda das unhas, que ocorre semanas após a resolução do quadro agudo — é importante alertar as famílias sobre essa possibilidade para que não sejam pegas de surpresa, achando se tratar de um problema novo e não relacionado.</p>
+
+  <h3>Diagnóstico e diagnóstico diferencial</h3>
+  <p>O diagnóstico é clínico na esmagadora maioria dos casos — a distribuição característica em mãos, pés e boca, associada ao contexto epidemiológico de creche ou escola, costuma ser suficientemente característica. Exames de PCR ou cultura viral ficam reservados para casos graves, atípicos, ou no contexto de vigilância ativa de surtos, especialmente quando há suspeita de circulação de EV-A71.</p>
+  <div class="diff-grid">
+    <div class="diff-item"><span class="diff-name">Herpangina</span><span class="diff-desc">Mesmos agentes etiológicos, mas lesões restritas à orofaringe posterior, sem exantema de extremidades.</span></div>
+    <div class="diff-item"><span class="diff-name">Varicela</span><span class="diff-desc">Distribuição centrípeta e difusa, lesões em múltiplos estágios simultâneos, prurido mais intenso, sem predileção por mãos e pés.</span></div>
+    <div class="diff-item"><span class="diff-name">Gengivoestomatite herpética primária</span><span class="diff-desc">Gengivite exuberante e dolorosa, lesões orais mais extensas, tipicamente sem exantema de mãos e pés.</span></div>
+    <div class="diff-item"><span class="diff-name">Eritema multiforme</span><span class="diff-desc">Lesões em alvo com centro mais escuro, distribuição mais simétrica em extremidades, frequentemente gatilho por herpes-vírus ou fármaco identificável.</span></div>
+  </div>
+
+  <h3>Tratamento</h3>
+  <p>O tratamento é exclusivamente de suporte: analgesia e antitérmico para controlar febre e dor — inclusive para viabilizar a hidratação oral, que é o principal objetivo terapêutico prático — e hidratação adequada, sendo a recusa alimentar por dor a razão mais comum de necessidade de internação em casos por si só benignos. Não existe antiviral específico aprovado para uso rotineiro; em casos graves de rombencefalite por EV-A71, condutas como imunoglobulina intravenosa têm sido estudadas em contextos de surto, mas não constituem tratamento padronizado e consensual.</p>
+
+  <h3>Notificação compulsória</h3>
+  <span class="notif-badge">Não consta na lista nacional de rotina</span>
+  <p>A doença mão-pé-boca não integra a Lista Nacional de Notificação Compulsória brasileira como agravo individual de rotina. Ainda assim, surtos em ambientes coletivos — creches, escolas — costumam exigir comunicação à vigilância epidemiológica municipal para fins de controle local, e qualquer apresentação atípica ou grave, sobretudo com sinais neurológicos sugestivos de acometimento por EV-A71, merece investigação ativa e comunicação à vigilância, já que pode sinalizar a circulação de uma cepa com maior potencial de gravidade na comunidade.</p>
+
+  <h3>Prevenção</h3>
+  <p>Não há vacina disponível no Brasil — vale mencionar que uma vacina inativada contra EV-A71 foi desenvolvida e está licenciada na China, onde surtos graves motivaram sua criação, mas ela não integra o calendário vacinal brasileiro. A prevenção, portanto, apoia-se inteiramente em medidas de higiene: lavagem frequente das mãos, especialmente após trocas de fralda e antes das refeições, desinfecção de superfícies e brinquedos compartilhados, e afastamento de crianças sintomáticas do convívio escolar durante a fase aguda de vesículas ativas.</p>
+</section>
+
+<section class="disease" id="s04" style="--accent:var(--c04)">
+  <div class="section-head"><span class="tag">04</span><h2>Escarlatina</h2><div class="section-line"></div></div>
+  <div class="subtitle-latin">Scarlet fever · Streptococcus pyogenes toxigênico, estreptococo beta-hemolítico do grupo A</div>
+
+  <h3>Etiologia e transmissão</h3>
+  <p>A escarlatina não é causada por um agente diferente da faringoamigdalite estreptocócica comum — é causada pela mesma bactéria, o Streptococcus pyogenes, estreptococo beta-hemolítico do grupo A, mas apenas quando a cepa infectante carrega um bacteriófago lisogênico codificando exotoxinas pirogênicas estreptocócicas, historicamente chamadas toxinas eritrogênicas ou toxinas de Dick. Nem toda cepa de S. pyogenes é toxigênica, e é justamente essa diferença que separa uma faringite estreptocócica comum de uma escarlatina.</p>
+  <p>A transmissão ocorre por gotículas respiratórias e contato direto com secreções ou fômites contaminados, no contexto mais comum de uma faringoamigdalite, embora a mesma toxina também possa ser produzida em infecções estreptocócicas de pele, gerando escarlatina associada a piodermite em vez de faringite.</p>
+
+  <h3>Fisiopatologia</h3>
+  <p>Aqui está o mecanismo mais elegante — e mais frequentemente cobrado em prova — de toda essa seção: as exotoxinas pirogênicas estreptocócicas atuam como superantígenos. Um antígeno convencional precisa ser processado e apresentado dentro do sulco de ligação da molécula de MHC classe II para ser reconhecido por um receptor de célula T específico, ativando uma fração ínfima do repertório de linfócitos T, tipicamente menos de 0,01%. Um superantígeno ignora completamente essa etapa: ele se liga simultaneamente, por fora do sítio convencional, à porção externa da molécula de MHC classe II de uma célula apresentadora e à região Vβ do receptor de célula T, de forma inespecífica em relação ao antígeno propriamente dito. O resultado é uma ativação maciça e descontrolada — até vinte a trinta por cento de todo o repertório de linfócitos T pode ser ativado simultaneamente — liberando uma tempestade de citocinas pró-inflamatórias, sobretudo interleucina-2, interferon-gama e fator de necrose tumoral alfa.</p>
+  <p>É essa tempestade de citocinas sistêmica, e não um efeito tóxico local da bactéria na pele, que produz o exantema difuso e a febre alta da escarlatina. Na derme papilar, a vasodilatação capilar intensa associada ao infiltrado inflamatório perivascular explica tanto o eritema quanto a textura fina, granular, "em lixa" que se sente ao passar a mão sobre a pele afetada — um achado semiológico tátil que, uma vez sentido, não se esquece mais.</p>
+  <details class="deepen">
+    <summary><span class="chevron">▸</span><span class="stitle">Aprofunde-se — por que nem toda faringite estreptocócica vira escarlatina, e a ponte com o choque tóxico</span></summary>
+    <div class="deepen-body">
+      <p>Dois fatores determinam se uma infecção por S. pyogenes vai se manifestar como escarlatina. Primeiro, como já mencionado, a cepa precisa ser lisogenizada pelo bacteriófago que carrega o gene da toxina — existem múltiplos sorotipos distintos dessas exotoxinas pirogênicas, classicamente A, B e C, e cepas diferentes podem carregar sorotipos diferentes. Segundo, o hospedeiro precisa ser imunologicamente suscetível àquele sorotipo específico — sem anticorpos neutralizantes prévios contra aquela toxina em particular. Isso explica um fato que surpreende muitos alunos: é perfeitamente possível ter escarlatina mais de uma vez na vida, desde que causada por sorotipos toxigênicos diferentes, contrariando a crença antiga de que a doença conferia imunidade permanente e universal.</p>
+      <p>O mesmo mecanismo de superantígeno está por trás da síndrome do choque tóxico estreptocócico — a diferença não é de mecanismo molecular, mas de magnitude e contexto clínico. No choque tóxico, a produção toxínica ocorre tipicamente em associação com infecção invasiva de tecidos moles, como fasceíte necrosante, e a resposta inflamatória sistêmica é intensa o suficiente para causar hipotensão refratária e falência de múltiplos órgãos, em vez do quadro mais contido e autolimitado de febre e exantema que caracteriza a escarlatina clássica. Pensar nas duas entidades como pontos diferentes do mesmo espectro fisiopatológico — e não como doenças mecanisticamente distintas — ajuda a entender por que sinais de gravidade desproporcional numa escarlatina aparentemente típica merecem atenção redobrada.</p>
+    </div>
+  </details>
+
+  <h3>Quadro clínico</h3>
+  <p>O início costuma ser abrupto: febre alta, calafrios, dor de garganta importante, cefaleia e, em crianças, com frequência notável, dor abdominal e vômitos que podem inicialmente desviar a atenção do quadro respiratório. Ao exame da orofaringe, encontra-se hiperemia intensa, amígdalas aumentadas de volume com exsudato purulento, e por vezes petéquias no palato mole. A língua segue uma evolução característica e didaticamente valiosa: nos primeiros dias, apresenta-se recoberta por uma saburra esbranquiçada espessa, através da qual as papilas fungiformes hiperemiadas se projetam — a "língua em morango branca" — e, à medida que essa saburra descama nos dias seguintes, revela-se uma superfície vermelha viva, brilhante, com papilas ainda mais proeminentes, a "língua em morango vermelha" ou "língua em framboesa".</p>
+  <p>O exantema surge tipicamente entre doze e quarenta e oito horas após o início dos sintomas: papular fino, difuso, eritematoso, com a textura em lixa já descrita, mais intenso e confluente em áreas de dobras de flexão — axilas, fossas antecubitais, região inguinal — onde a fricção e o acúmulo de exsudato inflamatório formam linhas hiperpigmentadas que não desaparecem à digitopressão, conhecidas como linhas de Pastia, por vezes acompanhadas de um componente petequial local. Na face, observa-se eritema difuso das bochechas que poupa classicamente a região ao redor da boca, produzindo a palidez perioral tão característica que compõe, junto com a língua em framboesa, a fácies escarlatiniforme reconhecível à primeira vista. Cerca de uma semana após o início, inicia-se descamação — primeiro na face, depois no tronco, e por último, de forma mais intensa e laminar, em dedos das mãos e dos pés, podendo se estender por semanas.</p>
+  <details class="deepen">
+    <summary><span class="chevron">▸</span><span class="stitle">Aprofunde-se — complicações supurativas e não supurativas</span></summary>
+    <div class="deepen-body">
+      <p>As complicações supurativas resultam da extensão direta da infecção bacteriana para estruturas adjacentes: abscesso peritonsilar ou retrofaríngeo, otite média aguda, sinusite, adenite cervical supurada. São complicações mecânicas de disseminação local, previsíveis e, felizmente, cada vez mais raras com o tratamento antibiótico precoce.</p>
+      <p>As complicações não supurativas são mais interessantes fisiopatologicamente porque não decorrem da toxina eritrogênica nem da disseminação bacteriana direta, mas de mecanismos imunomediados distintos, surgindo semanas depois da infecção aguda. A febre reumática resulta de mimetismo molecular: epítopos da proteína M da parede celular estreptocócica se assemelham estruturalmente a proteínas do miocárdio, das válvulas cardíacas, das articulações e de núcleos da base no sistema nervoso central, de modo que anticorpos produzidos contra a bactéria acabam reagindo cruzadamente contra tecido próprio — daí o acometimento cardíaco, articular, cutâneo e neurológico (coreia de Sydenham) que caracteriza a doença, surgindo tipicamente duas a quatro semanas após uma faringite não tratada ou tratada tardiamente. Já a glomerulonefrite difusa aguda pós-estreptocócica decorre de depósito de imunocomplexos circulantes nos capilares glomerulares, podendo seguir-se tanto a uma faringite quanto a uma piodermite estreptocócica — com período de latência diferente conforme o sítio primário, cerca de dez dias após faringite e cerca de três semanas após infecção de pele, refletindo provavelmente diferenças na cinética de formação dos imunocomplexos conforme a via de exposição antigênica.</p>
+    </div>
+  </details>
+
+  <h3>Diagnóstico e diagnóstico diferencial</h3>
+  <p>O diagnóstico combina a impressão clínica característica com confirmação microbiológica: teste rápido de detecção de antígeno estreptocócico na secreção de orofaringe, de resultado quase imediato e boa especificidade, e cultura de orofaringe, ainda considerada padrão-ouro por sua sensibilidade superior, embora o resultado demore de vinte e quatro a quarenta e oito horas. A dosagem de antiestreptolisina O não tem papel no diagnóstico agudo — ela reflete exposição estreptocócica prévia e só se eleva semanas após a infecção, sendo útil retrospectivamente na investigação de complicações não supurativas, não na escarlatina em curso.</p>
+  <div class="diff-grid">
+    <div class="diff-item"><span class="diff-name">Sarampo</span><span class="diff-desc">Manchas de Koplik, pródromo catarral com tosse, coriza e conjuntivite proeminentes, ausência de faringite exsudativa típica.</span></div>
+    <div class="diff-item"><span class="diff-name">Doença de Kawasaki</span><span class="diff-desc">Febre igual ou superior a cinco dias, língua em framboesa também pode ocorrer, mas some-se conjuntivite não exsudativa, alterações de extremidades e ausência de resposta ao teste rápido estreptocócico.</span></div>
+    <div class="diff-item"><span class="diff-name">Síndrome da pele escaldada estafilocócica</span><span class="diff-desc">Sinal de Nikolsky positivo, bolhas flácidas e descolamento epidérmico amplo, sem faringite associada, mecanismo por toxina esfoliativa e não superantígeno.</span></div>
+  </div>
+
+  <h3>Tratamento</h3>
+  <p>Penicilina V oral ou amoxicilina constituem primeira linha, pela ausência documentada de resistência do S. pyogenes à penicilina em toda a literatura mundial até hoje — uma raridade digna de nota entre as bactérias patogênicas comuns. A penicilina benzatina intramuscular em dose única é uma alternativa valiosa quando há preocupação com adesão ao esquema oral de dez dias. Para pacientes alérgicos a penicilina, macrolídeos são a alternativa clássica, embora resistência local deva sempre ser considerada. O tratamento precoce cumpre três objetivos simultâneos: encurta a duração dos sintomas, reduz a transmissibilidade — o paciente deixa de ser considerado contagioso cerca de vinte e quatro horas após o início de antibioticoterapia adequada, permitindo retorno à escola — e, o mais importante do ponto de vista de saúde pública, previne a febre reumática, desde que iniciado em até nove dias do início dos sintomas.</p>
+
+  <h3>Notificação compulsória</h3>
+  <span class="notif-badge">Não consta na lista nacional de rotina</span>
+  <p>A escarlatina não integra a Lista Nacional de Notificação Compulsória brasileira como agravo de notificação individual de rotina. A atenção redobrada deve ser reservada para formas invasivas graves de doença pelo estreptococo do grupo A — síndrome do choque tóxico estreptocócico e fasceíte necrosante — que, embora também não constem isoladamente na lista nacional, justificam investigação e comunicação à vigilância epidemiológica local pela gravidade potencial e pelo risco de casos agrupados em coletividades.</p>
+
+  <h3>Prevenção</h3>
+  <p>Não existe vacina disponível contra o Streptococcus pyogenes — apesar de décadas de pesquisa, a enorme diversidade de sorotipos da proteína M tem sido um obstáculo persistente ao desenvolvimento de uma vacina eficaz e amplamente protetora. A prevenção, na prática, se resume ao diagnóstico e tratamento precoce das faringites estreptocócicas, que reduz tanto a transmissão comunitária quanto o risco individual de complicações supurativas e não supurativas, além de medidas gerais de higiene respiratória.</p>
+</section>
+
+<section class="disease" id="s05" style="--accent:var(--c05)">
+  <div class="section-head"><span class="tag">05</span><h2>Varicela</h2><div class="section-line"></div></div>
+  <div class="subtitle-latin">Chickenpox · catapora · Varicella-zoster virus (VZV), Herpesviridae, subfamília Alphaherpesvirinae</div>
+
+  <h3>Etiologia e transmissão</h3>
+  <p>O vírus varicela-zóster é um DNA vírus envelopado de dupla-fita, pertencente à família Herpesviridae. Como todo herpesvírus que se preze, ele não se contenta em causar uma infecção aguda e desaparecer — e essa característica, como veremos, é o fio condutor de toda a fisiopatologia desta doença. A transmissão ocorre por via aérea, com aerossóis que permanecem infectantes no ambiente, por gotículas respiratórias e por contato direto com o líquido das vesículas cutâneas. É uma das doenças exantemáticas mais contagiosas que existem, com número básico de reprodução na faixa de oito a doze. O período de transmissibilidade começa um a dois dias antes do surgimento do exantema e se estende até que todas as lesões tenham evoluído para crosta, tipicamente cinco a sete dias após o início do quadro.</p>
+
+  <h3>Fisiopatologia</h3>
+  <p>A infecção primária começa com entrada do vírus pela mucosa respiratória ou conjuntival, replicação local e disseminação para linfonodos regionais — uma viremia primária que ocorre por volta do quarto ao sexto dia. Segue-se um período de replicação adicional em órgãos do sistema reticuloendotelial e, entre o décimo quarto e o décimo sexto dia, uma viremia secundária, muito mais intensa, que dissemina o vírus amplamente para a pele. Ali, o efeito é citopático direto: o vírus replica dentro dos queratinócitos, causando degeneração balonizante, edema intercelular e a formação de células gigantes multinucleadas com inclusões intranucleares características — o mesmo achado que sustenta o teste de Tzanck. Como a viremia secundária não é um evento único, mas uma sucessão de ondas, as lesões cutâneas surgem em sucessivos "surtos" ao longo de vários dias — e é exatamente por isso que, a qualquer momento do exame físico, você encontra lesões em estágios diferentes lado a lado: máculas recém-formadas ao lado de vesículas maduras e crostas já secas. Esse padrão polimórfico simultâneo, apelidado de "céu estrelado", não é uma curiosidade decorativa — é a assinatura direta da cinética viral por trás da doença.</p>
+  <p>Mas o capítulo mais importante da fisiopatologia da varicela só começa depois que o exantema desaparece. O vírus não é eliminado do organismo: ele viaja de forma retrógrada, através de fibras nervosas sensitivas, até os gânglios da raiz dorsal — e também gânglios de nervos cranianos, com preferência notável pelo trigêmeo — onde estabelece latência vitalícia dentro do corpo celular dos neurônios. Esses gânglios são sítios imunologicamente privilegiados, com baixa expressão de MHC classe I, o que dificulta o reconhecimento e a eliminação do vírus latente pelo sistema imune. Décadas depois, quando a imunidade celular específica contra o VZV declina — por envelhecimento natural, estresse, imunossupressão — o vírus pode reativar, migrando de volta pelo mesmo nervo sensitivo até a pele, produzindo o herpes-zóster, cuja distribuição dermatomal reflete exatamente qual gânglio abrigava o vírus latente. Entender a varicela como "apenas a primeira metade de uma história de duas partes" muda completamente a forma como você a encara clinicamente.</p>
+  <details class="deepen">
+    <summary><span class="chevron">▸</span><span class="stitle">Aprofunde-se — síndrome de Reye, varicela congênita e neonatal</span></summary>
+    <div class="deepen-body">
+      <p>A síndrome de Reye é uma das razões mais contundentes pelas quais salicilatos são absolutamente contraindicados em crianças com doença viral, incluindo a varicela. O mecanismo proposto envolve toxicidade mitocondrial: metabólitos do ácido acetilsalicílico inibem enzimas mitocondriais da beta-oxidação de ácidos graxos, e em crianças geneticamente suscetíveis — possivelmente com defeitos subclínicos preexistentes do metabolismo mitocondrial — essa inibição, somada ao estresse metabólico da infecção viral aguda, precipita esteatose hepática microvesicular maciça associada a encefalopatia aguda com edema cerebral, um quadro de mortalidade elevada. A lição prática é direta e não admite exceções: nenhuma criança com varicela, ou qualquer outra doença viral aguda, deve receber ácido acetilsalicílico ou outros salicilatos como antitérmico.</p>
+      <p>Quando a infecção materna primária ocorre no início da gestação — a janela de maior risco vai aproximadamente da oitava à vigésima semana — pode ocorrer a síndrome da varicela congênita. O mecanismo aqui é distinto e particularmente interessante: acredita-se que o dano fetal não resulte da infecção primária propriamente dita, mas de um episódio de reativação do vírus já latente dentro do próprio feto, análogo a um herpes-zóster intrauterino, que causa lesões destrutivas focais ao longo de dermátomos e trajetos neurais em desenvolvimento. Isso explica achados característicos como cicatrizes cutâneas com distribuição dermatomal (em vez de generalizadas), hipoplasia de membros correspondentes ao dermátomo afetado, anomalias oculares (coriorretinite, catarata) e anormalidades do sistema nervoso central — um padrão de lesão focal e assimétrica, bem diferente da vasculopatia difusa que caracteriza a embriopatia rubeólica discutida anteriormente.</p>
+      <p>Já a varicela neonatal decorre de um problema de tempo, não de mecanismo teratogênico: se a mãe adquire varicela entre cinco dias antes e dois dias depois do parto, não há tempo suficiente para que anticorpos maternos protetores atravessem a placenta antes do nascimento, e o recém-nascido ainda não desenvolveu resposta imune própria. O resultado pode ser uma varicela neonatal disseminada e grave, com pneumonite, hepatite e alta mortalidade se não tratada. É exatamente nesse cenário — exposição perinatal sem proteção de anticorpos maternos — que a imunoglobulina específica anti-varicela-zóster está indicada para o recém-nascido.</p>
+    </div>
+  </details>
+
+  <h3>Quadro clínico</h3>
+  <p>O pródromo costuma ser discreto em crianças — febre baixa, mal-estar leve — mas tende a ser mais proeminente em adolescentes e adultos, um padrão que se repete, como veremos, na gravidade geral da doença conforme a idade. O exantema surge dentro de vinte e quatro horas do início do pródromo e segue distribuição centrípeta, concentrando-se predominantemente em tronco e face, com relativo poupamento das porções distais dos membros — padrão que, historicamente, era o principal ponto de diferenciação semiológica com a varíola, doença hoje erradicada mas cuja distribuição centrífuga (mais intensa em extremidades) ainda aparece em provas como contraste didático clássico.</p>
+  <p>Cada lesão individual evolve rapidamente, em questão de horas, da mácula para pápula, depois vesícula — a clássica "gota de orvalho sobre pétala de rosa", uma vesícula de teto fino, uniloculada, sobre base eritematosa, que se rompe com facilidade — depois pústula e finalmente crosta. Mas como já vimos na fisiopatologia, novos surtos de lesões continuam surgindo por três a cinco dias, de modo que o exame físico revela múltiplos estágios simultaneamente — esse polimorfismo é, isoladamente, o achado semiológico mais valioso para diferenciar varicela de praticamente qualquer outra dermatose vesicular. O acometimento de mucosas — oral e por vezes genital — é comum e pode causar desconforto significativo. O prurido é proeminente, ao contrário da maioria das outras exantemáticas desta lista, e costuma ser a queixa que mais incomoda pais e crianças no dia a dia da doença.</p>
+  <details class="deepen">
+    <summary><span class="chevron">▸</span><span class="stitle">Aprofunde-se — espectro de gravidade por idade e hospedeiro</span></summary>
+    <div class="deepen-body">
+      <p>A varicela em uma criança saudável entre um e dez anos costuma ser uma doença benigna e autolimitada — é justamente por isso que, historicamente, ela foi tão banalizada culturalmente, a ponto de existirem as infames "festas de catapora" promovidas por pais que preferiam expor deliberadamente seus filhos à doença "de forma controlada" antes da existência da vacina, uma prática hoje amplamente desaconselhada dado o risco real, ainda que baixo, de complicações graves. Em adolescentes e adultos, a doença tende a ser sistemicamente mais intensa, com maior número de lesões, febre mais alta e prolongada, e taxa de complicações — sobretudo pneumonia varicelosa primária — várias vezes maior que em crianças pequenas. Gestantes acumulam risco duplo: risco materno de pneumonia grave, e dependendo do trimestre, o risco fetal já discutido acima. Em pacientes imunocomprometidos — leucemia, uso de corticoide em dose imunossupressora, infecção por HIV com imunodeficiência avançada — a varicela pode assumir um curso progressivo, disseminado e até hemorrágico, com acometimento visceral multiorgânico e mortalidade significativamente elevada, justificando tratamento antiviral endovenoso precoce e agressivo nesse grupo.</p>
+    </div>
+  </details>
+
+  <h3>Diagnóstico e diagnóstico diferencial</h3>
+  <p>O diagnóstico é essencialmente clínico diante do padrão polimórfico e da distribuição centrípeta característicos. Quando confirmação laboratorial é necessária — casos atípicos, imunocomprometidos, contexto gestacional — o esfregaço de Tzanck, colhido da base de uma vesícula recém-rompida, revela células gigantes multinucleadas, mas não diferencia varicela-zóster de herpes simples, já que ambos os alfaherpesvírus produzem o mesmo achado citológico. Para diferenciação definitiva, recorre-se a imunofluorescência direta ou PCR do líquido vesicular.</p>
+  <div class="diff-grid">
+    <div class="diff-item"><span class="diff-name">Doença mão-pé-boca</span><span class="diff-desc">Distribuição restrita a mãos, pés e boca, prurido menos proeminente, sem o padrão polimórfico difuso da varicela.</span></div>
+    <div class="diff-item"><span class="diff-name">Impetigo</span><span class="diff-desc">Lesões crostosas de aspecto melicérico desde o início, sem a sequência ordenada mácula-pápula-vesícula-crosta em múltiplos estágios simultâneos.</span></div>
+    <div class="diff-item"><span class="diff-name">Picadas de inseto</span><span class="diff-desc">Pápulas excoriadas sem verdadeira formação vesicular estagiada, distribuição correlacionada com áreas expostas de contato.</span></div>
+    <div class="diff-item"><span class="diff-name">Herpes-zóster disseminado (imunocomprometido)</span><span class="diff-desc">História prévia de varicela ou vacinação relevante; distinção pode exigir correlação clínica cuidadosa e, por vezes, exame laboratorial.</span></div>
+  </div>
+
+  <h3>Tratamento</h3>
+  <p>O tratamento de suporte inclui anti-histamínicos para controle do prurido, antitérmicos — com a ressalva absoluta e inegociável de nunca usar ácido acetilsalicílico ou outros salicilatos, pelo risco de síndrome de Reye discutido acima — e cuidados de higiene, incluindo o corte das unhas, para reduzir o risco de infecção bacteriana secundária por coçadura. O aciclovir oral pode ser considerado em pacientes com maior risco de doença moderada a grave: adolescentes maiores de doze anos, casos secundários dentro do mesmo domicílio (que tendem a ser mais intensos pela maior carga infectante de exposição), portadores de doença cutânea ou pulmonar crônica, e usuários crônicos de salicilato ou corticoide — idealmente iniciado dentro de vinte e quatro horas do início do exantema para máxima eficácia. O aciclovir endovenoso é reservado para pacientes imunocomprometidos, doença grave ou disseminada, pneumonia varicelosa e varicela neonatal.</p>
+
+  <h3>Notificação compulsória</h3>
+  <span class="notif-badge">Compulsória apenas para casos graves internados, óbitos e surtos</span>
+  <p>Diferente do sarampo e da rubéola, a varicela não exige notificação individual de todo caso suspeito no Brasil. Desde a Portaria nº 1.271, de 6 de julho de 2014, reafirmada pela Portaria GM/MS nº 217/2023 e mantida na atualização vigente pela Portaria GM/MS nº 11.211/2026, a notificação compulsória individual se restringe a casos graves com necessidade de internação e a óbitos por varicela, além da notificação obrigatória de surtos em ambientes coletivos restritos — creches, escolas, hospitais e áreas indígenas, sendo que, em ambiente hospitalar, um único caso confirmado já caracteriza surto para fins de vigilância. Vale registrar uma consequência epidemiológica importante dessa política: como a imensa maioria dos casos pediátricos é leve e não hospitalizada, existe subnotificação estrutural relevante da incidência real da varicela no país, o que dificulta o dimensionamento preciso da carga da doença.</p>
+
+  <h3>Prevenção</h3>
+  <p>A vacina varicela, de vírus vivo atenuado, integra o calendário nacional de vacinação: a primeira dose é administrada aos quinze meses, na forma combinada tetraviral junto com sarampo, caxumba e rubéola, e a segunda dose, monovalente, aos quatro anos de idade. Para contatos suscetíveis de alto risco que não podem receber a vacina viva — imunocomprometidos, gestantes suscetíveis, recém-nascidos expostos no período perinatal descrito acima — a imunoglobulina específica anti-varicela-zóster está indicada, idealmente dentro de noventa e seis horas da exposição, ainda que o benefício possa se estender até o décimo dia. Em contatos suscetíveis saudáveis, a vacinação pós-exposição dentro de três a cinco dias também pode atenuar significativamente a gravidade da doença, quando não preveni-la por completo.</p>
+</section>
+
+<section class="disease" id="s06" style="--accent:var(--c06)">
+  <div class="section-head"><span class="tag">06</span><h2>Exantema súbito</h2><div class="section-line"></div></div>
+  <div class="subtitle-latin">Roseola infantum · sexta doença · HHV-6 (principalmente subtipo B) e HHV-7, Herpesviridae, subfamília Betaherpesvirinae</div>
+
+  <h3>Etiologia e transmissão</h3>
+  <p>O exantema súbito é causado predominantemente pelo herpesvírus humano tipo 6, subtipo B, e, com menor frequência, pelo herpesvírus humano tipo 7 — ambos pertencentes à mesma subfamília de herpesvírus que o citomegalovírus, com quem compartilham tropismo preferencial por células do sistema imune. A transmissão se dá essencialmente pela saliva: a imensa maioria das crianças adquire o vírus a partir da saliva de cuidadores adultos que, de forma assintomática, eliminam o vírus intermitentemente ao longo de toda a vida a partir de sítios de latência nas glândulas salivares — um mecanismo de transmissão silencioso e praticamente impossível de prevenir por medidas comportamentais simples. A doença é classicamente uma infecção da primeira infância, tipicamente entre seis meses e dois anos de idade — a janela que se abre quando os anticorpos maternos protetores, transferidos por via transplacentária, finalmente declinam. Por volta dos dois a três anos de idade, a soroprevalência na população já se aproxima de cem por cento.</p>
+
+  <h3>Fisiopatologia</h3>
+  <p>O HHV-6 tem tropismo preferencial por linfócitos T CD4+, ligando-se através do receptor CD46, embora também infecte monócitos e macrófagos, onde estabelece parte de sua latência. A infecção primária se caracteriza por uma viremia de alta magnitude, e é essa carga viral elevada que se correlaciona diretamente com a intensidade e a rapidez de instalação da febre característica da doença — capaz de atingir quarenta graus Celsius em questão de horas. O exantema, à semelhança do sarampo e da rubéola, parece ser predominantemente imunomediado: ele surge exatamente quando a viremia começa a declinar e a resposta de anticorpos específicos se consolida, coincidindo, de forma quase cronometrada, com a queda da febre.</p>
+  <p>Um detalhe virológico peculiar e digno de nota — porque tem implicações diagnósticas práticas relevantes — é a capacidade única do HHV-6 de se integrar aos telômeros de cromossomos do hospedeiro, inclusive em células germinativas, um fenômeno conhecido como HHV-6 cromossomicamente integrado. Esse estado está presente em cerca de um por cento da população geral e é transmitido de forma mendeliana à descendência. Na prática clínica, isso significa que testes de PCR em pacientes com HHV-6 integrado detectarão o genoma viral em praticamente todas as células nucleadas do corpo, com "cargas virais" aparentemente elevadas mesmo sem qualquer infecção ativa — uma armadilha diagnóstica que todo médico que solicita PCR para HHV-6 precisa conhecer, sob risco de atribuir sintomas não relacionados a uma reativação viral inexistente.</p>
+  <details class="deepen">
+    <summary><span class="chevron">▸</span><span class="stitle">Aprofunde-se — convulsão febril e neurotropismo do HHV-6</span></summary>
+    <div class="deepen-body">
+      <p>O exantema súbito ocupa um lugar de destaque na literatura pediátrica como uma das causas virais identificáveis mais frequentes de primeira convulsão febril em lactentes. Parte da explicação é puramente cinética — a febre costuma se instalar de forma muito abrupta e atingir valores muito altos, e sabe-se que a velocidade de ascensão térmica, não apenas o valor absoluto, contribui para o limiar convulsivo em crianças pequenas. Mas há evidência crescente de que o próprio HHV-6 tenha um componente neurotrópico direto: o vírus já foi detectado no líquido cefalorraquidiano de uma proporção significativa de lactentes com convulsão febril associada a exantema súbito, mesmo na ausência de sinais clínicos de encefalite franca, sugerindo que o sistema nervoso central não é um espectador passivo da febre alta, mas potencialmente um sítio de replicação viral ativa durante a infecção primária. Investigações mais recentes têm explorado, de forma ainda não definitivamente estabelecida, uma possível associação entre infecção primária por HHV-6 e o desenvolvimento subsequente de esclerose temporal mesial em uma minoria de indivíduos — uma linha de pesquisa fascinante, mas que permanece na fronteira do conhecimento, não um fato consolidado de livro-texto.</p>
+      <p>Vale registrar, por fim, que esse vírus aparentemente banal da primeira infância ganha relevância clínica muito maior décadas depois, em populações específicas: em receptores de transplante de células-tronco hematopoiéticas ou de órgãos sólidos, a reativação do HHV-6 latente é uma causa reconhecida e por vezes grave de encefalite e de supressão medular, exigindo vigilância ativa nesse contexto — um lembrete de que a história de um vírus quase nunca termina com a resolução do quadro agudo da infância.</p>
+    </div>
+  </details>
+
+  <h3>Quadro clínico</h3>
+  <p>O quadro se inicia de forma abrupta com febre alta — com frequência ultrapassando trinta e nove ou mesmo quarenta graus Celsius — que persiste por três a cinco dias. E aqui está o achado semiológico mais característico e mais contraintuitivo de toda essa lista: apesar da febre tão elevada, o lactente frequentemente aparenta estar bem, ou apenas discretamente irritado, sem o aspecto toxemiado que normalmente se esperaria de uma febre dessa magnitude. Essa discordância entre a intensidade da febre e o bom estado geral é, por si só, uma pista diagnóstica valiosa. Podem acompanhar sintomas leves e inespecíficos: coriza discreta, edema periorbitário leve, linfadenopatia cervical ou occipital. Um achado precoce e útil, análogo em utilidade prática às manchas de Koplik do sarampo, são as manchas de Nagayama — pápulas ou pequenas úlceras eritematosas no palato mole e na base da úvula, que podem ser vistas antes mesmo do exantema surgir.</p>
+  <p>A marca registrada da doença é a sequência temporal: a febre cede de forma abrupta, em crise, e é exatamente nesse momento — coincidindo com ou logo após a defervescência — que o exantema surge. É um exantema róseo, macular ou discretamente maculopapular, não confluente, tipicamente não pruriginoso, que se inicia no tronco e se espalha de forma centrífuga para pescoço, face e porções proximais dos membros — um padrão de disseminação inverso ao do sarampo, que é cefalocaudal. O exantema desaparece em um a três dias, sem descamação residual.</p>
+
+  <h3>Diagnóstico e diagnóstico diferencial</h3>
+  <p>O diagnóstico é clínico: a sequência característica de febre alta isolada por vários dias em lactente com bom estado geral, seguida de defervescência abrupta e só então o aparecimento do exantema, é praticamente diagnóstica na faixa etária típica. Confirmação laboratorial por sorologia ou PCR raramente é necessária na prática clínica de rotina, e como vimos, a interpretação de PCR positivo exige cautela pela possibilidade de HHV-6 cromossomicamente integrado.</p>
+  <div class="diff-grid">
+    <div class="diff-item"><span class="diff-name">Rubéola</span><span class="diff-desc">Exantema concomitante ou logo após febre baixa, não após defervescência de febre alta; linfadenopatia retroauricular e occipital mais proeminente e específica.</span></div>
+    <div class="diff-item"><span class="diff-name">Sarampo</span><span class="diff-desc">Exantema coincide com o pico febril, não com sua resolução; pródromo catarral e manchas de Koplik ausentes no exantema súbito.</span></div>
+    <div class="diff-item"><span class="diff-name">Farmacodermia</span><span class="diff-desc">Armadilha clínica clássica: se um antibiótico foi iniciado durante a fase febril por suspeita de infecção bacteriana, o exantema que surge à defervescência pode ser erroneamente atribuído a alergia medicamentosa, quando na verdade reflete a evolução natural do exantema súbito.</span></div>
+  </div>
+
+  <h3>Tratamento</h3>
+  <p>O tratamento é de suporte: antitérmicos para conforto (a febre alta por si só, na ausência de sinais de gravidade, não exige intervenção agressiva além do manejo sintomático) e hidratação adequada. Antivirais não são necessários nem indicados em hospedeiros imunocompetentes; em contextos de reativação grave em pacientes imunocomprometidos — sobretudo receptores de transplante — ganciclovir ou foscarnet podem ser considerados, sempre em ambiente especializado.</p>
+
+  <h3>Notificação compulsória</h3>
+  <span class="notif-badge">Não consta na lista nacional</span>
+  <p>O exantema súbito não é doença de notificação compulsória no Brasil, refletindo tanto sua benignidade típica em hospedeiros imunocompetentes quanto sua universalidade epidemiológica — praticamente toda criança será exposta e infectada nos primeiros anos de vida, tornando a vigilância individualizada de pouco valor prático em saúde pública.</p>
+
+  <h3>Prevenção</h3>
+  <p>Não existe vacina disponível. Dada a transmissão essencialmente inevitável por saliva de adultos assintomáticos — que constituem virtualmente toda a população adulta como fonte potencial —, medidas específicas de prevenção têm impacto limitado na prática, e a doença é mais adequadamente enquadrada como um rito de passagem imunológico quase universal da primeira infância do que como um alvo real de estratégias preventivas.</p>
+</section>
+
+<section class="disease" id="s07" style="--accent:var(--c07)">
+  <div class="section-head"><span class="tag">07</span><h2>Impetigo bolhoso</h2><div class="section-line"></div></div>
+  <div class="subtitle-latin">Bullous impetigo · piodermite estafilocócica localizada · Staphylococcus aureus produtor de toxina esfoliativa</div>
+
+  <h3>Etiologia e transmissão</h3>
+  <p>O impetigo bolhoso é causado por cepas de Staphylococcus aureus produtoras de toxinas esfoliativas — chamadas ETA e ETB — que também são as protagonistas de uma doença sistêmica mais grave que discutiremos em detalhe no bloco seguinte: a síndrome da pele escaldada estafilocócica. Entender essa relação de parentesco entre as duas condições é o ponto central para compreender de verdade este tema, e não apenas memorizá-lo. A transmissão ocorre por contato direto, autoinoculação — o próprio paciente disseminando lesões para novos sítios ao coçar ou tocar — e fômites. A doença é particularmente comum em neonatos e lactentes pequenos, cuja barreira cutânea ainda imatura e cujos ambientes tipicamente quentes e úmidos, como a região de fraldas e as dobras cutâneas, favorecem a colonização e a proliferação bacteriana local.</p>
+
+  <h3>Fisiopatologia</h3>
+  <p>Este é um dos mecanismos mais elegantes e mais precisos de toda a dermatologia infecciosa, e vale a pena entendê-lo em detalhe porque ele explica, de uma só vez, a aparência clínica da doença e sua relação com outras condições. As toxinas esfoliativas ETA e ETB são serinoproteases altamente específicas — elas não causam dano celular generalizado, como fazem muitas toxinas bacterianas. Em vez disso, clivam um único alvo molecular: a desmogleína-1, uma caderina desmossômica responsável pela adesão entre queratinócitos especificamente na camada granulosa da epiderme, a porção mais superficial do tecido epidérmico viável.</p>
+  <p>Ao clivar a desmogleína-1, a toxina literalmente desconecta os queratinócitos uns dos outros num plano muito específico e muito superficial, e o resultado é a formação de bolhas de teto extremamente fino — flácidas, preenchidas por líquido claro a turvo, que se rompem com enorme facilidade, muito mais facilmente do que a vesícula tensa "em gota de orvalho" da varicela, por exemplo. Após a ruptura, resta uma erosão úmida e brilhante que, ao secar, forma uma crosta fina, acastanhada, com aspecto de verniz — a chamada crosta melicérica, cor de mel, que é o achado semiológico mais característico e mais facilmente reconhecível de toda a condição.</p>
+  <details class="deepen">
+    <summary><span class="chevron">▸</span><span class="stitle">Aprofunde-se — a ponte molecular com a síndrome da pele escaldada estafilocócica e o pênfigo foliáceo</span></summary>
+    <div class="deepen-body">
+      <p>Se o impetigo bolhoso e a síndrome da pele escaldada estafilocócica usam exatamente a mesma toxina, atacando exatamente o mesmo alvo molecular, por que uma produz algumas bolhas localizadas e a outra descama a pele do corpo inteiro? A resposta está na distribuição anatômica da produção e ação da toxina, não no mecanismo molecular em si, que é idêntico. No impetigo bolhoso, o Staphylococcus aureus está fisicamente presente dentro da própria lesão de pele, e a toxina age localmente, no sítio de infecção — se o paciente já possui algum grau de anticorpo neutralizante prévio (mais comum em crianças maiores e adultos, que tiveram exposições estafilocócicas anteriores), esses anticorpos conseguem conter a toxina antes que ela se espalhe, limitando a doença a uma ou poucas lesões localizadas.</p>
+      <p>Já na síndrome da pele escaldada estafilocócica, o foco de infecção estafilocócica costuma estar em um sítio completamente diferente da pele que descama — nasofaringe, conjuntiva, coto umbilical em neonatos — e a toxina, produzida ali, cai na circulação sanguínea e se dissemina hematogenicamente até a pele distante, causando clivagem epidérmica generalizada mesmo em regiões muito afastadas do foco infeccioso original. Essa forma sistêmica ocorre quase exclusivamente em neonatos e lactentes pequenos, que combinam ausência de anticorpos neutralizantes prévios com depuração renal ainda imatura da toxina circulante — como a eliminação da toxina é predominantemente renal, rins imaturos mantêm níveis circulantes mais altos e mais prolongados, prolongando e amplificando o dano cutâneo sistêmico.</p>
+      <p>E há ainda uma terceira peça nesse quebra-cabeça, fascinante por si só: a desmogleína-1 é exatamente o mesmo alvo molecular atacado por autoanticorpos na pênfigo foliáceo, uma doença bolhosa autoimune. Uma toxina bacteriana e um autoanticorpo, por caminhos completamente diferentes — um enzimático, o outro imunológico — convergem para destruir a mesma molécula de adesão e produzem, clinicamente, bolhas superficiais e frágeis com aspecto notavelmente semelhante. É um daqueles raros pontos em que a dermatologia infecciosa e a dermatologia autoimune se encontram no mesmo alvo molecular.</p>
+    </div>
+  </details>
+
+  <h3>Quadro clínico</h3>
+  <p>As lesões predominam em face — sobretudo regiões perioral e perinasal —, região de fraldas, extremidades e dobras cutâneas. A lesão inicial é uma pequena vesícula ou bolha sobre pele normal ou discretamente eritematosa, que se expande rapidamente, podendo atingir um a dois centímetros ou mais, com teto fino e flácido e conteúdo que evolui de claro-amarelado para turvo. Ao se romper — o que ocorre com grande facilidade, muitas vezes antes mesmo da avaliação médica —, deixa um colarete de escama residual, formado pelos restos do teto da bolha, ao redor de uma base eritematosa e úmida, que evolui para a crosta melicérica já descrita.</p>
+  <p>As lesões costumam ser pouco ou nada dolorosas, com eritema perilesional discreto, e — ponto útil para diferenciação do impetigo não bolhoso — a linfadenopatia regional associada é incomum no impetigo bolhoso, ao contrário da forma não bolhosa clássica, que mais frequentemente se acompanha de adenopatia satélite. Sintomas sistêmicos costumam estar ausentes ou serem discretos, a menos que a doença seja extensa ou se complique.</p>
+
+  <h3>Diagnóstico e diagnóstico diferencial</h3>
+  <p>O diagnóstico é predominantemente clínico, baseado no aspecto característico das lesões. A cultura do conteúdo da bolha ou da secreção pode confirmar o Staphylococcus aureus e orientar a escolha antibiótica, o que ganha importância crescente diante da prevalência ascendente de Staphylococcus aureus resistente à meticilina adquirido na comunidade em diversas regiões.</p>
+  <div class="diff-grid">
+    <div class="diff-item"><span class="diff-name">Varicela</span><span class="diff-desc">Lesões mais numerosas e disseminadas, distribuição centrípeta, múltiplos estágios simultâneos, prurido intenso.</span></div>
+    <div class="diff-item"><span class="diff-name">Herpes simples neonatal</span><span class="diff-desc">Vesículas agrupadas, potencial gravidade sistêmica muito maior, exige reconhecimento imediato e terapia antiviral urgente — diferencial de alto risco a não ser perdido.</span></div>
+    <div class="diff-item"><span class="diff-name">Epidermólise bolhosa</span><span class="diff-desc">Condição congênita, presente desde o nascimento, tipicamente desencadeada por fricção, com padrão de distribuição distinto.</span></div>
+    <div class="diff-item"><span class="diff-name">Síndrome da pele escaldada estafilocócica</span><span class="diff-desc">Mesmo mecanismo toxínico, porém descamação difusa e sinal de Nikolsky generalizado, não lesões localizadas.</span></div>
+  </div>
+
+  <h3>Tratamento</h3>
+  <p>Para doença localizada e limitada, a mupirocina tópica costuma ser suficiente. Para doença mais extensa ou com múltiplas lesões, indica-se antibioticoterapia sistêmica — cefalexina, oxacilina ou dicloxacilina como opções clássicas, com clindamicina ou sulfametoxazol-trimetoprima como alternativas quando há preocupação com resistência à meticilina adquirida na comunidade, cuja prevalência local deve sempre orientar a escolha empírica inicial.</p>
+
+  <h3>Notificação compulsória</h3>
+  <span class="notif-badge">Não consta na lista nacional</span>
+  <p>O impetigo bolhoso não é doença de notificação compulsória individual no Brasil. A atenção epidemiológica relevante aqui é mais institucional do que legal: surtos em berçários e unidades neonatais merecem investigação e medidas de controle de infecção ativas, dado o potencial de disseminação entre recém-nascidos vulneráveis compartilhando o mesmo ambiente assistencial.</p>
+
+  <h3>Prevenção</h3>
+  <p>A prevenção se apoia em medidas de higiene geral, cuidado adequado do coto umbilical e da pele do recém-nascido, tratamento precoce de lesões cutâneas colonizadas ou infectadas para limitar autoinoculação e disseminação, e, em contexto de surto em berçário, precauções de contato e eventual coorte de pacientes afetados para conter a transmissão entre neonatos internados.</p>
+</section>
+
+<section class="disease" id="s08" style="--accent:var(--c08)">
+  <div class="section-head"><span class="tag">08</span><h2>Eritema infeccioso</h2><div class="section-line"></div></div>
+  <div class="subtitle-latin">Fifth disease · quinta doença · megaloeritema epidêmico · Parvovírus B19, família Parvoviridae</div>
+
+  <h3>Etiologia e transmissão</h3>
+  <p>O eritema infeccioso é causado pelo parvovírus B19, um DNA vírus de fita simples, não envelopado, e um dos menores e mais simples vírus conhecidos capazes de infectar o ser humano — e, curiosamente, o único parvovírus reconhecidamente patogênico para humanos, já que outros membros da família, como o parvovírus canino, não atravessam a barreira de espécie. A transmissão ocorre primariamente por secreções respiratórias, mas também é bem documentada por via hematogênica — através de hemoderivados, dado o tropismo específico do vírus por precursores sanguíneos que discutiremos a seguir — e por via transplacentária, da mãe para o feto.</p>
+  <p>Há um detalhe de transmissibilidade que muda completamente a forma como se deve orientar famílias e escolas: o pico de contagiosidade ocorre antes do exantema aparecer, durante a fase virêmica prodrômica, quando o paciente costuma apresentar apenas sintomas leves e inespecíficos, do tipo resfriado comum. Quando o exantema característico finalmente surge, a criança já não é mais significativamente contagiosa. Isso significa, na prática, que afastar a criança da escola somente após o aparecimento do rash — a reação intuitiva mais comum — tem pouquíssimo impacto real na interrupção da cadeia de transmissão daquele surto específico, porque a transmissão relevante já ocorreu dias antes.</p>
+
+  <h3>Fisiopatologia</h3>
+  <p>O parvovírus B19 tem um tropismo extraordinariamente específico: ele se liga ao antígeno P (globosídeo), um antígeno de grupo sanguíneo expresso na superfície de precursores eritroides na medula óssea, especialmente em estágios mais avançados de maturação, além de estar presente também em células endoteliais, na placenta e no miocárdio fetal — uma distribuição que se tornará crucial para entender as complicações mais graves da doença. O vírus é diretamente citotóxico para esses precursores eritroides, provocando uma parada transitória, porém frequentemente profunda, da eritropoiese durante a fase aguda da infecção.</p>
+  <p>Em uma pessoa saudável, com meia-vida eritrocitária normal de cerca de cento e vinte dias e reserva medular adequada, essa parada transitória de produção é clinicamente silenciosa — o estoque circulante de hemácias é suficiente para tamponar uma ou duas semanas de produção reduzida sem qualquer repercussão perceptível. Mas em pacientes com uma condição hemolítica de base, em que a sobrevida eritrocitária já está encurtada — anemia falciforme, esferocitose hereditária, talassemias — essa mesma parada transitória de produção, somada à destruição periférica que já estava ocorrendo continuamente, precipita uma crise aplásica transitória: uma queda súbita e potencialmente grave da hemoglobina, que exige reconhecimento urgente e, não raro, suporte transfusional.</p>
+  <p>E aqui está o detalhe que costuma mais surpreender: o exantema clássico e a artropatia que a maioria das pessoas associa ao eritema infeccioso surgem depois que a viremia já foi amplamente controlada, e resultam de deposição de imunocomplexos — antígeno viral circulante residual se combinando com anticorpos recém-formados — e não de efeito citopático direto na pele. É, conceitualmente, uma fase pós-infecciosa e imunomediada, análoga em lógica à doença do soro. Isso explica de uma só vez dois fenômenos: por que, quando o rash aparece, a criança já não transmite mais o vírus de forma relevante, e por que o próprio exantema tem esse comportamento intermitente e recorrente que discutiremos no quadro clínico.</p>
+  <details class="deepen">
+    <summary><span class="chevron">▸</span><span class="stitle">Aprofunde-se — hidropisia fetal não imune e o duplo mecanismo cardíaco</span></summary>
+    <div class="deepen-body">
+      <p>Quando uma gestante sem imunidade prévia adquire infecção primária pelo parvovírus B19, particularmente no segundo trimestre, embora a janela de risco seja mais ampla, o vírus atravessa a placenta e infecta diretamente os precursores eritroides fetais, que também expressam o antígeno P. O problema é que, no feto, a demanda eritropoiética é extraordinariamente alta — sustentando um crescimento rápido — e a sobrevida das hemácias fetais é mais curta do que a de hemácias adultas maduras, de modo que a mesma parada transitória de produção que passa despercebida num adulto saudável pode, no feto, precipitar uma anemia grave e de instalação rápida.</p>
+      <p>Essa anemia grave desencadeia insuficiência cardíaca de alto débito — o coração fetal, tentando compensar a baixa capacidade de transporte de oxigênio, trabalha além de sua capacidade —, resultando em hidropisia fetal não imune: edema generalizado, derrames cavitários, e risco real de óbito fetal se não identificado e manejado a tempo. Soma-se a isso um segundo mecanismo, muitas vezes esquecido: o antígeno P também é expresso no miocárdio fetal, de modo que o próprio vírus pode infectar diretamente as células musculares cardíacas, causando miocardite viral que contribui, paralelamente à anemia, para a falência cardíaca — um mecanismo duplo, hematológico e miocárdico direto, agindo em conjunto. O risco é maior quando a infecção materna ocorre antes da vigésima semana gestacional, e o acompanhamento se baseia em ultrassonografia seriada com Doppler da artéria cerebral média fetal, capaz de detectar anemia fetal de forma não invasiva através da velocidade de fluxo sanguíneo, permitindo indicar transfusão intrauterina nos casos de anemia grave ou hidropisia já instalada.</p>
+    </div>
+  </details>
+
+  <h3>Quadro clínico</h3>
+  <p>Em crianças, a apresentação clássica segue três fases, embora nem sempre todas estejam presentes ou claramente delimitadas. Um pródromo leve e inespecífico — febre baixa, mal-estar, cefaleia, coriza discreta — pode ocorrer cerca de sete a dez dias antes, correspondendo à fase virêmica já resolvida quando o restante do quadro aparece. A primeira fase reconhecível é o eritema facial intenso e bem demarcado sobre as bochechas, poupando classicamente o dorso nasal e a região perioral, conferindo o aspecto de "face esbofeteada" que dá nome popular à doença, com contraste marcante entre o eritema malar e a palidez ao redor da boca.</p>
+  <p>Um a quatro dias depois, surge a segunda fase: um exantema maculopapular eritematoso, rendilhado, de padrão reticulado — como uma renda ou uma rede de pesca —, em tronco e extremidades, tipicamente com clareamento central dentro de cada área acometida, podendo ser discretamente pruriginoso. A terceira fase é a que mais surpreende pais desavisados: o exantema pode recrudescer de forma intermitente por uma a três semanas, ou até mais, desencadeado por calor, exposição solar, exercício físico, banho quente ou estresse emocional — vale a pena explicar isso proativamente às famílias, para que não retornem repetidamente ao pronto-atendimento achando que a doença "voltou" ou piorou a cada novo episódio de rash reativado por esses gatilhos. Em adolescentes e adultos, sobretudo mulheres, uma artropatia simétrica acometendo pequenas articulações das mãos, punhos e joelhos é comum e pode, inclusive, ser a única manifestação clínica, sem o exantema típico — um quadro que pode mimetizar artrite reumatoide de início recente antes de se autolimitar ao longo de semanas.</p>
+
+  <h3>Diagnóstico e diagnóstico diferencial</h3>
+  <p>Na apresentação pediátrica típica, o diagnóstico é clínico. Sorologia IgM específica é útil em apresentações atípicas, em gestantes expostas que precisam de avaliação de risco fetal, e em pacientes sob risco de crise aplásica. PCR para DNA viral é particularmente valioso em pacientes imunocomprometidos, que podem não montar resposta sorológica detectável, e na investigação de infecção fetal, quando pesquisado em líquido amniótico.</p>
+  <div class="diff-grid">
+    <div class="diff-item"><span class="diff-name">Rubéola</span><span class="diff-desc">Padrão de exantema diferente, sem a sequência face esbofeteada seguida de rendilhado em extremidades; linfadenopatia retroauricular mais proeminente.</span></div>
+    <div class="diff-item"><span class="diff-name">Escarlatina</span><span class="diff-desc">Textura em lixa, língua em framboesa, contexto de faringite estreptocócica ausente no eritema infeccioso.</span></div>
+    <div class="diff-item"><span class="diff-name">Farmacodermia</span><span class="diff-desc">Relação temporal com exposição medicamentosa, distribuição e evolução geralmente distintas do padrão trifásico característico.</span></div>
+  </div>
+
+  <h3>Tratamento</h3>
+  <p>Nos casos não complicados em hospedeiros imunocompetentes, o tratamento é de suporte — o próprio exantema não requer terapia específica, apenas orientação sobre seu comportamento recorrente característico. Na crise aplásica transitória em pacientes com doença hemolítica de base, pode ser necessário suporte transfusional até a recuperação da produção medular, que costuma ocorrer em poucos dias a uma ou duas semanas, à medida que a resposta imune controla a infecção. Na hidropisia fetal, a transfusão intrauterina está indicada quando a vigilância Doppler identifica anemia fetal significativa. Pacientes imunocomprometidos que não conseguem eliminar completamente o vírus podem desenvolver infecção crônica com aplasia pura de série vermelha persistente, situação em que a imunoglobulina intravenosa — rica em anticorpos neutralizantes contra o parvovírus B19 — pode ser terapeuticamente útil.</p>
+
+  <h3>Notificação compulsória</h3>
+  <span class="notif-badge">Não consta na lista nacional</span>
+  <p>O eritema infeccioso não integra a Lista Nacional de Notificação Compulsória brasileira. Isso não diminui, porém, a importância da vigilância clínica ativa em grupos de risco específicos — gestantes expostas ou sintomáticas, pacientes com doença hemolítica crônica de base, e pacientes imunocomprometidos — que exigem avaliação e acompanhamento dirigidos independentemente de qualquer exigência formal de notificação.</p>
+
+  <h3>Prevenção</h3>
+  <p>Não existe vacina disponível. Como o pico de transmissibilidade precede o reconhecimento clínico do exantema, o afastamento escolar de crianças já com rash tem valor preventivo limitado para conter aquele surto específico, embora continue sendo uma prática razoável por outros motivos. Gestantes não imunes com exposição significativa — contato domiciliar próximo ou surto documentado em creche ou escola onde atuam — devem ser avaliadas sorologicamente e acompanhadas, dado o risco, ainda que não altíssimo em termos absolutos, de repercussão fetal grave.</p>
+</section>
+
+<section class="disease" id="s09" style="--accent:var(--c09)">
+  <div class="section-head"><span class="tag">09</span><h2>Mononucleose infecciosa</h2><div class="section-line"></div></div>
+  <div class="subtitle-latin">Infectious mononucleosis · "doença do beijo" · vírus Epstein-Barr (EBV), Herpesviridae, subfamília Gammaherpesvirinae</div>
+
+  <h3>Etiologia e transmissão</h3>
+  <p>A mononucleose infecciosa clássica é causada pelo vírus Epstein-Barr, um gamaherpesvírus DNA de dupla-fita, envelopado. A transmissão ocorre predominantemente pela saliva — daí o apelido popular "doença do beijo" — e por contato próximo prolongado, podendo também ocorrer, mais raramente, por transfusão sanguínea e transplante de órgãos. O período de incubação é notavelmente longo se comparado às demais condições desta lista, estendendo-se por quatro a seis semanas.</p>
+  <p>Um dado epidemiológico particularmente interessante, e que conecta diretamente com a fisiopatologia a seguir: a infecção primária pelo EBV adquirida na primeira infância costuma ser assintomática ou tão leve que passa despercebida. É quando a primoinfecção é retardada para a adolescência ou o início da vida adulta que a síndrome clássica e sintomática de mononucleose costuma se manifestar de forma florida. Isso não é coincidência — é, na verdade, a primeira pista de que a doença que você reconhece clinicamente não é causada diretamente pelo vírus, mas pela resposta imunológica que um hospedeiro imunologicamente mais maduro monta contra ele.</p>
+
+  <h3>Fisiopatologia</h3>
+  <p>O EBV infecta dois tipos celulares distintos, e entender essa dualidade é a chave de todo o tema. Primeiro, células epiteliais da orofaringe e nasofaringe, onde ocorre replicação viral ativa com produção de partículas infecciosas eliminadas na saliva — é esse compartimento que sustenta a transmissão entre indivíduos. Segundo, e mais importante para a doença clínica, linfócitos B, que o vírus invade através do receptor CD21 (o mesmo receptor do complemento C3d) e nos quais possui uma capacidade notável de induzir proliferação e, crucialmente, de estabelecer latência vitalícia dentro de linfócitos B de memória — assim como o VZV se esconde para sempre em gânglios nervosos, o EBV se esconde para sempre dentro dos seus próprios linfócitos B.</p>
+  <p>E aqui está o ponto central, que se repete como um refrão ao longo deste guia: a síndrome clínica da mononucleose não é, na sua maior parte, dano viral direto — é a resposta imune do hospedeiro contra os linfócitos B infectados. A proliferação de células B expressando antígenos virais deflagra uma expansão maciça e vigorosa de linfócitos T citotóxicos CD8+, que são, na verdade, os famosos "linfócitos atípicos" vistos no esfregaço de sangue periférico — um erro conceitual comum é achar que esses linfócitos atípicos são os linfócitos B infectados; na realidade, são os linfócitos T reativos combatendo a infecção. É essa expansão de células T ativadas — não o vírus em si — que produz a maior parte dos achados clínicos: a linfadenopatia reflete hiperplasia linfoide reacional nos linfonodos, a esplenomegalia decorre de infiltração linfocitária maciça da polpa branca esplênica — o que também explica por que o baço fica friável e vulnerável a ruptura mesmo com trauma abdominal discreto —, e a hepatomegalia com discreta elevação de transaminases reflete infiltração linfocitária semelhante no fígado.</p>
+  <details class="deepen">
+    <summary><span class="chevron">▸</span><span class="stitle">Aprofunde-se — anticorpos heterófilos e o exantema clássico pela amoxicilina</span></summary>
+    <div class="deepen-body">
+      <p>O teste clássico de triagem, o Monospot (ou teste de Paul-Bunnell), detecta os chamados anticorpos heterófilos — anticorpos IgM policlonais produzidos como um efeito colateral da ativação policlonal maciça de linfócitos B induzida pelo EBV. Esses anticorpos não são dirigidos especificamente contra antígenos do EBV; eles simplesmente têm a propriedade incidental de aglutinar hemácias de carneiro ou de cavalo em laboratório, por reatividade cruzada fortuita. Essa origem inespecífica explica duas limitações práticas importantes do teste: ele pode ser falsamente negativo no início da doença, antes que os anticorpos heterófilos tenham se elevado o suficiente, e é classicamente pouco sensível em crianças pequenas, menores de quatro anos, que tendem a montar uma resposta de anticorpos heterófilos mais fraca mesmo quando genuinamente infectadas — nesse grupo etário, a sorologia específica anti-EBV, com antígeno de capsídeo viral (IgM e IgG) e antígeno nuclear (EBNA, que surge apenas semanas a meses após a infecção aguda, útil para distinguir infecção recente de passada), é mais confiável.</p>
+      <p>E chegamos a um dos pontos mais cobrados em toda a infectologia pediátrica: se um paciente com mononucleose infecciosa não diagnosticada — frequentemente confundida clinicamente com faringite bacteriana, dada a intensidade do exsudato amigdaliano — recebe amoxicilina ou ampicilina, desenvolve com grande frequência um exantema morbiliforme difuso e por vezes intensamente pruriginoso, classicamente descrito ocorrendo na maioria dos pacientes expostos nessa situação específica. É fundamental entender que isso não representa uma verdadeira alergia medicamentosa mediada por IgE clássica — o mecanismo exato ainda não está completamente elucidado, mas acredita-se estar relacionado a uma alteração transitória do estado de reatividade imunológica durante a infecção aguda pelo EBV, reduzindo o limiar para uma reação de hipersensibilidade mediada por células T, específica daquele estado infeccioso transitório, e não uma sensibilização alérgica permanente. A lição prática de ouro: nunca rotule esse paciente como "alérgico à penicilina" com base isolada nesse episódio, e sempre considere mononucleose no diagnóstico diferencial antes de prescrever amoxicilina empiricamente para uma faringite exsudativa em adolescentes — tanto para evitar esse exantema desnecessário quanto porque, afinal, o antibiótico não trata uma doença viral.</p>
+    </div>
+  </details>
+
+  <h3>Quadro clínico</h3>
+  <p>A tríade clássica reúne febre, faringite exsudativa — muitas vezes impressionantemente intensa, facilmente confundida à primeira vista com faringite estreptocócica — e linfadenopatia, classicamente com predomínio na cadeia cervical posterior, embora possa se tornar generalizada. A fadiga costuma ser um sintoma marcante e desproporcionalmente prolongado, podendo persistir por semanas a meses após a resolução dos demais sintomas, e é frequentemente o aspecto que mais impacta a qualidade de vida do paciente, sobretudo adolescentes que precisam retomar atividades escolares e físicas. Esplenomegalia ocorre em até metade dos pacientes, hepatomegalia é menos comum, petéquias no palato são um achado possível, porém inespecífico, e edema periorbitário discreto ocorre em uma minoria. Um verdadeiro exantema relacionado diretamente ao EBV, distinto do exantema desencadeado por amoxicilina discutido acima, ocorre em uma minoria dos pacientes não expostos a esse fármaco, tipicamente de padrão morbiliforme.</p>
+
+  <h3>Diagnóstico e diagnóstico diferencial</h3>
+  <p>O diagnóstico combina o teste de anticorpos heterófilos (Monospot), rápido mas com as limitações já discutidas, o esfregaço de sangue periférico demonstrando linfócitos atípicos — células T reativas com citoplasma basofílico abundante e contornos nucleares irregulares, por vezes chamadas células de Downey —, e a sorologia específica anti-EBV quando necessário maior precisão diagnóstica, especialmente em crianças pequenas ou quadros atípicos.</p>
+  <div class="diff-grid">
+    <div class="diff-item"><span class="diff-name">Mononucleose por citomegalovírus</span><span class="diff-desc">Quadro clinicamente muito semelhante, frequentemente com teste de anticorpos heterófilos negativo; considerar sobretudo em adultos e em contexto pós-transfusional.</span></div>
+    <div class="diff-item"><span class="diff-name">Toxoplasmose</span><span class="diff-desc">Linfadenopatia predominante, história de exposição a gatos ou carne mal cozida, sorologia específica necessária para diferenciação.</span></div>
+    <div class="diff-item"><span class="diff-name">Síndrome retroviral aguda (HIV)</span><span class="diff-desc">Sempre considerar diante de quadro mononucleose-símile, investigando fatores de risco e oferecendo testagem apropriada dadas as implicações clínicas.</span></div>
+    <div class="diff-item"><span class="diff-name">Faringite estreptocócica</span><span class="diff-desc">A diferenciação mais clinicamente relevante na prática — errar aqui é justamente o que desencadeia o exantema por amoxicilina discutido acima.</span></div>
+  </div>
+
+  <h3>Tratamento</h3>
+  <p>O tratamento é de suporte: repouso, hidratação adequada, analgésicos e antitérmicos para controle sintomático. Corticosteroides são reservados para complicações específicas — obstrução iminente de via aérea por hipertrofia amigdaliana maciça, ou complicações autoimunes raras como anemia hemolítica ou trombocitopenia graves — e não têm indicação em casos não complicados de rotina. O ponto de orientação mais importante na prática clínica é comportamental, não farmacológico: evitar esportes de contato e atividade física extenuante por pelo menos três a quatro semanas, dado o risco real de ruptura esplênica sobre um baço aumentado e friável — mesmo um trauma abdominal aparentemente trivial nesse período carrega risco genuíno, e alguns protocolos sugerem avaliação ultrassonográfica individualizada do tamanho esplênico antes de liberar o retorno a esportes de contato.</p>
+
+  <h3>Notificação compulsória</h3>
+  <span class="notif-badge">Não consta na lista nacional</span>
+  <p>A mononucleose infecciosa não é doença de notificação compulsória no Brasil.</p>
+
+  <h3>Prevenção</h3>
+  <p>Não há vacina disponível, embora o desenvolvimento de uma vacina contra o EBV seja área ativa de pesquisa — motivada não apenas pela mononucleose em si, mas pelas associações bem estabelecidas do vírus com neoplasias como o linfoma de Burkitt, o carcinoma nasofaríngeo e a doença linfoproliferativa pós-transplante, o que eleva a importância deste vírus muito além de uma simples "doença do beijo" autolimitada. Na prática atual, a prevenção se limita a evitar compartilhamento de utensílios e contato salivar direto com indivíduos sintomáticos, ainda que, dada a ubiquidade da infecção assintomática na primeira infância e a soroprevalência que se aproxima da universalidade na população adulta mundial, a prevenção primária efetiva seja, na prática, de alcance limitado.</p>
+</section>
+
+<section class="disease" id="s10" style="--accent:var(--c10)">
+  <div class="section-head"><span class="tag">10</span><h2>Doença de Kawasaki</h2><div class="section-line"></div></div>
+  <div class="subtitle-latin">Síndrome mucocutânea linfonodal · vasculite sistêmica aguda de etiologia não totalmente elucidada</div>
+
+  <h3>Por que uma vasculite está nesta lista?</h3>
+  <p>Vale abrir esta última seção com uma advertência conceitual: a doença de Kawasaki não é uma doença infecciosa transmissível — é uma vasculite sistêmica aguda e autolimitada, de etiologia ainda não completamente esclarecida. Ela entra neste guia não porque se transmita como as nove condições anteriores, mas porque, na prática clínica real, ela compete lado a lado com elas no mesmo raciocínio diagnóstico: uma criança febril, com exantema, alterações mucocutâneas e linfadenopatia é exatamente o tipo de paciente em que sarampo, escarlatina e Kawasaki entram simultaneamente na cabeça do examinador. Ignorá-la deixaria esse diagnóstico diferencial artificialmente incompleto.</p>
+
+  <h3>Etiologia</h3>
+  <p>Apesar de décadas de investigação, nenhum agente causal único e universal foi identificado de forma conclusiva. A hipótese predominante é a de uma resposta imunológica desregulada, deflagrada por um ou mais agentes infecciosos ainda não definitivamente estabelecidos, em um hospedeiro geneticamente suscetível — variantes genéticas em genes reguladores da ativação de linfócitos T, como o gene ITPKC, já foram associadas a maior risco. A doença acomete predominantemente crianças menores de cinco anos, com pico de incidência entre nove e doze meses de idade, é de cinco a dez vezes mais frequente em crianças de ascendência asiática, e apresenta discreto predomínio no sexo masculino.</p>
+
+  <h3>Fisiopatologia</h3>
+  <p>A doença de Kawasaki é, no seu núcleo, uma vasculite necrosante que acomete preferencialmente artérias de médio calibre, com predileção marcante pelas artérias coronárias — e é exatamente essa predileção que torna a doença potencialmente grave, apesar de sua natureza autolimitada. O processo patológico evolui em fases: numa fase aguda inicial, ocorre infiltração neutrofílica intensa e edema da parede vascular, podendo configurar arterite necrosante nos casos mais graves. Segue-se uma fase subaguda com infiltração por linfócitos, plasmócitos e eosinófilos, que progressivamente destroem a lâmina elástica interna e a camada muscular lisa da parede arterial — e é essa destruição estrutural que permite à parede vascular, já enfraquecida, dilatar-se sob a pressão arterial normal, formando um aneurisma. Numa fase crônica tardia, fibrose progressiva e proliferação da íntima podem levar à estenose do vaso, muitas vezes nas margens de um aneurisma que já regrediu — o que explica por que as complicações coronarianas tardias incluem tanto eventos relacionados a trombose dentro de um aneurisma quanto estenose isquêmica em um ponto que já não é mais aneurismático.</p>
+  <details class="deepen">
+    <summary><span class="chevron">▸</span><span class="stitle">Aprofunde-se — mecanismo da imunoglobulina intravenosa e a distinção com a SIM-P/MIS-C</span></summary>
+    <div class="deepen-body">
+      <p>O mecanismo exato pelo qual a imunoglobulina intravenosa em dose alta reduz drasticamente o risco de aneurisma coronariano — de aproximadamente vinte e cinco por cento em pacientes não tratados para cerca de quatro por cento quando administrada dentro dos primeiros dez dias de doença — ainda não está completamente elucidado, mas diversos mecanismos têm sido propostos e provavelmente atuam em conjunto: saturação de receptores Fc em macrófagos, reduzindo a ativação de células inflamatórias mediada por anticorpos; fornecimento de anticorpos anti-idiotípicos capazes de neutralizar autoanticorpos ou imunocomplexos patogênicos; modulação da produção de citocinas inflamatórias; e expansão de linfócitos T reguladores. A eficácia clínica é solidamente estabelecida por décadas de evidência, mesmo que o mecanismo molecular preciso continue sendo objeto de pesquisa — um lembrete humilde de que a medicina frequentemente sabe "que funciona" antes de saber exatamente "por que funciona".</p>
+      <p>Um diagnóstico diferencial contemporâneo e clinicamente crucial é a síndrome inflamatória multissistêmica pediátrica associada à covid-19, também chamada de SIM-P ou, na literatura internacional, MIS-C. Trata-se de uma entidade distinta, embora com sobreposição fenotípica real com a doença de Kawasaki, que surge tipicamente duas a seis semanas após uma infecção por SARS-CoV-2, mesmo quando essa infecção inicial foi leve ou assintomática. Em comparação com o Kawasaki clássico, a SIM-P tende a acometer crianças um pouco mais velhas em média, cursa com maior frequência de sintomas gastrointestinais proeminentes e instabilidade hemodinâmica com risco de choque, e apresenta um perfil laboratorial com linfopenia mais acentuada e marcadores inflamatórios ainda mais elevados em boa parte dos estudos. A distinção não é apenas acadêmica: diferente da doença de Kawasaki clássica, a SIM-P está sujeita a vigilância epidemiológica e notificação específica no Brasil, justamente pelo vínculo estabelecido com a infecção por SARS-CoV-2 — um exemplo didático de como dois quadros clínicos quase indistinguíveis à beira do leito podem carregar obrigações de notificação completamente diferentes, dependendo do gatilho etiológico presumido.</p>
+    </div>
+  </details>
+
+  <h3>Quadro clínico e critérios diagnósticos</h3>
+  <p>O diagnóstico se apoia em critérios clínicos bem estabelecidos: febre igual ou superior a cinco dias, associada a pelo menos quatro dos cinco critérios principais. Primeiro, injeção conjuntival bilateral não exsudativa — o detalhe "não exsudativa", poupando o limbo, é o que ajuda a diferenciar de uma conjuntivite infecciosa comum. Segundo, alterações de mucosa oral: eritema e fissuras labiais, língua em framboesa, eritema difuso da orofaringe — notavelmente sem úlceras ou vesículas discretas, cuja presença apontaria para outro diagnóstico. Terceiro, exantema polimorfo, que pode assumir múltiplas formas — morbiliforme, maculopapular, escarlatiniforme — mas classicamente não vesicular nem bolhoso, o que também ajudaria a afastar Kawasaki caso presente. Quarto, alterações de extremidades: na fase aguda, eritema e edema de palmas e plantas; na fase convalescente, tipicamente na segunda ou terceira semana, descamação periungueal característica, iniciando ao redor das pontas dos dedos das mãos e dos pés. Quinto, linfadenopatia cervical, geralmente unilateral, com um linfonodo único maior que um e meio centímetro — notavelmente o critério menos consistentemente presente dos cinco, ocorrendo em proporção menor de pacientes que os demais.</p>
+  <p>Merece atenção especial a chamada doença de Kawasaki incompleta ou atípica, em que menos de quatro critérios estão presentes, mas achados laboratoriais e ecocardiográficos de suporte reforçam a suspeita. Essa apresentação é particularmente comum — e particularmente perigosa — em lactentes menores de seis meses, que paradoxalmente combinam maior probabilidade de quadro atípico com maior risco de complicações coronarianas, uma combinação que exige manter um limiar de suspeição elevado nesse grupo etário específico, mesmo diante de um quadro clínico incompleto.</p>
+  <details class="deepen">
+    <summary><span class="chevron">▸</span><span class="stitle">Aprofunde-se — achados laboratoriais de suporte e vigilância ecocardiográfica</span></summary>
+    <div class="deepen-body">
+      <p>Diante de uma apresentação incompleta, um conjunto de achados laboratoriais ajuda a sustentar a suspeita diagnóstica: elevação importante de marcadores inflamatórios como velocidade de hemossedimentação e proteína C-reativa, anemia de doença crônica, leucocitose com predomínio neutrofílico na fase aguda, hipoalbuminemia, elevação de transaminases hepáticas, e piúria estéril — inflamação da mucosa uretral sem bacteriúria verdadeira, refletindo o processo vasculítico sistêmico também acometendo essa mucosa. Um achado temporal particularmente importante de memorizar é a trombocitose, que caracteristicamente só se manifesta na segunda semana de doença — na fase muito aguda, inicial, a contagem de plaquetas costuma estar normal ou até discretamente reduzida, o que pode confundir quem espera encontrar trombocitose já nos primeiros dias.</p>
+      <p>O ecocardiograma é indispensável tanto no momento do diagnóstico quanto no seguimento, tipicamente repetido em uma a duas semanas e novamente em seis a oito semanas após o início da doença, para rastrear anormalidades coronarianas. As medidas do diâmetro das artérias coronárias são normalizadas pela superfície corporal do paciente através de escores-z, já que o diâmetro absoluto "normal" varia proporcionalmente ao tamanho da criança — uma medida absoluta isolada, sem essa normalização, não tem significado interpretável.</p>
+    </div>
+  </details>
+
+  <h3>Diagnóstico diferencial</h3>
+  <div class="diff-grid">
+    <div class="diff-item"><span class="diff-name">Escarlatina</span><span class="diff-desc">Língua em framboesa pode se sobrepor, mas teste rápido estreptocócico positivo e faringite exsudativa típica orientam para escarlatina.</span></div>
+    <div class="diff-item"><span class="diff-name">Sarampo</span><span class="diff-desc">Pródromo catarral proeminente e manchas de Koplik, ausentes na doença de Kawasaki.</span></div>
+    <div class="diff-item"><span class="diff-name">Síndrome do choque tóxico</span><span class="diff-desc">Hipotensão proeminente e instabilidade hemodinâmica precoce, contexto de infecção estafilocócica ou estreptocócica invasiva identificável.</span></div>
+    <div class="diff-item"><span class="diff-name">SIM-P / MIS-C</span><span class="diff-desc">Vínculo temporal com infecção prévia por SARS-CoV-2, sintomas gastrointestinais e choque mais proeminentes, notificação obrigatória distinta.</span></div>
+    <div class="diff-item"><span class="diff-name">Artrite idiopática juvenil sistêmica</span><span class="diff-desc">Febre de padrão intermitente característico, exantema evanescente que acompanha os picos febris, artrite mais proeminente ao longo do tempo.</span></div>
+  </div>
+
+  <h3>Tratamento</h3>
+  <p>O tratamento de primeira linha é a imunoglobulina intravenosa em dose única alta, idealmente administrada dentro dos primeiros dez dias de doença — ainda que o diagnóstico ocorra após esse período, o tratamento permanece indicado se houver sinais de inflamação ativa persistente ou aneurisma já documentado. Associa-se ácido acetilsalicílico em dose anti-inflamatória alta durante a fase aguda febril. Vale aqui uma pausa reflexiva importante, porque parece contradizer o que foi dito sobre varicela: por que o ácido acetilsalicílico é usado livremente aqui, se antes insistimos tanto em sua contraindicação absoluta em crianças com doença viral pelo risco de síndrome de Reye? A resposta está na ponderação de riscos específica deste contexto — na doença de Kawasaki, o risco trombótico decorrente da vasculite coronariana ativa supera, nesta situação clínica particular, o risco teórico de síndrome de Reye, e a dose é reduzida para uma dose antiplaquetária baixa assim que a febre cede, mantida por semanas a meses conforme os achados ecocardiográficos evoluem. Casos refratários, em que a febre persiste ou recrudesce após a primeira dose de imunoglobulina — o que ocorre numa minoria relevante dos pacientes — podem exigir uma segunda dose de imunoglobulina, corticosteroide sistêmico, ou terapias biológicas direcionadas, como o infliximabe, em centros especializados.</p>
+
+  <h3>Notificação compulsória</h3>
+  <span class="notif-badge">Não consta na lista nacional como entidade isolada</span>
+  <p>A doença de Kawasaki clássica não integra a Lista Nacional de Notificação Compulsória brasileira como entidade isolada. É essencial, porém, não confundir essa ausência de exigência formal com desimportância epidemiológica — a SIM-P/MIS-C, sua prima clínica ligada à covid-19 discutida acima, está sim sujeita a vigilância e notificação específica, precisamente pelo vínculo causal presumido com a infecção por SARS-CoV-2, o que reforça a importância de investigar ativamente história recente de covid-19, mesmo leve ou assintomática, diante de todo quadro compatível com Kawasaki.</p>
+
+  <h3>Prevenção</h3>
+  <p>Como a etiologia definitiva permanece não totalmente esclarecida, não existe medida de prevenção primária específica direcionada à doença de Kawasaki. O que existe, e que faz toda a diferença clínica, é a prevenção da complicação mais temida através do reconhecimento precoce e do tratamento oportuno — o intervalo entre o início da febre e o início da imunoglobulina intravenosa é, isoladamente, a variável mais importante determinando se uma criança terminará essa doença com artérias coronárias saudáveis ou com uma sequela que pode acompanhá-la pelo resto da vida.</p>
+</section>
+
+<section class="references" id="referencias">
+  <h2>Referências</h2>
+  <p class="refs-note">ABNT NBR 6023</p>
+  <p class="ref-entry">BENNETT, J. E.; DOLIN, R.; BLASER, M. J. Mandell, Douglas and Bennett's principles and practice of infectious diseases. 9. ed. Philadelphia: Elsevier, 2019.</p>
+  <p class="ref-entry">BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde e Ambiente. Portaria GM/MS nº 11.211, de 13 de maio de 2026. Altera a Lista Nacional de Notificação Compulsória de doenças, agravos e eventos de saúde pública nos serviços de saúde públicos e privados em todo o território nacional. Diário Oficial da União: Brasília, DF, 2026.</p>
+  <p class="ref-entry">BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde. Guia de vigilância em saúde. 6. ed. Brasília: Ministério da Saúde, 2024.</p>
+  <p class="ref-entry">BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde e Ambiente. Nota Técnica Conjunta nº 234/2026-CGVDI/DPNI/SVSA/MS. Alerta para intensificação das ações de identificação e notificação de casos suspeitos de sarampo. Brasília: Ministério da Saúde, 2026.</p>
+  <p class="ref-entry">JAMESON, J. L. et al. (ed.). Medicina interna de Harrison. 21. ed. Porto Alegre: AMGH, 2023. 2v.</p>
+  <p class="ref-entry">KIMBERLIN, D. W. et al. (ed.). Red book: 2021-2024 report of the committee on infectious diseases. 32. ed. Itasca: American Academy of Pediatrics, 2021.</p>
+  <p class="ref-entry">KLIEGMAN, R. M.; ST. GEME, J. W. (ed.). Nelson textbook of pediatrics. 21. ed. Philadelphia: Elsevier, 2020. 2v.</p>
+  <p class="ref-entry">KUMAR, V.; ABBAS, A. K.; ASTER, J. C. Robbins & Cotran: patologia — bases patológicas das doenças. 10. ed. Rio de Janeiro: Elsevier, 2021.</p>
+  <p class="ref-entry">MCCRINDLE, B. W. et al. Diagnosis, treatment, and long-term management of Kawasaki disease: a scientific statement for health professionals from the American Heart Association. Circulation, v. 135, n. 17, p. e927-e999, 2017.</p>
+  <p class="ref-entry">SÃO PAULO (Estado). Secretaria de Estado da Saúde. Centro de Vigilância Epidemiológica. Varicela: vigilância epidemiológica e imunoprofilaxia. Boletim Epidemiológico Paulista, São Paulo, v. 19, n. 217, 2022.</p>
+  <p class="ref-entry">SOCIEDADE BRASILEIRA DE PEDIATRIA. Departamento Científico de Reumatologia. Doença de Kawasaki. Documento científico n. 6. Rio de Janeiro: SBP, 2019.</p>
+</section>
+
+<footer class="doc-end">
+  <p>Guia de estudo autônomo — conteúdo gerado para fins didáticos, ciclo clínico, Uniarp-SC. As edições feitas neste navegador são salvas automaticamente a cada 15 segundos enquanto o modo de edição estiver ativo.</p>
+</footer>
+
+</main>
+</div>
+
+<div class="toolbar">
+  <button id="editToggle" type="button">Ativar edição</button>
+  <button id="downloadCopy" type="button">Baixar cópia editada</button>
+  <button id="restoreOriginal" type="button">Restaurar original</button>
+  <span class="save-flag" id="saveFlag"></span>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = 'estudo-exantemas-infancia-v1';
+  var content = document.querySelector('main.content');
+  var editBtn = document.getElementById('editToggle');
+  var downloadBtn = document.getElementById('downloadCopy');
+  var restoreBtn = document.getElementById('restoreOriginal');
+  var saveFlag = document.getElementById('saveFlag');
+  var menuToggle = document.getElementById('menuToggle');
+  var sidebar = document.getElementById('sidebar');
+  var editing = false;
+  var autosaveTimer = null;
+
+  function setSaveFlag(text){ if (saveFlag) saveFlag.textContent = text; }
+
+  try {
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      content.innerHTML = saved;
+      setSaveFlag('edição anterior restaurada');
+    }
+  } catch(e) { /* armazenamento local indisponível neste contexto */ }
+
+  if (menuToggle && sidebar) {
+    menuToggle.addEventListener('click', function(){ sidebar.classList.toggle('open'); });
+    document.querySelectorAll('.sidebar nav a').forEach(function(a){
+      a.addEventListener('click', function(){ sidebar.classList.remove('open'); });
+    });
+  }
+
+  var sections = document.querySelectorAll('.disease, .references');
+  var navLinks = document.querySelectorAll('.sidebar nav a');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          var id = entry.target.id;
+          navLinks.forEach(function(l){
+            l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function(s){ io.observe(s); });
+  }
+
+  function doAutosave(){
+    try {
+      localStorage.setItem(STORAGE_KEY, content.innerHTML);
+      setSaveFlag('salvo agora');
+    } catch(e) {
+      setSaveFlag('autosave indisponível');
+    }
+  }
+
+  editBtn.addEventListener('click', function(){
+    editing = !editing;
+    content.setAttribute('contenteditable', editing ? 'true' : 'false');
+    editBtn.classList.toggle('on', editing);
+    editBtn.textContent = editing ? 'Salvar e sair' : 'Ativar edição';
+    if (editing) {
+      setSaveFlag('editando…');
+      autosaveTimer = setInterval(doAutosave, 15000);
+    } else {
+      doAutosave();
+      if (autosaveTimer) clearInterval(autosaveTimer);
+    }
+  });
+
+  downloadBtn.addEventListener('click', function(){
+    var wasEditing = editing;
+    if (wasEditing) { content.setAttribute('contenteditable', 'false'); }
+    var clone = document.documentElement.cloneNode(true);
+    var cloneContent = clone.querySelector('main.content');
+    if (cloneContent) cloneContent.removeAttribute('contenteditable');
+    var cloneEditBtn = clone.querySelector('#editToggle');
+    if (cloneEditBtn) { cloneEditBtn.classList.remove('on'); cloneEditBtn.textContent = 'Ativar edição'; }
+    var cloneSidebar = clone.querySelector('#sidebar');
+    if (cloneSidebar) cloneSidebar.classList.remove('open');
+    var html = '<!DOCTYPE html>\n' + clone.outerHTML;
+    var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'exantemas-infancia-editado.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if (wasEditing) { content.setAttribute('contenteditable', 'true'); }
+    setSaveFlag('cópia baixada');
+  });
+
+  restoreBtn.addEventListener('click', function(){
+    try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+    location.reload();
+  });
+})();
+</script>
+</body>
+</html>

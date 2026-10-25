@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vias Aéreas Superiores e Meninges — Dossiê de Estudo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080b10;
+  --bg-elevated:#0f141b;
+  --bg-card:#121821;
+  --bg-card-hover:#161d27;
+  --border-subtle:#1e2732;
+  --border-soft:#26313e;
+  --text-primary:#e7edf5;
+  --text-secondary:#9fb0c3;
+  --text-muted:#63748a;
+  --font-title:'Merriweather', Georgia, serif;
+  --font-body:'DM Sans', -apple-system, sans-serif;
+  --font-mono:'DM Mono', 'Courier New', monospace;
+
+  --c00:#2dd4bf;
+  --c01:#f0ab3d;
+  --c02:#fb923c;
+  --c03:#8b96f6;
+  --c04:#ef5b5b;
+  --c05:#c084fc;
+  --c06:#52d17c;
+  --c07:#3fb6f0;
+  --c08:#5fd0d6;
+  --c09:#ef6ea8;
+  --c10:#e8c547;
+  --c11:#9fb0c3;
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--bg);
+  color:var(--text-primary);
+  font-family:var(--font-body);
+  font-size:16.5px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse 900px 500px at 15% -5%, rgba(45,212,191,0.05), transparent 60%),
+    radial-gradient(ellipse 900px 600px at 90% 10%, rgba(239,91,91,0.045), transparent 55%);
+  pointer-events:none;
+  z-index:0;
+}
+
+a{color:inherit;}
+
+/* ---------- SIDEBAR ---------- */
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0;
+  width:272px;
+  background:var(--bg-elevated);
+  border-right:1px solid var(--border-subtle);
+  overflow-y:auto;
+  padding:28px 0 28px 0;
+  z-index:50;
+}
+.sidebar::-webkit-scrollbar{width:6px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border-soft); border-radius:3px;}
+
+.sidebar-brand{
+  padding:0 24px 22px 24px;
+  border-bottom:1px solid var(--border-subtle);
+  margin-bottom:14px;
+}
+.sidebar-brand .tag{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:0.06em;
+  color:var(--text-muted);
+  display:block;
+  margin-bottom:6px;
+}
+.sidebar-brand .title{
+  font-family:var(--font-title);
+  font-size:17px;
+  font-weight:700;
+  line-height:1.4;
+  color:var(--text-primary);
+}
+
+.sidebar nav{display:flex; flex-direction:column; padding:6px 10px;}
+.sidebar nav a{
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  padding:8px 14px;
+  border-radius:6px;
+  text-decoration:none;
+  font-size:13.5px;
+  color:var(--text-secondary);
+  transition:background 0.15s ease, color 0.15s ease;
+}
+.sidebar nav a:hover{background:var(--bg-card); color:var(--text-primary);}
+.sidebar nav a.active{background:var(--bg-card); color:var(--text-primary);}
+.sidebar nav a .num{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--dot,var(--text-muted));
+  min-width:20px;
+}
+.sidebar nav a .dot{
+  width:6px; height:6px; border-radius:50%;
+  background:var(--dot,var(--text-muted));
+  flex-shrink:0;
+  margin-right:-2px;
+}
+
+/* ---------- MAIN ---------- */
+.main{
+  margin-left:272px;
+  position:relative;
+  z-index:1;
+}
+
+.hero{
+  padding:88px 64px 64px 64px;
+  border-bottom:1px solid var(--border-subtle);
+  background:
+    linear-gradient(180deg, rgba(45,212,191,0.06), transparent 70%);
+}
+.hero .eyebrow{
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  color:var(--c00);
+  display:block;
+  margin-bottom:18px;
+}
+.hero h1{
+  font-family:var(--font-title);
+  font-weight:900;
+  font-size:44px;
+  line-height:1.22;
+  max-width:780px;
+  color:var(--text-primary);
+}
+.hero p.lede{
+  margin-top:22px;
+  max-width:660px;
+  font-size:17.5px;
+  color:var(--text-secondary);
+  line-height:1.75;
+}
+.hero .meta-row{
+  margin-top:30px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.badge{
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  color:var(--text-secondary);
+  border:1px solid var(--border-soft);
+  padding:6px 12px;
+  border-radius:20px;
+  background:var(--bg-card);
+}
+
+.content{
+  padding:8px 64px 140px 64px;
+  max-width:920px;
+}
+
+section.block{
+  padding:56px 0 22px 0;
+  border-bottom:1px solid var(--border-subtle);
+  scroll-margin-top:24px;
+}
+section.block:last-of-type{border-bottom:none;}
+
+.section-head{
+  display:flex;
+  align-items:baseline;
+  gap:18px;
+  margin-bottom:28px;
+}
+.section-head .tag{
+  font-family:var(--font-mono);
+  font-size:13px;
+  color:var(--accent);
+  white-space:nowrap;
+  padding-bottom:2px;
+}
+.section-head .rule{
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg, var(--accent), transparent 85%);
+  opacity:0.55;
+}
+h2.section-title{
+  font-family:var(--font-title);
+  font-weight:700;
+  font-size:28px;
+  color:var(--text-primary);
+  margin-bottom:6px;
+  line-height:1.3;
+}
+p.section-kicker{
+  color:var(--text-secondary);
+  font-size:15.5px;
+  max-width:680px;
+  margin-bottom:8px;
+}
+
+h3.sub{
+  font-family:var(--font-title);
+  font-weight:700;
+  font-size:19.5px;
+  color:var(--text-primary);
+  margin:34px 0 12px 0;
+}
+h4.subsub{
+  font-family:var(--font-body);
+  font-weight:700;
+  font-size:15.5px;
+  color:var(--accent);
+  margin:24px 0 8px 0;
+}
+
+p{margin-bottom:14px; color:var(--text-primary); max-width:76ch;}
+p.small-note{font-size:13.8px; color:var(--text-muted); max-width:70ch;}
+em{color:var(--text-primary); font-style:italic;}
+ul,ol{margin:0 0 16px 22px; max-width:74ch;}
+li{margin-bottom:8px;}
+
+/* Cards */
+.card{
+  background:var(--bg-card);
+  border:1px solid var(--border-subtle);
+  border-top:3px solid var(--accent);
+  border-radius:8px;
+  padding:20px 22px;
+  margin:18px 0;
+}
+.card h5{
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:0.03em;
+  color:var(--accent);
+  margin-bottom:10px;
+}
+.card p:last-child{margin-bottom:0;}
+
+.card-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin:18px 0;
+}
+@media (max-width:760px){.card-grid{grid-template-columns:1fr;}}
+
+/* Alert / outline callouts */
+.alert{
+  border:1px solid var(--accent);
+  background:transparent;
+  border-radius:8px;
+  padding:16px 20px;
+  margin:20px 0;
+  position:relative;
+}
+.alert h5{
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  letter-spacing:0.03em;
+  color:var(--accent);
+  margin-bottom:8px;
+}
+.alert p:last-child{margin-bottom:0;}
+.alert.pearl{--accent-local:var(--accent);}
+
+/* Details / Aprofunde-se */
+details.deepen{
+  margin:20px 0;
+  border:1px solid var(--border-soft);
+  border-radius:8px;
+  background:var(--bg-elevated);
+  overflow:hidden;
+}
+details.deepen > summary{
+  list-style:none;
+  cursor:pointer;
+  padding:14px 20px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-family:var(--font-mono);
+  font-size:13px;
+  color:var(--accent);
+  user-select:none;
+}
+details.deepen > summary::-webkit-details-marker{display:none;}
+details.deepen > summary::before{
+  content:"▸";
+  display:inline-block;
+  transition:transform 0.2s ease;
+  color:var(--accent);
+}
+details.deepen[open] > summary::before{transform:rotate(90deg);}
+details.deepen > summary .lbl{color:var(--text-secondary); font-family:var(--font-body); font-size:13.5px;}
+details.deepen > .deepen-body{
+  padding:6px 22px 22px 22px;
+  border-top:1px solid var(--border-subtle);
+}
+details.deepen.level2{
+  margin:16px 0 6px 0;
+  background:var(--bg-card);
+}
+details.deepen.level2 > summary{font-size:12px; padding:11px 16px;}
+
+/* Field list (used instead of tables for structured comparisons) */
+.field-list{margin:16px 0;}
+.field-row{
+  display:flex;
+  gap:14px;
+  padding:10px 0;
+  border-bottom:1px solid var(--border-subtle);
+}
+.field-row:last-child{border-bottom:none;}
+.field-row .field-label{
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--accent);
+  min-width:168px;
+  flex-shrink:0;
+  padding-top:1px;
+}
+.field-row .field-value{color:var(--text-primary); font-size:15px;}
+
+/* Sequence numbering for major sections in nav; content sections keep their own numeral */
+.section-num{
+  font-family:var(--font-title);
+  font-weight:900;
+  font-size:15px;
+  color:var(--accent);
+}
+
+footer.refs{
+  padding:56px 0 40px 0;
+}
+footer.refs h2.section-title{margin-bottom:20px;}
+.ref-item{
+  font-size:14.5px;
+  color:var(--text-secondary);
+  padding-left:2.4em;
+  text-indent:-2.4em;
+  margin-bottom:14px;
+  max-width:78ch;
+}
+.ref-item .small-caps{font-variant:small-caps; color:var(--text-primary);}
+
+/* ---------- TOOLBAR ---------- */
+.toolbar{
+  position:fixed;
+  right:22px; bottom:22px;
+  z-index:200;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:8px;
+}
+.toolbar .notice{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--text-muted);
+  background:var(--bg-elevated);
+  border:1px solid var(--border-subtle);
+  padding:8px 12px;
+  border-radius:8px;
+  max-width:240px;
+  text-align:right;
+  display:none;
+}
+.toolbar .notice.show{display:block;}
+.toolbar-buttons{
+  display:flex;
+  gap:8px;
+  background:var(--bg-elevated);
+  border:1px solid var(--border-soft);
+  border-radius:30px;
+  padding:6px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.4);
+}
+.toolbar button{
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  color:var(--text-secondary);
+  background:transparent;
+  border:none;
+  padding:9px 14px;
+  border-radius:24px;
+  cursor:pointer;
+  transition:background 0.15s ease, color 0.15s ease;
+  white-space:nowrap;
+}
+.toolbar button:hover{background:var(--bg-card); color:var(--text-primary);}
+.toolbar button.active{background:var(--c00); color:#04211d;}
+.toolbar .save-status{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  color:var(--text-muted);
+  align-self:center;
+  padding-right:4px;
+  min-width:0;
+}
+
+[contenteditable="true"]{outline:1px dashed var(--border-soft); outline-offset:3px; border-radius:3px;}
+[contenteditable="true"]:focus{outline:1px dashed var(--c00);}
+
+@media (max-width:920px){
+  .sidebar{transform:translateX(-100%); transition:transform 0.2s ease;}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;}
+  .hero{padding:80px 24px 40px 24px;}
+  .content{padding:8px 24px 140px 24px;}
+  .hero h1{font-size:32px;}
+}
+</style>
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <span class="tag">UCXIV · 5ª FASE</span>
+    <span class="title">Vias Aéreas Superiores &amp; Meninges</span>
+  </div>
+  <nav id="sidenav">
+    <a href="#s00" style="--dot:var(--c00)"><span class="num dot"></span>Panorama sindrômico</a>
+    <a href="#s01" style="--dot:var(--c01)"><span class="num dot"></span>Anatomia dos seios da face</a>
+    <a href="#s02" style="--dot:var(--c02)"><span class="num dot"></span>Sinusite</a>
+    <a href="#s03" style="--dot:var(--c03)"><span class="num dot"></span>Anatomia das meninges</a>
+    <a href="#s04" style="--dot:var(--c04)"><span class="num dot"></span>Meningites</a>
+    <a href="#s05" style="--dot:var(--c05)"><span class="num dot"></span>COVID-19</a>
+    <a href="#s06" style="--dot:var(--c06)"><span class="num dot"></span>Rinite alérgica</a>
+    <a href="#s07" style="--dot:var(--c07)"><span class="num dot"></span>Influenza</a>
+    <a href="#s08" style="--dot:var(--c08)"><span class="num dot"></span>Resfriado comum</a>
+    <a href="#s09" style="--dot:var(--c09)"><span class="num dot"></span>Olfato e paladar</a>
+    <a href="#s10" style="--dot:var(--c10)"><span class="num dot"></span>Notificação compulsória</a>
+    <a href="#s11" style="--dot:var(--c11)"><span class="num dot"></span>Síntese integrativa</a>
+    <a href="#refs" style="--dot:var(--text-muted)"><span class="num dot"></span>Referências</a>
+  </nav>
+</aside>
+
+<div class="main">
+
+<div class="hero">
+  <span class="eyebrow">DOSSIÊ DE ESTUDO · UCXIV · SÍNDROMES DE VIAS AÉREAS SUPERIORES E MENINGES</span>
+  <h1 id="content-title">Do nariz às meninges: um mapa clínico das infecções e inflamações de vias aéreas superiores</h1>
+  <p class="lede">Sinusite, meningite, COVID-19, rinite alérgica, influenza e resfriado comum compartilham uma vizinhança anatômica — a mucosa respiratória alta — mas divergem profundamente em mecanismo, gravidade e conduta. Este material percorre cada uma delas partindo sempre da base estrutural necessária, fecha com o raciocínio sobre por que tantas dessas condições "roubam" o olfato e o paladar, e termina mapeando quais desses quadros o médico é obrigado, por lei, a notificar.</p>
+  <div class="meta-row">
+    <span class="badge">Fisiopatologia</span>
+    <span class="badge">Anatomia aplicada</span>
+    <span class="badge">Diagnóstico diferencial</span>
+    <span class="badge">Vigilância epidemiológica</span>
+    <span class="badge">Atualizado · Portaria GM/MS nº 11.211/2026</span>
+  </div>
+</div>
+
+<div class="content" id="content">
+
+<!-- ============ 00 ============ -->
+<section class="block" id="s00" style="--accent:var(--c00)">
+  <div class="section-head"><span class="tag">00 · PANORAMA</span><span class="rule"></span></div>
+  <h2 class="section-title">Uma síndrome, seis histórias diferentes</h2>
+  <p class="section-kicker">Por que estudar sinusite ao lado de meningite, COVID, rinite, influenza e resfriado no mesmo bloco — e o que isso ensina sobre raciocínio clínico.</p>
+
+  <p>Pare um instante antes de mergulhar em cada doença isoladamente e faça a si mesmo a pergunta que todo clínico experiente faz automaticamente diante de um paciente com "coriza e mal-estar": isso é uma via aérea alta inflamada por um vírus banal, ou é o primeiro capítulo de algo que pode chegar ao espaço subaracnóideo? Essa pergunta não é retórica — ela é o motivo pelo qual sinusite e meningite aparecem lado a lado neste dossiê, mesmo sendo, à primeira vista, doenças de gravidade tão distinta.</p>
+
+  <p>O trato respiratório superior — cavidade nasal, seios paranasais, nasofaringe, orofaringe e laringe — é revestido, quase em sua totalidade, por mucosa respiratória ciliada e por tecido linfoide associado (anel de Waldeyer). É também, não por acaso, a porta de entrada colonizadora de praticamente todos os patógenos que discutiremos: rinovírus, coronavírus sazonais e o próprio SARS-CoV-2, vírus influenza, e as bactérias que, em uma pequena fração de indivíduos, decidem deixar de ser hóspedes silenciosos da nasofaringe (<em>Streptococcus pneumoniae</em>, <em>Neisseria meningitidis</em>, <em>Haemophilus influenzae</em>) para se tornarem invasoras — seja localmente, obstruindo um óstio sinusal, seja sistemicamente, atravessando a barreira hematoencefálica. A rinite alérgica, por sua vez, não tem agente infeccioso algum, mas usa a mesma mucosa como palco para uma reação de hipersensibilidade — e vale a pena perguntar, a cada seção, "o que exatamente está inflamado aqui, e por qual mecanismo?"</p>
+
+  <div class="card">
+    <h5>COMO ESTE DOSSIÊ ESTÁ ORGANIZADO</h5>
+    <p>Sempre que uma doença exigir uma base estrutural específica para fazer sentido — os seios da face para a sinusite, as meninges e o espaço subaracnóideo para a meningite — a seção de anatomia vem imediatamente antes, como alicerce. COVID-19, rinite alérgica, influenza e resfriado comum dependem principalmente da fisiologia da mucosa nasal já descrita nessas seções anteriores, de modo que seguem direto para fisiopatologia. Ao final, duas perguntas transversais fecham o raciocínio: por que tantas dessas condições tiram o olfato e o paladar do paciente, e qual delas o médico é legalmente obrigado a notificar às autoridades sanitárias.</p>
+  </div>
+
+  <p class="small-note">Convite pedagógico: ao terminar cada seção, tente resumir a doença em uma frase que capture o mecanismo central — não a lista de sintomas. Se você conseguir dizer "a sinusite acontece porque X obstrui Y, que causa Z", você entendeu a doença de verdade, não apenas memorizou um quadro clínico.</p>
+</section>
+
+<!-- ============ 01 ============ -->
+<section class="block" id="s01" style="--accent:var(--c01)">
+  <div class="section-head"><span class="tag">01 · ANATOMIA APLICADA</span><span class="rule"></span></div>
+  <h2 class="section-title">Os seios paranasais: cavidades que deveriam estar vazias</h2>
+  <p class="section-kicker">A base estrutural sem a qual a fisiopatologia da sinusite não faz sentido nenhum.</p>
+
+  <p>Os seios paranasais são quatro pares de cavidades pneumatizadas dentro dos ossos da face — maxilar, etmoidal, frontal e esfenoidal — cuja função exata ainda gera debate (aligeramento do crânio, ressonância da voz, isolamento térmico da órbita e da base do crânio, produção de óxido nítrico), mas cuja relevância clínica é indiscutível: são cavidades fechadas, revestidas por mucosa respiratória, que dependem de um único mecanismo para se manterem estéreis e ventiladas — drenagem eficiente através de óstios estreitos. Entenda essa frase e você já entendeu 80% da fisiopatologia da sinusite antes mesmo de chegar à próxima seção.</p>
+
+  <h3 class="sub">Os quatro seios, um a um</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h5>SEIO MAXILAR</h5>
+      <p>O maior dos quatro, ocupa o corpo da maxila, logo acima das raízes dos dentes pré-molares e molares superiores — daí a dor referida odontológica que tantas vezes confunde o diagnóstico. Seu óstio de drenagem natural fica na parede medial <em>alta</em>, no meato médio, o que significa que, na posição ereta, a secreção precisa vencer a gravidade para sair: a drenagem depende quase inteiramente do batimento ciliar coordenado, não da postura.</p>
+    </div>
+    <div class="card">
+      <h5>SEIO ETMOIDAL</h5>
+      <p>Não é uma cavidade única, mas um labirinto de múltiplas células aéreas pequenas (anteriores e posteriores) entre as órbitas. Sua parede lateral, a lâmina papirácea, é finíssima e separa o etmoide da órbita — por isso a etmoidite é a principal porta de entrada para celulite e abscesso orbitário.</p>
+    </div>
+    <div class="card">
+      <h5>SEIO FRONTAL</h5>
+      <p>Drena através de um trajeto longo e estreito, o ducto (ou recesso) nasofrontal, até o meato médio. Sua ausência ao nascimento e pneumatização tardia (só se completa perto da puberdade) explicam por que sinusite frontal é rara antes dos 7-8 anos de idade.</p>
+    </div>
+    <div class="card">
+      <h5>SEIO ESFENOIDAL</h5>
+      <p>O mais posterior e profundo, vizinho direto do quiasma óptico, da sela túrcica (hipófise) e do seio cavernoso — com a artéria carótida interna correndo em sua parede lateral. Sinusite esfenoidal costuma causar dor referida ao vértex ou à região occipital e é a que mais frequentemente passa despercebida.</p>
+    </div>
+  </div>
+
+  <h4 class="subsub">O complexo ostiomeatal: o gargalo anatômico central</h4>
+  <p>Os óstios do seio maxilar, do frontal e das células etmoidais anteriores convergem para uma região estreita na parede lateral da fossa nasal chamada complexo ostiomeatal (COM). Qualquer coisa que edemacie essa região — um resfriado viral, uma crise de rinite alérgica, uma variante anatômica como a concha bullosa (pneumatização do corneto médio) — estreita ainda mais um espaço que já é naturalmente apertado, e basta um edema de poucos milímetros para transformar drenagem eficiente em obstrução completa. Perceba: isso significa que a sinusite quase nunca começa nos próprios seios. Ela começa na mucosa nasal, no COM, e só depois se propaga, por contiguidade, para dentro das cavidades sinusais.</p>
+
+  <details class="deepen">
+    <summary><span class="section-num">▸</span><span class="lbl">Aprofunde-se — o transporte mucociliar e por que ele falha</span></summary>
+    <div class="deepen-body">
+      <p>A mucosa que reveste seios e fossas nasais é um epitélio respiratório pseudoestratificado ciliado, coberto por duas camadas de fluido: uma camada periciliar mais fluida ("sol"), onde os cílios batem livremente, e uma camada de muco mais viscosa por cima ("gel"), que captura partículas e patógenos. Os cílios batem coordenadamente em ondas metacrônicas, a cerca de 1000 batimentos por minuto, empurrando o tapete de muco sempre em direção aos óstios naturais de drenagem — no seio maxilar, esse trajeto é literalmente espiralado, subindo pela parede medial até alcançar o óstio alto, um percurso que ignora completamente a gravidade.</p>
+      <p>Esse sistema falha por três vias que frequentemente se somam: (1) edema inflamatório da mucosa (viral, alérgico) estreita mecanicamente o óstio; (2) mediadores inflamatórios e toxinas bacterianas reduzem diretamente a frequência de batimento ciliar; (3) a própria estase de secreção, uma vez instalada, cria um ambiente hipóxico e rico em nutrientes que favorece a proliferação da flora bacteriana já colonizadora da cavidade nasal — tipicamente <em>Streptococcus pneumoniae</em>, <em>Haemophilus influenzae</em> não tipável e <em>Moraxella catarrhalis</em> em crianças. É este último mecanismo, e não uma "infecção nova" chegando de fora, que costuma converter uma sinusite viral em bacteriana.</p>
+      <details class="deepen level2">
+        <summary><span class="lbl">Mais fundo — óxido nítrico sinusal e variantes anatômicas</summary>
+        <div class="deepen-body">
+          <p>Os seios paranasais produzem concentrações de óxido nítrico (NO) muito mais altas que qualquer outro segmento das vias aéreas — hipótese corrente é que o NO tenha papel bactericida/bacteriostático local e também module o tônus vascular da mucosa. Pacientes com discinesia ciliar primária apresentam NO nasal extremamente baixo, um achado usado clinicamente como teste de triagem. Do ponto de vista anatômico, variantes como a concha bullosa (pneumatização do corneto médio), as células de Haller (células etmoidais que se estendem para o assoalho orbitário, estreitando o óstio maxilar) e o desvio de septo acentuado são fatores predisponentes estruturais para sinusite recorrente, e é justamente sobre elas que a tomografia computadorizada pré-operatória se debruça quando se planeja uma cirurgia endoscópica sinusal.</p>
+        </div>
+      </details>
+    </div>
+  </details>
+
+  <div class="alert">
+    <h5>CORRELAÇÃO CLÍNICA</h5>
+    <p>A inervação sensitiva dos seios vem do trigêmeo — ramo oftálmico (V1) para frontal, etmoidal e esfenoidal; ramo maxilar (V2) para o seio maxilar. Isso explica por que a dor de sinusite maxilar pode ser indistinguível, para o paciente, de uma dor de dente: ambas trafegam pelo mesmo nervo craniano.</p>
+  </div>
+</section>
+
+<!-- ============ 02 ============ -->
+<section class="block" id="s02" style="--accent:var(--c02)">
+  <div class="section-head"><span class="tag">02 · DOENÇA</span><span class="rule"></span></div>
+  <h2 class="section-title">Sinusite (rinossinusite aguda e crônica)</h2>
+  <p class="section-kicker">Fisiopatologia, quadro clínico, diagnóstico, diferencial, tratamento e prevenção.</p>
+
+  <p>As diretrizes internacionais atuais (EPOS — European Position Paper on Rhinosinusitis and Nasal Polyps) preferem o termo rinossinusite a "sinusite" isolada, por um motivo fisiopatológico simples: a mucosa nasal e a mucosa sinusal são contínuas, de modo que praticamente nunca existe inflamação sinusal sem inflamação nasal concomitante — são a mesma doença, vista em dois compartimentos do mesmo tubo.</p>
+
+  <h3 class="sub">Fisiopatologia</h3>
+  <p>Retome o conceito-chave da seção anterior: obstrução do complexo ostiomeatal → estase de secreção → hipóxia local e proliferação bacteriana → resposta inflamatória adicional → mais edema → mais obstrução. Esse é um círculo vicioso autoperpetuante, e é exatamente por isso que o tratamento da sinusite, em qualquer fase, sempre inclui alguma estratégia para "quebrar o ciclo" reduzindo o edema de mucosa (corticoide intranasal, lavagem salina), e não apenas atacar uma eventual bactéria.</p>
+  <p>Do ponto de vista temporal, a rinossinusite aguda evolui em estágios reconhecíveis: a fase viral (indistinguível de um resfriado comum, dura até 10 dias), a fase pós-viral (sintomas persistem além de 10 dias, mas sem piora — ainda inflamatória, não necessariamente bacteriana) e, em uma minoria — estima-se que apenas 0,5 a 2% dos resfriados evoluam assim —, a fase bacteriana aguda, sinalizada classicamente por dois padrões: sintomas que persistem sem melhora por mais de 10 dias, ou o fenômeno do "double sickening" (piora clínica nítida após uma fase inicial de melhora), ou ainda um quadro grave desde o início (febre alta, acima de 39°C, associada a dor facial importante e secreção purulenta nos primeiros 3-4 dias).</p>
+  <p>Na rinossinusite crônica (sintomas por 12 semanas ou mais), o padrão inflamatório muda de caráter: quando há pólipos nasais associados, predomina uma inflamação tipo 2, orquestrada por linfócitos Th2 e eosinófilos, com produção local de IL-4, IL-5 e IL-13 e IgE — o mesmo tipo de inflamação que você vai reencontrar quase idêntica na seção sobre rinite alérgica. Sem pólipos, o perfil tende a ser mais misto, Th1/Th17.</p>
+
+  <details class="deepen">
+    <summary><span class="lbl">Aprofunde-se — microbiologia por contexto clínico</span></summary>
+    <div class="deepen-body">
+      <p>Na sinusite aguda, os três patógenos dominantes em qualquer faixa etária são <em>Streptococcus pneumoniae</em>, <em>Haemophilus influenzae</em> não tipável e <em>Moraxella catarrhalis</em> — os mesmos três protagonistas da otite média aguda, o que não é coincidência, já que ambas as doenças compartilham o mesmo mecanismo obstrutivo em tubas diferentes (óstio sinusal versus tuba auditiva). Na sinusite crônica e na odontogênica (originada de foco dentário, geralmente unilateral e maxilar), a flora se torna polimicrobiana, com participação relevante de anaeróbios. Biofilmes bacterianos aderidos à mucosa — comunidades protegidas por uma matriz extracelular que dificulta tanto a ação de antibióticos quanto da resposta imune do hospedeiro — são hoje considerados um fator central de perpetuação da sinusite crônica refratária, e uma hipótese adicional propõe que superantígenos estafilocócicos amplifiquem localmente a resposta Th2 em pacientes com polipose.</p>
+    </div>
+  </details>
+
+  <h3 class="sub">Sinais e sintomas</h3>
+  <p>A dor ou pressão facial costuma localizar o seio acometido, e vale a pena memorizar esse mapa: dor malar e nos dentes superiores aponta para o seio maxilar; dor frontal que piora ao inclinar a cabeça para frente, para o frontal; dor entre os olhos ou retro-orbitária, para o etmoidal; e dor mal localizada, referida ao vértex, à região occipital ou retro-orbitária, para o esfenoidal — este último frequentemente subdiagnosticado justamente por não "doer onde deveria". Além da dor, compõem o quadro obstrução nasal, rinorreia anterior (para fora) ou posterior (goteira pós-nasal, que causa tosse, sobretudo noturna), hiposmia ou anosmia, halitose, fadiga e, na forma bacteriana aguda, febre.</p>
+
+  <h3 class="sub">Diagnóstico</h3>
+  <p>O diagnóstico da rinossinusite aguda é essencialmente clínico, baseado nos critérios de duração e nos padrões de piora descritos acima — pedir exame de imagem de rotina para um quadro agudo não complicado não muda a conduta e não deve ser feito. A tomografia computadorizada dos seios da face é reservada para três cenários: suspeita de complicação (orbital ou intracraniana), falha terapêutica repetida, ou planejamento pré-operatório na doença crônica/recorrente. Vale um alerta pedagógico importante: um espessamento de mucosa ou um nível hidroaéreo na tomografia não confirmam, por si só, etiologia bacteriana — o mesmo achado aparece em um resfriado comum não complicado, então a imagem sozinha nunca deve ser usada para justificar antibiótico. A endoscopia nasal, na doença crônica, permite visualizar diretamente pólipos e secreção purulenta emergindo do meato médio.</p>
+
+  <h3 class="sub">Diagnóstico diferencial</h3>
+  <p>O diferencial mais clinicamente relevante — e mais subestimado na prática — é a cefaleia primária: enxaqueca e cefaleia tensional frequentemente se apresentam com dor "facial" e congestão subjetiva, levando a diagnósticos equivocados de "sinusite" e ao uso repetido e desnecessário de antibióticos e descongestionantes. Compõem ainda o diferencial o resfriado comum (autolimitado, sem os critérios de piora ou duração prolongada da sinusite bacteriana), a rinite alérgica (prurido e espirros em salva proeminentes, sem dor facial franca nem febre), a nevralgia do trigêmeo, a dor odontogênica primária e, em quadros unilaterais persistentes ou atípicos — especialmente com sangramento —, um corpo estranho nasal (em crianças) ou um tumor nasossinusal, que sempre deve ser lembrado diante de sinusite unilateral refratária em adultos.</p>
+
+  <h3 class="sub">Tratamento</h3>
+  <p>Na fase viral e pós-viral, o tratamento é sintomático: analgésicos/antitérmicos, lavagem nasal com solução salina (que mecanicamente reduz a carga de secreção e mediadores inflamatórios), corticoide intranasal para reduzir o edema do complexo ostiomeatal, e descongestionante tópico por no máximo 3 a 5 dias — usá-lo por mais tempo causa rinite medicamentosa, um efeito rebote de congestão por dessensibilização dos receptores adrenérgicos da mucosa.</p>
+  <p>Na sinusite bacteriana aguda confirmada pelos critérios clínicos, muitos casos leves a moderados podem ser conduzidos com observação vigilante por até sete dias antes de iniciar antibiótico, dada a alta taxa de resolução espontânea. Quando indicado, a primeira escolha é amoxicilina, associada a clavulanato quando se deseja cobertura contra cepas produtoras de beta-lactamase, por 5 a 10 dias em adultos; doxiciclina é alternativa em alergia a penicilina, reservando fluoroquinolonas respiratórias (levofloxacino) para casos selecionados.</p>
+  <p>Na rinossinusite crônica, o corticoide intranasal é o pilar terapêutico — não apenas sintomático, mas capaz de reduzir o volume de pólipos — associado a lavagens nasais de grande volume com solução salina. Macrolídeos em dose baixa e prolongada são usados em casos selecionados pelo seu efeito imunomodulador, independente da ação antimicrobiana. A cirurgia endoscópica sinusal (CENS) fica reservada a pólipos refratários ou obstrução anatômica significativa, e biológicos direcionados à inflamação tipo 2 (anti-IL-4/IL-13, anti-IL-5, anti-IgE) representam a fronteira terapêutica atual para polipose nasossinusal grave e refratária.</p>
+
+  <div class="alert">
+    <h5>SINAL DE ALERTA — COMPLICAÇÕES</h5>
+    <p>Pela vizinhança anatômica descrita na seção 01, a sinusite pode complicar por contiguidade direta: celulite ou abscesso orbitário (via lâmina papirácea do etmoide), trombose de seio cavernoso (via seio esfenoidal), osteomielite do osso frontal — o clássico "tumor amolecido de Pott" — e, fechando o círculo deste dossiê, meningite ou abscesso intracraniano. Febre alta persistente, edema periorbitário, diplopia ou rebaixamento do nível de consciência associados a sinusite exigem investigação de imagem urgente, não apenas antibiótico oral.</p>
+  </div>
+
+  <h3 class="sub">Prevenção</h3>
+  <p>Controle adequado da rinite alérgica de base, cessação do tabagismo, vacinação (influenza e pneumocócica reduzem tanto a frequência de IVAS virais quanto o risco de superinfecção bacteriana) e correção cirúrgica de variantes anatômicas obstrutivas relevantes em pacientes com recorrência significativa.</p>
+</section>
+
+<!-- ============ 03 ============ -->
+<section class="block" id="s03" style="--accent:var(--c03)">
+  <div class="section-head"><span class="tag">03 · ANATOMIA APLICADA</span><span class="rule"></span></div>
+  <h2 class="section-title">As meninges e o espaço subaracnóideo</h2>
+  <p class="section-kicker">A base estrutural sem a qual nada na fisiopatologia da meningite faz sentido.</p>
+
+  <p>As meninges são três membranas concêntricas que envolvem encéfalo e medula espinal, e cada uma delas define, entre si, um espaço clinicamente relevante — vale a pena decorar essa lógica de "camada define espaço", porque cada espaço tem uma doença associada característica.</p>
+
+  <div class="field-list">
+    <div class="field-row"><span class="field-label">Dura-máter</span><span class="field-value">Camada externa, espessa e resistente, dupla (periosteal e meníngea — entre elas correm os seios venosos durais). Forma dobras que compartimentalizam o crânio: a foice do cérebro entre os hemisférios e a tenda do cerebelo separando cérebro de cerebelo.</span></div>
+    <div class="field-row"><span class="field-label">Espaço epidural</span><span class="field-value">Espaço potencial entre crânio e dura-máter, onde corre a artéria meníngea média — sua laceração por trauma craniano produz o hematoma epidural, classicamente com intervalo lúcido.</span></div>
+    <div class="field-row"><span class="field-label">Espaço subdural</span><span class="field-value">Espaço potencial entre dura e aracnoide, atravessado pelas frágeis veias-ponte — sua ruptura, mais comum em idosos com atrofia cerebral, gera o hematoma subdural.</span></div>
+    <div class="field-row"><span class="field-label">Aracnoide-máter</span><span class="field-value">Membrana avascular intermediária. Suas projeções (granulações aracnóideas) perfuram a dura para reabsorver líquido cefalorraquidiano (LCR) diretamente nos seios venosos, principalmente o seio sagital superior.</span></div>
+    <div class="field-row"><span class="field-label">Espaço subaracnóideo</span><span class="field-value">Espaço real — não apenas potencial — entre aracnoide e pia-máter, preenchido por LCR e percorrido pelos grandes vasos cerebrais. É exatamente aqui que a meningite se instala e que uma hemorragia subaracnóidea (ruptura de aneurisma) extravasa sangue.</span></div>
+    <div class="field-row"><span class="field-label">Pia-máter</span><span class="field-value">Membrana interna, delicada e vascularizada, aderida intimamente à superfície do encéfalo, acompanhando cada sulco e giro.</span></div>
+  </div>
+
+  <h3 class="sub">Circulação do líquido cefalorraquidiano</h3>
+  <p>O LCR é produzido pelo plexo coroide, presente nos ventrículos laterais, terceiro e quarto ventrículos, a um ritmo de aproximadamente 500 mL por dia — o que, contra um volume total de cerca de 150 mL, significa que o LCR se renova completamente três a quatro vezes ao dia. Seu trajeto é: ventrículos laterais → forame interventricular (de Monro) → terceiro ventrículo → aqueduto cerebral (de Sylvius) → quarto ventrículo → forames de Luschka (dois, laterais) e de Magendie (um, mediano) → espaço subaracnóideo → reabsorção pelas granulações aracnóideas no seio sagital superior. Esse trajeto longo e estreito é justamente o que torna o sistema vulnerável à obstrução — e explica por que a meningite bacteriana, ao encher o espaço subaracnóideo e as granulações aracnóideas de exsudato purulento espesso, tão frequentemente evolui com hidrocefalia.</p>
+
+  <details class="deepen">
+    <summary><span class="lbl">Aprofunde-se — duas barreiras, não uma</span></summary>
+    <div class="deepen-body">
+      <p>É comum o aluno falar em "barreira hematoencefálica" como se fosse uma estrutura única, mas existem duas interfaces distintas e clinicamente relevantes. A barreira hematoencefálica propriamente dita é formada pelo endotélio capilar cerebral, com junções de oclusão (tight junctions) extremamente firmes entre as células endoteliais, reforçadas pelos pés terminais dos astrócitos e por pericitos — ela regula a troca entre o sangue e o parênquima cerebral. Já a barreira hematoliquórica é formada pelas células epiteliais do plexo coroide, unidas por junções semelhantes, e regula a troca entre o sangue e o LCR dentro dos ventrículos. Ambas, em condições normais, dificultam a penetração de antibióticos no sistema nervoso central — o que justifica o uso de doses de antibiótico muito mais altas no tratamento da meningite do que em uma infecção sistêmica comum. Curiosamente, a própria inflamação meníngea aumenta a permeabilidade dessas barreiras, o que paradoxalmente ajuda a droga a penetrar melhor durante a doença ativa — um dos motivos pelos quais reduzir bruscamente a inflamação com corticoide antes de perder essa "janela" de permeabilidade tem implicações terapêuticas discutidas na seção seguinte.</p>
+    </div>
+  </details>
+
+  <div class="alert">
+    <h5>VIAS DE INVASÃO AO SISTEMA NERVOSO CENTRAL</h5>
+    <p>Um patógeno pode alcançar as meninges por três rotas: hematogênica (a mais comum — bacteremia a partir de um foco distante, tipicamente a própria nasofaringe colonizada), por contiguidade (propagação direta a partir de sinusite, otite ou mastoidite não tratadas, ou através de uma fístula liquórica pós-traumática em fratura de base de crânio) e por via neural retrógrada (típica de vírus neurotrópicos como herpes simples e raiva, que "sobem" por axônios).</p>
+  </div>
+</section>
+
+<!-- ============ 04 ============ -->
+<section class="block" id="s04" style="--accent:var(--c04)">
+  <div class="section-head"><span class="tag">04 · DOENÇA</span><span class="rule"></span></div>
+  <h2 class="section-title">Meningites: bacteriana, viral e fúngica</h2>
+  <p class="section-kicker">Fisiopatologia, quadro clínico, diagnóstico diferencial pelo líquor, tratamento, prevenção e quimioprofilaxia.</p>
+
+  <p>Meningite é, por definição, a inflamação das leptomeninges (aracnoide e pia-máter) e do LCR contido no espaço subaracnóideo. O termo diz respeito ao processo inflamatório, não ao agente causal — e é exatamente por isso que diferenciar rapidamente a etiologia pelo padrão do líquor, antes mesmo da cultura ficar pronta, é uma das habilidades diagnósticas mais valiosas da clínica.</p>
+
+  <h3 class="sub">Fisiopatologia da meningite bacteriana</h3>
+  <p>Siga a cadeia de eventos como uma sequência de etapas que a bactéria precisa vencer, uma a uma: primeiro, colonização da mucosa nasofaríngea, evadindo a IgA secretora local através de proteases específicas que a própria bactéria produz. Em seguida, invasão da mucosa por transcitose através das células epiteliais, alcançando a corrente sanguínea. Uma vez em bacteremia, o fator de virulência decisivo é a cápsula polissacarídica — presente em <em>Streptococcus pneumoniae</em>, <em>Neisseria meningitidis</em> e <em>Haemophilus influenzae</em> tipo b — que confere resistência à fagocitose e à ação do complemento, permitindo que a bactéria sobreviva em concentração suficiente no sangue para, então, atravessar a barreira hematoencefálica.</p>
+  <p>Essa travessia ocorre preferencialmente ao nível dos plexos coroides, uma região de fluxo sanguíneo lento e vigilância imune comparativamente mais baixa. Uma vez no LCR — um ambiente naturalmente pobre em complemento e imunoglobulinas, portanto com defesa imune inata mínima —, a bactéria encontra condições quase ideais para multiplicação praticamente sem oposição.</p>
+  <p>É aqui que entra o ponto mais contraintuitivo e mais importante de toda a fisiopatologia da meningite: grande parte do dano neurológico não vem da bactéria diretamente, mas da resposta inflamatória do hospedeiro contra ela. Quando as bactérias se multiplicam e sofrem lise (inclusive lise induzida pelo próprio antibiótico), liberam componentes de parede celular — lipopolissacarídeo (LPS) nas Gram-negativas, ácido lipoteicoico e peptideoglicano nas Gram-positivas — que ativam receptores toll-like em micróglia, astrócitos e macrófagos meníngeos, disparando uma cascata pró-inflamatória maciça (TNF-α, IL-1β, IL-6, IL-8). Essa tempestade inflamatória local aumenta ainda mais a permeabilidade da barreira hematoencefálica, gerando edema cerebral por três mecanismos simultâneos — vasogênico (extravasamento por quebra da barreira), citotóxico (lesão neuronal e glial direta) e intersticial (por obstrução da drenagem normal do LCR) —, o que eleva a pressão intracraniana e reduz a pressão de perfusão cerebral. Some a isso uma vasculite e vasoespasmo dos vasos que atravessam o espaço subaracnóideo inflamado, e você tem o quadro completo do porquê a meningite bacteriana deixa sequelas: infartos corticais, surdez neurossensorial (a complicação mais comum na meningite pneumocócica, por comprometimento coclear), déficits motores, epilepsia sintomática e hidrocefalia.</p>
+
+  <details class="deepen">
+    <summary><span class="lbl">Aprofunde-se — por que o corticoide entra antes do antibiótico</span></summary>
+    <div class="deepen-body">
+      <p>Se a lise bacteriana induzida pelo antibiótico libera ainda mais componentes de parede celular e amplifica a cascata inflamatória, faz sentido perguntar: não seria melhor atenuar essa resposta inflamatória antes mesmo de matar as bactérias? É exatamente esse o racional por trás da recomendação de administrar dexametasona simultaneamente ou até antes da primeira dose de antibiótico na suspeita de meningite bacteriana, particularmente pneumocócica — estudos demonstraram redução de mortalidade e, sobretudo, redução da incidência de surdez neurossensorial quando essa sequência é respeitada. Administrar o corticoide depois de várias doses de antibiótico perde grande parte desse benefício, porque a cascata inflamatória já está em curso pleno.</p>
+    </div>
+  </details>
+
+  <h3 class="sub">Etiologia por faixa etária</h3>
+  <div class="field-list">
+    <div class="field-row"><span class="field-label">Neonatos</span><span class="field-value"><em>Streptococcus agalactiae</em> (grupo B), <em>Escherichia coli</em>, <em>Listeria monocytogenes</em> — adquiridos no canal de parto ou por via hematogênica materna.</span></div>
+    <div class="field-row"><span class="field-label">Lactentes e crianças</span><span class="field-value"><em>Streptococcus pneumoniae</em>, <em>Neisseria meningitidis</em>, <em>Haemophilus influenzae</em> tipo b — este último drasticamente reduzido onde a vacinação Hib é ampla.</span></div>
+    <div class="field-row"><span class="field-label">Adultos jovens</span><span class="field-value"><em>Neisseria meningitidis</em>, com relevância epidemiológica particular em coletividades fechadas (quartéis, alojamentos universitários), onde a transmissão por gotículas respiratórias entre portadores nasofaríngeos assintomáticos favorece surtos.</span></div>
+    <div class="field-row"><span class="field-label">Adultos &gt;50 anos e imunocomprometidos</span><span class="field-value"><em>Streptococcus pneumoniae</em> e <em>Listeria monocytogenes</em>, esta última exigindo cobertura empírica adicional com ampicilina.</span></div>
+  </div>
+
+  <h3 class="sub">Quadro clínico</h3>
+  <p>A tríade clássica — febre, rigidez de nuca e alteração do nível de consciência — está presente, isoladamente, em menos da metade dos casos, mas a quase totalidade dos pacientes apresenta ao menos dois dos quatro sinais cardinais quando se inclui a cefaleia intensa. Os sinais de irritação meníngea, Kernig e Brudzinski, têm um mecanismo elegante: a inflamação das raízes nervosas lombossacras que atravessam o espaço subaracnóideo torna seu estiramento doloroso, desencadeando um espasmo reflexo de proteção da musculatura paravertebral e dos flexores do quadril quando se tenta esticar a perna do paciente (Kernig) ou flexionar seu pescoço (Brudzinski, que provoca flexão reflexa dos joelhos). Completam o quadro fotofobia, náuseas e vômitos (por hipertensão intracraniana e irritação direta do centro do vômito), petéquias e púrpura — sinal de alerta máximo de meningococcemia, indicando sepse e possível coagulação intravascular disseminada — e, em casos avançados, sinais de hipertensão intracraniana como papiledema e, tardiamente, a tríade de Cushing (hipertensão, bradicardia, respiração irregular). Em neonatos e lactentes, o quadro costuma ser inespecífico: irritabilidade, recusa alimentar, hipotonia e abaulamento de fontanela — exigindo altíssimo grau de suspeição clínica.</p>
+
+  <h3 class="sub">Diagnóstico e diferenciação pelo líquor</h3>
+  <p>A punção lombar com análise do LCR é o exame central — mas antes de realizá-la é preciso avaliar sinais que sugiram risco de herniação com a punção (déficit neurológico focal, papiledema, convulsão recente, imunocomprometimento grave, rebaixamento importante do nível de consciência), casos em que uma tomografia de crânio deve preceder a punção. Um ponto crucial de conduta: isso nunca deve atrasar o início do antibiótico empírico, que é administrado imediatamente após a coleta de hemoculturas, independentemente de quando a punção lombar puder ser realizada.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h5>BACTERIANA</h5>
+      <p>Aspecto turvo/purulento. Pressão de abertura elevada. Celularidade muito alta (100 a &gt;5000 células/mm³), predomínio neutrofílico acima de 80%. Proteína alta (100–500 mg/dL). Glicose baixa (&lt;40 mg/dL, ou relação LCR/soro &lt;0,4) — consumida pelas bactérias e pelos neutrófilos, além de disfunção do transportador de glicose GLUT1 induzida pela inflamação. Lactato elevado (&gt;3,5 mmol/L), um marcador útil por não ser alterado por punção traumática.</p>
+    </div>
+    <div class="card">
+      <h5>VIRAL (ASSÉPTICA)</h5>
+      <p>Aspecto claro. Pressão normal ou discretamente elevada. Celularidade discreta a moderada (10–500 células/mm³), predomínio linfomonocitário — atenção: nas primeiras 24–48h pode haver predomínio neutrofílico transitório ("mudança de fase"), uma armadilha diagnóstica clássica; na dúvida, repete-se a punção. Proteína normal ou levemente elevada (&lt;100 mg/dL). Glicose normal (relação LCR/soro &gt;0,6). PCR para enterovírus, herpes simples e varicela-zóster confirmam a etiologia específica.</p>
+    </div>
+    <div class="card">
+      <h5>FÚNGICA (EX.: CRYPTOCOCCUS)</h5>
+      <p>Aspecto claro ou discretamente turvo. Pressão de abertura frequentemente <em>muito</em> elevada — traço característico do criptococo, cujo polissacarídeo capsular obstrui as granulações aracnóideas, o que justifica punções de alívio seriadas como parte do próprio tratamento da hipertensão intracraniana. Celularidade baixa a moderada, predomínio linfocitário. Proteína elevada. Glicose baixa a normal, com queda mais discreta que na bacteriana e evolução tipicamente insidiosa, ao longo de dias a semanas — típica de paciente imunocomprometido (HIV avançado). Tinta da Índia visualiza a cápsula; o antígeno criptocócico (CrAg) no LCR ou soro tem sensibilidade e especificidade altíssimas e, na prática, substituiu a tinta da Índia.</p>
+    </div>
+    <div class="card">
+      <h5>NOTA — MENINGITE TUBERCULOSA</h5>
+      <p>Vale conhecer como padrão "atípico" de referência: evolução subaguda, celularidade linfocitária (por vezes neutrofílica no início), proteína <em>muito</em> elevada — podendo formar um retículo de fibrina em repouso, a clássica "teia de aranha" — e glicose <em>muito</em> baixa, com acometimento preferencial da base do crânio (meningite basal), frequentemente causando paralisias de nervos cranianos.</p>
+    </div>
+  </div>
+
+  <h3 class="sub">Tratamento</h3>
+  <p>A meningite bacteriana é uma emergência médica verdadeira: a antibioticoterapia empírica deve começar imediatamente, sem aguardar resultado de exames. O esquema padrão combina uma cefalosporina de terceira geração (ceftriaxona ou cefotaxima), que cobre pneumococo e meningococo, com vancomicina empírica adicionada pela preocupação com cepas pneumocócicas resistentes à penicilina até que o teste de sensibilidade esteja disponível; ampicilina é somada ao esquema quando há risco de <em>Listeria</em> — idade acima de 50 anos, imunossupressão, gestação ou período neonatal. Como discutido, a dexametasona deve ser administrada simultaneamente ou antes da primeira dose de antibiótico.</p>
+  <p>Na meningite viral, a maioria dos casos — sobretudo por enterovírus — é autolimitada e tratada apenas com suporte. Diante de suspeita de encefalite ou meningite herpética (HSV), no entanto, o aciclovir deve ser iniciado empiricamente até que essa etiologia seja excluída, dada sua gravidade potencial se não tratada a tempo. Na meningite criptocócica, o esquema padrão combina anfotericina B e flucitosina na fase de indução, seguido de fluconazol de consolidação e manutenção prolongada, sempre associado ao manejo agressivo da hipertensão intracraniana por meio de punções liquóricas de alívio seriadas.</p>
+
+  <h3 class="sub">Prevenção e quimioprofilaxia</h3>
+  <p>A vacinação é a intervenção de maior impacto em saúde pública: vacinas meningocócicas (ACWY e B), pneumocócica conjugada e Hib fazem parte do calendário vacinal justamente por essa razão. Um ponto de prova recorrente: diante de caso confirmado ou fortemente suspeito de doença meningocócica ou de meningite por <em>Haemophilus influenzae</em> tipo b, indica-se quimioprofilaxia dos contactantes próximos (rifampicina, ciprofloxacino ou ceftriaxona, conforme o cenário), porque o objetivo não é tratar uma infecção já estabelecida nesses contatos, mas eliminar o estado de portador nasofaríngeo assintomático que poderia gerar casos secundários no núcleo familiar ou institucional. O isolamento respiratório por gotículas nas primeiras 24 horas de antibioticoterapia também é indicado para meningococo.</p>
+</section>
+
+<!-- ============ 05 ============ -->
+<section class="block" id="s05" style="--accent:var(--c05)">
+  <div class="section-head"><span class="tag">05 · DOENÇA</span><span class="rule"></span></div>
+  <h2 class="section-title">COVID-19</h2>
+  <p class="section-kicker">Fisiopatologia, quadro clínico, diagnóstico, diferencial, tratamento e prevenção.</p>
+
+  <p>O SARS-CoV-2 é um coronavírus de RNA fita simples de polaridade positiva, gênero <em>Betacoronavirus</em>. Toda a sua fisiopatologia gira em torno de uma molécula: a proteína Spike (S) na superfície viral, que se liga à enzima conversora de angiotensina 2 (ECA2) na superfície das células do hospedeiro — um receptor amplamente expresso em células epiteliais respiratórias (incluindo as células sustentaculares da mucosa olfatória nasal, tema central da seção 09), pneumócitos tipo II, células endoteliais e enterócitos. Para completar a entrada na célula, o vírus também depende de uma protease do próprio hospedeiro, a TMPRSS2, que cliva a proteína Spike e permite a fusão de membranas.</p>
+
+  <h3 class="sub">Fases da doença</h3>
+  <p>É didaticamente útil dividir a evolução em três fases, que nem todo paciente atravessa: uma fase viral inicial, dominada pela replicação do vírus e por sintomas de vias aéreas superiores; em uma minoria, uma fase pulmonar/inflamatória, na qual uma resposta imune desregulada — a chamada "tempestade de citocinas", com elevação marcante de IL-6, TNF-α e IL-1 — provoca dano pulmonar difuso e pode evoluir para síndrome do desconforto respiratório agudo (SDRA); e uma fase trombótica, com endotelite (inflamação direta do endotélio vascular pelo vírus) e um estado de hipercoagulabilidade sistêmica, refletido pela elevação do D-dímero, que aumenta o risco de tromboembolismo venoso e arterial.</p>
+
+  <h3 class="sub">Quadro clínico</h3>
+  <p>O espectro é amplíssimo, do assintomático à SDRA fatal. Os sintomas típicos incluem febre, tosse seca, mialgia, fadiga, odinofagia, cefaleia, diarreia e — um achado que se tornou um marcador clínico relativamente específico da doença nas ondas iniciais da pandemia — anosmia e disgeusia, cuja frequência diminuiu de forma expressiva com variantes e subvariantes mais recentes, que têm menor tropismo pelas células sustentaculares olfatórias. Sinais de gravidade que exigem atenção redobrada incluem dispneia, saturação de oxigênio abaixo de 94%, taquipneia e confusão mental, esta última particularmente em idosos, nos quais pode ser a única manifestação evidente de hipóxia significativa.</p>
+
+  <h3 class="sub">Diagnóstico</h3>
+  <p>O RT-PCR continua sendo o padrão-ouro, por detectar diretamente o RNA viral com alta sensibilidade. Testes antigênicos rápidos têm sensibilidade menor, mas são úteis para triagem rápida na fase sintomática inicial, quando a carga viral costuma ser mais alta. A sorologia (IgM/IgG) tem valor predominantemente epidemiológico e não deve ser usada para diagnóstico da fase aguda. A tomografia de tórax pode mostrar o padrão característico de vidro fosco periférico e bilateral, mas não é exame obrigatório para o diagnóstico.</p>
+
+  <h3 class="sub">Diagnóstico diferencial</h3>
+  <p>A sobreposição sintomática com influenza e outras viroses respiratórias é significativa o suficiente para que a distinção definitiva, na prática, dependa de teste específico — a impressão clínica isolada não é confiável para diferenciá-las com segurança. Quando predominam sintomas nasais isolados sem toxemia sistêmica relevante, sinusite e rinite entram no diferencial.</p>
+
+  <h3 class="sub">Tratamento</h3>
+  <p>A maioria dos casos exige apenas suporte — hidratação e antitérmico. O antiviral nirmatrelvir/ritonavir está indicado em pacientes com fatores de risco para evolução grave, sendo mais eficaz quando iniciado precocemente. O corticoide (dexametasona) tem seu papel reservado exclusivamente para casos graves com necessidade de oxigênio suplementar — administrado nessa fase inflamatória tardia, reduz mortalidade, mas usado precocemente na fase viral pode ser deletério, por suprimir justamente a resposta imune necessária para eliminar o vírus. Em pacientes hospitalizados, a anticoagulação profilática é recomendada pelo risco trombótico já descrito.</p>
+
+  <h3 class="sub">Prevenção</h3>
+  <p>A vacinação continua sendo a medida de maior impacto, reduzindo formas graves e mortalidade mesmo quando não previne totalmente a infecção. Medidas de barreira (máscaras, higiene das mãos, distanciamento) e ventilação adequada de ambientes mantêm relevância em contextos de surto ou alta transmissão comunitária.</p>
+
+  <details class="deepen">
+    <summary><span class="lbl">Aprofunde-se — a tempestade de citocinas e a linfopenia</span></summary>
+    <div class="deepen-body">
+      <p>Nos casos graves, observa-se tipicamente linfopenia proeminente no hemograma — um achado que, à primeira vista, parece contraditório diante de uma resposta inflamatória tão intensa. A explicação mais aceita combina múltiplos mecanismos: redistribuição de linfócitos para os tecidos inflamados (incluindo o pulmão), apoptose linfocitária induzida pelas próprias citocinas inflamatórias em excesso (particularmente TNF-α), e possível efeito citopático direto sobre subpopulações linfocitárias. Clinicamente, o grau de linfopenia correlaciona-se com gravidade e tem sido usado como marcador prognóstico simples e amplamente disponível.</p>
+      <p class="small-note">Nota regulatória — a covid-19 deixou de figurar como item isolado na Lista Nacional de Notificação Compulsória em maio de 2026; o raciocínio completo está na seção 10 deste dossiê.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ============ 06 ============ -->
+<section class="block" id="s06" style="--accent:var(--c06)">
+  <div class="section-head"><span class="tag">06 · DOENÇA</span><span class="rule"></span></div>
+  <h2 class="section-title">Rinite alérgica</h2>
+  <p class="section-kicker">A única das seis condições deste dossiê sem agente infeccioso — fisiopatologia, quadro clínico, diagnóstico, diferencial, tratamento e prevenção.</p>
+
+  <p>A rinite alérgica é uma reação de hipersensibilidade tipo I, mediada por IgE, contra a mucosa nasal. Vale a pena revisar as duas fases dessa hipersensibilidade com calma, porque elas explicam quase todo o quadro clínico e por que certos medicamentos funcionam melhor para uns sintomas do que para outros.</p>
+
+  <h3 class="sub">Fase de sensibilização (silenciosa)</h3>
+  <p>No primeiro contato com um alérgeno — ácaros, pólen, fungos, epitélio de animais —, células apresentadoras de antígeno processam o alérgeno e promovem a diferenciação de linfócitos T auxiliares para o perfil Th2. Esses linfócitos produzem IL-4 e IL-13, que induzem a troca de classe dos linfócitos B para a produção de IgE específica contra aquele alérgeno. Essa IgE se liga a receptores de alta afinidade (FcεRI) na superfície de mastócitos e basófilos residentes na mucosa nasal — e é importante entender que, até aqui, o paciente está apenas "sensibilizado", sem sintoma algum.</p>
+
+  <h3 class="sub">Fase de reação imediata (minutos)</h3>
+  <p>Numa reexposição ao mesmo alérgeno, a ligação cruzada entre o alérgeno e as moléculas de IgE já fixadas na superfície dos mastócitos desencadeia degranulação imediata, liberando histamina, triptase, leucotrienos (LTC4, LTD4) e prostaglandina D2. Esses mediadores provocam vasodilatação e aumento de permeabilidade vascular (congestão), estimulação direta de terminações nervosas sensoriais (prurido e o reflexo do espirro) e hipersecreção glandular (rinorreia hialina e aquosa).</p>
+
+  <h3 class="sub">Fase tardia (4 a 8 horas depois)</h3>
+  <p>Horas após a reação imediata, quimiocinas e moléculas de adesão recrutam eosinófilos, basófilos e mais linfócitos Th2 para a mucosa, mantendo a inflamação e, sobretudo, a obstrução nasal — que costuma ser o sintoma mais persistente e mais refratário aos anti-histamínicos, precisamente porque nesta fase a histamina já não é o mediador dominante.</p>
+
+  <h3 class="sub">Quadro clínico</h3>
+  <p>A tétrade clássica reúne espirros em salva, rinorreia hialina, prurido (nasal, mas também ocular, de palato e de conduto auditivo) e obstrução nasal. Ao exame físico, procure a "saudação alérgica" — uma prega nasal transversa que se forma pelo hábito repetido de esfregar a ponta do nariz para cima — e as "olheiras alérgicas", causadas por congestão venosa infraorbitária crônica. Comorbidades associadas incluem asma e conjuntivite alérgica, compondo, junto com a dermatite atópica, a chamada marcha atópica.</p>
+
+  <h3 class="sub">Diagnóstico</h3>
+  <p>Predominantemente clínico, apoiado em história de exposição e sazonalidade. Testes cutâneos de puntura (skin prick test) e dosagem de IgE específica sérica confirmam sensibilização a alérgenos específicos quando necessário. À rinoscopia, a mucosa costuma se apresentar pálida ou azulada e edemaciada — um contraste importante com a mucosa hiperemiada típica de processos infecciosos.</p>
+
+  <h3 class="sub">Diagnóstico diferencial</h3>
+  <p>Resfriado comum (rinorreia que evolui de hialina para mucopurulenta, autolimitado, sem prurido nem espirros em salva proeminentes), rinite não alérgica/vasomotora (desencadeada por irritantes ou mudanças de temperatura, sem participação de IgE), rinite medicamentosa (uso prolongado de descongestionante tópico) e sinusite (dor facial e febre, sem o componente pruriginoso característico).</p>
+
+  <h3 class="sub">Tratamento</h3>
+  <p>Anti-histamínicos H1 de segunda geração (loratadina, desloratadina, fexofenadina, cetirizina) são preferidos aos de primeira geração por não atravessarem a barreira hematoencefálica de forma relevante, evitando sedação. O corticoide intranasal é o tratamento farmacológico mais eficaz disponível, por atuar sobre todos os sintomas — incluindo a obstrução nasal, que os anti-histamínicos controlam mal. Antagonistas do receptor de leucotrieno (montelucaste) somam-se ao arsenal especialmente quando há asma associada. A imunoterapia alérgeno-específica (subcutânea ou sublingual), reservada a casos moderados a graves e persistentes, é o único tratamento capaz de modificar a história natural da doença, induzindo tolerância imunológica por meio de linfócitos T reguladores e mudança do perfil de anticorpos para IgG4 "bloqueadora".</p>
+
+  <h3 class="sub">Prevenção</h3>
+  <p>Controle ambiental de ácaros (capas antialérgicas para colchão e travesseiro, lavagem de roupa de cama em água quente), evitar exposição identificada a mofo e pelos de animais, e considerar imunoterapia precoce em pacientes sensibilizados como estratégia para modificar o curso da doença e reduzir o risco de progressão na marcha atópica.</p>
+
+  <details class="deepen">
+    <summary><span class="lbl">Aprofunde-se — hiper-reatividade nasal inespecífica</span></summary>
+    <div class="deepen-body">
+      <p>Pacientes com rinite alérgica crônica frequentemente relatam piora dos sintomas em resposta a estímulos que não são, eles próprios, alergênicos — fumaça de cigarro, perfumes, mudanças bruscas de temperatura. Esse fenômeno, chamado priming effect ou hiper-reatividade nasal inespecífica, ocorre porque a exposição repetida ao alérgeno reduz progressivamente o limiar de resposta da mucosa a qualquer estímulo irritante, não apenas ao alérgeno original. É por isso que pacientes bem controlados fora da estação polínica, mas ainda com inflamação subclínica residual, podem apresentar exacerbações desencadeadas por irritantes ambientais inespecíficos.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ============ 07 ============ -->
+<section class="block" id="s07" style="--accent:var(--c07)">
+  <div class="section-head"><span class="tag">07 · DOENÇA</span><span class="rule"></span></div>
+  <h2 class="section-title">Influenza</h2>
+  <p class="section-kicker">Fisiopatologia, quadro clínico, diagnóstico, diferencial, tratamento e prevenção.</p>
+
+  <p>Os vírus influenza A e B (da família <em>Orthomyxoviridae</em>) têm genoma de RNA fita simples negativa, segmentado em oito partes — um detalhe estrutural que não é trivial, porque é exatamente essa segmentação que possibilita um dos fenômenos mais importantes da virologia médica, discutido adiante. Os subtipos do influenza A são definidos por duas glicoproteínas de superfície: hemaglutinina (HA, com 18 subtipos conhecidos) e neuraminidase (NA, com 11 subtipos) — daí nomes como H1N1 e H3N2.</p>
+
+  <h3 class="sub">Fisiopatologia e variação antigênica</h3>
+  <p>A hemaglutinina medeia a ligação do vírus a receptores de ácido siálico na superfície das células epiteliais respiratórias e promove a fusão de membranas; a neuraminidase, por sua vez, cliva o ácido siálico, permitindo que os novos vírions recém-formados se libertem da célula infectada e se espalhem pelo muco respiratório sem ficarem "grudados" — e é justamente essa enzima o alvo dos antivirais inibidores de neuraminidase.</p>
+  <p>Dois mecanismos de variação genética têm relevância clínica e epidemiológica distinta. O <em>antigenic drift</em> consiste em mutações pontuais graduais e acumulativas na HA e na NA, suficientes para escapar parcialmente da imunidade prévia — é por isso que a vacina precisa ser reformulada todos os anos. Já o <em>antigenic shift</em> é uma reorganização súbita e completa de segmentos gênicos inteiros entre cepas diferentes (frequentemente envolvendo reservatórios animais, aves ou suínos, onde uma célula coinfectada por duas cepas pode gerar um vírus híbrido) — como a população não tem qualquer imunidade prévia contra essa combinação nova, esse é o mecanismo por trás das pandemias de influenza.</p>
+  <p>A lesão direta que o vírus causa ao epitélio respiratório ciliado — necrose celular e perda da função mucociliar, o mesmo sistema de defesa detalhado na seção 01 — deixa a via aérea vulnerável a uma superinfecção bacteriana secundária, tipicamente por <em>Streptococcus pneumoniae</em> ou <em>Staphylococcus aureus</em> (incluindo cepas MRSA), reconhecida como importante causa de pneumonia bacteriana e mortalidade após influenza.</p>
+
+  <h3 class="sub">Quadro clínico</h3>
+  <p>O traço clínico mais discriminante da influenza é o início abrupto — diferente do início gradual do resfriado comum —, com febre alta, calafrios, mialgia intensa, cefaleia, tosse seca, odinofagia, congestão nasal e uma fadiga/prostração desproporcional à intensidade dos sintomas respiratórios propriamente ditos. Em crianças, sintomas gastrointestinais são mais frequentes. Entre as complicações potenciais estão pneumonia (primária viral ou secundária bacteriana), miosite, miocardite e encefalopatia; vale lembrar a associação histórica entre uso de ácido acetilsalicílico em crianças com influenza (ou varicela) e a síndrome de Reye, razão pela qual o AAS é contraindicado nessa população.</p>
+
+  <h3 class="sub">Diagnóstico</h3>
+  <p>O diagnóstico costuma ser clínico-epidemiológico durante a temporada ou um surto conhecido; a confirmação laboratorial se faz por RT-PCR (padrão-ouro, alta sensibilidade) ou teste antigênico rápido (menor sensibilidade, resultado mais rápido). O hemograma pode mostrar leucopenia com linfopenia.</p>
+
+  <h3 class="sub">Diagnóstico diferencial</h3>
+  <p>O resfriado comum (início gradual, sintomas mais localizados na via aérea nasal, sem toxemia sistêmica relevante) e a COVID-19 (sobreposição sintomática ampla, cuja distinção definitiva exige teste específico) são os principais diferenciais dentro do próprio espectro das síndromes gripais.</p>
+
+  <h3 class="sub">Tratamento</h3>
+  <p>A maioria dos casos é tratada apenas com suporte — repouso, hidratação, antitérmico, sempre evitando AAS em crianças e adolescentes. Antivirais inibidores de neuraminidase (oseltamivir, zanamivir) reduzem a duração e a gravidade do quadro quando iniciados dentro das primeiras 48 horas de sintomas, e devem ser priorizados em grupos de risco — idosos, gestantes, portadores de comorbidades, imunossuprimidos e quadros graves ou hospitalizados — mesmo além dessa janela de 48 horas nesses casos específicos.</p>
+
+  <h3 class="sub">Prevenção</h3>
+  <p>A vacinação anual, com composição atualizada conforme a vigilância das cepas circulantes em cada hemisfério, é a principal medida preventiva, somada a medidas gerais de higiene respiratória e isolamento de casos durante o período de transmissibilidade.</p>
+
+  <details class="deepen">
+    <summary><span class="lbl">Aprofunde-se — mecanismo de ação farmacológico dos antivirais</span></summary>
+    <div class="deepen-body">
+      <p>Os inibidores de neuraminidase (oseltamivir, zanamivir) são análogos estruturais do ácido siálico que ocupam o sítio ativo da enzima neuraminidase viral, bloqueando sua atividade catalítica — sem a clivagem do ácido siálico, os novos vírions permanecem presos à membrana da célula infectada e ao muco circundante, incapazes de se disseminar para novas células, o que reduz a carga viral e, consequentemente, a gravidade e a duração dos sintomas quando administrado precocemente. Uma classe mais recente, os inibidores da endonuclease PA (baloxavir), atua de forma completamente diferente: bloqueia a enzima endonuclease viral responsável pelo "cap-snatching" — o mecanismo pelo qual o vírus influenza rouba a estrutura de capeamento (cap) dos RNAs mensageiros do hospedeiro para iniciar a tradução de suas próprias proteínas — interrompendo a replicação viral em uma etapa muito mais precoce do ciclo.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ============ 08 ============ -->
+<section class="block" id="s08" style="--accent:var(--c08)">
+  <div class="section-head"><span class="tag">08 · DOENÇA</span><span class="rule"></span></div>
+  <h2 class="section-title">Resfriado comum</h2>
+  <p class="section-kicker">Fisiopatologia, quadro clínico, diagnóstico, diferencial, tratamento e prevenção.</p>
+
+  <p>O resfriado comum não é causado por um único agente, mas por uma coleção de vírus diferentes que convergem para a mesma síndrome clínica — o principal deles, de longe, é o rinovírus, com mais de 100 sorotipos identificados, transmitido predominantemente por contato com fômites contaminados e autoinoculação nas mucosas nasal e conjuntival (não tanto por gotículas, ao contrário do que a intuição sugere). Coronavírus sazonais (distintos do SARS-CoV-2), vírus sincicial respiratório, parainfluenza, adenovírus e metapneumovírus humano completam a lista de agentes possíveis.</p>
+
+  <h3 class="sub">Fisiopatologia</h3>
+  <p>O rinovírus se liga preferencialmente à molécula de adesão intercelular-1 (ICAM-1) nas células epiteliais nasais, e replica-se de forma mais eficiente na mucosa nasal do que em vias aéreas inferiores porque sua temperatura ótima de replicação (cerca de 33-35°C) coincide com a temperatura mais baixa das fossas nasais — uma explicação elegante para o tropismo quase exclusivo por vias aéreas superiores. Um ponto que costuma surpreender o aluno: ao contrário do que a intuição popular sugere, os sintomas do resfriado não decorrem primariamente de destruição celular maciça pelo vírus, mas principalmente da resposta inflamatória do próprio hospedeiro — liberação de bradicinina e interleucinas (IL-1, IL-6, IL-8) e ativação de reflexos neurogênicos locais, que juntos causam vasodilatação, hipersecreção glandular e estimulação de terminações sensoriais responsáveis pelo espirro.</p>
+
+  <h3 class="sub">Quadro clínico</h3>
+  <p>Início gradual (diferente do início abrupto da influenza), com rinorreia inicialmente hialina que evolui, nos dias seguintes, para mucopurulenta ou esverdeada — e este é um ponto pedagógico essencial: essa mudança de cor faz parte da evolução natural viral, pelo simples acúmulo de neutrófilos recrutados ao local, e <em>não</em> indica necessariamente superinfecção bacteriana. Reconhecer isso evita uma das prescrições mais desnecessárias da prática clínica: antibiótico para secreção nasal esverdeada isolada. Completam o quadro obstrução nasal, espirros, odinofagia leve, tosse leve (geralmente por gotejamento pós-nasal), mal-estar discreto e febre baixa ou ausente (mais comum em crianças que em adultos). É autolimitado, resolvendo-se em 7 a 10 dias, embora a tosse residual possa persistir por 2 a 3 semanas.</p>
+
+  <h3 class="sub">Diagnóstico</h3>
+  <p>Exclusivamente clínico; nenhum exame complementar é necessário em um quadro não complicado.</p>
+
+  <h3 class="sub">Diagnóstico diferencial</h3>
+  <p>Influenza (início abrupto e toxemia sistêmica proeminente), rinite alérgica (prurido e espirros em salva ligados a exposição/sazonalidade, sem febre), sinusite bacteriana aguda (critérios de duração e piora descritos na seção 02) e COVID-19 (sobreposição sintomática que exige teste específico para diferenciação segura).</p>
+
+  <h3 class="sub">Tratamento</h3>
+  <p>Sintomático — repouso, hidratação, analgésicos/antitérmicos, descongestionantes tópicos por curto período e lavagem nasal com solução salina. Não existe antiviral específico eficaz e comprovado contra rinovírus, e antibióticos não têm indicação alguma: não alteram o curso de uma infecção viral e contribuem, sem benefício algum, para o desenvolvimento de resistência bacteriana.</p>
+
+  <h3 class="sub">Prevenção</h3>
+  <p>A higiene das mãos é, de longe, a medida mais eficaz, dado o mecanismo de transmissão predominantemente por contato e fômites — mais relevante, inclusive, do que o uso de máscaras para esse agente específico. Evitar tocar a face e adotar etiqueta respiratória completam as medidas preventivas básicas.</p>
+
+  <details class="deepen">
+    <summary><span class="lbl">Aprofunde-se — estresse, sono e suscetibilidade ao rinovírus</span></summary>
+    <div class="deepen-body">
+      <p>Estudos clássicos de inoculação experimental controlada (Cohen e colaboradores) demonstraram que voluntários saudáveis submetidos a estresse psicológico crônico e, separadamente, aqueles com privação de sono, apresentavam taxas significativamente maiores de desenvolver resfriado clínico após serem deliberadamente expostos ao rinovírus, quando comparados a controles sem esses fatores — mesmo recebendo a mesma dose viral. O mecanismo proposto envolve desregulação do eixo hipotálamo-hipófise-adrenal, com produção crônica de cortisol reduzindo a sensibilidade dos receptores glicocorticoides em células imunes, prejudicando o controle apropriado da resposta inflamatória local à infecção.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ============ 09 ============ -->
+<section class="block" id="s09" style="--accent:var(--c09)">
+  <div class="section-head"><span class="tag">09 · MECANISMO TRANSVERSAL</span><span class="rule"></span></div>
+  <h2 class="section-title">Por que tantas dessas condições tiram o olfato — e o "paladar"?</h2>
+  <p class="section-kicker">Uma pergunta, quatro mecanismos diferentes — e uma revelação sobre o que realmente perdemos quando dizemos que "a comida não tem gosto".</p>
+
+  <h3 class="sub">A base fisiológica: olfato</h3>
+  <p>Os neurônios receptores olfatórios são neurônios bipolares localizados no epitélio olfatório, uma região pequena e específica no teto da cavidade nasal (a fenda olfatória), próxima à lâmina cribriforme do osso etmoide. Seus axônios atravessam minúsculos orifícios dessa lâmina, reunindo-se para formar o nervo olfatório (par craniano I), e fazem sinapse diretamente no bulbo olfatório, em estruturas chamadas glomérulos. Dali, a informação segue para o córtex olfatório primário (córtex piriforme) — e aqui está um detalhe anatômico fascinante: o olfato é o único sentido cuja informação chega ao córtex <em>sem</em> passar antes pelo tálamo, uma via mais "direta" que explica sua ligação incomumente forte e imediata com memória e emoção, através de conexões próximas com amígdala e hipocampo. Duas populações celulares de apoio merecem destaque: as células sustentaculares, metabolicamente muito ativas e — ponto crucial para entender a COVID-19 — ricas em receptores ECA2; e as células basais, progenitoras com capacidade de regenerar continuamente o epitélio olfatório ao longo de toda a vida, uma propriedade rara entre neurônios do sistema nervoso.</p>
+
+  <h3 class="sub">A base fisiológica: "paladar" (e por que a palavra engana)</h3>
+  <p>As papilas gustativas (fungiformes, foliáceas e circunvaladas) contêm células receptoras capazes de detectar apenas cinco qualidades básicas: doce, salgado, azedo, amargo e umami, através de receptores acoplados à proteína G (para doce, amargo e umami) ou canais iônicos diretos (para salgado e azedo), com inervação pelos nervos cranianos VII, IX e X conforme a região da língua. Mas pare e repare: quando alguém diz que "a comida não tem gosto" durante um resfriado, quase nunca está se referindo à perda desses cinco sabores básicos — o doce continua doce, o salgado continua salgado. O que se perde, na verdade, é o <em>flavor</em>, a experiência sensorial rica e complexa que reconhecemos como "sabor de morango" ou "sabor de café", que depende esmagadoramente do olfato retronasal: os compostos aromáticos voláteis liberados pelo alimento durante a mastigação e a deglutição sobem pela nasofaringe posterior e alcançam o mesmo epitélio olfatório descrito acima, por trás do palato. Essa é a razão pela qual a hiposmia é, disparado, a causa mais comum de queixa de "perda de paladar" nessas seis condições — o paladar básico costuma estar preservado.</p>
+
+  <h3 class="sub">Quatro mecanismos, uma pergunta</h3>
+
+  <h4 class="subsub">1 · Obstrutivo/condutivo — o mecanismo mais simples e mais comum</h4>
+  <p>Presente na rinite alérgica, no resfriado comum e na sinusite: o edema de mucosa nasal simplesmente bloqueia fisicamente a passagem do ar (e das moléculas odoríferas nele dissolvidas) até a fenda olfatória, no teto da cavidade nasal. O epitélio olfatório em si permanece intacto — apenas inacessível ao estímulo. É, por isso, totalmente reversível assim que o edema se resolve, e sua intensidade acompanha proporcionalmente o grau de congestão nasal referido pelo paciente.</p>
+
+  <h4 class="subsub">2 · Inflamatório-citotóxico direto sobre o epitélio de suporte — o mecanismo peculiar da COVID-19</h4>
+  <p>Este é o mecanismo mais interessante do grupo, e o que tornou a anosmia um sinal clinicamente distintivo da COVID-19 nas ondas iniciais da pandemia. O SARS-CoV-2 infecta preferencialmente as células sustentaculares (que expressam ECA2 e TMPRSS2 em alta densidade), e não os neurônios olfatórios propriamente ditos, que expressam muito pouco desses receptores. A infecção e a resposta inflamatória local dessas células de suporte causam uma disfunção secundária do epitélio olfatório — possivelmente incluindo alteração paracrina da expressão gênica dos receptores olfatórios nos neurônios vizinhos, mesmo sem infectá-los diretamente. É exatamente por esse mecanismo indireto que a anosmia da COVID-19 classicamente se instala de forma súbita e desproporcional à congestão nasal: o paciente frequentemente relata nariz completamente desobstruído, e ainda assim sente cheiro nenhum. Na maioria dos casos há recuperação em algumas semanas, à medida que as células sustentaculares se regeneram e a inervação se reorganiza; uma fração de pacientes, porém, evolui com anosmia ou parosmia persistente — percepção distorcida e desagradável de cheiros, discutida a seguir —, refletindo dano mais duradouro aos neurônios olfatórios ou reconexões aberrantes durante a regeneração axonal.</p>
+
+  <h4 class="subsub">3 · Neurossensorial-inflamatório crônico — rinossinusite crônica com pólipos</h4>
+  <p>Diferente do mecanismo puramente obstrutivo do resfriado comum, a inflamação eosinofílica tipo 2 crônica que caracteriza a polipose nasossinusal afeta o próprio epitélio olfatório de forma direta e persistente, reduzindo a densidade de neurônios receptores funcionais e sua taxa normal de renovação. É por isso que a hiposmia pode permanecer mesmo quando a obstrução mecânica está bem controlada — e por que, nesses casos, o corticoide intranasal frequentemente é indispensável para restaurar o olfato: sua ação é anti-inflamatória local sobre o próprio epitélio sensorial, não apenas descongestionante.</p>
+
+  <h4 class="subsub">4 · Central — fora do escopo direto deste dossiê, mas útil como contraponto</h4>
+  <p>Vale mencionar brevemente, para fechar o raciocínio comparativo: traumatismo cranioencefálico pode cisalhar os finos filetes do nervo olfatório na própria lâmina cribriforme, e doenças neurodegenerativas como Parkinson e Alzheimer cursam com hiposmia precoce por acometimento direto do bulbo olfatório — nenhum dos dois mecanismos tem relação com as seis condições estudadas aqui, mas contrastá-los ajuda a fixar que "perda de olfato" não é um sinal único, e sim o desfecho comum de pelo menos quatro caminhos fisiopatológicos completamente distintos.</p>
+
+  <details class="deepen">
+    <summary><span class="lbl">Aprofunde-se — parosmia, fantosmia e reinervação aberrante</span></summary>
+    <div class="deepen-body">
+      <p>Uma parcela dos pacientes que se recuperam de anosmia pós-viral (particularmente pós-COVID) não retorna à percepção olfatória normal, mas desenvolve parosmia — a distorção da percepção de um cheiro real, tipicamente descrita como um odor "queimado", "podre" ou de "esgoto" diante de estímulos antes neutros ou agradáveis, como café ou carne — ou fantosmia, a percepção de um cheiro na ausência completa de qualquer estímulo real. A hipótese fisiopatológica mais aceita atribui esses fenômenos a uma reinervação aberrante do bulbo olfatório durante a fase de regeneração: como as células basais regeneram continuamente novos neurônios receptores olfatórios ao longo da vida (propriedade descrita acima), após uma lesão inflamatória extensa esses novos axônios em crescimento podem se conectar a glomérulos "errados" no bulbo olfatório, de modo que um estímulo que originalmente ativaria um padrão neural associado a "café" passa a ativar um padrão distorcido, percebido como desagradável. Testes clínicos padronizados de identificação de odores, como o UPSIT (University of Pennsylvania Smell Identification Test), são usados tanto na triagem inicial quanto no acompanhamento longitudinal desses pacientes.</p>
+    </div>
+  </details>
+</section>
+
+<!-- ============ 10 ============ -->
+<section class="block" id="s10" style="--accent:var(--c10)">
+  <div class="section-head"><span class="tag">10 · VIGILÂNCIA EPIDEMIOLÓGICA</span><span class="rule"></span></div>
+  <h2 class="section-title">Quais dessas seis condições são de notificação compulsória?</h2>
+  <p class="section-kicker">Um panorama atualizado — e um alerta importante sobre uma mudança regulatória recente na covid-19.</p>
+
+  <p>O Ministério da Saúde define notificação compulsória como a comunicação obrigatória à autoridade sanitária sobre a ocorrência de suspeita ou confirmação de uma doença, agravo ou evento de saúde pública presente na Lista Nacional de Notificação Compulsória. Ela se organiza em dois prazos: notificação imediata, comunicada em até 24 horas pelo meio mais rápido disponível, reservada a agravos que exigem resposta de saúde pública urgente (investigação de contatos, quimioprofilaxia, controle de surto); e notificação semanal, comunicada em até 7 dias, para agravos de acompanhamento epidemiológico contínuo, porém sem a mesma urgência de resposta imediata.</p>
+
+  <div class="alert">
+    <h5>NOTA IMPORTANTE PARA O ESTUDO</h5>
+    <p>A Lista Nacional de Notificação Compulsória é atualizada por portaria do Ministério da Saúde com relativa frequência, e a mudança mais recente e relevante para este dossiê — a Portaria GM/MS nº 11.211, de 13 de maio de 2026 — é posterior ao conteúdo consolidado em muitas referências e resumos ainda em circulação. Vale sempre confirmar a lista vigente diretamente no site do Ministério da Saúde ou na BVS Saúde Legis antes de uma prova ou de uma decisão clínica.</p>
+  </div>
+
+  <h3 class="sub">Percorrendo as seis condições</h3>
+
+  <div class="field-list">
+    <div class="field-row"><span class="field-label">Meningites</span><span class="field-value">SIM — notificação compulsória <em>imediata</em> (até 24 horas), às Secretarias Municipal e Estadual de Saúde e ao Ministério da Saúde. A lista trata "doença meningocócica e outras meningites" e a "doença invasiva por <em>Haemophilus influenzae</em>" como itens de notificação imediata, independentemente da etiologia ser bacteriana, viral ou fúngica — todo caso suspeito deve ser notificado, o que permite investigação precoce, identificação de contactantes para quimioprofilaxia e detecção rápida de surtos.</span></div>
+    <div class="field-row"><span class="field-label">COVID-19</span><span class="field-value">Mudou de figura recentemente. Até maio de 2026, constava como item isolado na lista nacional. A Portaria GM/MS nº 11.211/2026 retirou a covid-19 como item próprio, passando a integrá-la a uma categoria mais ampla — "Síndrome Gripal por covid-19 confirmada" — dentro da vigilância de síndromes respiratórias já existente, refletindo a transição da doença de um regime de vigilância extraordinário para o arcabouço rotineiro de monitoramento de síndrome gripal.</span></div>
+    <div class="field-row"><span class="field-label">Influenza</span><span class="field-value">Não é notificação compulsória caso a caso para todo paciente ambulatorial com quadro leve. A vigilância se dá por meio do monitoramento de Síndrome Gripal (SG) e, principalmente, da Síndrome Respiratória Aguda Grave (SRAG) hospitalizada, que segue fluxo próprio de vigilância laboratorial voltado a acompanhar a circulação viral (influenza, VSR, SARS-CoV-2 e outros) e detectar precocemente cepas de potencial pandêmico.</span></div>
+    <div class="field-row"><span class="field-label">Sinusite</span><span class="field-value">NÃO consta da Lista Nacional de Notificação Compulsória — manejo clínico de rotina, sem exigência de comunicação individual às autoridades sanitárias.</span></div>
+    <div class="field-row"><span class="field-label">Rinite alérgica</span><span class="field-value">NÃO consta da lista — mesma lógica da sinusite: condição de manejo clínico ambulatorial sem relevância de vigilância em saúde pública individual.</span></div>
+    <div class="field-row"><span class="field-label">Resfriado comum</span><span class="field-value">NÃO consta da lista — condição autolimitada, extremamente prevalente e sem relevância individual de vigilância epidemiológica.</span></div>
+  </div>
+
+  <details class="deepen">
+    <summary><span class="lbl">Aprofunde-se — por que meningite é imediata e influenza (isolada) não é</span></summary>
+    <div class="deepen-body">
+      <p>O critério que determina a periodicidade de notificação não é a frequência da doença, mas a capacidade de uma resposta rápida de saúde pública alterar o desfecho coletivo. Um caso de doença meningocócica pode ser a ponta de um surto em uma comunidade fechada, e a quimioprofilaxia de contactantes nas primeiras horas realmente previne casos secundários — daí a notificação imediata. Já um caso isolado de síndrome gripal leve, por mais frequente que seja, raramente muda a conduta de saúde pública de forma tempo-dependente; o que importa, nesse caso, é o monitoramento agregado e contínuo da circulação viral ao longo do tempo — por isso a vigilância se estrutura em torno de sistemas de vigilância sentinela e de SRAG hospitalizada, e não da notificação individual de cada caso ambulatorial.</p>
+    </div>
+  </details>
+
+  <p class="small-note">Todo profissional de saúde é, por força de lei, um notificador compulsório — a notificação não é uma escolha discricionária diante de um caso que preenche os critérios da lista vigente, mas uma obrigação legal que integra a própria conduta médica, ao lado do diagnóstico e do tratamento.</p>
+</section>
+
+<!-- ============ 11 ============ -->
+<section class="block" id="s11" style="--accent:var(--c11)">
+  <div class="section-head"><span class="tag">11 · SÍNTESE</span><span class="rule"></span></div>
+  <h2 class="section-title">Fechando o mapa: um cartão de identidade para cada condição</h2>
+  <p class="section-kicker">Se você tivesse que reconhecer cada uma dessas seis condições com uma única pista, qual seria?</p>
+
+  <div class="card-grid">
+    <div class="card" style="--accent:var(--c02)">
+      <h5>SINUSITE</h5>
+      <p>Mecanismo-chave: obstrução do complexo ostiomeatal. Pista clínica: dor facial localizada ao seio acometido, piora ao inclinar a cabeça. Bandeira vermelha: febre alta + piora após melhora inicial ("double sickening"). Primeira linha: amoxicilina ± clavulanato, se bacteriana confirmada pelos critérios de duração/gravidade. Notificação: não.</p>
+    </div>
+    <div class="card" style="--accent:var(--c04)">
+      <h5>MENINGITE</h5>
+      <p>Mecanismo-chave: invasão hematogênica com resposta inflamatória meníngea desproporcional ao dano direto do patógeno. Pista clínica: febre + rigidez de nuca + rebaixamento de consciência. Bandeira vermelha: petéquias/púrpura (meningococcemia). Primeira linha: ceftriaxona/cefotaxima + dexametasona concomitante, se bacteriana. Notificação: sim, imediata (24h), qualquer etiologia.</p>
+    </div>
+    <div class="card" style="--accent:var(--c05)">
+      <h5>COVID-19</h5>
+      <p>Mecanismo-chave: Spike-ECA2/TMPRSS2, com possível fase de tempestade de citocinas e estado trombótico. Pista clínica: anosmia súbita desproporcional à congestão (mais marcante nas cepas iniciais). Bandeira vermelha: SpO2 &lt;94%, confusão em idosos. Primeira linha: suporte; antiviral/corticoide conforme risco e fase. Notificação: reclassificada em maio/2026 — não mais item isolado.</p>
+    </div>
+    <div class="card" style="--accent:var(--c06)">
+      <h5>RINITE ALÉRGICA</h5>
+      <p>Mecanismo-chave: hipersensibilidade tipo I mediada por IgE. Pista clínica: prurido + espirros em salva + rinorreia hialina, sem febre. Bandeira vermelha: nenhuma emergencial — mas atenção à marcha atópica. Primeira linha: corticoide intranasal + anti-histamínico H1 de segunda geração. Notificação: não.</p>
+    </div>
+    <div class="card" style="--accent:var(--c07)">
+      <h5>INFLUENZA</h5>
+      <p>Mecanismo-chave: HA/NA em variação antigênica constante (drift/shift). Pista clínica: início abrupto, mialgia intensa, prostração desproporcional. Bandeira vermelha: dispneia (pneumonia primária ou bacteriana secundária). Primeira linha: suporte; oseltamivir se grupo de risco ou &lt;48h. Notificação: não caso a caso; SRAG hospitalizada segue vigilância própria.</p>
+    </div>
+    <div class="card" style="--accent:var(--c08)">
+      <h5>RESFRIADO COMUM</h5>
+      <p>Mecanismo-chave: rinovírus via ICAM-1, sintomas por resposta inflamatória do hospedeiro. Pista clínica: início gradual, rinorreia evoluindo para mucopurulenta sem indicar bactéria. Bandeira vermelha: nenhuma — mas vigiar critérios de sinusite se persistir &gt;10 dias com piora. Primeira linha: sintomático; sem antibiótico. Notificação: não.</p>
+    </div>
+  </div>
+
+  <p>Perceba o fio condutor que amarra as seis: quase toda a diferença de gravidade entre elas não está em "onde" a doença acontece — todas começam, de um jeito ou de outro, na mesma mucosa respiratória alta —, mas em até onde o processo consegue avançar e quão desproporcional é a resposta inflamatória do hospedeiro diante do estímulo. Um resfriado é a mucosa nasal reagindo a um rinovírus; uma meningite bacteriana é o mesmo tipo de resposta inflamatória, só que desencadeada dentro de um espaço fechado e delicado — o subaracnóideo — onde o edema que ela mesma provoca já não tem para onde se expandir.</p>
+</section>
+
+<!-- ============ REFERÊNCIAS ============ -->
+<footer class="refs" id="refs" style="--accent:var(--c11)">
+  <div class="section-head"><span class="tag">REFERÊNCIAS</span><span class="rule"></span></div>
+  <h2 class="section-title">Referências</h2>
+
+  <p class="ref-item"><span class="small-caps">Brasil</span>. Ministério da Saúde. Portaria GM/MS nº 11.211, de 13 de maio de 2026. Altera a Lista Nacional de Notificação Compulsória de doenças, agravos e eventos de saúde pública e a estratégia de Vigilância Sentinela. <em>Diário Oficial da União</em>: seção 1, Brasília, DF, 14 maio 2026.</p>
+  <p class="ref-item"><span class="small-caps">Brasil</span>. Ministério da Saúde. Notificação compulsória. Brasília, DF: Ministério da Saúde, 2026. Disponível em: https://www.gov.br/saude/pt-br/composicao/svsa/notificacao-compulsoria. Acesso em: 13 set. 2026.</p>
+  <p class="ref-item"><span class="small-caps">Fokkens</span>, W. J. et al. European Position Paper on Rhinosinusitis and Nasal Polyps 2020. <em>Rhinology Journal</em>, Nijmegen, v. 58, supl. S29, p. 1-464, 2020.</p>
+  <p class="ref-item"><span class="small-caps">Guyton</span>, A. C.; <span class="small-caps">Hall</span>, J. E. <em>Tratado de Fisiologia Médica</em>. 14. ed. Rio de Janeiro: Guanabara Koogan, 2021.</p>
+  <p class="ref-item"><span class="small-caps">Kasper</span>, D. et al. (Ed.). <em>Medicina Interna de Harrison</em>. 21. ed. Porto Alegre: AMGH, 2023. 2 v.</p>
+  <p class="ref-item"><span class="small-caps">Katzung</span>, B. G.; <span class="small-caps">Trevor</span>, A. J. <em>Farmacologia Básica e Clínica</em>. 15. ed. Porto Alegre: AMGH, 2023.</p>
+  <p class="ref-item"><span class="small-caps">Kumar</span>, V.; <span class="small-caps">Abbas</span>, A. K.; <span class="small-caps">Aster</span>, J. C. <em>Robbins &amp; Cotran: Patologia — Bases Patológicas das Doenças</em>. 10. ed. Rio de Janeiro: Guanabara Koogan, 2023.</p>
+  <p class="ref-item"><span class="small-caps">Moore</span>, K. L.; <span class="small-caps">Dalley</span>, A. F.; <span class="small-caps">Agur</span>, A. M. R. <em>Anatomia Orientada para a Clínica</em>. 9. ed. Rio de Janeiro: Guanabara Koogan, 2023.</p>
+  <p class="ref-item"><span class="small-caps">Rang</span>, H. P. et al. <em>Rang &amp; Dale — Farmacologia</em>. 9. ed. Rio de Janeiro: Elsevier, 2020.</p>
+  <p class="ref-item"><span class="small-caps">Sanarmed</span>. Principais doenças de notificação compulsória no Brasil. 2026. Disponível em: https://sanarmed.com/principais-doencas-de-notificacao-compulsoria-no-brasil/. Acesso em: 13 set. 2026.</p>
+  <p class="ref-item"><span class="small-caps">Tortora</span>, G. J.; <span class="small-caps">Derrickson</span>, B. <em>Princípios de Anatomia e Fisiologia</em>. 15. ed. Rio de Janeiro: Guanabara Koogan, 2022.</p>
+  <p class="ref-item"><span class="small-caps">Universidade do Contestado</span> — Uniarp. Manual de normalização de trabalhos acadêmicos. Caçador: Uniarp, 2024.</p>
+
+</footer>
+
+</div><!-- /content -->
+</div><!-- /main -->
+
+<div class="toolbar">
+  <div class="notice" id="toolbarNotice">Autosave via localStorage só funciona de forma confiável com o arquivo baixado e aberto diretamente no navegador — na pré-visualização do Claude.ai, as edições ficam salvas apenas em memória, nesta sessão.</div>
+  <div class="toolbar-buttons">
+    <span class="save-status" id="saveStatus"></span>
+    <button id="btnEdit" type="button">Ativar edição</button>
+    <button id="btnDownload" type="button">Baixar cópia editada</button>
+    <button id="btnRestore" type="button">Restaurar original</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = "ivas_meningites_estudo_v1";
+  var contentEl = document.getElementById('content');
+  var titleEl = document.getElementById('content-title');
+  var btnEdit = document.getElementById('btnEdit');
+  var btnDownload = document.getElementById('btnDownload');
+  var btnRestore = document.getElementById('btnRestore');
+  var saveStatus = document.getElementById('saveStatus');
+  var notice = document.getElementById('toolbarNotice');
+
+  var originalHTML = contentEl.innerHTML;
+  var originalTitle = titleEl.innerHTML;
+  var editing = false;
+  var autosaveTimer = null;
+  var storageAvailable = true;
+
+  function testStorage(){
+    try{
+      var t = "__test__";
+      window.localStorage.setItem(t, "1");
+      window.localStorage.removeItem(t);
+      return true;
+    }catch(e){ return false; }
+  }
+  storageAvailable = testStorage();
+
+  function loadSaved(){
+    if(!storageAvailable) return;
+    try{
+      var raw = window.localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        var data = JSON.parse(raw);
+        if(data && data.content) contentEl.innerHTML = data.content;
+        if(data && data.title) titleEl.innerHTML = data.title;
+      }
+    }catch(e){ /* ignore corrupted save */ }
+  }
+  loadSaved();
+
+  function doSave(){
+    if(!storageAvailable){
+      saveStatus.textContent = "sem storage nesta visualização";
+      return;
+    }
+    try{
+      var data = { content: contentEl.innerHTML, title: titleEl.innerHTML, savedAt: Date.now() };
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      var d = new Date();
+      var hh = String(d.getHours()).padStart(2,'0');
+      var mm = String(d.getMinutes()).padStart(2,'0');
+      var ss = String(d.getSeconds()).padStart(2,'0');
+      saveStatus.textContent = "salvo " + hh + ":" + mm + ":" + ss;
+    }catch(e){
+      saveStatus.textContent = "falha ao salvar";
+    }
+  }
+
+  function setEditable(on){
+    editing = on;
+    var editableSelector = 'p, li, h2, h3, h4, h5, span.field-value, span.field-label';
+    contentEl.querySelectorAll(editableSelector).forEach(function(el){
+      el.setAttribute('contenteditable', on ? 'true' : 'false');
+    });
+    titleEl.setAttribute('contenteditable', on ? 'true' : 'false');
+    btnEdit.textContent = on ? "Salvar e sair da edição" : "Ativar edição";
+    btnEdit.classList.toggle('active', on);
+    notice.classList.toggle('show', on);
+
+    if(on){
+      autosaveTimer = setInterval(doSave, 15000);
+    } else {
+      if(autosaveTimer){ clearInterval(autosaveTimer); autosaveTimer = null; }
+      doSave();
+    }
+  }
+
+  btnEdit.addEventListener('click', function(){
+    setEditable(!editing);
+  });
+
+  btnDownload.addEventListener('click', function(){
+    if(editing) doSave();
+    var wasEditing = editing;
+    if(wasEditing) setEditable(false);
+    var htmlDoc = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+    var blob = new Blob([htmlDoc], {type: "text/html;charset=utf-8"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = "ivas_meningites_estudo_editado.html";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  });
+
+  btnRestore.addEventListener('click', function(){
+    var ok = window.confirm("Isso vai apagar as edições salvas neste navegador e voltar ao texto original gerado. Continuar?");
+    if(!ok) return;
+    if(autosaveTimer){ clearInterval(autosaveTimer); autosaveTimer = null; }
+    contentEl.innerHTML = originalHTML;
+    titleEl.innerHTML = originalTitle;
+    if(storageAvailable){
+      try{ window.localStorage.removeItem(STORAGE_KEY); }catch(e){}
+    }
+    setEditable(false);
+    saveStatus.textContent = "restaurado";
+  });
+
+  if(!storageAvailable){
+    notice.textContent = "Este visualizador bloqueia localStorage — baixe o arquivo e abra-o diretamente no navegador para o autosave funcionar entre sessões.";
+  }
+
+  // Scrollspy simples para destacar o item ativo na sidebar
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('#sidenav a'));
+  var sections = navLinks.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  function onScroll(){
+    var pos = window.scrollY + 120;
+    var current = sections[0];
+    for(var i=0;i<sections.length;i++){
+      if(sections[i].offsetTop <= pos) current = sections[i];
+    }
+    navLinks.forEach(function(a){
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current.id);
+    });
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2089 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atlas do HIV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&display=swap" rel="stylesheet">
+<style>
+[hidden]{display:none!important}
+
+/* Layout: atlas de pranchas numeradas. Cabeçalho fino com índice das pranchas, coluna de leitura com margem lateral para notas,
+   figuras interativas em largura total. Identidade tirada da histologia: hematoxilina (índigo) para estrutura, eosina (rosa) para o vírus. */
+:root{
+  --paper:#F2F0F7; --panel:#FBFAFE; --ink:#1D1A3A; --ink2:#4B4870; --line:#D8D4E6;
+  --hema:#3C3A86; --hema-soft:#E7E5F6;
+  --eosin:#B8325F; --eosin-soft:#F9E4EC; --on-eosin:#FFFFFF;
+  --teal:#0E7673; --teal-soft:#DCF0EE;
+  --amber:#955608; --amber-soft:#FBEBD2;
+  --entry:#6847B8; --rt:#0E7673; --int:#A8590F; --pi:#2467AE;
+  --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --f-body:'Source Serif 4',Georgia,'Times New Roman',serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  --gutter:clamp(16px,4vw,40px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#141228; --panel:#1C1A36; --ink:#ECE9F7; --ink2:#B3AECF; --line:#36325C;
+    --hema:#A9A5F2; --hema-soft:#27244C;
+    --eosin:#F0709A; --eosin-soft:#3B1C2F; --on-eosin:#1B0C14;
+    --teal:#4FCFC9; --teal-soft:#12343A;
+    --amber:#F0B35C; --amber-soft:#3A2A12;
+    --entry:#AA90FF; --rt:#4FCFC9; --int:#E5A664; --pi:#76ADF0;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141228; --panel:#1C1A36; --ink:#ECE9F7; --ink2:#B3AECF; --line:#36325C;
+  --hema:#A9A5F2; --hema-soft:#27244C;
+  --eosin:#F0709A; --eosin-soft:#3B1C2F; --on-eosin:#1B0C14;
+  --teal:#4FCFC9; --teal-soft:#12343A;
+  --amber:#F0B35C; --amber-soft:#3A2A12;
+  --entry:#AA90FF; --rt:#4FCFC9; --int:#E5A664; --pi:#76ADF0;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:5rem;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.7 var(--f-body);font-optical-sizing:auto;text-rendering:optimizeLegibility;overflow-wrap:break-word}
+svg,img{max-width:100%}
+a{color:var(--hema)}
+em,i{font-style:italic}
+b,strong{font-weight:400}
+.wrap{width:min(72rem,100%);margin-inline:auto;padding-inline:var(--gutter)}
+:focus-visible{outline:2px solid var(--hema);outline-offset:2px}
+
+/* barra superior */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--paper);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:.9rem;min-height:3.25rem}
+.brand{font:500 1rem var(--f-display);letter-spacing:-.01em;white-space:nowrap;color:var(--ink);text-decoration:none}
+.pnav{display:flex;gap:.2rem;overflow-x:auto;scrollbar-width:thin;flex:1;min-width:0;padding-block:.35rem}
+.pnav a{font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--ink2);padding:.4rem .55rem;border:1px solid transparent;border-radius:3px;white-space:nowrap}
+.pnav a:hover,.pnav a[aria-current="true"]{color:var(--ink);border-color:var(--line);background:var(--panel)}
+.btn{font:500 .76rem var(--f-mono);letter-spacing:.04em;padding:.5rem .8rem;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:3px;cursor:pointer}
+.btn:hover{border-color:var(--hema)}
+.btn[aria-pressed="true"],.btn.on{background:var(--hema);color:var(--paper);border-color:var(--hema)}
+.btn.danger{border-color:var(--eosin);color:var(--eosin)}
+
+/* abertura */
+.hero{padding-block:clamp(2.2rem,6vw,4.2rem) 1.5rem}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:2.5rem;align-items:center}
+.eyebrow{font:500 .74rem var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--eosin);margin:0}
+.hero h1{font:540 clamp(2.5rem,7vw,5rem)/1 var(--f-display);letter-spacing:-.035em;margin:.7rem 0 1.1rem;text-wrap:balance}
+.sub{font-size:1.2rem;line-height:1.6;color:var(--ink2);max-width:36rem;margin:0}
+.numbers{display:flex;flex-wrap:wrap;gap:1rem 1.6rem;margin:2rem 0 0;padding:0;list-style:none}
+.numbers li{display:grid;gap:.15rem;padding-left:.85rem;border-left:1px solid var(--line);min-width:8rem}
+.numbers .n{font:500 1.55rem/1.1 var(--f-display);color:var(--ink);font-variant-numeric:tabular-nums}
+.numbers .u{font:400 .72rem/1.35 var(--f-mono);color:var(--ink2);max-width:11rem}
+.flux{width:100%;height:auto;display:block}
+.flux text{font-family:var(--f-mono);font-size:12px;fill:var(--ink2)}
+.flux .big{font-family:var(--f-display);font-size:19px;fill:var(--ink)}
+.guide{margin-top:2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem}
+.guide p{margin:0;font-size:.95rem;line-height:1.55;color:var(--ink2)}
+.guide .k{display:block;font:500 .68rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--hema);margin-bottom:.25rem}
+
+/* prancha */
+.plate{padding-block:3.2rem 1.2rem;border-top:1px solid var(--line)}
+.plate-tag{font:500 .74rem var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--eosin);margin:0 0 .5rem}
+.plate h2{font:520 clamp(1.8rem,4.2vw,2.8rem)/1.08 var(--f-display);letter-spacing:-.022em;margin:0 0 1rem;text-wrap:balance;max-width:24ch}
+.lede{font-size:1.2rem;line-height:1.62;color:var(--ink2);max-width:46rem;margin:0 0 2rem}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 16.5rem;gap:2.5rem;align-items:start}
+.prose{display:flex;flex-direction:column;gap:1.1rem;min-width:0}
+.prose>*{margin:0;max-width:68ch}
+.prose>.wide,.prose>details,.prose>.box,.prose>.fichas,.prose>.chain{max-width:none}
+.prose h3{font:500 1.35rem/1.25 var(--f-display);letter-spacing:-.01em;margin-top:.9rem;text-wrap:balance}
+.prose h4{font:500 1.05rem/1.3 var(--f-display);margin-top:.4rem}
+.prose ul,.prose ol{padding-left:1.25rem;display:grid;gap:.45rem}
+.prose li::marker{color:var(--eosin)}
+.margin{display:grid;gap:1rem;font-size:.9rem;line-height:1.55;color:var(--ink2);min-width:0}
+.margin .m{border-top:1px solid var(--line);padding-top:.6rem}
+.margin .m p{margin:0}
+.margin .k{display:block;font:500 .66rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--eosin);margin-bottom:.3rem}
+.margin .m.slide .k{color:var(--hema)}
+.margin .m.check .k{color:var(--amber)}
+.t{color:var(--hema);font-style:italic}
+.dg{font:500 .88em var(--f-mono);color:var(--teal);letter-spacing:-.01em}
+.v{color:var(--eosin);font-style:italic}
+.mono{font-family:var(--f-mono);font-size:.88em}
+.ask{font:italic 400 1.15rem/1.5 var(--f-body);color:var(--hema);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding-block:.8rem}
+
+/* caixas: rótulo cortando a borda */
+.box{position:relative;border:1px solid var(--bc,var(--line));background:var(--panel);padding:1.25rem 1.15rem 1rem;border-radius:3px;display:grid;gap:.7rem;margin-top:.6rem}
+.box::before{content:attr(data-label);position:absolute;top:-.62rem;left:.9rem;padding:0 .45rem;background:var(--paper);font:500 .66rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--bc,var(--ink2))}
+.box p,.box ul{margin:0;font-size:.98rem;line-height:1.62}
+.box ul{padding-left:1.15rem;display:grid;gap:.35rem}
+.box[data-kind="clinica"]{--bc:var(--teal)}
+.box[data-kind="atencao"]{--bc:var(--amber)}
+.box[data-kind="prova"]{--bc:var(--eosin)}
+.box[data-kind="mecanismo"]{--bc:var(--hema)}
+.box[data-kind="conferir"]{--bc:var(--amber);background:var(--amber-soft)}
+
+/* sequência / fluxo */
+.chain{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:.45rem .2rem;align-items:stretch;margin:.4rem 0}
+.chain li{display:flex;align-items:center;gap:.2rem}
+.chain .s{background:var(--hema-soft);border:1px solid var(--line);padding:.45rem .7rem;font:500 .8rem/1.3 var(--f-mono);border-radius:3px;color:var(--ink)}
+.chain .s.v{background:var(--eosin-soft);color:var(--ink);font-style:normal;border-color:transparent}
+.chain .s.rx{background:var(--teal-soft);border-color:transparent}
+.chain li:not(:last-child)::after{content:"\2192";color:var(--ink2);font:400 1rem var(--f-mono);padding-inline:.2rem}
+
+/* fichas */
+.fichas{display:grid;grid-template-columns:repeat(auto-fit,minmax(15.5rem,1fr));gap:1rem}
+.ficha{background:var(--panel);border:1px solid var(--line);padding:1rem 1.05rem;border-radius:4px;display:grid;gap:.5rem;align-content:start;min-width:0}
+.ficha .k{font:500 .66rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);display:flex;align-items:center;gap:.45rem}
+.ficha .k::before{content:"";width:.6rem;height:.6rem;background:var(--fc,var(--hema));border-radius:50%;flex:none}
+.ficha h4{font:500 1.1rem/1.25 var(--f-display);margin:0}
+.ficha p,.ficha ul{margin:0;font-size:.95rem;line-height:1.58}
+.ficha ul{padding-left:1.1rem;display:grid;gap:.3rem}
+.ficha[data-c="entry"]{--fc:var(--entry)} .ficha[data-c="rt"]{--fc:var(--rt)} .ficha[data-c="int"]{--fc:var(--int)} .ficha[data-c="pi"]{--fc:var(--pi)}
+.ficha[data-c="v"]{--fc:var(--eosin)} .ficha[data-c="a"]{--fc:var(--amber)}
+.meter{display:flex;gap:3px;align-items:center;font:500 .68rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.meter i{width:1.1rem;height:.45rem;background:var(--line);border-radius:1px;display:block}
+.meter i.f{background:var(--fc,var(--hema))}
+.meter span{margin-left:.5rem}
+
+/* expansíveis */
+details.deep{border:1px solid var(--line);background:var(--panel);border-radius:4px}
+details.deep>summary{cursor:pointer;list-style:none;display:flex;gap:.8rem;align-items:baseline;padding:.9rem 1.05rem;font:500 1.02rem/1.35 var(--f-display)}
+details.deep>summary::-webkit-details-marker{display:none}
+details.deep>summary::before{content:"+";font:500 1.1rem var(--f-mono);color:var(--eosin);width:1rem;flex:none}
+details.deep[open]>summary::before{content:"\2212"}
+details.deep>summary .tag{font:500 .64rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);flex:none}
+.dbody{padding:0 1.15rem 1.15rem;display:flex;flex-direction:column;gap:1rem}
+.dbody>*{margin:0;max-width:68ch}
+.dbody>details,.dbody>.fichas,.dbody>.chain,.dbody>.box{max-width:none}
+.dbody h4{font:500 1.05rem/1.3 var(--f-display)}
+.dbody ul{padding-left:1.25rem;display:grid;gap:.45rem}
+details.deep details.deep{background:var(--paper)}
+details.deep details.deep>summary{font-size:.95rem}
+
+/* ciclo interativo */
+.explorer{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1.25rem;margin-block:1.6rem 1.2rem;align-items:start}
+.xcol{display:grid;gap:.9rem;min-width:0}
+.xfig{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:.6rem;overflow-x:auto}
+.xfig svg{display:block;width:100%;min-width:30rem;height:auto}
+.xfig .cell{fill:var(--paper);stroke:var(--ink2);stroke-width:2}
+.xfig .nuc{fill:var(--hema-soft);stroke:var(--hema);stroke-width:1.5}
+.xfig .lbl{font:500 11px var(--f-mono);letter-spacing:.14em;fill:var(--ink2);text-transform:uppercase}
+.xfig .route{fill:none;stroke:var(--ink2);stroke-width:1.6;stroke-dasharray:5 5}
+.xfig .vir circle.body{fill:var(--eosin-soft);stroke:var(--eosin);stroke-width:2}
+.xfig .vir .sp{stroke:var(--eosin);stroke-width:2;fill:none}
+.xfig .vir .core{fill:var(--eosin);opacity:.75}
+.xfig .node{cursor:pointer}
+.xfig .node circle{fill:var(--panel);stroke:var(--ink);stroke-width:1.8}
+.xfig .node text{font:500 15px var(--f-mono);fill:var(--ink);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.xfig .node:hover circle{stroke:var(--eosin)}
+.xfig .node.on circle{fill:var(--eosin);stroke:var(--eosin)}
+.xfig .node.on text{fill:var(--on-eosin)}
+.xfig .node:focus-visible circle{stroke:var(--hema);stroke-width:3}
+.xfig .dtag rect{fill:var(--panel);stroke:var(--tc);stroke-width:1.5}
+.xfig .dtag text{font:500 11.5px var(--f-mono);fill:var(--ink);text-anchor:middle;dominant-baseline:central}
+.xfig .dtag.none rect{stroke-dasharray:3 3}
+.xfig .dtag.none text{fill:var(--ink2)}
+.xfig[data-drugs="off"] .dtag{display:none}
+.xlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(11.5rem,1fr));gap:.4rem}
+.xlist button{font:500 .78rem/1.3 var(--f-mono);text-align:left;padding:.5rem .65rem;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:3px;cursor:pointer;display:flex;gap:.55rem;align-items:baseline}
+.xlist button .nn{color:var(--eosin);flex:none}
+.xlist button[aria-pressed="true"]{border-color:var(--eosin);background:var(--eosin-soft)}
+.xpanel{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:1.15rem 1.2rem;display:flex;flex-direction:column;gap:.85rem;min-width:0}
+.xpanel .where{font:500 .68rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--eosin);margin:0}
+.xpanel h3{font:500 1.4rem/1.2 var(--f-display);margin:0;letter-spacing:-.01em;text-wrap:balance}
+.xpanel p{margin:0;font-size:.98rem;line-height:1.62}
+.xpanel .rx{display:grid;gap:.4rem;margin:0;padding:0;list-style:none}
+.xpanel .rx li{font-size:.92rem;line-height:1.5;display:grid;grid-template-columns:auto minmax(0,1fr);gap:.55rem;align-items:baseline}
+.xpanel .rx .pill{font:500 .64rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:.15rem .4rem;border-radius:2px;color:var(--paper);background:var(--tc,var(--teal))}
+.xpanel .step{display:flex;gap:.5rem;flex-wrap:wrap}
+.xtools{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.legend{display:flex;gap:.4rem 1rem;flex-wrap:wrap;font:400 .72rem var(--f-mono);color:var(--ink2)}
+.legend span{display:inline-flex;gap:.4rem;align-items:center}
+.legend i{width:.7rem;height:.7rem;border-radius:2px;display:block;background:var(--tc)}
+
+/* régua da janela diagnóstica */
+.ruler{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:1.2rem;margin-block:1.6rem}
+.rctl{display:grid;gap:.5rem}
+.rctl label{font:500 .78rem var(--f-mono);letter-spacing:.04em;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.rctl output{color:var(--eosin);font-variant-numeric:tabular-nums}
+.rctl input[type=range]{width:100%;accent-color:var(--eosin);margin:0}
+.rgrid{display:grid;grid-template-columns:minmax(7rem,10rem) minmax(0,1fr);gap:0 .8rem;margin-top:1.1rem;align-items:start}
+.rlabels,.rplot{display:grid;grid-auto-rows:2.3rem}
+.rlabels div{font:400 .76rem/1.25 var(--f-mono);color:var(--ink);display:flex;align-items:center}
+.rplot{position:relative;border-left:1px solid var(--line);border-right:1px solid var(--line);background:linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/10% 100%}
+.rrow{position:relative;border-bottom:1px dashed var(--line)}
+.rseg{position:absolute;top:.55rem;height:1.2rem;left:calc(var(--a)*1%);width:calc((var(--b) - var(--a))*1%);background:var(--c)}
+.rseg.u{background:repeating-linear-gradient(135deg,var(--c) 0 3px,transparent 3px 7px);outline:1px solid var(--c);outline-offset:-1px}
+.rmark{position:absolute;top:-.3rem;bottom:-.3rem;left:calc(var(--d)*1%);width:2px;background:var(--eosin);pointer-events:none}
+.rmark::after{content:attr(data-d);position:absolute;top:-1.3rem;left:50%;transform:translateX(-50%);font:500 .68rem var(--f-mono);color:var(--eosin);white-space:nowrap}
+.raxis{display:grid;grid-template-columns:minmax(7rem,10rem) minmax(0,1fr);gap:.8rem;margin-top:.4rem}
+.raxis .ticks{position:relative;height:1.2rem}
+.raxis .ticks span{position:absolute;transform:translateX(-50%);font:400 .66rem var(--f-mono);color:var(--ink2)}
+.rout{margin-top:1.1rem;display:grid;gap:.6rem}
+.rout ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:.5rem}
+.rout li{display:grid;gap:.15rem;padding:.55rem .7rem;border:1px solid var(--line);border-radius:3px;font-size:.88rem;line-height:1.4;background:var(--paper)}
+.rout .st{font:500 .64rem var(--f-mono);letter-spacing:.12em;text-transform:uppercase}
+.rout li[data-s="pos"] .st{color:var(--teal)} .rout li[data-s="unc"] .st{color:var(--amber)} .rout li[data-s="neg"] .st{color:var(--eosin)}
+.rout p{margin:0;font-size:.98rem;line-height:1.6}
+.rpep{padding:.7rem .85rem;border:1px solid var(--line);border-radius:3px;background:var(--paper)}
+
+/* quiz */
+.quiz{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:1.3rem;display:grid;gap:1rem;max-width:46rem}
+.qtop{display:flex;justify-content:space-between;gap:1rem;font:500 .74rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);flex-wrap:wrap}
+.qbar{height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.qbar i{display:block;height:100%;background:var(--eosin);width:0;transition:width .3s}
+.qq{font:500 1.25rem/1.4 var(--f-display);margin:0;text-wrap:pretty}
+.qopts{display:grid;gap:.5rem}
+.qopt{text-align:left;font:400 1rem/1.5 var(--f-body);padding:.7rem .9rem;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:3px;cursor:pointer}
+.qopt:hover:not(:disabled){border-color:var(--hema)}
+.qopt:disabled{cursor:default}
+.qopt.right{border-color:var(--teal);background:var(--teal-soft)}
+.qopt.wrong{border-color:var(--eosin);background:var(--eosin-soft)}
+.qexp{margin:0;font-size:.98rem;line-height:1.62;padding:.8rem .9rem;border:1px dashed var(--line);border-radius:3px}
+.qnav{display:flex;gap:.5rem;flex-wrap:wrap}
+.qres{display:grid;gap:.7rem}
+.qres ul{margin:0;padding-left:1.2rem;display:grid;gap:.4rem;font-size:.95rem}
+
+/* resumo, conferência, referências */
+.sumgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr));gap:1rem}
+.sumgrid .ficha h4{font-size:1.05rem}
+.refs{display:grid;gap:.9rem;font-size:.95rem;line-height:1.55;max-width:60rem}
+.refs p{margin:0;text-align:left;overflow-wrap:anywhere}
+.foot{padding-block:2rem 6rem;color:var(--ink2);font-size:.9rem}
+
+/* barra de edição */
+.editbar{position:fixed;right:max(.9rem,env(safe-area-inset-right,0px));bottom:calc(.9rem + env(safe-area-inset-bottom,0px));z-index:50;display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;padding:.5rem;background:var(--panel);border:1px solid var(--line);border-radius:6px;box-shadow:0 8px 28px rgb(0 0 0 / .16);max-width:calc(100vw - 1.8rem)}
+.editbar .msg{font:400 .7rem/1.3 var(--f-mono);color:var(--ink2);max-width:15rem}
+body.editing [data-ed]{outline:1px dashed var(--line);outline-offset:3px;border-radius:2px}
+body.editing [data-ed]:hover,body.editing [data-ed]:focus{outline-color:var(--hema)}
+body.editing [data-ed]:focus{background:var(--hema-soft)}
+
+@media (max-width:62rem){
+  .cols{grid-template-columns:minmax(0,1fr);gap:1.6rem}
+  .margin{grid-template-columns:repeat(auto-fit,minmax(14rem,1fr))}
+  .hero-grid{grid-template-columns:minmax(0,1fr)}
+  .explorer{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:40rem){
+  body{font-size:1.02rem}
+  .rgrid,.raxis{grid-template-columns:5.6rem minmax(0,1fr)}
+  .rlabels div{font-size:.66rem}
+  .brand span{display:none}
+  .xfig .dtag{display:none}
+  .editbar{left:.9rem;right:.9rem;justify-content:space-between}
+  .editbar .msg{max-width:none;flex-basis:100%}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important;animation:none!important}
+}
+@media (max-width:40rem){.editbar{gap:.3rem;padding:.35rem}.editbar .btn{flex:1 1 auto;font-size:.62rem;padding:.42rem .4rem;letter-spacing:0}}
+</style>
+</head>
+<body>
+
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#topo">Atlas do HIV<span> · fisiopatologia, fármacos e clínica</span></a>
+    <nav class="pnav" id="pnav" aria-label="Índice das pranchas">
+      <a href="#p1">I Ciclo</a>
+      <a href="#p2">II Entrada</a>
+      <a href="#p3">III RNA e DNA</a>
+      <a href="#p4">IV Imunidade</a>
+      <a href="#p5">V Fármacos</a>
+      <a href="#p6">VI Reservatórios</a>
+      <a href="#p7">VII Diagnóstico</a>
+      <a href="#p8">VIII Exame que engana</a>
+      <a href="#p9">IX Primeira consulta</a>
+      <a href="#p10">X Casos</a>
+      <a href="#p11">XI Falha virológica</a>
+      <a href="#rev">Revisão</a>
+      <a href="#resumo">Resumo</a>
+      <a href="#refs">Referências</a>
+    </nav>
+    <button class="btn" id="themebtn" type="button" aria-label="Alternar tema claro e escuro">Tema</button>
+  </div>
+</header>
+
+<main id="topo">
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">Atlas de estudo · Infecção pelo HIV</p>
+        <h1 data-ed>Um retrovírus que se escreve no genoma da própria célula</h1>
+        <p class="sub" data-ed>O HIV inverte o fluxo habitual da informação genética: copia seu RNA em DNA e o insere nos cromossomos do linfócito. Tudo o que o slide ensina nasce dessa inversão, da forma como o vírus destrói a imunidade até a razão pela qual os exames têm janela e a doença não tem cura.</p>
+        <ul class="numbers" aria-label="Números do slide">
+          <li><span class="n">72 h</span><span class="u">limite para iniciar a profilaxia pós-exposição</span></li>
+          <li><span class="n">5 dias</span><span class="u">para o reservatório viral se instalar</span></li>
+          <li><span class="n">200 cópias/mL</span><span class="u">limiar de indetectável = intransmissível</span></li>
+          <li><span class="n">350 /mm³</span><span class="u">CD4 acima do qual a rotina de CD4 se simplifica</span></li>
+          <li><span class="n">0,06</span><span class="u">relação CD4/CD8 do caso 1 (normal em torno de 1,5)</span></li>
+        </ul>
+      </div>
+      <figure style="margin:0">
+        <svg class="flux" viewBox="0 0 420 316" role="img" aria-label="Fluxo invertido do HIV: RNA viral, transcriptase reversa, DNA complementar, integrase, provírus no genoma da célula">
+          <defs><marker id="fa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10z" style="fill:var(--ink2)"/></marker></defs>
+          <text x="20" y="22">RNA viral (fita simples)</text>
+          <path d="M20 56 q15 -20 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0" fill="none" style="stroke:var(--eosin)" stroke-width="3" stroke-linecap="round"/>
+          <line x1="200" y1="76" x2="200" y2="122" style="stroke:var(--ink2)" stroke-width="1.6" marker-end="url(#fa)"/>
+          <text x="214" y="104">transcriptase reversa</text>
+          <text x="20" y="142">DNA complementar (dupla fita)</text>
+          <line x1="20" y1="158" x2="380" y2="158" style="stroke:var(--hema)" stroke-width="16" stroke-dasharray="1.6 12" opacity=".55"/>
+          <line x1="20" y1="150" x2="380" y2="150" style="stroke:var(--hema)" stroke-width="3"/>
+          <line x1="20" y1="166" x2="380" y2="166" style="stroke:var(--hema)" stroke-width="3"/>
+          <line x1="200" y1="180" x2="200" y2="226" style="stroke:var(--ink2)" stroke-width="1.6" marker-end="url(#fa)"/>
+          <text x="214" y="208">integrase</text>
+          <line x1="20" y1="262" x2="380" y2="262" style="stroke:var(--ink2)" stroke-width="16" stroke-dasharray="1.6 12" opacity=".4"/>
+          <line x1="20" y1="254" x2="380" y2="254" style="stroke:var(--ink2)" stroke-width="3"/>
+          <line x1="20" y1="270" x2="380" y2="270" style="stroke:var(--ink2)" stroke-width="3"/>
+          <line x1="140" y1="262" x2="260" y2="262" style="stroke:var(--eosin)" stroke-width="16" stroke-dasharray="1.6 12" opacity=".6"/>
+          <line x1="140" y1="254" x2="260" y2="254" style="stroke:var(--eosin)" stroke-width="3.5"/>
+          <line x1="140" y1="270" x2="260" y2="270" style="stroke:var(--eosin)" stroke-width="3.5"/>
+          <text x="20" y="298">genoma da célula hospedeira</text>
+          <text class="big" x="270" y="292" style="fill:var(--eosin)">provírus</text>
+        </svg>
+        <figcaption style="font:400 .74rem/1.45 var(--f-mono);color:var(--ink2);margin-top:.5rem">Esquema do fluxo invertido. O DNA viral integrado passa a ser copiado junto com o DNA da célula.</figcaption>
+      </figure>
+    </div>
+
+    <div class="guide">
+      <p data-ed><span class="k">Camadas de leitura</span>Cada prancha começa pelo essencial. Os blocos com sinal de mais abrem a camada seguinte: mecanismo molecular, exceções e controvérsias. Alguns têm uma terceira camada dentro.</p>
+      <p data-ed><span class="k">Notas na margem</span>As etiquetas "No slide" resumem o que o professor afirmou. As etiquetas "Conferir" marcam onde o slide simplifica, diverge de diretriz ou admite mais de uma leitura. Nada foi atribuído ao professor além do que está escrito.</p>
+      <p data-ed><span class="k">Interativos</span>O ciclo viral (prancha I), a régua da janela diagnóstica (prancha VII) e a revisão em perguntas. Os blocos interativos não são editáveis; todo o restante é, pela barra no canto inferior direito.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRANCHA I -->
+<section class="plate" id="p1" aria-labelledby="p1t">
+  <div class="wrap">
+    <p class="plate-tag">Prancha I</p>
+    <h2 id="p1t" data-ed>O ciclo viral e o ponto em que cada fármaco o interrompe</h2>
+    <p class="lede" data-ed>O HIV só se replica dentro de células humanas, e cada etapa depende de uma proteína viral ou de uma maquinaria da célula. Por isso o ciclo é ao mesmo tempo o roteiro da fisiopatologia e o mapa dos alvos terapêuticos. Clique nas estações para ver o evento, o porquê e quem o bloqueia.</p>
+
+    <div class="explorer" id="explorer">
+      <div class="xcol">
+        <div class="xtools">
+          <button class="btn" id="xprev" type="button">Anterior</button>
+          <button class="btn" id="xnext" type="button">Próxima</button>
+          <button class="btn" id="xdrugs" type="button" aria-pressed="true">Fármacos no esquema</button>
+        </div>
+        <div class="xfig" id="xfig" data-drugs="on">
+          <svg viewBox="0 0 760 490" role="group" aria-label="Esquema de um linfócito T CD4 com oito estações numeradas do ciclo do HIV">
+            <defs>
+              <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" style="fill:var(--ink2)"/></marker>
+              <g id="vir" class="vir"><circle class="body" r="20"/><circle class="core" r="8"/><path class="sp" d="M0 -20V-29M0 20V29M-20 0H-29M20 0H29M14.1 14.1L20.5 20.5M-14.1 14.1L-20.5 20.5M14.1 -14.1L20.5 -20.5M-14.1 -14.1L-20.5 -20.5"/></g>
+            </defs>
+            <text class="lbl" x="736" y="24" text-anchor="end">Meio extracelular</text>
+            <rect class="cell" x="30" y="130" width="700" height="290" rx="60"/>
+            <text class="lbl" x="56" y="172">Citoplasma</text>
+            <text class="lbl" x="724" y="152" text-anchor="end">Membrana plasmática</text>
+            <ellipse class="nuc" cx="570" cy="285" rx="140" ry="92"/>
+            <text class="lbl" x="570" y="214" text-anchor="middle">Núcleo</text>
+            <use href="#vir" x="110" y="42"/>
+            <text class="lbl" x="148" y="46">Vírion</text>
+            <path class="route" marker-end="url(#arw)" d="M130 130 L192 130"/>
+            <path class="route" marker-end="url(#arw)" d="M235 130 L297 130"/>
+            <path class="route" marker-end="url(#arw)" d="M326 148 C340 170 349 182 350 195"/>
+            <path class="route" marker-end="url(#arw)" d="M352 233 C356 262 384 285 410 285"/>
+            <path class="route" marker-end="url(#arw)" d="M450 285 L548 285"/>
+            <path class="route" marker-end="url(#arw)" d="M566 303 C560 340 530 372 490 375"/>
+            <path class="route" marker-end="url(#arw)" d="M452 376 C380 384 300 398 250 416"/>
+            <use href="#vir" x="230" y="452"/>
+            <g class="dtag" style="--tc:var(--entry)"><rect x="62" y="88" width="96" height="22" rx="3"/><text x="110" y="99">ibalizumabe</text></g>
+            <g class="dtag" style="--tc:var(--entry)"><rect x="167" y="88" width="96" height="22" rx="3"/><text x="215" y="99">maraviroque</text></g>
+            <g class="dtag" style="--tc:var(--entry)"><rect x="272" y="88" width="96" height="22" rx="3"/><text x="320" y="99">enfuvirtida</text></g>
+            <g class="dtag" style="--tc:var(--rt)"><rect x="206" y="204" width="118" height="22" rx="3"/><text x="265" y="215">ITRN · ITRNN</text></g>
+            <g class="dtag" style="--tc:var(--int)"><rect x="306" y="310" width="100" height="22" rx="3"/><text x="356" y="321">RAL · DTG</text></g>
+            <g class="dtag none" style="--tc:var(--ink2)"><rect x="490" y="236" width="160" height="22" rx="3"/><text x="570" y="247">sem fármaco eficaz</text></g>
+            <g class="dtag" style="--tc:var(--pi)"><rect x="264" y="441" width="130" height="22" rx="3"/><text x="329" y="452">DRV · ATV · RTV</text></g>
+            <g class="node" data-s="0" tabindex="0" role="button" aria-label="Estação 1, ligação ao CD4"><circle cx="110" cy="130" r="18"/><text x="110" y="130">1</text></g>
+            <g class="node" data-s="1" tabindex="0" role="button" aria-label="Estação 2, correceptor"><circle cx="215" cy="130" r="18"/><text x="215" y="130">2</text></g>
+            <g class="node" data-s="2" tabindex="0" role="button" aria-label="Estação 3, fusão"><circle cx="320" cy="130" r="18"/><text x="320" y="130">3</text></g>
+            <g class="node" data-s="3" tabindex="0" role="button" aria-label="Estação 4, transcriptase reversa"><circle cx="350" cy="215" r="18"/><text x="350" y="215">4</text></g>
+            <g class="node" data-s="4" tabindex="0" role="button" aria-label="Estação 5, integração"><circle cx="430" cy="285" r="18"/><text x="430" y="285">5</text></g>
+            <g class="node" data-s="5" tabindex="0" role="button" aria-label="Estação 6, latência"><circle cx="570" cy="285" r="18"/><text x="570" y="285">6</text></g>
+            <g class="node" data-s="6" tabindex="0" role="button" aria-label="Estação 7, produção de componentes"><circle cx="470" cy="375" r="18"/><text x="470" y="375">7</text></g>
+            <g class="node" data-s="7" tabindex="0" role="button" aria-label="Estação 8, brotamento e maturação"><circle cx="230" cy="420" r="18"/><text x="230" y="420">8</text></g>
+          </svg>
+        </div>
+        <div class="legend" aria-label="Legenda das classes de fármacos">
+          <span style="--tc:var(--entry)"><i></i>entrada</span>
+          <span style="--tc:var(--rt)"><i></i>transcriptase reversa</span>
+          <span style="--tc:var(--int)"><i></i>integrase</span>
+          <span style="--tc:var(--pi)"><i></i>protease</span>
+        </div>
+        <div class="xlist" id="xlist" data-dyn></div>
+      </div>
+      <div class="xpanel" id="xpanel" data-dyn aria-live="polite"></div>
+    </div>
+
+    <div class="cols">
+      <div class="prose">
+        <h3 data-ed>Por que oito estações, se o slide traz nove passos</h3>
+        <p data-ed>O slide numera os passos de 1 a 9, mas o número 7 aparece duas vezes (produção de novos vírus e montagem com brotamento), e os passos 8 e 9 já não pertencem ao ciclo: tratam do impacto sobre o sistema imune e das infecções oportunistas. Aqui o ciclo propriamente dito foi reorganizado em oito estações, e o restante ganhou sua própria prancha (a IV). A estação 6, a latência, é o único ponto do esquema em que não existe fármaco capaz de atuar, e é justamente ela que explica por que o tratamento controla, mas não cura.</p>
+        <h3 data-ed>A escala que obriga a tratar com três fármacos</h3>
+        <p data-ed>Numa pessoa com viremia não tratada, a produção de vírions chega à ordem de bilhões por dia, como o slide destaca. A transcriptase reversa não corrige os próprios erros, de modo que cada ciclo gera, em média, algo próximo de uma mutação por genoma. Multiplique as duas coisas: praticamente toda mutação pontual possível surge, todos os dias, em algum vírion. Se existir um único fármaco, basta que uma dessas variantes já seja resistente para que ela seja selecionada. Com três agentes ativos ao mesmo tempo, o vírus precisaria acumular, no mesmo genoma e no mesmo ciclo, mutações contra todos eles, o que é improvável.</p>
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>A dinâmica da replicação em números</summary>
+          <div class="dbody">
+            <p data-ed>Os estudos clássicos de dinâmica viral, que acompanharam a queda da carga viral logo após o início de inibidores potentes, mostraram que o vírion livre no plasma tem meia-vida de horas e que a célula produtivamente infectada vive, em média, um a dois dias. Isso significa que a viremia que se mede é o equilíbrio entre uma produção enorme e uma depuração igualmente rápida (HO et al., 1995). Duas consequências práticas: primeiro, quando o tratamento bloqueia um ciclo, a carga viral despenca em dias, o que explica a queda de pelo menos uma ordem de grandeza (1 log₁₀) nas primeiras semanas que o slide usa como critério de resposta. Segundo, qualquer lapso de adesão devolve ao vírus exatamente essa velocidade de replicação.</p>
+            <details class="deep">
+              <summary><span class="tag">Detalhamento</span>Quasispécie, recombinação e a escolha de um esquema</summary>
+              <div class="dbody">
+                <p data-ed>Dentro de um mesmo paciente o HIV não é um vírus único, e sim uma nuvem de variantes relacionadas, a quasispécie. Cada vírion carrega duas cópias de RNA; quando uma célula é infectada por dois vírus distintos, a transcriptase reversa pode saltar de um molde para o outro durante a síntese (troca de molde), produzindo recombinantes. A seleção então atua sobre essa diversidade: o sistema imune seleciona variantes que escapam dos linfócitos T citotóxicos, e os fármacos selecionam variantes resistentes. A "barreira genética" que o slide discute mais adiante mede exatamente quantas mutações essa nuvem precisa acumular para escapar de um dado fármaco.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>Como ler o esquema como um mapa de alvos</summary>
+          <div class="dbody">
+            <p data-ed>Um fármaco antirretroviral útil precisa atacar algo que o vírus carrega consigo e que a célula humana não tem, para ser seletivo. Por isso quase todos os alvos são proteínas virais ou interações exclusivas do vírus com a célula: a gp120 e a gp41 (entrada), a transcriptase reversa (que não tem equivalente na célula humana saudável), a integrase e a protease. Os dois alvos celulares da lista, o CD4 e o CCR5, são casos particulares: o primeiro é alvo de um anticorpo monoclonal que não bloqueia a função fisiológica do CD4, e o segundo é tolerado porque indivíduos que nascem sem CCR5 funcional são saudáveis, como se verá na prancha II.</p>
+            <ul>
+              <li data-ed>Entrada: ibalizumabe (CD4), maraviroque (CCR5), enfuvirtida (gp41).</li>
+              <li data-ed>Transcrição reversa: inibidores nucleosídeos e nucleotídeos (lamivudina, zidovudina, abacavir, tenofovir) e não nucleosídeos (efavirenz, nevirapina, etravirina).</li>
+              <li data-ed>Integração: raltegravir e dolutegravir.</li>
+              <li data-ed>Maturação: inibidores de protease (darunavir, atazanavir) com ritonavir como potencializador farmacocinético.</li>
+            </ul>
+          </div>
+        </details>
+        <div class="box" data-kind="prova" data-label="Para a prova">
+          <p data-ed>Saiba associar estação, proteína viral e fármaco sem olhar o esquema: gp120 com CD4 e ibalizumabe; gp120 com CCR5 e maraviroque; gp41 e enfuvirtida; transcriptase reversa e ITRN/ITRNN; integrase e raltegravir/dolutegravir; protease e darunavir/atazanavir/ritonavir. Lembre também que o provírus latente não tem alvo farmacológico.</p>
+        </div>
+      </div>
+      <aside class="margin">
+        <div class="m slide"><span class="k">No slide</span><p data-ed>Nove passos numerados, com o passo 7 repetido. Cada fármaco é apresentado depois, em seções por classe: inibidores de ligação, de fusão, da transcriptase reversa, da integrase e da protease.</p></div>
+        <div class="m check"><span class="k">Conferir</span><p data-ed>O slide coloca a ação da protease logo após a produção das proteínas. Na biologia do vírion, a clivagem acontece sobretudo durante e logo depois do brotamento, quando a partícula amadurece. O resultado do inibidor é o mesmo: partículas imaturas e não infecciosas.</p></div>
+        <div class="m"><span class="k">Termos</span><p data-ed>Vírion é a partícula viral completa. Provírus é o DNA viral já integrado ao genoma da célula. Transcriptase reversa é a DNA polimerase que usa RNA como molde.</p></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- PRANCHA II -->
+<section class="plate" id="p2" aria-labelledby="p2t">
+  <div class="wrap">
+    <p class="plate-tag">Prancha II</p>
+    <h2 id="p2t">A porta de entrada: CD4, correceptores e tropismo</h2>
+    <p class="lede">O HIV não entra em qualquer célula. Ele precisa de duas moléculas da superfície celular, uma depois da outra, e a identidade da segunda define o comportamento do vírus ao longo da doença.</p>
+    <div class="cols">
+      <div class="prose">
+        <h3>Duas fechaduras em série</h3>
+        <p>A glicoproteína de envelope do HIV é um trímero. Cada unidade tem a gp120, na superfície, que reconhece receptores, e a gp41, que atravessa o envelope e executa a fusão. As duas nascem da clivagem de um precursor, a gp160, por uma protease da célula que produziu o vírion. A gp120 liga-se ao CD4, uma glicoproteína da superfamília das imunoglobulinas presente nos linfócitos T auxiliares, nos monócitos e macrófagos e nas células dendríticas. É essa distribuição que define o tropismo do vírus.</p>
+        <p>O slide compara a gp120 a uma chave. A imagem funciona com um complemento importante: encaixar no CD4 não abre a porta. A ligação apenas faz a chave mudar de forma e expor uma segunda fechadura, o correceptor. Só depois dessa segunda ligação a gp41 entra em cena.</p>
+        <ol class="chain" aria-label="Sequência da entrada do HIV">
+          <li><span class="s v">gp120 liga o CD4</span></li>
+          <li><span class="s">mudança conformacional da gp120</span></li>
+          <li><span class="s v">gp120 liga CCR5 ou CXCR4</span></li>
+          <li><span class="s">gp41 expõe o peptídeo de fusão</span></li>
+          <li><span class="s">feixe de seis hélices</span></li>
+          <li><span class="s v">fusão e entrada do capsídeo</span></li>
+        </ol>
+        <p>Cada elo tem consequência clínica. Se o CD4 não é ocupado, nada acontece, e é por isso que o ibalizumabe, que se liga ao CD4 de um modo que impede as etapas seguintes, funciona. Se o correceptor não está disponível, a entrada para, e é por isso que o maraviroque funciona contra vírus que dependem do CCR5. Se a gp41 não se reorganiza, as membranas não se fundem, e é por isso que a enfuvirtida funciona.</p>
+
+        <h3>R5, X4 e o que a escolha do correceptor significa</h3>
+        <p>CCR5 e CXCR4 são receptores de quimiocinas, acoplados à proteína G, com sete passagens pela membrana. Vírus que usam o CCR5 são chamados R5; os que usam o CXCR4, X4; existem ainda os duais ou mistos, que usam ambos. O slide afirma que as cepas R5 predominam no início e as X4 aparecem tarde, com progressão mais rápida. Por quê?</p>
+        <p>Porque o CCR5 é abundante exatamente nas células que o vírus encontra primeiro: linfócitos T de memória ativados das mucosas, macrófagos e células dendríticas. O CXCR4 é mais característico de linfócitos T virgens (naïve) e em repouso. Na transmissão sexual, poucos vírions fundadores atravessam a mucosa, e quase sempre são R5. Com os anos, em uma proporção considerável dos pacientes (mais no subtipo B), surgem variantes X4. Elas ganham espaço à medida que as células CCR5+ de memória se esgotam e os linfócitos virgens passam a ser o alvo disponível. Como esses linfócitos virgens e seus precursores no timo são a reserva que renova o repertório, atacá-los acelera a queda do CD4 e dificulta a recuperação.</p>
+        <div class="fichas">
+          <div class="ficha" data-c="v">
+            <span class="k">Cepas R5</span>
+            <h4>Usam o CCR5</h4>
+            <ul>
+              <li>Predominam na transmissão e no início.</li>
+              <li>Infectam linfócitos T de memória, macrófagos e células dendríticas.</li>
+              <li>Sensíveis ao maraviroque.</li>
+            </ul>
+          </div>
+          <div class="ficha" data-c="a">
+            <span class="k">Cepas X4</span>
+            <h4>Usam o CXCR4</h4>
+            <ul>
+              <li>Aparecem tardiamente em parte dos pacientes.</li>
+              <li>Maior tropismo por linfócitos T CD4+, inclusive virgens.</li>
+              <li>Associadas a depleção mais rápida e pior prognóstico. Não respondem ao maraviroque.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="box" data-kind="clinica" data-label="Na prática clínica">
+          <p>O maraviroque só funciona contra vírus exclusivamente R5. Antes de prescrevê-lo é preciso um teste de tropismo, fenotípico ou genotípico (este prevê o tropismo pela sequência da alça V3 da gp120). Em vírus X4 ou dual/misto o fármaco bloqueia o CCR5, mas o vírus simplesmente entra pelo CXCR4.</p>
+        </div>
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>A mecânica da fusão: o feixe de seis hélices</summary>
+          <div class="dbody">
+            <p>A gp41 tem, do lado de fora do envelope, um peptídeo de fusão hidrofóbico na extremidade N-terminal e duas regiões em repetição de heptadas, HR1 e HR2. Antes do gatilho, essas regiões estão recolhidas. Após a ligação ao correceptor, a gp41 se estende como uma mola, enterra o peptídeo de fusão na membrana da célula-alvo e forma, com as três cópias de HR1, um núcleo helicoidal em trímero. Em seguida, as três HR2 se dobram de volta sobre as ranhuras desse núcleo, formando o feixe de seis hélices. Essa dobradura libera energia suficiente para aproximar as duas bicamadas lipídicas até que elas se fundam e abram um poro.</p>
+            <details class="deep">
+              <summary><span class="tag">Detalhamento</span>Enfuvirtida, um peptídeo que imita a HR2</summary>
+              <div class="dbody">
+                <p>A enfuvirtida é um peptídeo sintético de 36 aminoácidos cuja sequência corresponde à HR2. Ela se liga à HR1 enquanto a gp41 está estendida, no estado intermediário, e impede que a HR2 natural se dobre sobre ela. Como esse estado intermediário dura pouco tempo, a janela de ação do fármaco é curta, e as mutações de resistência se concentram justamente na HR1. Por ser um peptídeo, é administrada por via subcutânea, com reações locais frequentes, e por isso fica reservada a esquemas de resgate, como o slide indica.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>Quando o CCR5 não existe, e outras formas de entrar</summary>
+          <div class="dbody">
+            <p>Uma deleção de 32 pares de bases no gene do CCR5 (CCR5Δ32) produz uma proteína truncada que não chega à superfície. Pessoas homozigotas para essa deleção, uma pequena fração de indivíduos de ascendência europeia, são muito resistentes à infecção por vírus R5 e não têm doença evidente por isso, o que é um dos argumentos de segurança para bloquear o CCR5 com um fármaco. Os raros casos de remissão prolongada após transplante de células-tronco usaram doadores homozigotos para essa deleção.</p>
+            <p>Além da infecção direta por fusão, as células dendríticas capturam vírions por lectinas de superfície (como a DC-SIGN) e os transportam até os linfonodos, onde os transferem aos linfócitos T numa estrutura de contato chamada sinapse infecciosa. A transmissão célula a célula é muito mais eficiente que a infecção por vírions livres e é menos exposta a anticorpos e a fármacos, o que ajuda a explicar a dificuldade de erradicação.</p>
+          </div>
+        </details>
+      </div>
+      <aside class="margin">
+        <div class="m slide"><span class="k">No slide</span><p>A ligação ao CD4 não basta. A gp120 muda de forma e liga-se a CCR5 ou CXCR4. Cepas R5 predominam cedo e infectam macrófagos, células dendríticas e linfócitos; cepas X4 aparecem tarde, com mais tropismo por linfócitos e prognóstico pior. A gp41 promove a fusão.</p></div>
+        <div class="m check"><span class="k">Conferir</span><p>O "ou" do slide vale para cada vírion: ele usa um dos dois, ou ambos se for dual. O slide não menciona o teste de tropismo exigido pelo maraviroque; ele foi acrescentado aqui.</p></div>
+        <div class="m"><span class="k">Termo</span><p>Tropismo é o conjunto de células que um vírus consegue infectar, determinado por seus receptores.</p></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- PRANCHA III -->
+<section class="plate" id="p3" aria-labelledby="p3t">
+  <div class="wrap">
+    <p class="plate-tag">Prancha III</p>
+    <h2 id="p3t">Do RNA ao provírus: transcrição reversa, erro e integração</h2>
+    <p class="lede">Esta é a etapa que define um retrovírus e a que mais interessa à farmacologia. Duas enzimas virais, a transcriptase reversa e a integrase, transformam um genoma de RNA em um segmento do DNA humano.</p>
+    <div class="cols">
+      <div class="prose">
+        <h3>A transcriptase reversa, uma enzima com três atividades</h3>
+        <p>O vírion carrega duas cópias de RNA de fita simples e polaridade positiva, ligadas ao RNA transportador de lisina que servirá de iniciador. A transcriptase reversa é um heterodímero (p66 e p51) com três atividades. Como DNA polimerase dependente de RNA, ela copia o RNA em uma fita de DNA. Como RNase H, degrada o RNA do híbrido já copiado. Como DNA polimerase dependente de DNA, usa a primeira fita como molde para a segunda. O produto final é um DNA linear de dupla fita, com repetições terminais longas (LTR) nas duas pontas, que é o "DNA complementar de dupla fita" do slide.</p>
+        <ol class="chain" aria-label="Etapas da transcrição reversa">
+          <li><span class="s v">RNA genômico (+)</span></li>
+          <li><span class="s rx">RT: DNA fita (−)</span></li>
+          <li><span class="s">RNase H remove o RNA</span></li>
+          <li><span class="s rx">RT: DNA fita (+)</span></li>
+          <li><span class="s">DNA dupla fita com LTR</span></li>
+        </ol>
+
+        <h3>Por que o erro é a regra</h3>
+        <p>A transcriptase reversa não tem atividade de revisão (exonuclease 3' para 5'), então os erros de incorporação não são corrigidos. Com um genoma de cerca de 9,7 mil bases, isso resulta em algo da ordem de uma mutação por genoma a cada ciclo. O slide lista as três consequências: variabilidade genética, escape imunológico e resistência aos antirretrovirais. A primeira alimenta as outras duas, pois cada variante nova é uma aposta que a seleção testa. Um exemplo clássico de resistência é a substituição M184V na transcriptase reversa, que sozinha confere resistência de alto nível à lamivudina, e é por isso que o slide chama de baixa a barreira genética dessa classe.</p>
+        <div class="box" data-kind="mecanismo" data-label="Barreira genética em uma frase">
+          <p>Barreira genética é o número de mutações que o vírus precisa acumular para escapar de um fármaco, combinado com o custo que isso tem para a sua capacidade de replicar. Uma mutação basta contra a lamivudina (barreira baixa). São necessárias várias contra o dolutegravir ou o darunavir potencializado (barreira alta).</p>
+        </div>
+
+        <h3>Integração, o ponto sem volta</h3>
+        <p>O DNA viral recém-formado se associa a proteínas virais e celulares, formando o complexo de pré-integração. Ao contrário de muitos retrovírus, que exigem divisão celular para acessar o núcleo, o HIV atravessa os poros nucleares de células que não estão se dividindo, o que lhe permite infectar macrófagos e linfócitos de memória em repouso. A integrase faz duas reações. Primeiro remove dois nucleotídeos de cada extremidade do DNA viral (processamento 3'). Depois, no núcleo, executa a transferência de fita, ligando as extremidades ao DNA da célula em pontos escolhidos com ajuda de uma proteína celular, a LEDGF/p75, que guia o complexo para regiões de genes ativos. A célula então repara as lacunas, e o resultado é o provírus.</p>
+        <p>O provírus é um segmento permanente do genoma da célula. Ele é copiado junto com o DNA a cada divisão celular, e nenhum antirretroviral atual o remove. O slide resume essa consequência: a partir daqui, o material genético viral passa a fazer parte do DNA da célula.</p>
+        <div class="box" data-kind="atencao" data-label="Atenção">
+          <p>Não confunda as duas enzimas na prova. A transcriptase reversa atua no citoplasma e faz o DNA. A integrase atua no núcleo e coloca esse DNA no cromossomo. Por isso um inibidor da transcriptase reversa impede que um novo DNA seja formado, mas não altera o provírus de células que já foram infectadas.</p>
+        </div>
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>O que acontece em células em repouso</summary>
+          <div class="dbody">
+            <p>O slide diz que, em células em repouso, o DNA viral pode permanecer inativo e, em células ativadas, entra no núcleo. É uma boa simplificação didática, e o mecanismo por trás tem duas peças. Primeiro, em linfócitos em repouso a quantidade de desoxirribonucleotídeos livres é baixa, e uma proteína celular (SAMHD1) os degrada ainda mais, de modo que a transcrição reversa é lenta e muitas vezes não se completa. Segundo, o DNA incompleto ou não integrado, quando detectado como DNA estranho no citoplasma, pode disparar morte celular. É o ponto de contato com a "morte de espectadores" da prancha IV. Em células que depois são ativadas, a transcrição reversa se completa e o DNA é integrado.</p>
+            <details class="deep">
+              <summary><span class="tag">Detalhamento</span>Como os inibidores de integrase bloqueiam a reação</summary>
+              <div class="dbody">
+                <p>O sítio ativo da integrase usa dois íons de magnésio para catalisar a transferência de fita. Os inibidores (raltegravir, dolutegravir) ligam-se ao complexo formado pela integrase e pela extremidade do DNA viral e quelam esses íons, impedindo a ligação ao DNA da célula. O dolutegravir permanece ligado ao complexo muito mais tempo que o raltegravir, e isso, junto com sua flexibilidade no sítio de ligação, é uma das explicações para a barreira genética mais alta. A mesma química explica uma interação prática: cátions polivalentes (cálcio, ferro, magnésio, alumínio, zinco) também quelam esses fármacos no intestino, e por isso o slide alerta para os polivitamínicos (prancha IX).</p>
+              </div>
+            </details>
+          </div>
+        </details>
+      </div>
+      <aside class="margin">
+        <div class="m slide"><span class="k">No slide</span><p>A transcriptase reversa converte RNA em DNA complementar de dupla fita e erra muito. A integrase insere o DNA no genoma e forma o provírus. Em células em repouso, o DNA pode ficar inativo.</p></div>
+        <div class="m check"><span class="k">Conferir</span><p>"Alta taxa de erro" é uma descrição correta para a transcriptase reversa, mas a barreira genética varia entre fármacos da mesma classe. A lamivudina tem barreira baixa; o tenofovir tem uma barreira intermediária.</p></div>
+        <div class="m"><span class="k">Termos</span><p>LTR: repetição terminal longa, contém os sinais de transcrição do provírus. Complexo de pré-integração: DNA viral com proteínas, pronto para entrar no núcleo.</p></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- PRANCHA IV -->
+<section class="plate" id="p4" aria-labelledby="p4t">
+  <div class="wrap">
+    <p class="plate-tag">Prancha IV</p>
+    <h2 id="p4t">Como o HIV destrói a imunidade e abre caminho às oportunistas</h2>
+    <p class="lede">O slide chama de "a parte mais importante da fisiopatologia" o impacto sobre o sistema imune. A perda de linfócitos T CD4+ não é um evento isolado: é a soma de mecanismos que se retroalimentam, mais uma lesão precoce e maciça do tecido linfoide do intestino.</p>
+    <div class="cols">
+      <div class="prose">
+        <h3>Por que perder o CD4 é tão grave</h3>
+        <p>O linfócito T CD4+ é o regente da resposta adaptativa. Ele ativa os linfócitos T citotóxicos, instrui os macrófagos a destruir o que fagocitaram, ajuda os linfócitos B a trocar a classe dos anticorpos e sustenta a memória imunológica. Sem ele, a imunidade celular desmorona, e o que se perde primeiro é o controle de microrganismos que vivem dentro de células ou ficam latentes no organismo.</p>
+        <p class="ask">Por que as oportunistas do slide são justamente tuberculose, toxoplasmose, pneumocistose, criptococose e candidíase?</p>
+        <p>Porque todas dependem de imunidade celular. O interferon-gama produzido pelos linfócitos Th1 ativa o macrófago para matar o que ele fagocitou: micobactérias, Toxoplasma, Cryptococcus, Pneumocystis. A defesa das mucosas contra Candida depende em boa parte dos linfócitos Th17. Quando o CD4 cai, esses microrganismos, que o corpo mantinha quietos ou eliminava sem alarde, passam a se multiplicar. É isso que o slide quer dizer com "microrganismos que normalmente ficam latentes".</p>
+
+        <h3>Quatro mecanismos de perda de CD4</h3>
+        <div class="fichas">
+          <div class="ficha" data-c="v">
+            <span class="k">Direta</span>
+            <h4>O vírus mata a célula que infecta</h4>
+            <p>Produção maciça de vírions, brotamento que lesa a membrana, acúmulo de DNA viral e ação de proteínas virais (a Vpr, por exemplo, interrompe o ciclo celular). O slide resume: ao se replicar, leva à morte celular.</p>
+          </div>
+          <div class="ficha" data-c="a">
+            <span class="k">Imunomediada</span>
+            <h4>O sistema imune mata a célula infectada</h4>
+            <p>Linfócitos T CD8+ reconhecem peptídeos virais no HLA de classe I e lisam a célula; anticorpos ligados a antígenos na superfície ativam a citotoxicidade celular. A resposta que controla o vírus também consome CD4 infectados.</p>
+          </div>
+          <div class="ficha" data-c="entry">
+            <span class="k">Espectadores</span>
+            <h4>Morre também quem nem foi infectado</h4>
+            <p>Segundo estudos em tecido linfoide, é uma fração muito grande das mortes de CD4. Células vizinhas recebem sinais inflamatórios e de estresse liberados por células infectadas que morrem e entram em morte celular, como o slide descreve.</p>
+          </div>
+          <div class="ficha" data-c="int">
+            <span class="k">Ativação crônica</span>
+            <h4>O sistema nunca desliga</h4>
+            <p>O estímulo persistente leva a exaustão, apoptose e desgaste dos linfócitos, e ainda cria mais células ativadas, que são alvos melhores para o vírus.</p>
+          </div>
+        </div>
+        <ol class="chain" aria-label="Ciclo vicioso da depleção de CD4">
+          <li><span class="s v">célula CD4 infectada morre</span></li>
+          <li><span class="s">sinais inflamatórios</span></li>
+          <li><span class="s">ativação das vizinhas</span></li>
+          <li><span class="s v">mais alvos ativados e mais morte</span></li>
+        </ol>
+        <p>O desenho acima é o motivo de o slide insistir que a infecção mantém o sistema em ativação contínua. A ativação não é apenas uma consequência da infecção; ela a alimenta, porque um linfócito ativado transcreve o provírus e integra o DNA com mais eficiência do que um em repouso.</p>
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>A piroptose e o ciclo vicioso no tecido linfoide</summary>
+          <div class="dbody">
+            <p>O slide descreve a morte de espectadores como apoptose com liberação de sinais inflamatórios. O mecanismo mais bem documentado hoje para a maioria dessas mortes, no tecido linfoide, é outro, a piroptose, que é inflamatória por natureza. Em linfócitos CD4+ em repouso, a infecção costuma ser abortiva: a transcrição reversa é iniciada mas não se completa, e fragmentos de DNA viral ficam no citoplasma. Um sensor de DNA (o IFI16) reconhece esses fragmentos e ativa o inflamassoma, com ativação da caspase-1. A caspase-1 cliva a pro-interleucina-1β e provoca a lise da célula, liberando interleucina-1β e outros mediadores (DOITSH et al., 2014).</p>
+            <details class="deep">
+              <summary><span class="tag">Detalhamento</span>Por que isso importa para o tratamento</summary>
+              <div class="dbody">
+                <p>Se a maior parte dos CD4 morre porque tentou, e falhou, em ser infectada, a morte não depende de vírus produtivo. Isso explica por que a inflamação persiste em parte mesmo com viremia suprimida, e por que a perda de CD4 se correlaciona melhor com ativação imune do que com a carga viral isolada em fases tardias. Também sustenta a ideia de que começar a TARV cedo, quando o tecido linfoide ainda está íntegro, preserva a capacidade de recuperação.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <h3>A queda abrupta do CD4 na fase aguda</h3>
+        <p>O slide pergunta por que o CD4 cai tanto no começo. A resposta está no tecido linfoide associado ao intestino (GALT). Ele abriga uma proporção enorme dos linfócitos do corpo, e a maioria é de células T CD4+ de memória ativadas que expressam CCR5, o alvo preferido das cepas R5. Como a transmissão ocorre por mucosas, o vírus alcança esse tecido rapidamente e o destrói em poucas semanas. A queda do CD4 no sangue pode chegar a valores de AIDS, e depois o CD4 sobe e se estabiliza, quando parte do GALT se regenera. Ao longo dos anos, a queda recomeça.</p>
+        <ol class="chain" aria-label="Fase aguda e GALT">
+          <li><span class="s v">exposição pela mucosa</span></li>
+          <li><span class="s">vírus encontra GALT rico em CD4 CCR5+</span></li>
+          <li><span class="s v">depleção maciça em semanas</span></li>
+          <li><span class="s">queda do CD4 no sangue</span></li>
+          <li><span class="s">regeneração parcial e platô</span></li>
+          <li><span class="s v">declínio progressivo ao longo de anos</span></li>
+        </ol>
+        <div class="box" data-kind="atencao" data-label="Atenção">
+          <p>O dano ao GALT deixa sequela. A barreira intestinal fica mais permeável, produtos bacterianos como o lipopolissacarídeo passam para a circulação e estimulam o sistema imune de modo contínuo (BRENCHLEY et al., 2006). É uma das fontes da ativação imune persistente que aparece na prancha VI.</p>
+        </div>
+
+        <h3>Do CD4 à doença: as oportunistas por faixa de contagem</h3>
+        <p>As infecções oportunistas costumam aparecer em faixas de CD4 características. As faixas abaixo são aproximadas e vêm da tradição dos livros-texto, e não de limiares rígidos.</p>
+        <div class="fichas">
+          <div class="ficha" data-c="rt">
+            <span class="k">Abaixo de cerca de 500</span>
+            <h4>Primeiros sinais</h4>
+            <p>Candidíase oral, herpes-zóster, tuberculose pulmonar típica. A tuberculose pode ocorrer em qualquer faixa, e em CD4 muito baixo se apresenta de modo atípico e disseminado.</p>
+          </div>
+          <div class="ficha" data-c="entry">
+            <span class="k">Abaixo de cerca de 200</span>
+            <h4>Pneumocistose</h4>
+            <p>Pneumonia por Pneumocystis jirovecii e candidíase esofágica. É a faixa em que se inicia profilaxia primária da pneumocistose.</p>
+          </div>
+          <div class="ficha" data-c="int">
+            <span class="k">Abaixo de cerca de 100</span>
+            <h4>Neuroinfecções</h4>
+            <p>Neurotoxoplasmose (reativação de cistos latentes) e criptococose, em geral meníngea.</p>
+          </div>
+          <div class="ficha" data-c="v">
+            <span class="k">Abaixo de cerca de 50</span>
+            <h4>Disseminadas</h4>
+            <p>Retinite por citomegalovírus e infecção disseminada por Mycobacterium avium complex.</p>
+          </div>
+        </div>
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>A história natural sem tratamento</summary>
+          <div class="dbody">
+            <p>Duas a quatro semanas após a infecção, uma parte dos pacientes apresenta a síndrome retroviral aguda: febre, faringite, exantema, linfadenopatia, mialgia e, às vezes, úlceras mucocutâneas. Nessa fase a viremia atinge milhões de cópias por mililitro e a resposta imune a reduz até um ponto de equilíbrio, o set point, que prediz a velocidade de progressão. Segue-se um período clinicamente silencioso, que sem tratamento dura em média cerca de uma década, com declínio lento do CD4. A AIDS se define por CD4 abaixo de 200 células/mm³ ou pela ocorrência de uma doença definidora. A TARV precoce interrompe esse caminho, e é por isso que a conduta atual é tratar no diagnóstico (prancha IX).</p>
+          </div>
+        </details>
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>A relação CD4/CD8 e o que ela mede</summary>
+          <div class="dbody">
+            <p>Em pessoas sem imunossupressão a relação CD4/CD8 gira em torno de 1,5, como o slide afirma, e valores acima de 1 são considerados normais. No HIV, os CD4 caem e os CD8 se expandem (resposta citotóxica e ativação crônica), de modo que a relação se inverte. Mesmo com carga viral indetectável, muitos pacientes que iniciaram o tratamento tarde nunca normalizam a relação, e uma relação persistentemente baixa associa-se a imunossenescência e a mais comorbidades. Os casos clínicos da prancha X mostram isso com números reais.</p>
+          </div>
+        </details>
+      </div>
+      <aside class="margin">
+        <div class="m slide"><span class="k">No slide</span><p>Passo 8: depleção por destrução direta, imunomediada, morte de espectadores e ativação imunológica crônica. Passo 9: infecções oportunistas. Explica também a queda aguda do CD4 pela destruição do GALT.</p></div>
+        <div class="m check"><span class="k">Conferir</span><p>O slide diz que células vizinhas "iniciam apoptose". Na pesquisa recente a piroptose é um mecanismo central nesse processo, e as duas formas de morte coexistem. O slide também afirma que o CD4 pode chegar a "níveis típicos de AIDS" no início; isso costuma ser transitório e não equivale ao diagnóstico de AIDS.</p></div>
+        <div class="m"><span class="k">Termo</span><p>Piroptose é uma morte celular inflamatória dependente de caspase-1, que libera interleucina-1β.</p></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- PRANCHA V -->
+<section class="plate" id="p5" aria-labelledby="p5t">
+  <div class="wrap">
+    <p class="plate-tag">Prancha V</p>
+    <h2 id="p5t">Farmacologia dos antirretrovirais, classe por classe</h2>
+    <p class="lede">Cada classe nasceu de um alvo do ciclo. O que diferencia uma da outra na prescrição é o quanto o vírus tolera antes de resistir (barreira genética), o que o fármaco faz com outros medicamentos e o que ele faz com o paciente.</p>
+    <div class="cols">
+      <div class="prose">
+        <div class="fichas">
+          <div class="ficha" data-c="entry">
+            <span class="k">Entrada</span>
+            <h4>Maraviroque, ibalizumabe, enfuvirtida</h4>
+            <ul>
+              <li>Maraviroque: antagonista alostérico do CCR5; só atua em vírus R5.</li>
+              <li>Ibalizumabe: anticorpo anti-CD4, inibidor pós-ligação, por via endovenosa.</li>
+              <li>Enfuvirtida: peptídeo que imita a HR2 da gp41, por via subcutânea.</li>
+            </ul>
+            <p>Reservados a esquemas de resgate. O quadro do slide cita ainda o fostemsavir, que se liga à gp120 (inibidor de fixação).</p>
+          </div>
+          <div class="ficha" data-c="rt">
+            <span class="k">Transcriptase reversa, nucleosídeos e nucleotídeos</span>
+            <h4>Lamivudina, zidovudina, abacavir, tenofovir</h4>
+            <ul>
+              <li>Falsos tijolos: terminadores de cadeia.</li>
+              <li>Esqueleto de quase todos os esquemas.</li>
+              <li>Atenção a rim e osso (tenofovir), hipersensibilidade (abacavir) e medula (zidovudina).</li>
+            </ul>
+            <div class="meter" style="--fc:var(--rt)"><i class="f"></i><i class="f"></i><i></i><span>barreira baixa a intermediária</span></div>
+          </div>
+          <div class="ficha" data-c="rt">
+            <span class="k">Transcriptase reversa, não nucleosídeos</span>
+            <h4>Efavirenz, nevirapina, etravirina</h4>
+            <ul>
+              <li>Ligam-se a um bolsão fora do sítio ativo e deformam a enzima.</li>
+              <li>Não precisam de ativação e não são incorporados ao DNA.</li>
+              <li>A etravirina é de segunda geração e atua sobre vírus resistentes aos antigos.</li>
+            </ul>
+            <div class="meter" style="--fc:var(--rt)"><i class="f"></i><i></i><i></i><span>barreira baixa (1ª geração)</span></div>
+          </div>
+          <div class="ficha" data-c="int">
+            <span class="k">Integrase</span>
+            <h4>Raltegravir, dolutegravir</h4>
+            <ul>
+              <li>Quelam o magnésio do sítio ativo e bloqueiam a transferência de fita.</li>
+              <li>Queda rápida da carga viral e poucas interações por citocromo.</li>
+              <li>Dolutegravir tem barreira alta; raltegravir, menor.</li>
+            </ul>
+            <div class="meter" style="--fc:var(--int)"><i class="f"></i><i class="f"></i><i class="f"></i><span>alta (dolutegravir)</span></div>
+          </div>
+          <div class="ficha" data-c="pi">
+            <span class="k">Protease</span>
+            <h4>Darunavir, atazanavir, ritonavir</h4>
+            <ul>
+              <li>Impedem a maturação: os vírions saem imaturos e sem capacidade de infectar.</li>
+              <li>Usados com um potencializador (ritonavir ou cobicistate).</li>
+              <li>Muitas interações por CYP3A4.</li>
+            </ul>
+            <div class="meter" style="--fc:var(--pi)"><i class="f"></i><i class="f"></i><i class="f"></i><span>alta (darunavir potencializado)</span></div>
+          </div>
+        </div>
+
+        <h3>Por que a combinação é obrigatória</h3>
+        <p>A conta da prancha I já explicou: com bilhões de vírions por dia e uma polimerase sem revisão, todo fármaco usado sozinho seleciona resistência em pouco tempo. Os esquemas combinam pelo menos dois ou três agentes ativos, de classes diferentes, para que o vírus precise vencer vários obstáculos ao mesmo tempo. A segunda razão para combinar é farmacocinética: um fármaco pode compensar a variação de nível do outro, como o ritonavir faz com os inibidores de protease.</p>
+
+        <h3>Nucleosídeos e nucleotídeos: falsos tijolos que travam a construção</h3>
+        <p>O slide usa a imagem de uma montagem de peças. A transcriptase reversa vai acrescentando nucleotídeos à cadeia, e o fármaco entra no lugar de um deles. A razão pela qual a cadeia trava é química: cada nucleotídeo novo é ligado ao grupo hidroxila da posição 3' do anterior. Os análogos usados no HIV não têm essa hidroxila, ou têm uma alteração que impede a ligação seguinte. Quando a enzima os incorpora, a cadeia termina ali, e o DNA viral incompleto não pode ser integrado.</p>
+        <p>Esses fármacos entram na célula como pró-fármacos e precisam ser fosforilados pelas quinases celulares até a forma trifosfato, que é a que compete com os nucleotídeos naturais. O tenofovir já é um análogo de nucleotídeo (tem um grupo fosfonato) e exige menos etapas.</p>
+        <div class="box" data-kind="clinica" data-label="Na prática clínica">
+          <ul>
+            <li>Tenofovir (forma TDF): acumula-se nas células do túbulo proximal por captação via OAT1, e a lesão pode ir de tubulopatia a síndrome de Fanconi, com perda de fosfato e redução da densidade óssea. A forma TAF libera mais tenofovir dentro das células-alvo e menos no plasma, com menor toxicidade renal e óssea. O slide lembra de avaliar o rim antes do TDF.</li>
+            <li>Abacavir: causa síndrome de hipersensibilidade (febre, exantema, sintomas gastrointestinais e respiratórios) em quem tem o alelo HLA-B*57:01. O fármaco se encaixa na fenda de apresentação do HLA e muda o repertório de peptídeos próprios apresentados, o que ativa linfócitos T CD8+ contra o próprio organismo (ILLING et al., 2012). Por isso se pesquisa o alelo antes e, se positivo, o abacavir não é usado.</li>
+            <li>Zidovudina: supressão de medula óssea (anemia, neutropenia, macrocitose), miopatia e lipoatrofia. Faz parte do esquema com lamivudina em comprimido único usado no resgate da doença renal crônica que o slide cita.</li>
+          </ul>
+        </div>
+        <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+          <p>O slide afirma que o tenofovir é a única droga que trata HIV e hepatite B. É uma boa regra prática, e vale um detalhe: lamivudina e entricitabina também têm atividade contra o vírus da hepatite B, mas o vírus desenvolve resistência a elas com facilidade quando usadas isoladamente. O tenofovir tem alta barreira genética contra o HBV, e por isso é o pilar do tratamento nas coinfecções. A consequência clínica é que suspender o esquema em uma pessoa com hepatite B pode provocar exacerbação grave da hepatite.</p>
+        </div>
+
+        <h3>Não nucleosídeos: deformar a máquina em vez de enganá-la</h3>
+        <p>Os não nucleosídeos não imitam nada. Ligam-se a um bolsão hidrofóbico próximo ao sítio catalítico, que só existe quando a enzima se liga ao fármaco. A ligação desloca a estrutura de modo que o sítio ativo perde a geometria correta, o que o slide descreve como deformar a estrutura tridimensional. Como não precisam ser fosforilados, agem logo após a absorção. A desvantagem é que uma só mutação nesse bolsão (K103N é o exemplo clássico) causa resistência cruzada entre efavirenz e nevirapina, e é isso que sustenta a barreira baixa. A etravirina, de segunda geração, tem flexibilidade estrutural para se acomodar em bolsões alterados e por isso mantém atividade contra vírus resistentes aos antigos.</p>
+        <p>Efeitos adversos que costumam ser perguntados: o efavirenz causa sintomas neuropsiquiátricos (tontura, sonhos vívidos, alteração de humor), e a nevirapina, hepatotoxicidade e exantema que pode ser grave.</p>
+
+        <h3>Inibidores de integrase: potência e simplicidade</h3>
+        <p>O dolutegravir reúne queda rápida da carga viral, barreira genética alta, dose única diária e poucas interações por citocromo, já que é metabolizado principalmente por glicuronidação (UGT1A1). Por isso é o terceiro agente do esquema padrão brasileiro. As atenções são práticas: insônia e outros sintomas neuropsiquiátricos, ganho de peso, e uma elevação da creatinina sérica sem queda real da filtração glomerular, causada pela inibição do transportador tubular OCT2, que secreta a creatinina. Isso não deve ser confundido com lesão renal. O mesmo mecanismo faz o dolutegravir aumentar o nível da metformina, o que pode exigir limitar a dose dela.</p>
+
+        <h3>Inibidores de protease e o ritonavir</h3>
+        <p>A protease viral é uma aspartil-protease que corta as poliproteínas Gag e Gag-Pol em suas partes funcionais. Os inibidores são peptidomiméticos: imitam o estado de transição da clivagem e ocupam o sítio ativo. O vírion sai da célula, mas continua imaturo, desorganizado e sem capacidade de infectar. O slide conta a história do potencializador: sem ritonavir, o atazanavir e o darunavir não mantinham concentrações altas por tempo suficiente.</p>
+        <p>O ritonavir em dose baixa não tem efeito antiviral útil. Ele é um inibidor potente e de ação prolongada do CYP3A4, a principal enzima hepática que metaboliza esses fármacos. Com a enzima bloqueada, o darunavir e o atazanavir são eliminados mais lentamente, o nível mínimo sobe acima da concentração necessária para inibir também variantes menos sensíveis, e a dose diária única passa a ser possível. O slide completa o raciocínio: sem esse reforço, o vírus continua se replicando de forma parcial, e as mutações da protease encontram espaço.</p>
+        <div class="box" data-kind="atencao" data-label="Atenção">
+          <p>O ritonavir inibe o CYP3A4 de todos os outros fármacos que passam por ele, e não só dos antirretrovirais. As interações mais cobradas: sinvastatina e lovastatina (risco de rabdomiólise), midazolam por via oral, derivados do ergot, fluticasona inalatória ou nasal (síndrome de Cushing iatrogênica), e rifampicina, que faz o contrário, induz as enzimas e reduz o nível do inibidor de protease. O atazanavir exige acidez gástrica e não deve ser associado a inibidores de bomba de prótons. Ele também eleva a bilirrubina indireta por inibir a UGT1A1, o que é benigno, mas causa icterícia.</p>
+        </div>
+        <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+          <p>O slide diz que não se prescreve sinvastatina para pessoas vivendo com HIV e escolhe rosuvastatina, pitavastatina e pravastatina. A restrição vem do ritonavir (e do cobicistate), que eleva muito o nível da sinvastatina pelo CYP3A4. Com um esquema com dolutegravir não há essa interação, mas a escolha das estatinas menos dependentes do CYP3A4 continua sensata. Aproveite o raciocínio: o fármaco que importa é o potencializador, e não o HIV.</p>
+        </div>
+        <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+          <p>"Bloqueios primários e secundários" não é a terminologia mais usada. Os termos habituais são esquema inicial (primeira linha) e esquema de resgate. O sentido que o slide dá é o mesmo: o primeiro é a combinação padrão, e o segundo é montado quando surge resistência ou falha.</p>
+        </div>
+
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>Seletividade e toxicidade mitocondrial dos nucleosídeos</summary>
+          <div class="dbody">
+            <p>A transcriptase reversa incorpora os análogos com mais eficiência do que as DNA polimerases humanas nucleares, e é aí que está a seletividade. A DNA polimerase gama, que replica o DNA mitocondrial, é mais suscetível. Os fármacos mais antigos (estavudina e didanosina) inibiam a polimerase gama de modo importante, e daí vinham a neuropatia periférica, a pancreatite, a lipoatrofia e a acidose láctica. Os fármacos usados hoje têm pouca afinidade por ela, mas o conceito explica por que a zidovudina ainda causa miopatia e macrocitose.</p>
+            <details class="deep">
+              <summary><span class="tag">Detalhamento</span>Mutações que reconhecem melhor o nucleotídeo verdadeiro</summary>
+              <div class="dbody">
+                <p>O slide diz que, com o tempo, o HIV acumula mutações que fazem a enzima reconhecer melhor os nucleotídeos verdadeiros e evitar os medicamentos. Há dois modos de fazer isso. O primeiro é a discriminação: a M184V (lamivudina) aumenta a exclusão do análogo no sítio ativo. O segundo é a excisão: as mutações associadas a análogos de timidina (relacionadas à zidovudina) permitem que a enzima remova o análogo já incorporado e retome a síntese. A K65R reduz a incorporação do tenofovir e do abacavir.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>CYP3A4, ritonavir e cobicistate em detalhe</summary>
+          <div class="dbody">
+            <p>O ritonavir é um inibidor baseado no mecanismo: o CYP3A4 o oxida, e um intermediário reativo se liga de modo quase irreversível à enzima. O efeito dura mais que a presença do fármaco no plasma, e a recuperação depende da síntese de enzima nova. Além do CYP3A4, ele inibe o CYP2D6 e a glicoproteína-P e, em doses mais altas, induz outras enzimas, o que complica a previsão das interações. O cobicistate é um potencializador sem atividade antiviral e mais seletivo para o CYP3A, mas com os mesmos riscos de interação por esse caminho.</p>
+            <details class="deep">
+              <summary><span class="tag">Detalhamento</span>Rifampicina, o contraponto</summary>
+              <div class="dbody">
+                <p>A rifampicina induz o CYP3A4 e a UGT1A1, e portanto reduz o nível de quase todos os inibidores de protease e do dolutegravir. Isso importa porque uma das coinfecções mais importantes. No caso do dolutegravir a solução é aumentar a frequência (prancha IX).</p>
+              </div>
+            </details>
+          </div>
+        </details>
+      </div>
+      <aside class="margin">
+        <div class="m slide"><span class="k">No slide</span><p>Seções por classe: inibidores de ligação (maraviroque, ibalizumabe), de fusão (enfuvirtida), nucleosídeos da transcriptase reversa, não nucleosídeos (etravirina como resgate), de integrase e de protease com booster de ritonavir.</p></div>
+        <div class="m check"><span class="k">Conferir</span><p>Os "inibidores de ligação" do slide são, na nomenclatura farmacológica, inibidores de entrada: antagonista de correceptor (maraviroque) e inibidor pós-ligação (ibalizumabe).</p></div>
+        <div class="m"><span class="k">Termo</span><p>Pró-fármaco é a forma inativa que a célula converte na forma ativa. Peptidomimético é uma molécula que imita a ligação peptídica que a enzima corta.</p></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- PRANCHA VI -->
+<section class="plate" id="p6" aria-labelledby="p6t">
+  <div class="wrap">
+    <p class="plate-tag">Prancha VI</p>
+    <h2 id="p6t">Latência, reservatórios e a razão de o HIV não ter cura</h2>
+    <p class="lede">A pergunta do slide é excelente: a hepatite C também é um vírus de RNA e tem cura. Por que o HIV não tem? A resposta depende do destino do genoma viral dentro da célula.</p>
+    <div class="cols">
+      <div class="prose">
+        <h3>Onde o genoma fica depois da infecção</h3>
+        <div class="fichas">
+          <div class="ficha" data-c="rt">
+            <span class="k">Hepatite C</span>
+            <h4>Genoma de RNA que fica no citoplasma</h4>
+            <p>Não há etapa de DNA. Os antivirais de ação direta bloqueiam a replicação por algumas semanas, os hepatócitos infectados são renovados ou eliminados e o vírus desaparece. O critério de cura é a resposta virológica sustentada, a carga viral negativa meses depois do fim do tratamento.</p>
+          </div>
+          <div class="ficha" data-c="v">
+            <span class="k">HIV</span>
+            <h4>Genoma integrado ao DNA da célula</h4>
+            <p>O provírus passa a fazer parte do cromossomo e fica silencioso em células de vida longa. Os fármacos bloqueiam novos ciclos, mas não enxergam o provírus latente. Parar o tratamento deixa o vírus voltar.</p>
+          </div>
+          <div class="ficha" data-c="a">
+            <span class="k">Contraponto: hepatite B</span>
+            <h4>Vírus de DNA com minicromossomo</h4>
+            <p>O HBV mantém no núcleo um DNA circular (cccDNA) que persiste. Também não há cura com os análogos de nucleosídeos. A regra é geral: a cura depende de o genoma desaparecer da célula, e não do tipo de ácido nucleico do vírus.</p>
+          </div>
+        </div>
+        <ol class="chain" aria-label="Por que o HIV persiste">
+          <li><span class="s v">RNA</span></li>
+          <li><span class="s rx">transcriptase reversa</span></li>
+          <li><span class="s">DNA</span></li>
+          <li><span class="s rx">integrase</span></li>
+          <li><span class="s v">provírus integrado</span></li>
+          <li><span class="s">latência em célula longeva</span></li>
+          <li><span class="s">invisível à TARV e ao sistema imune</span></li>
+        </ol>
+        <p>O slide acrescenta que muitas vezes, antes mesmo do início do tratamento, o vírus já integrou seu DNA, e que os inibidores da transcriptase reversa e da integrase só impedem a formação de DNA e integrações novas. Esse é o ponto: os fármacos agem sobre o ciclo, e o reservatório é o que o ciclo já deixou para trás.</p>
+
+        <h3>O reservatório se forma muito cedo</h3>
+        <p>O slide afirma que o reservatório se instala poucos dias após a infecção, em média cerca de cinco, e leva a uma conclusão prática: a janela para impedir sua formação é curta. Esse é o fundamento da profilaxia pós-exposição, iniciada o mais rápido possível e no máximo até 72 horas. Entre 72 horas e 5 dias o benefício é parcial e incerto, e depois disso o reservatório está estabelecido e o vírus começa a aparecer no sangue, com carga viral detectável a partir do sétimo dia em média. As consequências para o diagnóstico estão na prancha VII.</p>
+
+        <h3>Reservatórios anatômicos, celulares e moleculares</h3>
+        <div class="fichas">
+          <div class="ficha" data-c="entry">
+            <span class="k">Anatômicos</span>
+            <h4>Onde o vírus se esconde</h4>
+            <p>GALT, linfonodos, baço, pulmões, trato genital, medula óssea, sistema nervoso central e tecido adiposo. No cérebro, a barreira hematoencefálica reduz a penetração de alguns fármacos, e matar agressivamente as células infectadas lesaria o tecido neural.</p>
+          </div>
+          <div class="ficha" data-c="int">
+            <span class="k">Celulares</span>
+            <h4>Quem guarda o provírus</h4>
+            <p>Linfócitos T CD4+ de memória em repouso, macrófagos, micróglia, astrócitos, células dendríticas e linfócitos T foliculares. Os de memória vivem anos, o que garante ao provírus longa permanência sem ser percebido pelo sistema imune.</p>
+          </div>
+          <div class="ficha" data-c="pi">
+            <span class="k">Moleculares</span>
+            <h4>Em que estado está o provírus</h4>
+            <p>Latente (silencioso), persistente (produz vírus lentamente) e defectivo (incompleto, mas capaz de produzir proteínas virais). Os três coexistem e têm consequências diferentes: só o provírus intacto pode reconstituir a infecção.</p>
+          </div>
+        </div>
+        <p>Dois números ajudam a dimensionar o problema. A meia-vida do reservatório latente em linfócitos T CD4+ de memória em repouso é de cerca de 44 meses, de modo que, se nada mais a renovasse, seriam necessárias mais de seis décadas para esgotá-lo (SILICIANO et al., 2003). E a maior parte dos provírus encontrados em pacientes tratados é defectiva, com deleções ou hipermutações, de modo que a fração realmente capaz de causar rebote é pequena, mas é suficiente.</p>
+        <div class="box" data-kind="mecanismo" data-label="Por que o reservatório se renova">
+          <p>O reservatório não se mantém apenas pela sobrevivência das células. Muitos linfócitos de memória se dividem lentamente por estímulo homeostático ou antigênico, e cada divisão copia o provírus junto com o DNA celular. Essa expansão clonal mantém o reservatório mesmo quando a replicação viral está totalmente suprimida.</p>
+        </div>
+        <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+          <p>O slide diz que, ao parar o tratamento, a carga viral pode continuar negativa por dias a semanas e, em casos de controle prolongado e boa adesão, por meses. Na maioria dos pacientes a viremia reaparece em poucas semanas, geralmente em duas a quatro. Atrasos longos são exceções (os chamados controladores pós-tratamento) e não uma regra que se possa esperar. Na prática, a TARV não deve ser interrompida fora de protocolos de pesquisa.</p>
+        </div>
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>Latência: por que o provírus fica calado</summary>
+          <div class="dbody">
+            <p>Um provírus em linfócito em repouso é silenciado por várias camadas. Faltam fatores de transcrição que ligam o LTR e que só existem em células ativadas (NF-κB, NFAT), o fator P-TEFb, que o Tat usa para estender a transcrição, está sequestrado, e o DNA viral é compactado por marcas epigenéticas repressoras, como a desacetilação de histonas. A integração dentro de regiões pouco transcritas, ou em orientação contrária a um gene vizinho, soma interferência transcricional. Quando a célula é reativada por um antígeno, o provírus pode ser transcrito de novo, e é nesse momento que o reservatório volta a produzir vírus.</p>
+            <details class="deep">
+              <summary><span class="tag">Detalhamento</span>Estratégias de cura em estudo</summary>
+              <div class="dbody">
+                <p>A estratégia "chocar e matar" usa agentes que reativam o provírus (como inibidores de histona desacetilase) para que a célula seja destruída pelo sistema imune ou pelo vírus, com a TARV protegendo as células vizinhas. A "bloquear e trancar" busca silenciar o provírus de modo definitivo. Anticorpos amplamente neutralizantes, edição gênica do CCR5 e transplante de células-tronco com doador sem CCR5 funcional completam a lista. Os raros casos de remissão relatados vieram de transplantes feitos por doença hematológica, e nenhuma dessas estratégias é uma conduta clínica hoje.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>O tecido adiposo como reservatório</summary>
+          <div class="dbody">
+            <p>O slide cita o tecido adiposo como reservatório recente, com persistência do HIV em linfócitos e macrófagos do tecido gorduroso, e sugere ligação com maior dificuldade de controlar a inflamação em pacientes com obesidade. O tecido adiposo contém linfócitos T CD4+ e macrófagos e é metabolicamente ativo, e há dados que mostram DNA viral e células infectadas nele. A relação causal com a inflamação sistêmica ainda está sendo investigada, e por isso é prudente tratá-la como hipótese plausível, e não como conclusão fechada. A recomendação prática, controlar o peso, é independente dessa discussão por motivos cardiovasculares e metabólicos.</p>
+          </div>
+        </details>
+
+        <h3>A ativação imune persistente e o envelhecimento precoce</h3>
+        <p>Mesmo com TARV eficaz e carga viral indetectável, o sistema imune continua parcialmente ativado. O slide lista quatro razões: níveis residuais de replicação, proteínas virais persistentes, dano imunológico acumulado e reservatórios inflamatórios. Somam-se a elas a translocação de produtos bacterianos pelo intestino lesado e coinfecções como o citomegalovírus. A inflamação crônica de baixo grau leva ao que o slide chama de envelhecimento imunológico precoce, a imunossenescência, e a doenças associadas à inflamação.</p>
+        <div class="fichas">
+          <div class="ficha" data-c="v"><span class="k">Cardiovascular</span><h4>Doença acelerada</h4><p>A inflamação promove aterosclerose, e o risco é maior que o da população geral de mesma idade e fatores de risco.</p></div>
+          <div class="ficha" data-c="a"><span class="k">Ósseo</span><h4>Osteoporose</h4><p>Soma de inflamação, tabagismo, deficiência de vitamina D e efeito de alguns fármacos, como o tenofovir (TDF).</p></div>
+          <div class="ficha" data-c="entry"><span class="k">Neurocognitivo</span><h4>Disfunção cognitiva</h4><p>Ativação de micróglia e macrófagos no sistema nervoso central.</p></div>
+          <div class="ficha" data-c="pi"><span class="k">Câncer</span><h4>Neoplasias não definidoras de AIDS</h4><p>Câncer de pulmão, anal e hepático, entre outros, mais frequentes que na população geral.</p></div>
+        </div>
+        <div class="box" data-kind="clinica" data-label="Na prática clínica">
+          <p>A mensagem é que o tratamento não termina com a carga viral indetectável. É preciso cuidar do risco cardiovascular (incluindo o uso de estatinas escolhidas pela interação, como visto na prancha V), parar de fumar, rastrear osteoporose e câncer, e manter vacinas. Começar a TARV precocemente reduziu eventos graves, tanto de AIDS como não relacionados à AIDS, no ensaio START (INSIGHT START STUDY GROUP, 2015).</p>
+        </div>
+      </div>
+      <aside class="margin">
+        <div class="m slide"><span class="k">No slide</span><p>HIV integra o genoma e forma reservatórios latentes; HCV não. Muitas vezes a integração ocorre antes do tratamento. Santuários (cérebro) reduzem a ação dos fármacos. "Cura funcional" é diferente de "cura virológica". Reservatório se forma em cerca de 5 dias.</p></div>
+        <div class="m check"><span class="k">Conferir</span><p>O tempo até o rebote após suspender a TARV e a relevância do tecido adiposo estão discutidos nas caixas desta prancha, com mais cautela do que o slide.</p></div>
+        <div class="m"><span class="k">Termos</span><p>Cura funcional: controle do vírus sem tratamento, sem erradicação. Cura esterilizante: eliminação de todo o vírus competente. Santuário: local em que o fármaco ou o sistema imune alcançam pouco.</p></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- PRANCHA VII -->
+<section class="plate" id="p7" aria-labelledby="p7t">
+  <div class="wrap">
+    <p class="plate-tag">Prancha VII</p>
+    <h2 id="p7t">Diagnóstico: o que cada exame enxerga e a partir de quando</h2>
+    <p class="lede">Um exame de HIV não pergunta "há vírus?". Ele pergunta "existe este marcador?", e cada marcador aparece em um momento diferente depois da infecção. Entender essa ordem é entender a janela diagnóstica e a lógica dos fluxogramas.</p>
+
+    <div class="ruler" id="ruler" aria-labelledby="rulerT">
+      <p class="eyebrow" id="rulerT" style="margin-bottom:.8rem">Régua da janela diagnóstica</p>
+      <div class="rctl">
+        <label for="rday"><span>Dias desde a exposição</span><output id="rdayout" for="rday">10 dias</output></label>
+        <input id="rday" type="range" min="0" max="100" step="1" value="10">
+      </div>
+      <div class="rgrid" id="rgrid" data-dyn></div>
+      <div class="raxis"><div></div><div class="ticks" id="rticks" data-dyn></div></div>
+      <div class="rout" id="rout" data-dyn aria-live="polite"></div>
+      <p style="margin:.9rem 0 0;font:400 .72rem/1.5 var(--f-mono);color:var(--ink2)">Faixas didáticas, montadas a partir do slide (pró-DNA cerca de 5 dias, PCR cerca de 7 dias, p24 de 14 a 21 dias, teste rápido de 30 a 45 dias, imunoblot cerca de 3 meses) e do Manual Técnico do Ministério da Saúde. Valores reais variam com o fabricante, a geração do teste e a pessoa.</p>
+    </div>
+
+    <div class="cols">
+      <div class="prose">
+        <h3>A sequência dos marcadores</h3>
+        <p>Depois que o vírus entra, há um intervalo de cerca de dez dias em que nenhum exame consegue detectá-lo, a fase de eclipse. Em seguida surgem, nesta ordem, o RNA viral no plasma, o antígeno p24 (uma proteína do capsídeo), os anticorpos da classe IgM e, por fim, os anticorpos IgG. A cada exame corresponde um desses marcadores, e é por isso que ele "vira" positivo mais cedo ou mais tarde.</p>
+        <ol class="chain" aria-label="Ordem de aparecimento dos marcadores">
+          <li><span class="s">eclipse (cerca de 10 dias)</span></li>
+          <li><span class="s rx">RNA viral</span></li>
+          <li><span class="s rx">antígeno p24</span></li>
+          <li><span class="s v">anticorpo IgM</span></li>
+          <li><span class="s v">anticorpo IgG</span></li>
+          <li><span class="s">imunoblot completo</span></li>
+        </ol>
+        <p>O slide percorre cinco exames nessa lógica. A pergunta de fundo é sempre a mesma: se o resultado de hoje é negativo, de quanto tempo atrás ele permite excluir uma exposição? A régua acima responde isso. Arraste o marcador e observe quais exames deveriam detectar o vírus a cada dia.</p>
+        <div class="fichas">
+          <div class="ficha" data-c="a">
+            <span class="k">Teste rápido</span>
+            <h4>Anticorpos, em 30 minutos</h4>
+            <p>Imunocromatografia (ou plataforma de duplo percurso) em sangue de punção digital ou fluido oral. Usado no SUS em dois testes sequenciais de fabricantes diferentes. O slide dá janela de 30 a 45 dias.</p>
+          </div>
+          <div class="ficha" data-c="entry">
+            <span class="k">Imunoensaio de 4ª geração</span>
+            <h4>Anticorpos e antígeno p24</h4>
+            <p>ELISA, quimioluminescência ou eletroquimioluminescência, em laboratório. Detecta também o p24, que aparece mais cedo, por volta de 14 a 21 dias segundo o slide.</p>
+          </div>
+          <div class="ficha" data-c="rt">
+            <span class="k">Carga viral (PCR)</span>
+            <h4>O RNA do vírus</h4>
+            <p>Detecta o material genético diretamente, sem depender de anticorpos. Em média, cerca de 7 dias após a disseminação do vírus no sangue. Também define o tratamento e o seguimento.</p>
+          </div>
+          <div class="ficha" data-c="v">
+            <span class="k">Pró-DNA</span>
+            <h4>O DNA integrado, em recém-nascidos</h4>
+            <p>Detecta o DNA proviral em torno de 5 dias. É útil sobretudo em crianças, nas quais os anticorpos da mãe atrapalham a sorologia.</p>
+          </div>
+          <div class="ficha" data-c="pi">
+            <span class="k">Imunoblot e Western blot</span>
+            <h4>Anticorpos contra cada proteína</h4>
+            <p>Separam as proteínas virais e verificam contra quais o paciente fez anticorpos. Só ficam positivos cerca de três meses depois, e por isso servem para confirmação e dúvida, não para infecção recente.</p>
+          </div>
+          <div class="ficha" data-c="int">
+            <span class="k">Fluido oral</span>
+            <h4>Anticorpos na saliva</h4>
+            <p>Uma haste coleta o líquido da gengiva (o slide fala em passar dez vezes). Útil em campanhas. Se positivo, confirma-se com teste de sangue.</p>
+          </div>
+        </div>
+
+        <h3>Diagnóstico presuntivo e diagnóstico etiológico</h3>
+        <p>O slide afirma: o anticorpo faz diagnóstico presuntivo, não etiológico. O raciocínio é que anticorpo é uma resposta do hospedeiro, e não o agente. Detectar o RNA, o DNA ou o antígeno p24 é identificar o próprio vírus, o que é diagnóstico etiológico. Um anticorpo reagente indica exposição e resposta, e por isso a regra de confirmar com um segundo teste de metodologia distinta, que é o que os fluxogramas fazem.</p>
+
+        <h3>Os fluxogramas do SUS e do laboratório particular</h3>
+        <p>O slide traz as figuras do Manual Técnico. A lógica de cada uma é simples, e conhecê-la evita decorar.</p>
+        <ul>
+          <li>Dois testes rápidos em sequência (fluxograma 1): reagente no primeiro, reagente no segundo, e a amostra é reagente para HIV. Não reagente no primeiro, resultado não reagente (com a ressalva da janela). Se os dois discordam, colhe-se sangue venoso para um fluxograma laboratorial.</li>
+          <li>Fluido oral seguido de teste rápido de sangue (fluxograma 2): o fluido oral é a triagem, e o sangue confirma.</li>
+          <li>Imunoensaio de 4ª geração seguido de teste molecular (fluxograma 3): se o imunoensaio é reagente, faz-se a carga viral. Com 5.000 cópias/mL ou mais, a amostra é reagente para HIV. Abaixo disso, faz-se imunoblot ou imunoblot rápido, e o resultado pode ser reagente ou indeterminado.</li>
+          <li>Imunoensaio de 4ª geração seguido de imunoblot (fluxograma 6): o imunoblot confirma, e dúvidas são resolvidas por teste molecular.</li>
+        </ul>
+        <p>O slide acrescenta que os laboratórios já fazem o imunoblot na mesma amostra quando o imunoensaio de 4ª geração é positivo (teste reflexo), e que o Western blot não é feito no Brasil por ser caro e por só se converter cerca de três meses depois da infecção.</p>
+        <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+          <p>Sobre o Western blot, o Manual Técnico ainda o descreve ao lado do imunoblot e do imunoblot rápido (IBR). O que se usa na rotina é o imunoblot e, principalmente, o IBR. Sobre o limite de 5.000 cópias/mL, o manual explica que valores abaixo dele não confirmam o diagnóstico e abrem a possibilidade de um duplo reagente falso-positivo, ou de controlador de elite, por isso se pede imunoblot. O comentário do professor sobre doença oncohematológica é coerente com isso, já que o manual lista tumores malignos e doenças autoimunes entre as causas de reatividade falsa.</p>
+        </div>
+        <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+          <p>O slide explica o falso-positivo do fluido oral por gengivite, higiene oral ruim, álcool e drogas. Essa explicação é intuitiva, mas não é a que o manual dá. O manual descreve que o líquido gengival tem menos anticorpos do que o sangue (o que alonga a janela) e usa o fluido oral só como triagem, com confirmação por teste de sangue. Prefira essa justificativa na prova, e a do professor como exemplo clínico.</p>
+        </div>
+
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>Sensibilidade, especificidade e por que dois testes são melhores que um</summary>
+          <div class="dbody">
+            <p>Um teste de triagem precisa de sensibilidade muito alta para não deixar infectados passarem, e aceita perder um pouco de especificidade. É por isso que o fluido oral e o teste rápido, usados em campanhas, exigem confirmação. O valor preditivo positivo de um teste, porém, não depende só da sensibilidade e da especificidade: depende de quão frequente é a infecção na população testada.</p>
+            <p>Um exemplo ilustrativo, com números inventados para o raciocínio: numa população em que 0,5% estão infectados, com sensibilidade de 99,5% e especificidade de 99%, de cada 1.000 pessoas testadas haverá cerca de 5 verdadeiros positivos e cerca de 10 falsos positivos. O valor preditivo positivo é aproximadamente um terço. Quem reage no primeiro teste tem, portanto, uma chance de cerca de um terço de estar infectado. Ao repetir o teste com outro método, a prevalência entre os reagentes passa a ser de um terço, e o valor preditivo positivo do segundo resultado sobe para perto de 98%, assumindo que os dois testes erram de maneira independente. É exatamente esse o ganho do fluxograma de dois testes.</p>
+            <details class="deep">
+              <summary><span class="tag">Detalhamento</span>Os estágios de Fiebig</summary>
+              <div class="dbody">
+                <p>Fiebig e colaboradores descreveram seis estágios da infecção aguda a partir de painéis de doadores de plasma, segundo o primeiro marcador que fica positivo (FIEBIG et al., 2003). No estágio I só o RNA é detectável. No II, aparece o p24 no imunoensaio. No III, o IgM. Nos IV a VI, o imunoblot passa de indeterminado a completo. Os imunoensaios de 3ª geração, que detectam IgM, tornam-se positivos por volta do estágio III, e os de 4ª, que somam o p24, um pouco antes. É essa a base das diferenças entre as janelas do slide e do manual.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>Por que não se usa anticorpo em recém-nascidos de mães com HIV</summary>
+          <div class="dbody">
+            <p>Os anticorpos IgG maternos atravessam a placenta e permanecem no sangue do bebê por até 18 meses. Um teste de anticorpos positivo, nessa idade, pode apenas refletir o anticorpo da mãe, e não infecção do bebê. Por isso o diagnóstico em crianças pequenas se apoia em testes que detectam o vírus: carga viral e pesquisa do DNA proviral, o pró-DNA do slide. Em crianças maiores de 18 meses vale o fluxograma dos adultos.</p>
+          </div>
+        </details>
+      </div>
+      <aside class="margin">
+        <div class="m slide"><span class="k">No slide</span><p>Janela imunológica do teste rápido de 30 a 45 dias; ELISA de 4ª geração com p24 entre 14 e 21 dias; PCR cerca de 7 dias; pró-DNA cerca de 5 dias. Valores abaixo de 5.000 cópias podem indicar doença oncohematológica. O Western blot converte em 3 meses.</p></div>
+        <div class="m check"><span class="k">Conferir</span><p>O Manual Técnico de 2016 dá janelas de cerca de 22 a 25 dias para o imunoensaio de 3ª geração e de cerca de 15 dias para o de 4ª. A faixa de 30 a 45 dias do slide é a mais conservadora.</p></div>
+        <div class="m"><span class="k">Termo</span><p>Janela imunológica é o intervalo entre a infecção e o momento em que o exame consegue detectar o marcador que ele procura.</p></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- PRANCHA VIII -->
+<section class="plate" id="p8" aria-labelledby="p8t">
+  <div class="wrap">
+    <p class="plate-tag">Prancha VIII</p>
+    <h2 id="p8t">Quando o exame engana: janela, profilaxia, imunossilencioso e controlador de elite</h2>
+    <p class="lede">Um resultado só significa algo dentro de um contexto: quando foi a exposição, que medicamento a pessoa usou e que defesas ela consegue montar. O slide reúne as armadilhas clássicas e uma situação difícil, a exposição contínua.</p>
+    <div class="cols">
+      <div class="prose">
+        <h3>Exposição repetida: qual foi o dia da infecção?</h3>
+        <p>O slide propõe um caso: uma pessoa que passou meses tendo relações sem preservativo com alguém com HIV sem tratamento faz um teste rápido hoje e ele é negativo. Isso a tranquiliza? Depende de quando ocorreu a infecção. Se foi há mais de 30 a 45 dias, o teste já deveria estar positivo. Se foi nas últimas semanas, ainda pode estar na janela, e o resultado negativo é um falso-negativo temporário.</p>
+        <ol class="chain" aria-label="Raciocínio na exposição contínua">
+          <li><span class="s v">exposição contínua</span></li>
+          <li><span class="s">dia da infecção indefinido</span></li>
+          <li><span class="s">teste negativo não exclui infecção recente</span></li>
+          <li><span class="s">PEP pode ser tardia (mais de 72 h)</span></li>
+          <li><span class="s rx">usar exame mais sensível e repetir; considerar PrEP</span></li>
+        </ol>
+        <p>A consequência, como o slide diz, é que a profilaxia pós-exposição fica difícil de indicar: algumas das relações já ultrapassaram as 72 horas, ou a soroconversão e o reservatório já podem ter começado. A soroconversão é o momento em que o organismo passa a produzir anticorpos detectáveis. Para quem vive uma exposição contínua, a estratégia adequada é a profilaxia pré-exposição, com testagem regular. O slide menciona que a PrEP costuma ser liberada por períodos curtos com repetição de exames, porque a pessoa pode se infectar mesmo em uso, em particular se já estava na fase inicial da infecção quando começou.</p>
+
+        <h3>A profilaxia que torna o exame silencioso</h3>
+        <p>A PEP usa antirretrovirais por 28 dias para bloquear a multiplicação do vírus no início. Se funciona muito bem e é iniciada antes de haver viremia importante, o organismo quase não "vê" o HIV. O motivo é imunológico: para produzir anticorpos, o sistema precisa que antígenos virais sejam apresentados aos linfócitos, e com pouco vírus circulando há pouca apresentação.</p>
+        <ol class="chain" aria-label="Como a PEP pode atrasar a soroconversão">
+          <li><span class="s rx">PEP bloqueia a replicação</span></li>
+          <li><span class="s">pouco vírus circulante</span></li>
+          <li><span class="s">pouca apresentação de antígeno</span></li>
+          <li><span class="s v">anticorpos não são produzidos</span></li>
+          <li><span class="s">teste de 30 dias negativo</span></li>
+        </ol>
+        <p>O paciente pode estar infectado e ter o teste de anticorpos negativo, porque o vírus ficou suprimido temporariamente. Se, ao terminar a PEP, ainda houver vírus, ele pode voltar a se multiplicar semanas ou meses depois, e só então surgem antígeno e anticorpos. O risco é fazer apenas o teste de 30 dias, ver o resultado negativo e nunca mais voltar. O slide insiste no retorno para o exame seguinte (ele cita 60 dias), pois uma infecção recente pode passar despercebida e o diagnóstico se atrasar.</p>
+        <div class="box" data-kind="atencao" data-label="Atenção">
+          <p>Memorize a frase do slide: o anticorpo não faz diagnóstico etiológico, faz diagnóstico presuntivo. E uma consequência prática: a quimioluminescência e a eletroquimioluminescência são testes de 4ª geração, ou seja, detectam anticorpo e p24, mas continuam sendo imunoensaios.</p>
+        </div>
+
+        <h3>O imunossilencioso: infectado, mas sem anticorpos</h3>
+        <p>É um paciente infectado, às vezes com AIDS avançada, em quem os testes sorológicos dão negativo. O mecanismo é falha na produção de anticorpos (imunoglobulinas). Isso pode ocorrer em defeitos de células B, em hipogamaglobulinemia ou em quem usa imunossupressores que depletam linfócitos B. Como os testes rápidos, o ELISA e o imunoblot dependem de anticorpo, todos podem ser negativos, mesmo com doenças oportunistas típicas, como neurotoxoplasmose, neurocriptococose e pneumocistose. O diagnóstico, nesse caso, é feito pela carga viral, que procura o vírus sem depender da resposta do paciente. É raro, mas cai em prova justamente por isso.</p>
+
+        <h3>O controlador de elite: o oposto</h3>
+        <p>É o paciente que realmente tem HIV, com ELISA, teste rápido e imunoblot positivos, mas com carga viral indetectável sem nenhum tratamento. O slide atribui isso a alterações genéticas nos correceptores CCR5 ou CXCR4, e descreve o organismo como se produzisse seu próprio antirretroviral. O slide acrescenta que são indetectáveis e, por isso, não transmitem.</p>
+        <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+          <p>O mecanismo mais bem estabelecido do controle de elite não é uma alteração do CCR5. É a combinação de alelos de HLA de classe I, em particular o HLA-B*57 e o HLA-B*27, com uma resposta de linfócitos T CD8+ muito eficaz contra epítopos conservados do vírus (principalmente da proteína Gag), muitas vezes associada a vírus de capacidade replicativa reduzida. Variantes do CCR5 protegem principalmente contra a infecção, e a deleção homozigota é muito rara. Quando você estudar essa passagem, pergunte ao professor a qual mecanismo ele se refere.</p>
+        </div>
+        <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+          <p>O slide diz que se começa a tratar o controlador de elite quando ele perde o controle (queda do CD4, aumento da carga viral, sintomas). O módulo 1 do PCDT de 2024 recomenda iniciar a TARV nesse grupo independentemente do CD4, por causa da ativação imune marcada, e, se não houver tratamento, monitoramento clínico e laboratorial frequente. As duas leituras são compatíveis no sentido de que o controlador precisa de vigilância; a diretriz atual vai além do critério do slide.</p>
+        </div>
+
+        <h3>Falsos positivos</h3>
+        <p>Resultados reagentes falsos acontecem e são um motivo central para os fluxogramas exigirem confirmação. O Manual Técnico lista, entre as causas, a vacinação recente contra influenza, a artrite reumatoide, a colangite esclerosante primária, doenças autoimunes em geral, tumores malignos, múltiplas transfusões, infecções virais agudas, outras infecções por retrovírus e a passagem de anticorpos da mãe ao bebê. O raciocínio clínico é sempre o mesmo: um único reagente não fecha o diagnóstico.</p>
+
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>Controle de elite: mecanismos e consequências</summary>
+          <div class="dbody">
+            <p>Controladores de elite mantêm carga viral abaixo do limite de detecção por pelo menos um ano sem TARV (os controladores virêmicos mantêm níveis baixos, abaixo de poucas centenas a milhares de cópias). Em muitos deles, os linfócitos T CD8+ reconhecem epítopos de Gag que são difíceis de mudar sem custo para o vírus, e a seleção de escape reduz a capacidade replicativa. A proporção de controladores é inferior a 1% das pessoas com HIV.</p>
+            <details class="deep">
+              <summary><span class="tag">Detalhamento</span>Por que mesmo assim se considera tratar</summary>
+              <div class="dbody">
+                <p>Eles não estão livres da doença. Mesmo com carga viral indetectável, mantêm reservatórios, ativação imune e inflamação crônica, e têm mais eventos cardiovasculares e hospitalizações do que pessoas sem HIV. É o raciocínio que sustenta a recomendação do PCDT de tratar, e que o slide expressa de outro modo ao dizer que o vírus "ainda pode causar inflamação e dano imunológico ao longo do tempo".</p>
+              </div>
+            </details>
+          </div>
+        </details>
+      </div>
+      <aside class="margin">
+        <div class="m slide"><span class="k">No slide</span><p>Exposição repetida e PEP difícil de indicar; PEP que mascara a soroconversão; imunossilencioso diagnosticado por carga viral; controlador de elite com sorologia positiva e carga viral indetectável sem tratamento; PrEP liberada por períodos curtos.</p></div>
+        <div class="m check"><span class="k">Conferir</span><p>O retorno após a PEP (60 dias no slide) deve seguir o PCDT de PEP vigente. O mecanismo do controle de elite e a conduta de tratar estão discutidos nas caixas desta prancha.</p></div>
+        <div class="m"><span class="k">Termos</span><p>Soroconversão: aparecimento de anticorpos detectáveis. Viremia: vírus no sangue. Imunossilencioso: infecção sem resposta de anticorpos detectável.</p></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- PRANCHA IX -->
+<section class="plate" id="p9" aria-labelledby="p9t">
+  <div class="wrap">
+    <p class="plate-tag">Prancha IX</p>
+    <h2 id="p9t">Do diagnóstico à primeira receita: consulta inicial e esquema padrão</h2>
+    <p class="lede">O protocolo brasileiro assumiu que diagnóstico confirmado é indicação de tratamento. O que fica para o médico é escolher bem o esquema, preparar o paciente para tomá-lo e organizar o seguimento.</p>
+    <div class="cols">
+      <div class="prose">
+        <h3>Diagnóstico igual a tratamento</h3>
+        <p>O slide diz que, hoje, o PCDT brasileiro de HIV considera diagnóstico igual a tratamento: assim que o diagnóstico é confirmado, o paciente deve iniciar a TARV, e os profissionais autorizados já podem prescrever para que ele saia da unidade com a medicação. Três razões sustentam essa conduta. A primeira é o benefício clínico: o ensaio START mostrou que começar a TARV com CD4 alto reduz eventos graves em comparação com esperar (INSIGHT START STUDY GROUP, 2015). A segunda é a prevenção: com carga viral suprimida a transmissão sexual cai a praticamente zero (prancha XI). A terceira é imunológica: quanto mais cedo o tratamento, menor o dano ao tecido linfoide e ao timo, e melhor a recuperação (pranchas IV e X).</p>
+        <div class="box" data-kind="prova" data-label="Para a prova">
+          <p>Na rotina, a TARV não espera o CD4 nem a genotipagem. As exceções são específicas, como as meningites (tuberculosa e criptocócica), em que o início é adiado por semanas para reduzir o risco de uma piora inflamatória após a reconstituição imune.</p>
+        </div>
+
+        <h3>Sigilo e parceria sexual</h3>
+        <p>No atendimento é importante registrar os parceiros sexuais, porque eles podem ter sido expostos e precisam ter a oportunidade de testar. O sigilo é obrigatório: a Lei 14.289/2022 torna obrigatória a preservação do sigilo da condição de quem vive com HIV (BRASIL, 2022), e o paciente não é obrigado a contar sua condição a outras pessoas. O profissional não revela o diagnóstico à parceria nem a convoca para discuti-lo, como acontecia no passado. O que o médico deve garantir é que a parceria seja testada, mesmo sem dizer do que se trata, e que a comunicação, quando acontece, seja feita com o consentimento e o apoio do paciente.</p>
+        <p>O slide lembra duas situações. A primeira é a de crianças menores de 5 anos que foram amamentadas por uma mãe com infecção recente ou desconhecida, que também precisam ser testadas, porque o leite materno é uma via de transmissão. A segunda é a discussão jurídica: o sigilo é um direito do paciente, e quem sabe que tem uma doença transmissível e, de forma consciente, expõe outras pessoas pode ser responsabilizado, conforme a análise do caso. Essa é uma discussão judicial caso a caso, e não uma regra de conduta clínica.</p>
+
+        <h3>A primeira consulta</h3>
+        <div class="fichas">
+          <div class="ficha" data-c="entry"><span class="k">História</span><h4>Clínica e psicossocial</h4><ul><li>Doenças atuais e antigas, medicamentos em uso (para interações), vacinas.</li><li>Uso de álcool e drogas, saúde mental, moradia, trabalho e rede de apoio.</li><li>Histórico de PrEP, PEP e tratamento anterior.</li></ul></div>
+          <div class="ficha" data-c="rt"><span class="k">Exames de base</span><h4>Laboratório</h4><ul><li>CD4 e carga viral.</li><li>Creatinina com taxa de filtração estimada e exame de urina.</li><li>Hemograma, enzimas hepáticas, glicemia e lipídios.</li><li>HLA-B*57:01 se o abacavir for uma opção; genotipagem quando indicada.</li></ul></div>
+          <div class="ficha" data-c="v"><span class="k">Coinfecções</span><h4>O que procurar</h4><ul><li>Hepatites A, B e C; sífilis e outras IST.</li><li>Tuberculose ativa e latente.</li><li>Sorologias de base, como a da toxoplasmose, conforme o protocolo.</li></ul></div>
+          <div class="ficha" data-c="int"><span class="k">Rastreios</span><h4>Comorbidades</h4><ul><li>Risco cardiovascular e metabólico.</li><li>Colo do útero e região anal; câncer em geral.</li><li>Saúde óssea e saúde mental.</li></ul></div>
+        </div>
+        <p>O quadro da primeira consulta no slide organiza esses itens por histórico, exame físico, exames e rastreios, e é um bom roteiro de estudo. Duas observações do professor merecem destaque: em uma pessoa com doença renal por diabetes descompensada, é preciso avaliar o uso do tenofovir, que é nefrotóxico; e o tenofovir é a única droga do esquema ativa também contra a hepatite B (com a ressalva feita na prancha V).</p>
+        <h3>Tuberculose: a coinfecção que mais mata</h3>
+        <p>O slide diz que a tuberculose é a principal causa de morte em pessoas com HIV, e por isso todo paciente deve ser rastreado, com radiografia de tórax e prova tuberculínica (PPD) ou IGRA. O PPD e o IGRA dependem de linfócitos T que reconheçam o bacilo, e por isso funcionam melhor quando o CD4 está acima de 350. Em CD4 muito baixo, um resultado negativo pode ser falso, uma anergia, e merece ser repetido depois da reconstituição imune.</p>
+        <p>O objetivo é identificar a tuberculose ativa, que precisa de tratamento imediato, e a latente, que precisa de tratamento preventivo. O módulo 1 do PCDT de 2024, na consulta feita para este atlas, orienta iniciar a TARV cedo na coinfecção, em até 7 dias do início do tratamento da tuberculose, e esperar de 4 a 6 semanas nas meningites. A rifampicina é um indutor enzimático e exige ajustar o dolutegravir (veja adiante).</p>
+
+        <h3>O passo antes da receita: o paciente está pronto?</h3>
+        <p>O primeiro passo antes de iniciar a TARV, diz o slide, é perguntar se o paciente está disposto e preparado para tomar a medicação corretamente, porque a adesão é essencial. Só depois o médico avalia o que escolher.</p>
+        <div class="fichas">
+          <div class="ficha" data-c="a"><span class="k">PrEP ou PEP prévias</span><h4>Infecção apesar da profilaxia</h4><p>Algumas pessoas se infectam mesmo em uso, em especial se já estavam na fase inicial. Isso pode vir com vírus parcialmente resistente aos fármacos da PrEP.</p></div>
+          <div class="ficha" data-c="v"><span class="k">Resistência viral</span><h4>Teste de resistência</h4><p>Em casais sorodiferentes, com a parceria sem tratamento, o vírus transmitido pode já ser resistente a alguns medicamentos, e o recém-infectado pode ter o perfil de resistência da parceria. Além disso, existem variantes diferentes do HIV, e a pessoa pode ser infectada por outra.</p></div>
+          <div class="ficha" data-c="rt"><span class="k">Comorbidades</span><h4>Escolha dirigida</h4><p>Doença cardiovascular, renal ou hepática; osteopenia; coinfecções (hepatites B e C, tuberculose); risco de efeitos adversos; interações com outros medicamentos.</p></div>
+          <div class="ficha" data-c="int"><span class="k">HLA-B*57:01</span><h4>Antes do abacavir</h4><p>Quem tem o alelo pode desenvolver hipersensibilidade grave. O mecanismo está na prancha V.</p></div>
+        </div>
+
+        <h3>O esquema padrão e por que ele é o padrão</h3>
+        <div class="box" data-kind="clinica" data-label="Esquema de escolha">
+          <p>Tenofovir 300 mg mais lamivudina 300 mg, no mesmo comprimido, mais dolutegravir 50 mg, uma vez ao dia, todos juntos. O horário pode ser o que o paciente preferir, mas deve ser mais ou menos o mesmo todos os dias.</p>
+        </div>
+        <p>A combinação é padrão porque une os pontos fortes de cada classe. O dolutegravir derruba a carga viral rapidamente e tem barreira genética alta. O tenofovir e a lamivudina são o esqueleto nucleosídico bem tolerado, ativo também contra a hepatite B, e cabem em um só comprimido. A dose única diária e o baixo número de interações facilitam a adesão, que é o fator que mais determina o sucesso.</p>
+
+        <h3>Ajustes e armadilhas</h3>
+        <div class="fichas">
+          <div class="ficha" data-c="int">
+            <span class="k">Indutores enzimáticos</span>
+            <h4>Fenobarbital, fenitoína, carbamazepina, rifampicina</h4>
+            <p>Reduzem o nível do dolutegravir. O slide recomenda trocar o anticonvulsivante por um de nova geração e, se não for possível, aumentar a dose. O PCDT de 2024 define essa dose como 50 mg a cada 12 horas, e não 100 mg em dose única.</p>
+          </div>
+          <div class="ficha" data-c="a">
+            <span class="k">Cátions polivalentes</span>
+            <h4>Polivitamínicos, antiácidos, ferro, cálcio</h4>
+            <p>Quelam os inibidores de integrase no intestino e diminuem a absorção. Em geral, o dolutegravir é tomado duas horas antes ou seis horas depois, ou junto com alimento, no caso de cálcio e ferro. Confirme na bula.</p>
+          </div>
+          <div class="ficha" data-c="pi">
+            <span class="k">Estatinas</span>
+            <h4>Rosuvastatina, pitavastatina, pravastatina</h4>
+            <p>Escolhidas pela menor dependência do CYP3A4 (prancha V). A sinvastatina é contraindicada com ritonavir.</p>
+          </div>
+          <div class="ficha" data-c="v">
+            <span class="k">Doença renal crônica</span>
+            <h4>Esquema de resgate do slide</h4>
+            <p>Sem tenofovir: zidovudina com lamivudina (dois comprimidos do combinado ao dia) mais darunavir e ritonavir. As doses devem ser conferidas no PCDT, e a lamivudina exige ajuste de dose pela filtração glomerular.</p>
+          </div>
+        </div>
+        <h3>Orientações práticas do professor, e o raciocínio por trás</h3>
+        <ul>
+          <li>Vai a uma formatura ou jantar e quer tomar antes de sair: pode, o horário é flexível e a regularidade é o que conta.</li>
+          <li>Vai beber: o slide diz que não há interação medicamentosa com o álcool, e isso é verdade do ponto de vista farmacocinético. O que o álcool afeta é a adesão e, em quem tem hepatite, o fígado.</li>
+          <li>Trabalha em turnos: no dia da troca, pula-se a dose e reinicia-se no novo horário, para evitar duas doses com menos de 24 horas de intervalo. A ideia é que é melhor atrasar do que dobrar, e o slide justifica pela sobrecarga renal do tenofovir. Siga o protocolo local, que pode orientar de outro modo.</li>
+          <li>Pode trocar os comprimidos de frasco, desde que o sachê de sílica vá junto, porque ele reduz a umidade e conserva o medicamento.</li>
+        </ul>
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>Coinfecção com tuberculose e a síndrome inflamatória de reconstituição imune</summary>
+          <div class="dbody">
+            <p>Ao iniciar a TARV em alguém com infecção oportunista ativa, a recuperação da imunidade pode provocar uma reação inflamatória exagerada contra antígenos do microrganismo, a síndrome inflamatória de reconstituição imune (SIRI). Pode ser uma piora paradoxal de uma infecção já tratada ou o desmascaramento de uma infecção não diagnosticada. A gravidade é maior quando o sistema nervoso central está envolvido, e esse é o motivo de se esperar semanas para iniciar a TARV nas meningites. Nas demais formas de tuberculose, o benefício de iniciar cedo supera o risco, em especial quando o CD4 é muito baixo.</p>
+            <details class="deep">
+              <summary><span class="tag">Detalhamento</span>Dolutegravir com rifampicina em números</summary>
+              <div class="dbody">
+                <p>A rifampicina induz a UGT1A1 e o CYP3A4, que eliminam o dolutegravir. Com o fármaco indutor em uso, a exposição ao dolutegravir cai, e a dose de 50 mg duas vezes ao dia compensa. Segundo o PCDT de 2024, essa dose dobrada é mantida por 15 dias após o fim da rifampicina, porque a indução enzimática demora a desaparecer.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+      </div>
+      <aside class="margin">
+        <div class="m slide"><span class="k">No slide</span><p>Diagnóstico igual a tratamento; sigilo e parceria; rastreio de tuberculose; esquema tenofovir, lamivudina e dolutegravir uma vez ao dia; ajustes com anticonvulsivantes; estatinas; polivitamínico; pérolas de adesão (formatura, álcool, turnos, sílica).</p></div>
+        <div class="m check"><span class="k">Conferir</span><p>Dose do dolutegravir com indutores (50 mg de 12/12 h), momento de iniciar a TARV na tuberculose e conduta nas meningites seguem o PCDT. A instrução do professor para troca de turno é prática, e não uma recomendação de bula.</p></div>
+        <div class="m"><span class="k">Termos</span><p>Sorodiferente: casal em que um tem HIV e o outro não. SIRI: piora inflamatória após recuperar a imunidade.</p></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- PRANCHA X -->
+<section class="plate" id="p10" aria-labelledby="p10t">
+  <div class="wrap">
+    <p class="plate-tag">Prancha X</p>
+    <h2 id="p10t">Monitoramento e os três casos: o que a adesão faz com a imunidade</h2>
+    <p class="lede">Depois do início, o acompanhamento responde a três perguntas: ele está tomando, o vírus está suprimido, a imunidade está se recuperando? Os casos do professor mostram o que acontece quando a resposta é não.</p>
+    <div class="cols">
+      <div class="prose">
+        <h3>O que se acompanha, e quando</h3>
+        <div class="fichas">
+          <div class="ficha" data-c="entry"><span class="k">Primeiro retorno</span><h4>Cerca de 30 dias</h4><p>Avalia se o paciente entendeu o tratamento, se consegue tomar corretamente, como está a adesão e se surgiram dúvidas ou efeitos colaterais. Ele precisa de uma rede de apoio na unidade para relatar problemas.</p></div>
+          <div class="ficha" data-c="rt"><span class="k">Carga viral</span><h4>A resposta ao tratamento</h4><p>O slide pede repetir cerca de 4 meses após o início. A supressão costuma ocorrer entre 8 e 24 semanas, podendo levar até cerca de 6 meses em alguns casos.</p></div>
+          <div class="ficha" data-c="int"><span class="k">CD4</span><h4>A recuperação da imunidade</h4><p>A cada 3 a 6 meses no início. Deixa de ser pedido de rotina quando há duas coletas com 6 meses de intervalo, carga viral suprimida e CD4 acima de 350 células/mm³.</p></div>
+        </div>
+        <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+          <p>O momento da primeira carga viral varia entre protocolos. Algumas diretrizes pedem a primeira medida bem antes, entre poucas semanas e 2 meses, justamente para identificar cedo uma resposta insuficiente. Antes da prova, confira o valor da versão vigente do PCDT e do material da sua disciplina.</p>
+        </div>
+
+        <h3>Conceitos que os casos ensinam</h3>
+        <p>O nadir do CD4 é o menor valor que a pessoa já teve na vida, e não o do diagnóstico. Na paciente do caso 1, o diagnóstico foi com CD4 de 47, mas durante os abandonos chegou a 29; o nadir verdadeiro é 29. A importância é prática: quando o paciente abandona a TARV, a imunidade tende a voltar rapidamente em direção ao nadir, mesmo que ele tenha chegado a 900 depois de anos tratando. Pacientes com nadir muito baixo precisam ser fortemente orientados, porque muitas vezes só estão bem por estarem em tratamento contínuo.</p>
+        <p>A imunossenescência precoce é o envelhecimento imunológico antes do tempo. Todos envelhecemos e perdemos imunidade, mas quem tem HIV avançado e relação CD4/CD8 em torno de 0,10 (o normal seria cerca de 1,5) soma a isso uma imunidade já comprometida. Prevê-se um idoso mais frágil, com mais infecções e internações.</p>
+        <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+          <p>O slide usa a analogia do copo de água: a medula óssea seria o copo cheio, que se esvazia ao longo dos anos de HIV sem controle, até a "estafa" ou "fibrose medular", e depois o CD4 nunca mais subiria. A ideia clínica está correta, a perda de capacidade regenerativa. Mas "fibrose medular" não é um termo padrão para a falta de recuperação do CD4 no HIV. Os substratos mais bem sustentados na literatura são outros e vêm abaixo. Pergunte ao professor a que ele se refere.</p>
+        </div>
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>Por que o CD4 não volta, mesmo com a carga viral zerada</summary>
+          <div class="dbody">
+            <p>A recuperação do CD4 vem de duas fontes: a redistribuição de células que estavam retidas nos tecidos e a produção de novas células, que depende do timo e da expansão homeostática de células de memória. Em quem iniciou a TARV tarde, vários pontos estão lesados. O timo, que produz linfócitos virgens, involui com a idade e é agredido pelo vírus, e por isso a idade ao tratar pesa. O tecido linfoide dos linfonodos e do intestino sofre deposição de colágeno (fibrose) que desorganiza a arquitetura onde os linfócitos sobrevivem. E a ativação imune persistente mantém as células em estado de exaustão e senescência. Quando o CD4 permanece baixo apesar de supressão viral por muito tempo, fala-se em resposta imunológica incompleta ou discordante.</p>
+            <details class="deep">
+              <summary><span class="tag">Detalhamento</span>O que a medula tem a ver com isso</summary>
+              <div class="dbody">
+                <p>A medula óssea é afetada no HIV avançado, com citopenias, displasia e alteração do estroma, e esses achados são reais. Mas o CD4 maduro depende do timo e do tecido linfoide mais do que da medula, que fornece os progenitores. A analogia do professor funciona como uma descrição de esgotamento do sistema como um todo, e é assim que deve ser guardada.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <h3>Os três casos</h3>
+        <div class="fichas">
+          <div class="ficha" data-c="v">
+            <span class="k">Caso 1</span>
+            <h4>Abandono e retorno ao longo dos anos</h4>
+            <p>Em 2017: carga viral acima de 137 mil cópias/mL, CD4 de 47 células/mm³ e relação CD4/CD8 de 0,06. Tratava, a carga viral caía, abandonava, a carga voltava a subir e o CD4 voltava a cair, de novo e de novo. Nadir real de 29.</p>
+            <p>O CD4 deixou de se recuperar, mesmo com carga viral baixa ou indetectável. A lição: abandonos repetidos destroem a reserva de recuperação, e a imunidade que sobra depende do tratamento contínuo.</p>
+          </div>
+          <div class="ficha" data-c="a">
+            <span class="k">Caso 2</span>
+            <h4>Quase morreu aos 19 anos e recuperou</h4>
+            <p>Em 2019: carga viral de 338.820 cópias/mL, CD4 de 17 e relação de 0,03. Em cerca de um ano, uma doença oportunista seguida da outra. Com TARV e boa adesão, a carga ficou indetectável e o CD4 subiu devagar: cerca de 6 anos depois, 605 (32%).</p>
+            <p>Mesmo assim, a relação CD4/CD8 em 2025 era de 0,73, abaixo do normal. A juventude explicou a recuperação, e a lesão que ficou explica a relação.</p>
+          </div>
+          <div class="ficha" data-c="pi">
+            <span class="k">Caso 3</span>
+            <h4>HIV multirresistente</h4>
+            <p>Diagnóstico tardio, com CD4 de 12% e relação de 0,17 nos primeiros exames. Anos de carga indetectável, depois pequenas elevações persistentes, apesar da adesão referida. A genotipagem mostrou resistência ao esquema usado, e foi preciso um esquema de resgate: darunavir, dolutegravir, etravirina, maraviroque e ritonavir.</p>
+            <p>A carga viral cai, mas não zera, o CD4 fica entre 170 e 360 e a relação continua muito baixa. O vírus continua se replicando lentamente e pode ganhar novas mutações.</p>
+          </div>
+        </div>
+        <figure class="wide" style="margin:.5rem 0 0">
+          <div id="chart2" data-dyn></div>
+          <figcaption style="font:400 .74rem/1.5 var(--f-mono);color:var(--ink2);margin-top:.5rem">Caso 2: CD4 absoluto (células/mm³) nas datas de coleta. Valores transcritos da tabela do slide. A relação CD4/CD8 foi de 0,03 no início e de 0,73 no último ponto.</figcaption>
+        </figure>
+        <div class="box" data-kind="clinica" data-label="Na prática clínica">
+          <p>Os três casos vêm de uma mesma pergunta: como proteger a reserva de imunidade? No caso 1 a resposta é adesão contínua. No caso 2 é diagnóstico e tratamento cedo, que no caso 3 faltaram. E o caso 3 mostra por que a genotipagem não é um luxo: o esquema só pode ser redesenhado se se souber o que o vírus já aprendeu a driblar.</p>
+        </div>
+      </div>
+      <aside class="margin">
+        <div class="m slide"><span class="k">No slide</span><p>Retorno em 30 dias, carga viral em cerca de 4 meses, CD4 a cada 3 a 6 meses, critérios para parar de pedir CD4. Casos 1, 2 e 3 com tabelas de carga viral e CD4/CD8, nadir, estafa medular, imunossenescência.</p></div>
+        <div class="m check"><span class="k">Conferir</span><p>"Estafa ou fibrose medular" e o prazo da primeira carga viral estão discutidos nas caixas desta prancha.</p></div>
+        <div class="m"><span class="k">Termos</span><p>Nadir: menor CD4 já registrado. Imunossenescência: envelhecimento do sistema imune. Resposta imunológica discordante: CD4 baixo apesar de carga viral suprimida.</p></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- PRANCHA XI -->
+<section class="plate" id="p11" aria-labelledby="p11t">
+  <div class="wrap">
+    <p class="plate-tag">Prancha XI</p>
+    <h2 id="p11t">Falha virológica, barreira genética e a frase indetectável é igual a intransmissível</h2>
+    <p class="lede">Falha virológica é o tratamento que deixa de controlar o vírus. Reconhecer cada formato, investigar na ordem certa e entender a barreira genética é o que separa um ajuste simples de uma perda irreversível de opções.</p>
+    <div class="cols">
+      <div class="prose">
+        <h3>Três formatos de falha</h3>
+        <div class="fichas">
+          <div class="ficha" data-c="a">
+            <span class="k">Resposta virológica incompleta</span>
+            <h4>Não chegou lá</h4>
+            <p>Após 6 meses de tratamento, a carga viral ainda não está abaixo de 200 cópias/mL. O slide lembra que não necessariamente o paciente não aderiu: às vezes o esquema só não funcionou.</p>
+          </div>
+          <div class="ficha" data-c="v">
+            <span class="k">Rebote virológico</span>
+            <h4>Estava indetectável e subiu</h4>
+            <p>Carga viral de 200 cópias/mL ou mais em pelo menos duas medidas consecutivas, em quem estava previamente indetectável.</p>
+          </div>
+          <div class="ficha" data-c="int">
+            <span class="k">Viremia de baixo nível persistente</span>
+            <h4>Entre 50 e 200</h4>
+            <p>Não é falha imediata, mas exige acompanhamento mais próximo, porque pode evoluir para perda do controle. Replicação contínua favorece mutações.</p>
+          </div>
+        </div>
+        <div class="box" data-kind="conferir" data-label="Conferir com o slide">
+          <p>O slide escreve que o rebote "significa abandono de tratamento". É a causa mais provável, não a única. Antes de concluir pelo abandono é preciso excluir interação medicamentosa, absorção inadequada e resistência. Um aumento isolado e transitório, de uma única medida (blip), não é falha.</p>
+        </div>
+
+        <h3>Quando investigar, e na ordem certa</h3>
+        <ul>
+          <li>Carga viral detectável (acima de 50 cópias/mL) confirmada em duas medidas consecutivas.</li>
+          <li>Redução de menos de 0,5 a 0,75 log₁₀ após 4 semanas de terapia, ou de menos de 1 log₁₀ após 8 semanas.</li>
+          <li>Aumento reproduzível e substancial (3 vezes ou mais) a partir do nadir, não atribuível a infecção intercorrente ou vacinação.</li>
+          <li>Carga viral ainda detectável 4 a 6 meses após o início da TARV.</li>
+        </ul>
+        <ol class="chain" aria-label="Rotina de investigação">
+          <li><span class="s v">carga viral detectável confirmada</span></li>
+          <li><span class="s">rever adesão e barreiras</span></li>
+          <li><span class="s">rever interações e absorção</span></li>
+          <li><span class="s rx">genotipagem em uso do esquema</span></li>
+          <li><span class="s">redesenhar o esquema</span></li>
+        </ol>
+        <p>As causas, segundo o slide, são, em ordem de frequência, má adesão (a mais comum: esquecer de tomar alguns dias), interações medicamentosas e resistência viral prévia ou adquirida, além de absorção inadequada. O slide acrescenta uma informação atual: a cirurgia bariátrica já não interfere na absorção dos antirretrovirais atuais, como interferia antigamente.</p>
+        <div class="box" data-kind="atencao" data-label="Atenção">
+          <p>A genotipagem deve ser colhida enquanto o paciente ainda toma o esquema que falhou. Quando o fármaco é suspenso, as variantes resistentes perdem vantagem e ficam menos numerosas no plasma, e o exame pode mostrar um vírus aparentemente sensível, embora a resistência continue arquivada nos provírus.</p>
+        </div>
+
+        <h3>Barreira genética aplicada à adesão</h3>
+        <p>O slide define barreira genética como o quanto o medicamento tolera erros de adesão antes de perder eficácia. Medicamentos de barreira alta, como o dolutegravir, suportam esquecimentos ocasionais, como uma dose por semana, sem que o vírus desenvolva resistência facilmente. Medicamentos de barreira baixa, como o raltegravir, perdem eficácia com mais facilidade. O slide dá um exemplo: quatro ou mais doses esquecidas por mês durante seis meses podem bastar para o HIV mutar e resistir.</p>
+        <p>O mecanismo é a farmacocinética somada à genética viral. Quando a adesão é irregular, o nível do fármaco oscila e passa períodos em uma faixa intermediária, suficiente para pressionar o vírus e insuficiente para suprimi-lo. É a pior situação possível, pois selecionam-se variantes com uma ou poucas mutações. Quanto menos mutações o fármaco exigir para ser vencido, mais fácil é essa seleção. Um fármaco de barreira alta, com meia-vida longa e potência alta, mantém o nível acima dessa faixa mesmo com falhas ocasionais.</p>
+        <details class="deep">
+          <summary><span class="tag">Aprofunde-se</span>A janela de seleção de mutantes</summary>
+          <div class="dbody">
+            <p>Para cada fármaco existe uma concentração que inibe o vírus selvagem e uma concentração mais alta, necessária para inibir uma variante com uma mutação de resistência. Entre as duas fica a chamada janela de seleção de mutantes. Se o paciente passa muito tempo nessa janela, o vírus selvagem é suprimido, mas a variante mutante cresce sem concorrência. A estratégia de potencializar com ritonavir, a dose única diária de fármacos com meia-vida longa e a combinação de vários agentes têm em comum o objetivo de reduzir o tempo gasto nessa janela.</p>
+            <details class="deep">
+              <summary><span class="tag">Detalhamento</span>Falha virológica, imunológica e clínica</summary>
+              <div class="dbody">
+                <p>Em algumas definições (como as da Organização Mundial da Saúde), distinguem-se três tipos de falha: virológica, em que a carga viral não é suprimida; imunológica, em que o CD4 não sobe ou cai apesar do tratamento; e clínica, em que surgem novas doenças definidoras de AIDS. As três podem estar dissociadas, como mostram os casos da prancha X: o paciente do caso 1 tinha carga viral baixa e CD4 que não subia.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <h3>Consequências da falha</h3>
+        <p>O slide as lista: mais resistência viral, perda de opções futuras, nova queda do CD4, mais doenças oportunistas e mais cânceres associados ao HIV. Cada nova mutação é uma opção a menos, e por isso se diz que a falha custa mais a cada episódio. Mesmo cargas virais persistentemente baixas, entre 50 e 200 cópias/mL, podem indicar replicação contínua e favorecer mutações com o tempo.</p>
+
+        <h3>Indetectável é igual a intransmissível</h3>
+        <p>Nos estudos do conceito I = I, como o PARTNER, não houve transmissão sexual entre casais em que o parceiro com HIV tinha carga viral abaixo de 200 cópias/mL, mesmo com dezenas de milhares de atos sem preservativo (RODGER et al., 2016; 2019). Por isso pacientes estáveis, aderentes e persistentemente indetectáveis são considerados intransmissíveis.</p>
+        <div class="box" data-kind="atencao" data-label="Atenção">
+          <p>A igualdade só vale enquanto a pessoa permanece aderente e sustentadamente indetectável. O paciente do caso 3 é o exemplo oposto: fica abaixo de 200 em alguns momentos, volta a subir (um flare virológico), e por isso o slide o chama de bomba-relógio. Se o esquema perde eficácia ou a pessoa para o remédio, a carga viral sobe e a transmissão volta a ser possível.</p>
+        </div>
+        <p>No HIV multirresistente o objetivo muda: deixa de ser zerar o vírus e passa a ser postergar a progressão e manter a melhor qualidade de vida. O esquema de resgate do caso 3 combina agentes de classes diferentes, de forma que pelo menos dois ou três sejam plenamente ativos, de acordo com a genotipagem e o histórico de tratamento.</p>
+      </div>
+      <aside class="margin">
+        <div class="m slide"><span class="k">No slide</span><p>Definições de falha, critérios de investigação, causas, barreira genética (dolutegravir alto, raltegravir baixo), consequências e a discussão de I = I a partir do caso multirresistente.</p></div>
+        <div class="m check"><span class="k">Conferir</span><p>"Rebote significa abandono" é a causa mais provável, mas não a única. A genotipagem precisa ser colhida em uso do esquema.</p></div>
+        <div class="m"><span class="k">Termos</span><p>Log₁₀: queda de 1 log é redução de 10 vezes. Flare: elevação transitória da carga viral após período de supressão. Genotipagem: sequenciamento do vírus para detectar mutações de resistência.</p></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- REVISÃO -->
+<section class="plate" id="rev" aria-labelledby="revt">
+  <div class="wrap">
+    <p class="plate-tag">Revisão</p>
+    <h2 id="revt">Doze perguntas para testar o raciocínio</h2>
+    <p class="lede">Cada pergunta pede o porquê, não a decoreba. Responda, leia a explicação e, no final, refaça só as que errou.</p>
+    <div class="quiz" id="quiz" data-dyn></div>
+  </div>
+</section>
+
+<!-- RESUMO -->
+<section class="plate" id="resumo" aria-labelledby="resumot">
+  <div class="wrap">
+    <p class="plate-tag">Super-resumo</p>
+    <h2 id="resumot">O que levar para a prova</h2>
+    <p class="lede">As relações essenciais, em linhas curtas, e a lista dos pontos do slide que valem uma conversa com o professor antes da avaliação.</p>
+    <div class="sumgrid">
+      <div class="ficha" data-c="v"><span class="k">Ciclo e alvos</span><h4>Uma estação, um alvo</h4><ul><li>gp120 com CD4: ibalizumabe.</li><li>gp120 com CCR5: maraviroque (só vírus R5).</li><li>gp41 e fusão: enfuvirtida.</li><li>Transcriptase reversa: ITRN e ITRNN.</li><li>Integrase: raltegravir e dolutegravir.</li><li>Protease: darunavir, atazanavir, ritonavir (potencializador).</li><li>Provírus latente: nenhum alvo.</li></ul></div>
+      <div class="ficha" data-c="a"><span class="k">Imunopatogenia</span><h4>Por que o CD4 cai</h4><ul><li>Direta, imunomediada, espectadores e ativação crônica.</li><li>Queda aguda por destruição do GALT.</li><li>Oportunistas por imunidade celular: tuberculose, toxoplasmose, pneumocistose, criptococose, candidíase.</li></ul></div>
+      <div class="ficha" data-c="rt"><span class="k">Fármacos</span><h4>Mecanismos e atenções</h4><ul><li>ITRN: terminadores de cadeia. Tenofovir: rim e osso. Abacavir: HLA-B*57:01. Zidovudina: medula.</li><li>ITRNN: deformam a enzima. Barreira baixa.</li><li>Dolutegravir: barreira alta; 50 mg de 12/12 h com indutores; cátions quelam.</li><li>Ritonavir inibe CYP3A4: sinvastatina contraindicada.</li></ul></div>
+      <div class="ficha" data-c="entry"><span class="k">Reservatório e cura</span><h4>Por que não há cura</h4><ul><li>O HIV integra o genoma; o HCV não.</li><li>Reservatório em cerca de 5 dias, em células de memória, SNC, GALT.</li><li>Cura funcional não é cura virológica.</li><li>Ativação imune persistente leva a doenças crônicas precoces.</li></ul></div>
+      <div class="ficha" data-c="int"><span class="k">Diagnóstico</span><h4>Janelas do slide</h4><ul><li>Pró-DNA cerca de 5 dias; PCR cerca de 7; p24 de 14 a 21; teste rápido de 30 a 45; imunoblot cerca de 3 meses.</li><li>Anticorpo: diagnóstico presuntivo.</li><li>Quatro fluxogramas; limite de 5.000 cópias/mL.</li></ul></div>
+      <div class="ficha" data-c="pi"><span class="k">Quando o exame engana</span><h4>Quatro armadilhas</h4><ul><li>Exposição contínua: o dia da infecção é desconhecido.</li><li>PEP pode atrasar a soroconversão.</li><li>Imunossilencioso: carga viral resolve.</li><li>Controlador de elite: sorologia positiva e carga indetectável.</li></ul></div>
+      <div class="ficha" data-c="rt"><span class="k">Conduta</span><h4>Tratamento padrão</h4><ul><li>Diagnóstico igual a tratamento.</li><li>Tenofovir 300 + lamivudina 300 + dolutegravir 50, uma vez ao dia.</li><li>Rastreio de tuberculose em todos.</li><li>Sigilo: Lei 14.289/2022. Parceria testada sem revelar.</li></ul></div>
+      <div class="ficha" data-c="v"><span class="k">Seguimento e falha</span><h4>Indicadores</h4><ul><li>Retorno em 30 dias; CD4 a cada 3 a 6 meses.</li><li>Rebote: 200 ou mais em duas medidas.</li><li>Viremia de baixo nível: 50 a 200.</li><li>Causas: adesão, interações, resistência, absorção.</li><li>I = I vale só com supressão sustentada.</li></ul></div>
+    </div>
+
+    <h3 style="font:500 1.35rem/1.25 var(--f-display);margin:2.4rem 0 .6rem">Pontos do slide para conferir com o professor</h3>
+    <div class="box" data-kind="conferir" data-label="Conferir">
+      <ul>
+        <li>Dose do dolutegravir com indutores: o slide fala em 100 mg; o PCDT de 2024 descreve 50 mg a cada 12 horas.</li>
+        <li>Controlador de elite: o slide trata ao perder o controle; o PCDT de 2024 recomenda tratar independentemente do CD4. O mecanismo de controle citado (CCR5 e CXCR4) difere do melhor suportado (HLA-B*57 e B*27 com resposta CD8).</li>
+        <li>Tempo até o rebote após parar a TARV: o slide admite meses; a regra geral é de semanas.</li>
+        <li>Tenofovir como única droga para HIV e hepatite B: lamivudina e entricitabina têm atividade parcial, com resistência rápida.</li>
+        <li>Primeira carga viral aos 4 meses: confira com o protocolo vigente.</li>
+        <li>Morte de espectadores por apoptose: a piroptose também é central.</li>
+        <li>Estafa ou fibrose medular: termo não padrão; mecanismos mais sustentados são timo, fibrose do tecido linfoide e ativação persistente.</li>
+        <li>Passo 7 repetido; ação da protease colocada antes do brotamento.</li>
+        <li>Janela do teste rápido (30 a 45 dias) e explicação do falso-positivo do fluido oral.</li>
+        <li>Sinvastatina: restrição vem do ritonavir e do cobicistate.</li>
+        <li>Retorno após a PEP (60 dias): confira o PCDT de PEP vigente.</li>
+        <li>Resgate na doença renal: confira doses e ajuste da lamivudina.</li>
+        <li>Orientação de troca de turno: prática do professor, não de bula.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- REFERÊNCIAS -->
+<section class="plate" id="refs" aria-labelledby="refst">
+  <div class="wrap">
+    <p class="plate-tag">Referências</p>
+    <h2 id="refst">Fontes consultadas, em formato ABNT</h2>
+    <div class="refs">
+      <p>BRASIL. Lei nº 14.289, de 3 de janeiro de 2022. Torna obrigatória a preservação do sigilo sobre a condição de pessoa que vive com infecção pelos vírus da imunodeficiência humana (HIV) e das hepatites crônicas (HBV e HCV) e de pessoa com hanseníase e com tuberculose. <i>Diário Oficial da União</i>: seção 1, Brasília, DF, 2022.</p>
+      <p>BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde. Departamento de DST, Aids e Hepatites Virais. <i>Manual técnico para o diagnóstico da infecção pelo HIV</i>. 3. ed. Brasília, DF: Ministério da Saúde, 2016.</p>
+      <p>BRASIL. Ministério da Saúde. Secretaria de Vigilância em Saúde e Ambiente. <i>Protocolo clínico e diretrizes terapêuticas para manejo da infecção pelo HIV em adultos</i>: módulo 1: tratamento. Brasília, DF: Ministério da Saúde, 2024.</p>
+      <p>BRENCHLEY, J. M. et al. Microbial translocation is a cause of systemic immune activation in chronic HIV infection. <i>Nature Medicine</i>, New York, v. 12, n. 12, p. 1365-1371, 2006.</p>
+      <p>BRUNTON, L. L.; KNOLLMANN, B. C. (ed.). <i>Goodman &amp; Gilman's the pharmacological basis of therapeutics</i>. 14th ed. New York: McGraw-Hill, 2023.</p>
+      <p>DOITSH, G. et al. Cell death by pyroptosis drives CD4 T-cell depletion in HIV-1 infection. <i>Nature</i>, London, v. 505, n. 7484, p. 509-514, 2014.</p>
+      <p>FIEBIG, E. W. et al. Dynamics of HIV viremia and antibody seroconversion in plasma donors: implications for diagnosis and staging of primary HIV infection. <i>AIDS</i>, London, v. 17, n. 13, p. 1871-1879, 2003.</p>
+      <p>HO, D. D. et al. Rapid turnover of plasma virions and CD4 lymphocytes in HIV-1 infection. <i>Nature</i>, London, v. 373, n. 6510, p. 123-126, 1995.</p>
+      <p>ILLING, P. T. et al. Immune self-reactivity triggered by drug-modified HLA-peptide repertoire. <i>Nature</i>, London, v. 486, n. 7404, p. 554-558, 2012.</p>
+      <p>INSIGHT START STUDY GROUP. Initiation of antiretroviral therapy in early asymptomatic HIV infection. <i>The New England Journal of Medicine</i>, Boston, v. 373, n. 9, p. 795-807, 2015.</p>
+      <p>KATZUNG, B. G.; VANDERAH, T. W. (ed.). <i>Basic &amp; clinical pharmacology</i>. 15th ed. New York: McGraw-Hill, 2021.</p>
+      <p>LOSCALZO, J. et al. (ed.). <i>Harrison's principles of internal medicine</i>. 21st ed. New York: McGraw-Hill, 2022.</p>
+      <p>RODGER, A. J. et al. Sexual activity without condoms and risk of HIV transmission in serodifferent couples when the HIV-positive partner is using suppressive antiretroviral therapy. <i>JAMA</i>, Chicago, v. 316, n. 2, p. 171-181, 2016.</p>
+      <p>RODGER, A. J. et al. Risk of HIV transmission through condomless sex in serodifferent gay couples with the HIV-positive partner taking suppressive antiretroviral therapy (PARTNER): final results of a multicentre, prospective, observational study. <i>The Lancet</i>, London, v. 393, n. 10189, p. 2428-2438, 2019.</p>
+      <p>SILICIANO, J. D. et al. Long-term follow-up studies confirm the stability of the latent reservoir for HIV-1 in resting CD4+ T cells. <i>Nature Medicine</i>, New York, v. 9, n. 6, p. 727-728, 2003.</p>
+    </div>
+    <p class="foot" style="margin-top:1.5rem">O conteúdo dos slides foi a base da organização; os aprofundamentos seguem as obras acima e as diretrizes do Ministério da Saúde. Confira edição, ano e paginação dos livros-texto na biblioteca da instituição antes de entregar trabalhos, e confira a versão vigente dos protocolos clínicos.</p>
+  </div>
+</section>
+</main>
+
+<div class="editbar" id="editbar" role="toolbar" aria-label="Edição do documento">
+  <button class="btn" id="eb-toggle" type="button" aria-pressed="false">Ativar edição</button>
+  <button class="btn" id="eb-download" type="button">Baixar cópia editada</button>
+  <button class="btn danger" id="eb-restore" type="button">Restaurar original</button>
+  <span class="msg" id="eb-msg" role="status"></span>
+</div>
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- utilidades ---------- */
+  function $(s, r) { return (r || document).querySelector(s); }
+  function $all(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+  function h(tag, attrs, kids) {
+    var el = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) {
+      if (k === 'text') el.textContent = attrs[k];
+      else if (k === 'style') el.setAttribute('style', attrs[k]);
+      else el.setAttribute(k, attrs[k]);
+    });
+    (kids || []).forEach(function (c) {
+      if (c == null) return;
+      el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+    });
+    return el;
+  }
+  function clear(el) { while (el.firstChild) el.removeChild(el.firstChild); }
+
+  /* armazenamento tolerante a falhas (prévia pode bloquear) */
+  var mem = {};
+  var persistent = true;
+  var store = {
+    get: function (k) {
+      try { var v = window.localStorage.getItem(k); return v === null ? (mem[k] || null) : v; }
+      catch (e) { persistent = false; return mem[k] || null; }
+    },
+    set: function (k, v) {
+      mem[k] = v;
+      try { window.localStorage.setItem(k, v); }
+      catch (e) { persistent = false; }
+    },
+    del: function (k) {
+      delete mem[k];
+      try { window.localStorage.removeItem(k); } catch (e) { persistent = false; }
+    }
+  };
+  (function probe() {
+    try { window.localStorage.setItem('atlas-hiv-probe', '1'); window.localStorage.removeItem('atlas-hiv-probe'); }
+    catch (e) { persistent = false; }
+  })();
+
+  /* ---------- tema ---------- */
+  (function theme() {
+    var root = document.documentElement;
+    var btn = $('#themebtn');
+    if (!btn) return;
+    var saved = store.get('atlas-hiv-tema');
+    if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+    function current() {
+      var t = root.getAttribute('data-theme');
+      if (t) return t;
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    function label() { btn.textContent = current() === 'dark' ? 'Tema claro' : 'Tema escuro'; }
+    btn.addEventListener('click', function () {
+      var next = current() === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      store.set('atlas-hiv-tema', next);
+      label();
+    });
+    label();
+  })();
+
+  /* ---------- navegação: marca a prancha visível ---------- */
+  (function nav() {
+    var nav = $('#pnav');
+    if (!nav || !('IntersectionObserver' in window)) return;
+    var links = $all('a', nav);
+    var map = {};
+    links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        links.forEach(function (a) { a.removeAttribute('aria-current'); });
+        var a = map[en.target.id];
+        if (a) {
+          a.setAttribute('aria-current', 'true');
+          var l = a.offsetLeft - nav.clientWidth / 2 + a.offsetWidth / 2;
+          try { nav.scrollTo({ left: l, behavior: 'smooth' }); } catch (e) { nav.scrollLeft = l; }
+        }
+      });
+    }, { rootMargin: '-25% 0px -65% 0px', threshold: 0 });
+    Object.keys(map).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
+  })();
+
+  /* ---------- explorador do ciclo ---------- */
+  (function explorer() {
+    var root = $('#explorer');
+    if (!root) return;
+    var st = [
+      {
+        w: 'Estação 1 · meio extracelular', t: 'A gp120 reconhece o CD4',
+        p: [
+          'O envelope do vírion é decorado por trímeros de gp120 (a parte externa) ancorados em gp41 (a parte transmembrana). A gp120 liga-se ao CD4, uma glicoproteína da superfície dos linfócitos T auxiliares e, em menor densidade, de monócitos, macrófagos e células dendríticas. É essa distribuição que explica o alvo celular do vírus.',
+          'A ligação ao CD4 não basta para infectar. Ela induz uma mudança de conformação na gp120 que expõe o sítio de ligação ao correceptor, o passo seguinte. Esse rearranjo é uma janela vulnerável: anticorpos e fármacos que a bloqueiam impedem tudo o que vem depois.'
+        ],
+        d: [['entrada', 'entry', 'Ibalizumabe: anticorpo monoclonal anti-CD4 que, ligado ao receptor, impede os rearranjos necessários após a ligação da gp120. Reservado a multirresistência.'],
+            ['entrada', 'entry', 'Fostemsavir (fora do slide): liga-se à própria gp120 e impede sua ligação ao CD4.']],
+        y: 'Como o alvo é a porta de entrada, a infecção do linfócito T CD4 explica por que a imunidade celular é o que desaba, e não a humoral de início.'
+      },
+      {
+        w: 'Estação 2 · membrana', t: 'O correceptor decide o tropismo',
+        p: [
+          'Depois de se ligar ao CD4, a gp120 reconhece um correceptor de quimiocina: CCR5 ou CXCR4. Vírus que usam CCR5 (R5) predominam na transmissão e na fase inicial; vírus que usam CXCR4 (X4) tendem a surgir mais tarde e se associam a queda mais rápida do CD4. Alguns usam os dois (dual/misto).',
+          'A prova de conceito vem da genética humana: quem é homozigoto para a deleção CCR5-delta32 não expressa CCR5 funcional e é muito pouco suscetível a vírus R5. É também por isso que um antagonista de CCR5 só funciona se o vírus do paciente for R5, o que exige um teste de tropismo antes de prescrever.'
+        ],
+        d: [['entrada', 'entry', 'Maraviroque: antagonista alostérico de CCR5. Liga-se ao correceptor, muda sua conformação e a gp120 deixa de reconhecê-lo. Pede teste de tropismo.']],
+        y: 'O mecanismo de proteção de CCR5 delta32 é diferente do dos controladores de elite, que em geral dependem de resposta CD8 e de alelos HLA como B*57 e B*27. O slide mistura os dois; ver a nota na prancha correspondente.'
+      },
+      {
+        w: 'Estação 3 · membrana', t: 'Fusão: o gp41 puxa as duas membranas',
+        p: [
+          'Com a gp120 acoplada ao CD4 e ao correceptor, o gp41 se desdobra e insere o peptídeo de fusão na membrana da célula. Duas regiões helicoidais do gp41 (HR1 e HR2) se dobram uma sobre a outra, formando um feixe de seis hélices que aproxima as duas bicamadas lipídicas até se fundirem.',
+          'O resultado é a liberação do capsídeo, com o RNA e as enzimas virais, no citoplasma. O vírion não é "engolido": o envelope se funde à membrana plasmática.'
+        ],
+        d: [['entrada', 'entry', 'Enfuvirtida (T-20): peptídeo análogo da HR2 que bloqueia a formação do feixe de seis hélices. Subcutâneo, duas vezes ao dia, com reações no local da injeção.']],
+        y: 'Por ser injetável e reativo, a enfuvirtida é de uso de resgate. Aprenda o mecanismo, não só o nome.'
+      },
+      {
+        w: 'Estação 4 · citoplasma', t: 'Transcrição reversa: do RNA ao DNA',
+        p: [
+          'O capsídeo se desmonta parcialmente e a transcriptase reversa (RT) converte o RNA de fita simples em DNA de fita dupla. A enzima tem três atividades: DNA-polimerase dependente de RNA, DNA-polimerase dependente de DNA e RNase H, que degrada o molde de RNA.',
+          'A RT não tem revisão 3′→5′. Erra a cada 10 mil a 100 mil bases incorporadas, e o genoma tem cerca de 9,7 mil. Quase todo ciclo traz pelo menos uma mutação nova, e a troca de molde entre as duas cópias de RNA gera recombinantes. Essa é a origem da quasispécie e a razão pela qual a monoterapia sempre falha.',
+          'Os ITRN são análogos de nucleosídeos: precisam ser fosforilados pelas quinases da célula, competem com o dNTP natural e, sem a hidroxila 3′, terminam a cadeia. O tenofovir é um nucleotídeo (já tem um fosfato). Os ITRNN ligam-se a um bolsão hidrofóbico perto do sítio ativo, deformam a enzima e não precisam de ativação.'
+        ],
+        d: [['ITRN', 'rt', 'Lamivudina, tenofovir, abacavir, zidovudina: terminadores de cadeia, a espinha dorsal de quase todo esquema.'],
+            ['ITRNN', 'rt', 'Efavirenz, nevirapina, etravirina: inibição alostérica. Não agem sobre o HIV-2 e a barreira genética é baixa.']],
+        y: 'Esse é o passo que mais gera variabilidade e o que tem mais classes de fármacos. Os dois fatos estão ligados.'
+      },
+      {
+        w: 'Estação 5 · núcleo', t: 'Integração: o provírus entra no genoma',
+        p: [
+          'O DNA viral forma, com a integrase e outras proteínas, o complexo de pré-integração, que atravessa o poro nuclear. A integrase faz duas reações: o processamento 3′ das extremidades do DNA viral e a transferência de fita, que o cola ao DNA cromossômico. O DNA viral passa a ser um provírus.',
+          'O ponto clínico é que a integração é irreversível: o provírus acompanha o genoma da célula pelo resto da vida dela e de suas descendentes. É a base da necessidade de tratamento contínuo.'
+        ],
+        d: [['integrase', 'int', 'Raltegravir e dolutegravir: bloqueiam a transferência de fita ligando-se aos íons Mg²⁺ do sítio ativo. O dolutegravir tem barreira genética alta e é a base do esquema inicial no Brasil.']],
+        y: 'Quando a integração ocorre num linfócito que depois entra em repouso, o provírus pode ficar silencioso por anos: é o que a próxima estação descreve.'
+      },
+      {
+        w: 'Estação 6 · núcleo', t: 'Latência: o reservatório que ninguém enxerga',
+        p: [
+          'Se o linfócito T CD4 infectado voltar ao estado de repouso (célula de memória), o provírus fica transcricionalmente silencioso. Não produz proteínas virais, logo não há antígeno para o sistema imune reconhecer e não há enzima viral para o fármaco bloquear.',
+          'Esse reservatório é muito estável: no trabalho clássico de Siliciano e colaboradores, a meia-vida das células latentes foi de cerca de 44 meses. Parar a terapia permite que alguma dessas células seja ativada e a viremia retorne, em geral em semanas.'
+        ],
+        d: [['sem fármaco eficaz', 'none', 'Nenhum antirretroviral atual atua sobre o provírus latente. Estratégias de "cura" ainda são experimentais.']],
+        y: 'Indetectável não é curado. Indetectável é supressão, mantida enquanto o tratamento é mantido.'
+      },
+      {
+        w: 'Estação 7 · citoplasma', t: 'Produção de RNA e de proteínas virais',
+        p: [
+          'Quando a célula é ativada, fatores celulares como o NF-κB ligam-se à região promotora do provírus (LTR) e a transcrição começa. A proteína viral Tat amplifica enormemente a elongação, e a Rev exporta do núcleo os RNAs que não sofreram splicing completo, que serão tanto genoma quanto molde das proteínas estruturais.',
+          'Os ribossomos produzem as poliproteínas Gag e Gag-Pol, e o envelope (gp160, depois clivado em gp120 e gp41) é sintetizado no retículo endoplasmático e glicosilado. Tudo se encontra na membrana plasmática.'
+        ],
+        d: [['sem fármaco de uso corrente', 'none', 'Esta etapa depende de maquinaria celular; por isso há poucos alvos seletivos.']],
+        y: 'A ativação imune, que deveria combater o vírus, é o que acorda o provírus. Esse paradoxo explica parte da relação entre inflamação e progressão.'
+      },
+      {
+        w: 'Estação 8 · membrana', t: 'Brotamento e maturação',
+        p: [
+          'As poliproteínas Gag se reúnem sob a membrana, empacotam duas cópias de RNA e usam a maquinaria celular ESCRT para brotar. O vírion que sai é imaturo e não infeccioso.',
+          'A protease viral, uma aspartil-protease que funciona como dímero, cliva Gag e Gag-Pol em matriz, capsídeo, nucleocapsídeo e p6, e libera as enzimas. Só então o capsídeo se condensa no formato cônico característico e o vírion se torna infeccioso. Sem a protease, a célula continua produzindo partículas, mas elas não infectam.'
+        ],
+        d: [['protease', 'pi', 'Darunavir e atazanavir: peptidomiméticos que imitam o estado de transição do substrato.'],
+            ['potencializador', 'pi', 'Ritonavir em dose baixa: inibe CYP3A4 e eleva os níveis do inibidor de protease. É a origem de várias interações medicamentosas.']],
+        y: 'O slide situa a protease logo depois da produção das proteínas. Na biologia, a clivagem acontece durante e logo depois do brotamento.'
+      }
+    ];
+    var cur = 0;
+    var list = $('#xlist'), panel = $('#xpanel'), fig = $('#xfig');
+    var nodes = $all('.node', fig);
+    var colorVar = { entry: 'var(--entry)', rt: 'var(--rt)', int: 'var(--int)', pi: 'var(--pi)', none: 'var(--ink2)' };
+
+    list.appendChild(document.createDocumentFragment());
+    var btns = st.map(function (s, i) {
+      var b = h('button', { type: 'button', 'aria-pressed': 'false' }, [h('span', { 'class': 'nn', text: String(i + 1) }), h('span', { text: s.t.split(':')[0] })]);
+      b.addEventListener('click', function () { go(i); });
+      list.appendChild(b);
+      return b;
+    });
+
+    function go(i) {
+      cur = (i + st.length) % st.length;
+      var s = st[cur];
+      nodes.forEach(function (n, k) { n.classList.toggle('on', k === cur); });
+      btns.forEach(function (b, k) { b.setAttribute('aria-pressed', String(k === cur)); });
+      clear(panel);
+      panel.appendChild(h('p', { 'class': 'where', text: s.w }));
+      panel.appendChild(h('h3', { text: s.t }));
+      s.p.forEach(function (t) { panel.appendChild(h('p', { text: t })); });
+      var ul = h('ul', { 'class': 'rx' });
+      s.d.forEach(function (d) {
+        ul.appendChild(h('li', null, [h('span', { 'class': 'pill', style: '--tc:' + colorVar[d[1]], text: d[0] }), h('span', { text: d[2] })]));
+      });
+      panel.appendChild(ul);
+      panel.appendChild(h('p', { style: 'font-style:italic;color:var(--ink2);font-size:.92rem', text: s.y }));
+    }
+    nodes.forEach(function (n) {
+      var i = parseInt(n.getAttribute('data-s'), 10);
+      n.addEventListener('click', function () { go(i); });
+      n.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(i); }
+      });
+    });
+    $('#xprev').addEventListener('click', function () { go(cur - 1); });
+    $('#xnext').addEventListener('click', function () { go(cur + 1); });
+    $('#xdrugs').addEventListener('click', function () {
+      var on = fig.getAttribute('data-drugs') === 'on';
+      fig.setAttribute('data-drugs', on ? 'off' : 'on');
+      this.setAttribute('aria-pressed', String(!on));
+    });
+    go(0);
+  })();
+
+  /* ---------- régua da janela diagnóstica ---------- */
+  (function ruler() {
+    var rng = $('#rday');
+    if (!rng) return;
+    var out = $('#rdayout'), grid = $('#rgrid'), ticks = $('#rticks'), res = $('#rout');
+    var tests = [
+      { n: 'Pró-DNA (HIV-1 DNA)', a: 5, b: 5, c: 'var(--teal)', how: 'Detecta DNA proviral em células.' },
+      { n: 'PCR / carga viral (RNA)', a: 7, b: 7, c: 'var(--teal)', how: 'Detecta RNA viral livre no plasma.' },
+      { n: 'Teste de 4ª geração (Ag/Ac)', a: 15, b: 15, c: 'var(--amber)', how: 'Procura o antígeno p24 e os anticorpos ao mesmo tempo.' },
+      { n: 'Antígeno p24 isolado', a: 14, b: 21, c: 'var(--amber)', how: 'Procura apenas a proteína do capsídeo.' },
+      { n: 'Teste rápido (anticorpos)', a: 30, b: 45, c: 'var(--hema)', how: 'Procura IgM/IgG na punção digital ou no fluido oral.' },
+      { n: 'Imunoblot', a: 80, b: 90, c: 'var(--hema)', how: 'Procura anticorpos contra várias proteínas virais, em separado.' }
+    ];
+    var labels = h('div', { 'class': 'rlabels' });
+    var plot = h('div', { 'class': 'rplot' });
+    var marks = [];
+    labels.appendChild(h('div', { text: 'Eclipse (sem marcador)' }));
+    var r0 = h('div', { 'class': 'rrow' });
+    r0.appendChild(h('div', { 'class': 'rseg', style: '--a:0;--b:10;--c:var(--ink2)' }));
+    plot.appendChild(r0);
+    tests.forEach(function (t) {
+      labels.appendChild(h('div', { text: t.n }));
+      var row = h('div', { 'class': 'rrow' });
+      if (t.b > t.a) row.appendChild(h('div', { 'class': 'rseg u', style: '--a:' + t.a + ';--b:' + t.b + ';--c:' + t.c }));
+      row.appendChild(h('div', { 'class': 'rseg', style: '--a:' + t.b + ';--b:100;--c:' + t.c }));
+      plot.appendChild(row);
+    });
+    var allRows = $all('.rrow', plot);
+    allRows.forEach(function (r) {
+      var m = h('div', { 'class': 'rmark', style: '--d:0', 'data-d': '' });
+      if (r !== allRows[0]) m.style.setProperty('--x', '0');
+      r.appendChild(m); marks.push(m);
+    });
+    // só o primeiro marcador exibe o rótulo (via data-d); os outros ficam sem texto
+    grid.appendChild(labels); grid.appendChild(plot);
+    for (var t = 0; t <= 100; t += 10) {
+      ticks.appendChild(h('span', { style: 'left:' + t + '%', text: String(t) }));
+    }
+    function status(t, d) { return d >= t.b ? 'pos' : (d >= t.a ? 'unc' : 'neg'); }
+    var txt = {
+      pos: 'Deve estar reagente nesta data.',
+      unc: 'Zona de incerteza: pode estar reagente ou ainda negativo.',
+      neg: 'Ainda não detecta, mesmo havendo infecção.'
+    };
+    var stl = { pos: 'Detectável', unc: 'Incerto', neg: 'Negativo' };
+    function update() {
+      var d = parseInt(rng.value, 10);
+      out.textContent = d + (d === 1 ? ' dia' : ' dias');
+      marks.forEach(function (m, i) {
+        m.style.setProperty('--d', d);
+        m.setAttribute('data-d', i === 0 ? 'dia ' + d : '');
+        if (i !== 0) m.style.setProperty('--nolabel', '1');
+      });
+      clear(res);
+      var lead;
+      if (d < 5) lead = 'Fase de eclipse: nenhum marcador existe ainda. Um exame negativo hoje não diz nada sobre a exposição.';
+      else if (d < 10) lead = 'Ainda na fase de eclipse, no limite. Só os métodos moleculares mais sensíveis poderiam começar a detectar o vírus; os demais exames seguem negativos.';
+      else if (d < 30) lead = 'O vírus já circula em quantidade detectável por métodos moleculares e por antígeno, mas a resposta de anticorpos ainda é incipiente. Testes que só procuram anticorpos podem ser falsamente negativos.';
+      else if (d < 90) lead = 'Os anticorpos estão aparecendo. Os testes rápidos entram na zona de incerteza e, depois, ficam confiáveis; o imunoblot ainda pode estar incompleto.';
+      else lead = 'Todos os marcadores usuais deveriam estar presentes. Um resultado negativo agora exclui, com muita confiança, a exposição daquela data.';
+      res.appendChild(h('p', { text: lead }));
+      var ul = h('ul');
+      tests.forEach(function (t) {
+        var s = status(t, d);
+        ul.appendChild(h('li', { 'data-s': s }, [h('span', { 'class': 'st', text: stl[s] }), h('span', { text: t.n + '. ' + txt[s] })]));
+      });
+      res.appendChild(ul);
+      var pep = d <= 3
+        ? 'Dentro das 72 horas da exposição: se houve exposição de risco, a profilaxia pós-exposição (PEP) ainda é possível e deve ser iniciada o mais cedo que se puder, em geral por 28 dias. Um exame hoje serve de linha de base, não de resposta.'
+        : 'Passadas as 72 horas: a PEP deixa de ser indicada. O caminho é testar, orientar, repetir a testagem no tempo do marcador mais tardio que se queira excluir e discutir PrEP para exposições futuras.';
+      res.appendChild(h('div', { 'class': 'rpep' }, [h('p', { text: pep })]));
+    }
+    rng.addEventListener('input', update);
+    update();
+  })();
+
+  /* ---------- gráfico do caso 2 ---------- */
+  (function chart() {
+    var host = $('#chart2');
+    if (!host) return;
+    var pts = [
+      ['19/11/2019', 2019 + (322 / 365), 17],
+      ['02/01/2020', 2020 + (1 / 366), 111],
+      ['17/03/2020', 2020 + (76 / 366), 131],
+      ['01/09/2020', 2020 + (244 / 366), 218],
+      ['09/03/2021', 2021 + (67 / 365), 292],
+      ['14/09/2021', 2021 + (256 / 365), 354],
+      ['11/06/2025', 2025 + (161 / 365), 605]
+    ];
+    var W = 680, H = 320, L = 52, R = 20, T = 28, B = 40;
+    var x0 = 2019.8, x1 = 2025.6, y1 = 700;
+    function X(v) { return L + (v - x0) / (x1 - x0) * (W - L - R); }
+    function Y(v) { return H - B - v / y1 * (H - T - B); }
+    var NS = 'http://www.w3.org/2000/svg';
+    function s(tag, attrs, text) {
+      var e = document.createElementNS(NS, tag);
+      Object.keys(attrs || {}).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+      if (text != null) e.textContent = text;
+      return e;
+    }
+    var svg = s('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Gráfico de linha do CD4 absoluto do caso 2, de 17 em 2019 a 605 em 2025', style: 'width:100%;height:auto;display:block' });
+    for (var v = 0; v <= 700; v += 100) {
+      svg.appendChild(s('line', { x1: L, x2: W - R, y1: Y(v), y2: Y(v), style: 'stroke:var(--line);stroke-width:1' }));
+      svg.appendChild(s('text', { x: L - 8, y: Y(v), 'text-anchor': 'end', 'dominant-baseline': 'central', style: 'font:400 11px var(--f-mono);fill:var(--ink2)' }, String(v)));
+    }
+    for (var yr = 2020; yr <= 2025; yr++) {
+      svg.appendChild(s('line', { x1: X(yr), x2: X(yr), y1: T, y2: H - B, style: 'stroke:var(--line);stroke-width:1;stroke-dasharray:2 4' }));
+      svg.appendChild(s('text', { x: X(yr), y: H - B + 18, 'text-anchor': 'middle', style: 'font:400 11px var(--f-mono);fill:var(--ink2)' }, String(yr)));
+    }
+    [[200, 'limiar de 200'], [500, 'limiar de 500']].forEach(function (r) {
+      svg.appendChild(s('line', { x1: L, x2: W - R, y1: Y(r[0]), y2: Y(r[0]), style: 'stroke:var(--amber);stroke-width:1.4;stroke-dasharray:6 4' }));
+      svg.appendChild(s('text', { x: W - R - 2, y: Y(r[0]) - 6, 'text-anchor': 'end', style: 'font:500 10.5px var(--f-mono);fill:var(--amber)' }, r[1]));
+    });
+    var d = pts.map(function (p, i) { return (i ? 'L' : 'M') + X(p[1]).toFixed(1) + ' ' + Y(p[2]).toFixed(1); }).join(' ');
+    svg.appendChild(s('path', { d: d, style: 'fill:none;stroke:var(--eosin);stroke-width:2.2;stroke-linejoin:round' }));
+    pts.forEach(function (p, i) {
+      var g = s('g', { tabindex: '0' });
+      g.appendChild(s('title', {}, p[0] + ': CD4 ' + p[2] + ' células/mm³'));
+      g.appendChild(s('circle', { cx: X(p[1]), cy: Y(p[2]), r: 5, style: 'fill:var(--panel);stroke:var(--eosin);stroke-width:2.2' }));
+      var dy = i === 0 ? -12 : -12;
+      var first = i === 0;
+      g.appendChild(s('text', { x: X(p[1]) + (first ? 10 : 0), y: Y(p[2]) + (first ? 5 : dy), 'text-anchor': i === pts.length - 1 ? 'end' : (first ? 'start' : 'middle'), style: 'font:500 12px var(--f-mono);fill:var(--ink)' }, String(p[2])));
+      svg.appendChild(g);
+    });
+    svg.appendChild(s('text', { x: 14, y: T - 12, style: 'font:500 10.5px var(--f-mono);fill:var(--ink2);letter-spacing:.08em' }, 'CD4 (células/mm³)'));
+    var wrap = h('div', { style: 'background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:.6rem .5rem' });
+    wrap.appendChild(svg);
+    clear(host); host.appendChild(wrap);
+  })();
+
+  /* ---------- revisão em perguntas ---------- */
+  (function quiz() {
+    var root = $('#quiz');
+    if (!root) return;
+    var Q = [
+      {
+        q: 'Por que a monoterapia antirretroviral falha rapidamente, mesmo com um fármaco potente?',
+        o: ['Porque a transcriptase reversa não tem revisão 3′→5′: a população viral já contém variantes resistentes antes do fármaco, e a monoterapia as seleciona.', 'Porque os antirretrovirais são metabolizados muito depressa pelo fígado.', 'Porque o vírus troca de célula-alvo quando o fármaco aparece.', 'Porque o sistema imune neutraliza o fármaco.'],
+        c: 0, pl: 'I',
+        e: 'A RT erra a cada 10 mil a 100 mil bases, o genoma tem cerca de 9,7 mil bases e a produção diária é de bilhões de vírions. Estatisticamente, praticamente todas as mutações pontuais possíveis existem na população. Um único fármaco deixa as variantes resistentes sem competição; três fármacos exigem mutações simultâneas, improváveis.'
+      },
+      {
+        q: 'Por que o paciente com carga viral indetectável por anos ainda não está curado?',
+        o: ['Porque o exame de carga viral é pouco sensível.', 'Porque o provírus persiste em linfócitos T CD4 de memória em repouso, silencioso, e nenhum fármaco o atinge.', 'Porque os antirretrovirais só atuam no sangue.', 'Porque o vírus se esconde em bactérias intestinais.'],
+        c: 1, pl: 'VI',
+        e: 'No estado de repouso, o provírus não produz proteínas virais: não há antígeno para o sistema imune e nem alvo para o fármaco. A meia-vida dessas células é de cerca de 44 meses, e quando o tratamento é interrompido uma delas, ao ser ativada, reinicia a replicação.'
+      },
+      {
+        q: 'Antes de prescrever maraviroque, o que é indispensável?',
+        o: ['Dosar a carga viral de hepatite B.', 'Pesquisar HLA-B*57:01.', 'Demonstrar que o vírus do paciente usa CCR5 (teste de tropismo).', 'Medir o CD4 por citometria três vezes.'],
+        c: 2, pl: 'II',
+        e: 'O maraviroque bloqueia o CCR5 do hospedeiro. Se o vírus usa CXCR4 ou os dois, a droga não tem como funcionar. O HLA-B*57:01 é a pesquisa do abacavir, não do maraviroque.'
+      },
+      {
+        q: 'Qual a explicação para a hipersensibilidade ao abacavir e por que o HLA-B*57:01 é pesquisado antes?',
+        o: ['É uma toxicidade dose-dependente do fígado.', 'O abacavir se liga à molécula HLA-B*57:01 e altera o repertório de peptídeos apresentados, ativando linfócitos T citotóxicos contra autopeptídeos.', 'O HLA-B*57:01 degrada o abacavir e produz um metabólito tóxico.', 'O HLA-B*57:01 aumenta a absorção do abacavir.'],
+        c: 1, pl: 'V',
+        e: 'Trabalho de Illing e colaboradores (2012): o fármaco se encaixa na fenda de ligação do HLA-B*57:01, mudando quais peptídeos próprios são apresentados e disparando uma reação imune. Por ser imunomediada e grave, a reexposição pode ser fatal, e a triagem genética a previne.'
+      },
+      {
+        q: 'Paciente com HIV e tuberculose em uso de rifampicina e dolutegravir. Qual o ajuste e por quê?',
+        o: ['Reduzir o dolutegravir, porque a rifampicina inibe seu metabolismo.', 'Não há interação.', 'Dolutegravir 50 mg de 12 em 12 horas, porque a rifampicina induz o metabolismo do dolutegravir e reduz seus níveis.', 'Trocar o dolutegravir por efavirenz sempre.'],
+        c: 2, pl: 'V',
+        e: 'A rifampicina é indutora potente de UGT1A1 e CYP3A4. Dobrar a frequência do dolutegravir compensa a queda. No PCDT do Ministério da Saúde, a dose de 12/12 h é mantida por 15 dias após o término da rifampicina, enquanto a indução se dissipa. O slide menciona 100 mg; vale conferir a dose com o PCDT vigente.'
+      },
+      {
+        q: 'Um teste de 4ª geração é negativo 10 dias após a exposição. O que se pode concluir?',
+        o: ['Que a pessoa não se infectou.', 'Que a pessoa está em fase de eclipse ou muito próxima dela: o exame ainda não detecta nada, e é preciso repetir.', 'Que o exame está com defeito.', 'Que a pessoa é imune ao HIV.'],
+        c: 1, pl: 'VII',
+        e: 'Nos primeiros 10 dias aproximadamente, nenhum marcador é detectável (eclipse). O teste de 4ª geração só começa a ser confiável por volta do 15º dia. Negativo dentro da janela é um resultado que não exclui.'
+      },
+      {
+        q: 'Segundo o trabalho de Doitsh e colaboradores (2014), como a maioria dos linfócitos T CD4 morre no tecido linfoide?',
+        o: ['Por lise direta pelo vírus em replicação produtiva.', 'Por piroptose, em células que não foram produtivamente infectadas, mas detectam DNA viral abortivo e disparam caspase-1 e inflamação.', 'Por atrofia do timo.', 'Por ataque de anticorpos anti-CD4.'],
+        c: 1, pl: 'IV',
+        e: 'A transcrição reversa abortiva em células quiescentes gera DNA que é detectado por sensores (como IFI16), ativando inflamassoma, caspase-1 e a forma inflamatória de morte chamada piroptose. A inflamação recruta novas células, que também morrem: um círculo vicioso que explica a perda de CD4 maior que o número de células infectadas.'
+      },
+      {
+        q: 'Qual condição precisa estar presente para dizer "indetectável é igual a intransmissível" (U=U)?',
+        o: ['Que o paciente tenha tido carga viral indetectável uma vez.', 'Que a carga viral permaneça suprimida de forma sustentada, com adesão contínua à terapia.', 'Que o CD4 esteja acima de 500.', 'Que o parceiro use PrEP.'],
+        c: 1, pl: 'VI',
+        e: 'O estudo PARTNER (Rodger e colaboradores, 2016 e 2019) não encontrou transmissões sexuais entre casais em que o parceiro com HIV estava sustentadamente suprimido. O que protege é a supressão mantida, não o exame isolado nem o CD4. Se a terapia é perdida, a carga sobe e a transmissão volta a ser possível.'
+      },
+      {
+        q: 'Por que um único teste reagente, em pessoa de baixo risco, não fecha o diagnóstico?',
+        o: ['Porque os testes de triagem priorizam sensibilidade: em população de baixa prevalência, uma fração relevante dos reagentes é falso-positiva.', 'Porque o exame só é válido após seis meses.', 'Porque o teste mede apenas IgM.', 'Porque o resultado depende do horário da coleta.'],
+        c: 0, pl: 'VIII',
+        e: 'O valor preditivo positivo depende da prevalência. Por isso o diagnóstico exige um fluxograma com testes complementares (testes rápidos sequenciais de fabricantes diferentes ou teste molecular), e o resultado de um único teste de triagem não é suficiente.'
+      },
+      {
+        q: 'Qual a posição do PCDT do Ministério da Saúde (2024) sobre o tratamento de um controlador de elite?',
+        o: ['Tratar apenas quando o CD4 cair abaixo de 350.', 'Tratar apenas quando perder o controle espontâneo.', 'Tratar todas as pessoas com HIV, independentemente de CD4 e carga viral, incluindo os controladores.', 'Nunca tratar.'],
+        c: 2, pl: 'VI',
+        e: 'Desde o estudo START (2015), a terapia imediata é a regra: benefício individual e redução da transmissão. Controladores de elite também apresentam inflamação crônica e risco cardiovascular elevado. O slide sugere tratar quando houver perda do controle, o que difere da diretriz atual.'
+      },
+      {
+        q: 'Em meningite tuberculosa com HIV, por que o início da TARV costuma ser adiado por 4 a 6 semanas?',
+        o: ['Porque o dolutegravir não atravessa a barreira hematoencefálica.', 'Porque a TARV precoce aumenta o risco de síndrome inflamatória de reconstituição imune no sistema nervoso central, que é fechado e de alta letalidade.', 'Porque os antirretrovirais prejudicam a rifampicina.', 'Porque a carga viral é baixa nessa condição.'],
+        c: 1, pl: 'IX',
+        e: 'Na tuberculose pulmonar em geral, inicia-se a TARV precocemente. No SNC, a inflamação decorrente da reconstituição imune num espaço rígido (o crânio) pode causar hipertensão intracraniana e morte, e por isso o início é mais tardio.'
+      },
+      {
+        q: 'Paciente estava indetectável e agora tem duas cargas virais consecutivas de 1.500 e 3.000 cópias/mL. Como classificar e qual o primeiro passo?',
+        o: ['Viremia de baixo nível; apenas repetir em 1 ano.', 'Resposta virológica incompleta; trocar o esquema imediatamente.', 'Rebote virológico (falha); investigar adesão, interações medicamentosas e, se confirmado, solicitar genotipagem.', 'Blip; nada a fazer.'],
+        c: 2, pl: 'XI',
+        e: 'Rebote virológico é HIV-RNA acima de 200 cópias/mL em duas medidas consecutivas após supressão prévia. As causas mais frequentes são falha de adesão, interação medicamentosa e, por último, resistência. Interpretar rebote como abandono sem investigar é um erro: a genotipagem confirma ou afasta resistência.'
+      }
+    ];
+    var state;
+    function start(idxs) { state = { list: idxs, pos: 0, right: 0, miss: [], done: false, picked: null }; render(); }
+    function render() {
+      clear(root);
+      if (state.pos >= state.list.length) return result();
+      var qi = state.list[state.pos], q = Q[qi];
+      root.appendChild(h('div', { 'class': 'qtop' }, [h('span', { text: 'Pergunta ' + (state.pos + 1) + ' de ' + state.list.length }), h('span', { text: 'Acertos: ' + state.right })]));
+      var bar = h('div', { 'class': 'qbar' }, [h('i')]);
+      root.appendChild(bar);
+      bar.firstChild.style.width = (state.pos / state.list.length * 100) + '%';
+      root.appendChild(h('p', { 'class': 'qq', text: q.q }));
+      var opts = h('div', { 'class': 'qopts', role: 'group', 'aria-label': 'Alternativas' });
+      var btns = q.o.map(function (t, k) {
+        var b = h('button', { type: 'button', 'class': 'qopt', text: t });
+        b.addEventListener('click', function () { pick(k); });
+        opts.appendChild(b); return b;
+      });
+      root.appendChild(opts);
+      var slot = h('div', { 'aria-live': 'polite' });
+      root.appendChild(slot);
+      state.btns = btns; state.slot = slot; state.q = q; state.qi = qi;
+    }
+    function pick(k) {
+      var q = state.q;
+      state.btns.forEach(function (b, i) {
+        b.disabled = true;
+        if (i === q.c) b.classList.add('right');
+        else if (i === k) b.classList.add('wrong');
+      });
+      if (k === q.c) state.right++; else state.miss.push(state.qi);
+      var lead = k === q.c ? 'Certo. ' : 'Não foi essa. ';
+      state.slot.appendChild(h('p', { 'class': 'qexp', text: lead + q.e + ' (Prancha ' + q.pl + ')' }));
+      var nav = h('div', { 'class': 'qnav', style: 'margin-top:.8rem' });
+      var last = state.pos === state.list.length - 1;
+      var nb = h('button', { type: 'button', 'class': 'btn on', text: last ? 'Ver resultado' : 'Próxima' });
+      nb.addEventListener('click', function () { state.pos++; render(); var t = $('#rev'); if (t && state.pos < state.list.length) { /* mantém posição */ } });
+      nav.appendChild(nb);
+      state.slot.appendChild(nav);
+      nb.focus({ preventScroll: true });
+    }
+    function result() {
+      var n = state.list.length, ok = state.right;
+      var box = h('div', { 'class': 'qres' });
+      box.appendChild(h('p', { 'class': 'qq', text: 'Você acertou ' + ok + ' de ' + n + '.' }));
+      if (state.miss.length) {
+        box.appendChild(h('p', { text: 'Para rever, estas perguntas:' }));
+        var ul = h('ul');
+        state.miss.forEach(function (i) { ul.appendChild(h('li', { text: Q[i].q + ' (Prancha ' + Q[i].pl + ')' })); });
+        box.appendChild(ul);
+      } else {
+        box.appendChild(h('p', { text: 'Sem erros. Vale agora explicar cada resposta em voz alta, como se fosse para um colega: é aí que a lacuna aparece.' }));
+      }
+      var nav = h('div', { 'class': 'qnav' });
+      if (state.miss.length) {
+        var rb = h('button', { type: 'button', 'class': 'btn on', text: 'Refazer só as que errei' });
+        var missed = state.miss.slice();
+        rb.addEventListener('click', function () { start(missed); });
+        nav.appendChild(rb);
+      }
+      var all = h('button', { type: 'button', 'class': 'btn', text: 'Recomeçar tudo' });
+      all.addEventListener('click', function () { start(Q.map(function (_, i) { return i; })); });
+      nav.appendChild(all);
+      box.appendChild(nav);
+      root.appendChild(box);
+    }
+    start(Q.map(function (_, i) { return i; }));
+  })();
+
+  /* ---------- edição, autosave, cópia e restauração ---------- */
+  (function editor() {
+    var bar = $('#editbar');
+    if (!bar) return;
+    var tg = $('#eb-toggle'), dl = $('#eb-download'), rs = $('#eb-restore'), msg = $('#eb-msg');
+    var KEY = 'atlas-hiv-uniarp:edicoes:v1';
+    var els = $all('[data-ed]').filter(function (e) { return !e.closest('[data-dyn]'); });
+    var originals = els.map(function (e) { return e.innerHTML; });
+    var editing = false, timer = null, confirmTimer = null, confirming = false;
+
+    function clean(html) {
+      var d = document.createElement('div');
+      d.innerHTML = html;
+      $all('script,style,iframe,object,embed,link', d).forEach(function (n) { n.remove(); });
+      $all('*', d).forEach(function (n) {
+        Array.prototype.slice.call(n.attributes).forEach(function (a) {
+          if (/^on/i.test(a.name) || (/^(href|src)$/i.test(a.name) && /^\s*javascript:/i.test(a.value))) n.removeAttribute(a.name);
+        });
+      });
+      // sem negrito: remove marcações de ênfase forte que o navegador possa inserir
+      $all('b,strong', d).forEach(function (n) { while (n.firstChild) n.parentNode.insertBefore(n.firstChild, n); n.remove(); });
+      return d.innerHTML;
+    }
+    function collect() {
+      var o = {};
+      els.forEach(function (e, i) { if (e.innerHTML !== originals[i]) o[i] = e.innerHTML; });
+      return o;
+    }
+    function say(t) { msg.textContent = t; }
+    function save(auto) {
+      var o = collect();
+      var n = Object.keys(o).length;
+      if (!n) { store.del(KEY); if (!auto) say('Nenhuma alteração para salvar.'); return; }
+      store.set(KEY, JSON.stringify(o));
+      var hh = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      say((auto ? 'Salvo automaticamente às ' : 'Salvo às ') + hh + (persistent ? '.' : ' (apenas nesta sessão; o navegador bloqueou o armazenamento).'));
+    }
+    function applySaved() {
+      var raw = store.get(KEY);
+      if (!raw) return 0;
+      try {
+        var o = JSON.parse(raw), n = 0;
+        Object.keys(o).forEach(function (k) { var e = els[+k]; if (e && typeof o[k] === 'string') { e.innerHTML = clean(o[k]); n++; } });
+        return n;
+      } catch (e) { return 0; }
+    }
+    function setEditing(on) {
+      editing = on;
+      document.body.classList.toggle('editing', on);
+      els.forEach(function (e) {
+        if (on) { e.setAttribute('contenteditable', 'true'); e.setAttribute('spellcheck', 'true'); }
+        else { e.removeAttribute('contenteditable'); e.removeAttribute('spellcheck'); }
+      });
+      tg.setAttribute('aria-pressed', String(on));
+      tg.textContent = on ? 'Salvar e sair da edição' : 'Ativar edição';
+      clearInterval(timer);
+      if (on) {
+        timer = setInterval(function () { save(true); }, 15000);
+        say('Edição ativa. Salva sozinho a cada 15 segundos. ' + (persistent ? 'Na prévia do Claude.ai o armazenamento pode não persistir: use Baixar cópia editada.' : 'O armazenamento do navegador está bloqueado aqui; use Baixar cópia editada para não perder o trabalho.'));
+      }
+    }
+    tg.addEventListener('click', function () {
+      if (editing) { save(false); setEditing(false); }
+      else setEditing(true);
+    });
+    document.addEventListener('visibilitychange', function () { if (editing && document.hidden) save(true); });
+    window.addEventListener('pagehide', function () { if (editing) save(true); });
+
+    // sem negrito e sem colar formatação
+    document.addEventListener('keydown', function (e) {
+      if (!editing || !e.target.closest || !e.target.closest('[data-ed]')) return;
+      if ((e.ctrlKey || e.metaKey) && /^[biu]$/i.test(e.key)) e.preventDefault();
+      if (e.key === 'Enter') { e.preventDefault(); document.execCommand('insertLineBreak'); }
+    });
+    document.addEventListener('paste', function (e) {
+      if (!editing || !e.target.closest || !e.target.closest('[data-ed]')) return;
+      e.preventDefault();
+      var t = (e.clipboardData || window.clipboardData).getData('text/plain');
+      document.execCommand('insertText', false, t);
+    });
+
+    dl.addEventListener('click', function () {
+      if (editing) save(true);
+      var root = document.documentElement.cloneNode(true);
+      var b = root.querySelector('body');
+      if (b) b.classList.remove('editing');
+      $all('[contenteditable]', root).forEach(function (n) { n.removeAttribute('contenteditable'); n.removeAttribute('spellcheck'); });
+      $all('[data-dyn]', root).forEach(function (n) { n.innerHTML = ''; });
+      $all('.node.on', root).forEach(function (n) { n.classList.remove('on'); });
+      root.removeAttribute('data-theme');
+      var eb = root.querySelector('#eb-toggle'); if (eb) { eb.setAttribute('aria-pressed', 'false'); eb.textContent = 'Ativar edição'; }
+      var em = root.querySelector('#eb-msg'); if (em) em.textContent = '';
+      var xd = root.querySelector('#xdrugs'); if (xd) xd.setAttribute('aria-pressed', 'true');
+      var xf = root.querySelector('#xfig'); if (xf) xf.setAttribute('data-drugs', 'on');
+      var rd = root.querySelector('#rday'); if (rd) rd.setAttribute('value', '10');
+      var html = '<!DOCTYPE html>\n' + root.outerHTML;
+      try {
+        var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = 'atlas-hiv-editado.html';
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+        say('Cópia gerada. Se o arquivo não apareceu (a prévia do Claude.ai bloqueia downloads), abra o .html original no navegador e baixe de lá.');
+      } catch (err) {
+        say('Não foi possível gerar o arquivo neste ambiente. Abra o .html no navegador e tente de novo.');
+      }
+    });
+
+    rs.addEventListener('click', function () {
+      if (!confirming) {
+        confirming = true;
+        rs.textContent = 'Confirmar restauração';
+        say('Isso apaga todas as edições salvas e volta ao texto original. Clique de novo para confirmar.');
+        confirmTimer = setTimeout(function () { confirming = false; rs.textContent = 'Restaurar original'; say(''); }, 5000);
+        return;
+      }
+      clearTimeout(confirmTimer); confirming = false;
+      rs.textContent = 'Restaurar original';
+      els.forEach(function (e, i) { e.innerHTML = originals[i]; });
+      store.del(KEY);
+      say('Texto original restaurado e edições salvas apagadas.');
+    });
+
+    var n = applySaved();
+    if (n) say(n + (n === 1 ? ' trecho editado foi' : ' trechos editados foram') + ' recuperado' + (n === 1 ? '' : 's') + ' do armazenamento do navegador.');
+  })();
+})();
+</script>
+
+</body>
+</html>
