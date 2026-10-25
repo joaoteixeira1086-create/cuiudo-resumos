@@ -5,7 +5,10 @@ self.addEventListener('activate',event=>event.waitUntil((async()=>{await self.cl
 self.addEventListener('fetch',event=>{
  if(event.request.method!=='GET')return;
  event.respondWith((async()=>{
-  const cache=await caches.open(CACHE),cached=await cache.match(event.request),url=new URL(event.request.url),sameOrigin=url.origin===self.location.origin;
+  const url=new URL(event.request.url),sameOrigin=url.origin===self.location.origin;
+  const staticRequest=['script','style','image','font','audio','video'].includes(event.request.destination)||/\.(?:m?js|css|png|jpe?g|webp|gif|svg|ico|woff2?|ttf|otf|glb|gltf)$/i.test(url.pathname);
+  if(!sameOrigin&&(!staticRequest||event.request.headers.has('authorization')))return fetch(event.request);
+  const cache=await caches.open(CACHE),cached=await cache.match(event.request);
   if(!sameOrigin){if(cached)return cached;const response=await fetch(event.request);if(response.ok||response.type==='opaque')await cache.put(event.request,response.clone());return response}
   if(!self.navigator.onLine&&cached)return cached;
   try{const response=await fetch(event.request);if(response.ok)await cache.put(event.request,response.clone());else if(response.status>=500&&cached)return cached;return response}catch(error){if(cached)return cached;if(event.request.mode==='navigate'&&(url.pathname.endsWith('/')||url.pathname.endsWith('index.html')||url.pathname.endsWith('indice_resumos.html'))){const shell=await cache.match(scoped('index.html'));if(shell)return shell}throw error}
