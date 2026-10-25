@@ -14,6 +14,10 @@ Também é possível colocar um HTML diretamente em uma subpasta de matéria. O 
 
 ## Enviar atualizações para o iPad
 
+Na pasta **resumos medicina**, abra **PUBLICAR-ATUALIZACOES.cmd**. Ele prepara os arquivos novos e alterados e envia as mudanças para o GitHub. Aguarde a confirmação e depois a publicação terminar.
+
+Se preferir usar o GitHub Desktop:
+
 No GitHub Desktop, abra este repositório. Os arquivos novos, alterados e removidos aparecem em **Changes**. Escreva uma descrição curta, clique em **Commit to main** e depois em **Push origin**. Quando a publicação em **Actions** terminar, a biblioteca do site estará atualizada.
 
 Na primeira configuração do repositório, entre em **Settings → Pages → Source → GitHub Actions**. O fluxo de publicação já está no arquivo `.github/workflows/publicar.yml`.
